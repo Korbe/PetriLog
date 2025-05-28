@@ -1,0 +1,14 @@
+
+@import "tailwindcss";
+@tailwind utilities;
+@import './additional-styles/flatpickr.css';
+@import './additional-styles/utility-patterns.css' layer(components);
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import './style.css';
+
+[x-cloak] {
+    display: none;
+}
+
