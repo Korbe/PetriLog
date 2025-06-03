@@ -6,6 +6,8 @@
             <VButton :href="route('catched.create')">Eintragen</VButton>
         </template>
 
+        <div class="md:w-1/2 m-auto">
+
         <div v-if="Object.keys(groupedCatcheds).length === 0" class="text-center bg-white rounded-lg shadow-lg p-5 flex flex-col my-2">
             <p class="pb-5">Noch keine Fänge eingetragen</p>
             <VButton :href="route('catched.create')">Jetzt eintragen</VButton>
@@ -29,6 +31,7 @@
                     </div>
                 </DisclosurePanel>
             </Disclosure>
+        </div>
     </Layout>
 </template>
 
