@@ -18,7 +18,6 @@ import flatPickr from "vue-flatpickr-component";
 import equal from 'fast-deep-equal';
 
 export default {
-  name: "Datepicker",
   props: {
     modelValue: {
       type: Object,
