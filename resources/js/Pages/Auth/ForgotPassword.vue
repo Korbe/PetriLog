@@ -6,6 +6,7 @@ import InputError from '@/JetstreamComponents/InputError.vue';
 import InputLabel from '@/JetstreamComponents/InputLabel.vue';
 import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
 import TextInput from '@/JetstreamComponents/TextInput.vue';
+import VInput from '@/components/VInput.vue';
 
 defineProps({
     status: String,
@@ -29,7 +30,7 @@ const submit = () => {
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+            Passwort vergessen? Kein Problem. Teilen Sie uns einfach Ihre E-Mail-Adresse mit und wir senden Ihnen per E-Mail einen Link zum Zurücksetzen Ihres Passworts, mit dem Sie ein neues Passwort festlegen können.
         </div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -53,7 +54,7 @@ const submit = () => {
 
             <div class="flex items-center justify-end mt-4">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
+                    Link zum Zurücksetzen senden
                 </PrimaryButton>
             </div>
         </form>

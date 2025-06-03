@@ -70,7 +70,7 @@ export default {
     disabled: { type: Boolean, default: false },
     error: { type: String, default: '' },
     success: { type: String, default: '' },
-    modelValue: { type: String, default: '' }
+    modelValue: { type: [String, Number], default: '' }
   },
   computed: {
     inputClass() {

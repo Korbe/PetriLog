@@ -50,19 +50,11 @@
                 </div>
               </Link>
             </li>
-            <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r" :class="isActive('/emotions') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
-              <Link href="/emotions" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/emotions') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
+            <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r" :class="isActive('/catched') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
+              <Link href="/catched" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/catched') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
                 <div class="flex items-center">
-                  <HeartIcon class="shrink-0 w-5 h-5" :class="isActive('/emotions') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
-                  <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Emotions</span>
-                </div>
-              </Link>
-            </li>
-            <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r" :class="isActive('/digestions') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
-              <Link href="/digestions" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/digestions') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
-                <div class="flex items-center">
-                  <BeakerIcon class="shrink-0 w-5 h-5" :class="isActive('/digestions') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
-                  <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Digestions</span>
+                  <BookmarkSquareIcon class="shrink-0 w-5 h-5" :class="isActive('/catched') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
+                  <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Fänge</span>
                 </div>
               </Link>
             </li>
@@ -86,93 +78,74 @@
   </div>
 </template>
 
-<script>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
-import { usePage } from "@inertiajs/vue3";
+<script setup>
 
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 import SidebarLinkGroup from './SidebarLinkGroup.vue'
-import { BeakerIcon, HeartIcon, HomeIcon, SparklesIcon } from '@heroicons/vue/24/solid';
+import { HomeIcon, BookmarkSquareIcon } from '@heroicons/vue/24/solid'
 
-export default {
-  name: 'Sidebar',
-  props: [
-    'sidebarOpen',
-  ],
-  components: {
-    SidebarLinkGroup,
-    HomeIcon,
-    SparklesIcon,
-    HeartIcon,
-    BeakerIcon
-  },  
-  setup(props, { emit }) {
+// Props & Emits
+const props = defineProps({
+  sidebarOpen: Boolean
+})
+const emit = defineEmits(['close-sidebar'])
 
-    const trigger = ref(null)
-    const sidebar = ref(null)
+// Refs
+const trigger = ref(null)
+const sidebar = ref(null)
 
-    const storedSidebarExpanded = localStorage.getItem('sidebar-expanded')
-    const sidebarExpanded = ref(storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true')
+// Sidebar expanded state (localStorage)
+const storedSidebarExpanded = localStorage.getItem('sidebar-expanded')
+const sidebarExpanded = ref(storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true')
 
-    const currentUrl = computed(() => usePage().url);
+// Current URL (Inertia)
+const currentUrl = computed(() => usePage().url)
+const isActive = (href) => currentUrl.value.startsWith(href)
 
-    
-
-    const isActive = (href) => currentUrl.value.startsWith(href);
-
-    const currentRoute = {
-        name: '',         // Default to null for route name
-        path: './',         // Default to './' for the full path
-        hash: '',           // Default to an empty string for hash
-        query: {},          // Default to an empty object for query parameters
-        params: {},         // Default to an empty object for dynamic route parameters
-        fullPath: './',     // Default to './' for the full URL path
-        matched: [],        // Default to an empty array for matched route records
-  };
-
-    // close on click outside
-    const clickHandler = ({ target }) => {
-      if (!sidebar.value || !trigger.value) return
-      if (
-        !props.sidebarOpen ||
-        sidebar.value.contains(target) ||
-        trigger.value.contains(target)
-      ) return
-      emit('close-sidebar')
-    }
-
-    // close if the esc key is pressed
-    const keyHandler = ({ keyCode }) => {
-      if (!props.sidebarOpen || keyCode !== 27) return
-      emit('close-sidebar')
-    } 
-
-    onMounted(() => {
-      document.addEventListener('click', clickHandler)
-      document.addEventListener('keydown', keyHandler)
-    })
-
-    onUnmounted(() => {
-      document.removeEventListener('click', clickHandler)
-      document.removeEventListener('keydown', keyHandler)
-    })
-
-    watch(sidebarExpanded, () => {
-      localStorage.setItem('sidebar-expanded', sidebarExpanded.value)
-      if (sidebarExpanded.value) {
-        document.querySelector('body').classList.add('sidebar-expanded')
-      } else {
-        document.querySelector('body').classList.remove('sidebar-expanded')
-      }
-    })
-
-    return {
-      trigger,
-      sidebar,
-      sidebarExpanded,
-      currentRoute,
-      isActive,
-    }
-  },
+// Dummy currentRoute object
+const currentRoute = {
+  name: '',
+  path: './',
+  hash: '',
+  query: {},
+  params: {},
+  fullPath: './',
+  matched: [],
 }
+
+// Click outside handler
+const clickHandler = ({ target }) => {
+  if (!sidebar.value || !trigger.value) return
+  if (
+    !props.sidebarOpen ||
+    sidebar.value.contains(target) ||
+    trigger.value.contains(target)
+  ) return
+  emit('close-sidebar')
+}
+
+// Escape key handler
+const keyHandler = ({ keyCode }) => {
+  if (!props.sidebarOpen || keyCode !== 27) return
+  emit('close-sidebar')
+}
+
+// Lifecycle hooks
+onMounted(() => {
+  document.addEventListener('click', clickHandler)
+  document.addEventListener('keydown', keyHandler)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', clickHandler)
+  document.removeEventListener('keydown', keyHandler)
+})
+
+// Watch sidebarExpanded to update body class and localStorage
+watch(sidebarExpanded, () => {
+  localStorage.setItem('sidebar-expanded', sidebarExpanded.value)
+  document.body.classList.toggle('sidebar-expanded', sidebarExpanded.value)
+})
 </script>
