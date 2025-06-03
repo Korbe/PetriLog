@@ -64,4 +64,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function catched()
+    {
+        return $this->hasMany(Catched::class);
+    }
 }
