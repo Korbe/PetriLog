@@ -8,17 +8,17 @@
 @custom-variant sidebar-expanded (&:is(.sidebar-expanded *));
 
 @theme {
-  --color-primary-50: #eefbff;
-  --color-primary-100: #d8f5ff;
-  --color-primary-200: #baeeff;
-  --color-primary-300: #8be7ff;
-  --color-primary-400: #54d6ff;
-  --color-primary-500: #2dbdff;
-  --color-primary-600: #16a0fa;
-  --color-primary-700: #118df0;
-  --color-primary-800: #136bba;
-  --color-primary-900: #165a92;
-  --color-primary-950: #123759;
+  --color-primary-50:  #E7F3FD;
+  --color-primary-100: #CFE8FC;
+  --color-primary-200: #9FD0F9;
+  --color-primary-300: #6FB9F6;
+  --color-primary-400: #3FA2F3;
+  --color-primary-500: #118DF0;
+  --color-primary-600: #0C6FC0;
+  --color-primary-700: #095390;
+  --color-primary-800: #063760;
+  --color-primary-900: #031C30;
+  --color-primary-950: #020E18;
 
   --color-gray-50:  #f9fafb;
   --color-gray-100: #f0f1f3;
