@@ -6,7 +6,6 @@ import ActionSection from '@/JetstreamComponents/ActionSection.vue';
 import Checkbox from '@/JetstreamComponents/Checkbox.vue';
 import ConfirmationModal from '@/JetstreamComponents/ConfirmationModal.vue';
 import DangerButton from '@/JetstreamComponents/DangerButton.vue';
-import DialogModal from '@/JetstreamComponents/DialogModal.vue';
 import FormSection from '@/JetstreamComponents/FormSection.vue';
 import InputError from '@/JetstreamComponents/InputError.vue';
 import InputLabel from '@/JetstreamComponents/InputLabel.vue';
@@ -88,13 +87,8 @@ const deleteApiToken = () => {
                 <!-- Token Name -->
                 <div class="col-span-6 sm:col-span-4">
                     <InputLabel for="name" value="Name" />
-                    <TextInput
-                        id="name"
-                        v-model="createApiTokenForm.name"
-                        type="text"
-                        class="mt-1 block w-full"
-                        autofocus
-                    />
+                    <TextInput id="name" v-model="createApiTokenForm.name" type="text" class="mt-1 block w-full"
+                        autofocus />
                     <InputError :message="createApiTokenForm.errors.name" class="mt-2" />
                 </div>
 
@@ -118,7 +112,8 @@ const deleteApiToken = () => {
                     Created.
                 </ActionMessage>
 
-                <PrimaryButton :class="{ 'opacity-25': createApiTokenForm.processing }" :disabled="createApiTokenForm.processing">
+                <PrimaryButton :class="{ 'opacity-25': createApiTokenForm.processing }"
+                    :disabled="createApiTokenForm.processing">
                     Create
                 </PrimaryButton>
             </template>
@@ -151,15 +146,14 @@ const deleteApiToken = () => {
                                         Last used {{ token.last_used_ago }}
                                     </div>
 
-                                    <button
-                                        v-if="availablePermissions.length > 0"
+                                    <button v-if="availablePermissions.length > 0"
                                         class="cursor-pointer ms-6 text-sm text-gray-400 underline"
-                                        @click="manageApiTokenPermissions(token)"
-                                    >
+                                        @click="manageApiTokenPermissions(token)">
                                         Permissions
                                     </button>
 
-                                    <button class="cursor-pointer ms-6 text-sm text-red-500" @click="confirmApiTokenDeletion(token)">
+                                    <button class="cursor-pointer ms-6 text-sm text-red-500"
+                                        @click="confirmApiTokenDeletion(token)">
                                         Delete
                                     </button>
                                 </div>
@@ -171,69 +165,67 @@ const deleteApiToken = () => {
         </div>
 
         <!-- Token Value Modal -->
-        <DialogModal :show="displayingToken" @close="displayingToken = false">
-            <template #title>
-                API Token
-            </template>
+        <Dialog :open="displayingToken" @close="displayingToken = false" class="relative z-50">
+            <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
 
-            <template #content>
-                <div>
-                    Please copy your new API token. For your security, it won't be shown again.
-                </div>
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+                <DialogPanel class="w-full max-w-md rounded bg-white p-6 shadow-xl">
+                    <DialogTitle class="text-lg font-bold">API Token</DialogTitle>
+                    <p class="mt-2 text-sm text-gray-600">Bitte kopieren Sie Ihren neuen API-Token. Aus
+                        Sicherheitsgründen wird
+                        er nicht erneut angezeigt.</p>
+                    <div v-if="$page.props.jetstream.flash.token"
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 break-all">
+                        {{ $page.props.jetstream.flash.token }}
+                    </div>
 
-                <div v-if="$page.props.jetstream.flash.token" class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 break-all">
-                    {{ $page.props.jetstream.flash.token }}
-                </div>
-            </template>
-
-            <template #footer>
-                <SecondaryButton @click="displayingToken = false">
-                    Close
-                </SecondaryButton>
-            </template>
-        </DialogModal>
+                    <div class="mt-4 flex justify-end">
+                        <SecondaryButton @click="displayingToken = false">
+                            Schließen
+                        </SecondaryButton>
+                    </div>
+                </DialogPanel>
+            </div>
+        </Dialog>
 
         <!-- API Token Permissions Modal -->
-        <DialogModal :show="managingPermissionsFor != null" @close="managingPermissionsFor = null">
-            <template #title>
-                API Token Permissions
-            </template>
+        <Dialog :open="managingPermissionsFor" @close="managingPermissionsFor = null" class="relative z-50">
+            <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
 
-            <template #content>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div v-for="permission in availablePermissions" :key="permission">
-                        <label class="flex items-center">
-                            <Checkbox v-model:checked="updateApiTokenForm.permissions" :value="permission" />
-                            <span class="ms-2 text-sm text-gray-600">{{ permission }}</span>
-                        </label>
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+                <DialogPanel class="w-full max-w-md rounded bg-white p-6 shadow-xl">
+                    <DialogTitle class="text-lg font-bold">API Token Berechtigungen</DialogTitle>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div v-for="permission in availablePermissions" :key="permission">
+                            <label class="flex items-center">
+                                <Checkbox v-model:checked="updateApiTokenForm.permissions" :value="permission" />
+                                <span class="ms-2 text-sm text-gray-600">{{ permission }}</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
-            </template>
 
-            <template #footer>
-                <SecondaryButton @click="managingPermissionsFor = null">
-                    Cancel
-                </SecondaryButton>
+                    <div class="mt-4 flex justify-end">
+                        <SecondaryButton @click="managingPermissionsFor = null">
+                            Abbruch
+                        </SecondaryButton>
 
-                <PrimaryButton
-                    class="ms-3"
-                    :class="{ 'opacity-25': updateApiTokenForm.processing }"
-                    :disabled="updateApiTokenForm.processing"
-                    @click="updateApiToken"
-                >
-                    Save
-                </PrimaryButton>
-            </template>
-        </DialogModal>
+                        <PrimaryButton class="ms-3" :class="{ 'opacity-25': updateApiTokenForm.processing }"
+                            :disabled="updateApiTokenForm.processing" @click="updateApiToken">
+                            Speichern
+                        </PrimaryButton>
+                    </div>
+                </DialogPanel>
+            </div>
+        </Dialog>
 
         <!-- Delete Token Confirmation Modal -->
         <ConfirmationModal :show="apiTokenBeingDeleted != null" @close="apiTokenBeingDeleted = null">
             <template #title>
-                Delete API Token
+                API-Token löschen
             </template>
 
             <template #content>
-                Are you sure you would like to delete this API token?
+                Möchten Sie dieses API-Token wirklich löschen?
             </template>
 
             <template #footer>
@@ -241,13 +233,9 @@ const deleteApiToken = () => {
                     Cancel
                 </SecondaryButton>
 
-                <DangerButton
-                    class="ms-3"
-                    :class="{ 'opacity-25': deleteApiTokenForm.processing }"
-                    :disabled="deleteApiTokenForm.processing"
-                    @click="deleteApiToken"
-                >
-                    Delete
+                <DangerButton class="ms-3" :class="{ 'opacity-25': deleteApiTokenForm.processing }"
+                    :disabled="deleteApiTokenForm.processing" @click="deleteApiToken">
+                    Löschen
                 </DangerButton>
             </template>
         </ConfirmationModal>

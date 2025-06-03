@@ -1,24 +1,24 @@
 <script setup>
 import { ref, reactive, nextTick } from 'vue';
-import DialogModal from './DialogModal.vue';
 import PrimaryButton from './PrimaryButton.vue';
 import SecondaryButton from './SecondaryButton.vue';
 import VInput from '@/components/VInput.vue';
+import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 
 const emit = defineEmits(['confirmed']);
 
 defineProps({
     title: {
         type: String,
-        default: 'Confirm Password',
+        default: 'Passwort bestätigen',
     },
     content: {
         type: String,
-        default: 'For your security, please confirm your password to continue.',
+        default: 'Bestätigen Sie zu Ihrer Sicherheit bitte Ihr Passwort, um fortzufahren.',
     },
     button: {
         type: String,
-        default: 'Confirm',
+        default: 'Bestätigen',
     },
 });
 
@@ -75,33 +75,30 @@ const closeModal = () => {
             <slot />
         </span>
 
-        <DialogModal :show="confirmingPassword" @close="closeModal">
-            <template #title>
-                {{ title }}
-            </template>
+        <Dialog :open="confirmingPassword" @close="closeModal" class="relative z-50">
+            <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
 
-            <template #content>
-                {{ content }}
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+                <DialogPanel class="w-full max-w-md rounded bg-white p-6 shadow-xl">
+                    <DialogTitle class="text-lg font-bold">{{ title }}</DialogTitle>
+                    <p class="mt-2 text-sm text-gray-600">{{ content }}</p>
+                    <div class="mt-4">
+                        <VInput class="mt-1 w-full" ref="passwordInput" label="Password" v-model="form.password"
+                            type="password" :error="form.error" />
+                    </div>
 
-                <div class="mt-4">
-                    <VInput class="mt-1 w-3/4" ref="passwordInput" label="Password" v-model="form.password" type="password" :error="form.error" />
-                </div>
-            </template>
+                    <div class="mt-4 flex justify-end">
+                        <SecondaryButton @click="closeModal">
+                            Abbruch
+                        </SecondaryButton>
 
-            <template #footer>
-                <SecondaryButton @click="closeModal">
-                    Cancel
-                </SecondaryButton>
-
-                <PrimaryButton
-                    class="ms-3"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                    @click="confirmPassword"
-                >
-                    {{ button }}
-                </PrimaryButton>
-            </template>
-        </DialogModal>
+                        <PrimaryButton class="ms-3" :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing" @click="confirmPassword">
+                            {{ button }}
+                        </PrimaryButton>
+                    </div>
+                </DialogPanel>
+            </div>
+        </Dialog>
     </span>
 </template>
