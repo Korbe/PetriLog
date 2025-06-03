@@ -135,7 +135,7 @@ const clearPhotoFileInput = () => {
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
 
-                <VInput id="name" label="Email" v-model="form.email" mandatory :error="form.errors.email" />
+                <VInput id="email" label="Email" v-model="form.email" mandatory :error="form.errors.email" />
                 
                 <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
                     <p class="text-sm mt-2">

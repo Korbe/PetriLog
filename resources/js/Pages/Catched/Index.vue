@@ -27,7 +27,7 @@
                 </dt>
                 <DisclosurePanel as="dd" class="mt-2 pl-2 pr-2">
                     <div v-for="catched in items" :key="catched.id">
-                            <Link class="bg-white rounded-lg shadow-lg p-5 flex justify-between my-2" :href="route('catched.show', catched.id)"><span><b>{{ catched.name }}</b> - {{ catched.waters }}</span> <ChevronRightIcon class="h-6" /></Link>
+                            <Link class="bg-white rounded-lg shadow-lg p-5 flex justify-between my-2" :href="route('catched.show', catched.id)"><span><span class="text-primary-500"><b>{{ catched.name }}</b></span> - {{ catched.waters }}</span> <ChevronRightIcon class="h-6" /></Link>
                     </div>
                 </DisclosurePanel>
             </Disclosure>
