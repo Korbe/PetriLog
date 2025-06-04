@@ -3,7 +3,7 @@
         <template v-slot:actions>
         </template>
 
-        <div class="py-12 space-y-5">
+        <div class="space-y-5">
             <div class="flex space-x-5 w-full">
 
                 <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
