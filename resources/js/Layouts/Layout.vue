@@ -8,10 +8,19 @@ import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
 
 const sidebarOpen = ref(false);
 
-defineProps({
+const props = defineProps({
   title: String,
   backTo: String,
 });
+
+function goBack() {
+  if (props.backTo) {
+    window.location.href = props.backTo;
+    return;
+  }
+
+  window.history.back();
+}
 
 </script>
 <template>
@@ -39,8 +48,10 @@ defineProps({
 
           <!-- Left: Title -->
           <div class="mb-4 sm:mb-0 flex items-center">
-            <Link v-if="backTo" :href="backTo"><ChevronLeftIcon class="w-6 h-6 mr-2"></ChevronLeftIcon></Link>
-            <h1 class="p-0 m-0 text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">{{title}}</h1>
+            <button class="cursor-pointer" @click="goBack">
+              <ChevronLeftIcon class="w-6 h-6 mr-2"></ChevronLeftIcon>
+            </button>
+            <h1 class="p-0 m-0 text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">{{ title }}</h1>
           </div>
 
           <!-- Right: Actions -->
