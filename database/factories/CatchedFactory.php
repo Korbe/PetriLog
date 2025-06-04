@@ -41,7 +41,7 @@ class CatchedFactory extends Factory
             'depth' => $this->faker->numberBetween(1, 50),
             'temperature' => $this->faker->numberBetween(5, 30),
             'waters' => Arr::random($watersAustria),
-            'date' => $this->faker->dateTimeBetween('-7 days', 'now'),
+            'date' => $this->faker->dateTimeBetween('-20 weeks', '20 weeks'),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
             'address' => $this->faker->address(),

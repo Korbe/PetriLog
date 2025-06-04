@@ -13,6 +13,6 @@ class CatchedSeeder extends Seeder
      */
     public function run(): void
     {
-        Catched::factory()->count(20)->create();
+        Catched::factory()->count(150)->create();
     }
 }
