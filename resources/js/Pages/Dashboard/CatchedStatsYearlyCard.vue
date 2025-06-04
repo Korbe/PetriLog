@@ -84,7 +84,7 @@ const initChart = () => {
           type: 'time',
           time: {
             unit: 'month',            // WICHTIG: Einheit auf Monat setzen
-            tooltipFormat: 'MMM YYYY', // Tooltip-Format Monat + Jahr (z.B. Jan 2025)
+            tooltipFormat: 'MMM', // Tooltip-Format Monat + Jahr (z.B. Jan 2025)
             displayFormats: {
               month: 'MMM',           // X-Achsen-Labels: Kürzel des Monats (Jan, Feb, ...)
             },
