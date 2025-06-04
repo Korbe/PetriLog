@@ -38,7 +38,7 @@ const fallbackCoords = { lat: 47.0707, lng: 15.4395 }
 const initMap = (lat, lng) => {
     map = new google.maps.Map(mapElement.value, {
         center: { lat, lng },
-        zoom: 13,
+        zoom: 18,
         mapId: '6da85ff10ebc18655d496f80'
     })
 
