@@ -22,7 +22,7 @@
         </div>
 
         <div class="w-[50%] bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5 space-y-3">
-          <p><b>Tiefe:</b> {{ catched.depth }}</p>
+          <p><b>Tiefe:</b> {{ catched.depth }}m</p>
           <p><b>Temperatur:</b> {{ catched.temperature }}°C</p>
         </div>
       </div>
