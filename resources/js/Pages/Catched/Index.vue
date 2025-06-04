@@ -17,7 +17,7 @@
                 v-slot="{ open }" :defaultOpen="index === 0">
                 <dt>
                     <DisclosureButton
-                        class="bg-white rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
+                        class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
                         <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length }})</span>
                         <span class="ml-6 flex h-7 items-center">
                             <PlusIcon v-if="!open" class="cursor-pointer size-6" aria-hidden="true" />
@@ -27,7 +27,7 @@
                 </dt>
                 <DisclosurePanel as="dd" class="mt-2 pl-2 pr-2">
                     <div v-for="catched in items" :key="catched.id">
-                            <Link class="bg-white rounded-lg shadow-lg p-5 flex justify-between my-2" :href="route('catched.show', catched.id)"><span><span class="text-primary-500"><b>{{ catched.name }}</b></span> - {{ catched.waters }}</span> <ChevronRightIcon class="h-6" /></Link>
+                            <Link class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2" :href="route('catched.show', catched.id)"><span><span class="text-primary-500"><b>{{ catched.name }}</b></span> - {{ catched.waters }}</span> <ChevronRightIcon class="h-6" /></Link>
                     </div>
                 </DisclosurePanel>
             </Disclosure>
