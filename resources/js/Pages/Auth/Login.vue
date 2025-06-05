@@ -7,6 +7,7 @@ import InputError from '@/JetstreamComponents/InputError.vue';
 import InputLabel from '@/JetstreamComponents/InputLabel.vue';
 import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
 import TextInput from '@/JetstreamComponents/TextInput.vue';
+import VButton from '@/components/VButton.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -35,6 +36,7 @@ const submit = () => {
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
+                <VButton :href="route('register')">Registrieren</VButton>
         </template>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">

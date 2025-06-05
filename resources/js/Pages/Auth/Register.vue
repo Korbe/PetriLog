@@ -60,7 +60,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Passwort" />
                 <TextInput
                     id="password"
                     v-model="form.password"
@@ -73,7 +73,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Passwort bestätigen" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
