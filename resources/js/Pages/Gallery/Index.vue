@@ -3,6 +3,7 @@
     <template v-slot:actions>
       <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" />
       <VDateRangePicker align="right" v-model="dateRange" />
+      <ResetButton @click="resetDateRange" />
       <VButton :href="route('catched.create')">Eintragen</VButton>
     </template>
 
@@ -10,7 +11,7 @@
 
       <div v-if="catcheds.length === 0"
         class="m-auto mt-20 w-1/2 text-center bg-white rounded-lg shadow-lg p-5 flex flex-col my-2">
-        <p class="pb-5">Keine Fänge eingetragen</p>
+        <p class="pb-5">Für diesen Zeitraum wurden keine Einträge mit Bildern gefunden</p>
         <VButton :href="route('catched.create')">Jetzt eintragen</VButton>
       </div>
 
@@ -39,6 +40,7 @@ import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import PageWrapper from '@/Layouts/PageWrapper.vue';
 import { onMounted, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
+import ResetButton from '@/components/pagination/ResetButton.vue';
 
 interface Props {
   catcheds: Array<Object>,
@@ -55,6 +57,11 @@ const filters = ref([
 ])
 
 let isUpdating = false;
+
+const originalDateRange = ref({
+  startDate: new Date(props.dateRange?.startDate),
+  endDate: new Date(props.dateRange?.endDate)
+});
 
 const dateRange = ref({
   startDate: new Date(props.dateRange?.startDate || new Date().setDate(new Date().getDate() - 7)),
@@ -97,6 +104,11 @@ const handleFiltersChanged = (newFilters) => {
 
   search();
 };
+
+const resetDateRange = () => {
+  dateRange.value = originalDateRange.value;
+  search();
+}
 
 const search = () => {
   if (isUpdating) return;

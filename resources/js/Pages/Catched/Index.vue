@@ -3,6 +3,7 @@
         <template v-slot:actions>
             <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" />
             <VDateRangePicker align="right" v-model="dateRange" />
+            <ResetButton @click="resetDateRange" />
             <VButton :href="route('catched.create')">Eintragen</VButton>
         </template>
 
@@ -10,7 +11,7 @@
 
             <div v-if="Object.keys(groupedCatcheds).length === 0"
                 class="text-center bg-white rounded-lg shadow-lg p-5 flex flex-col my-2">
-                <p class="pb-5">Noch keine Fänge eingetragen</p>
+                <p class="pb-5">Für diesen Zeitraum wurden keine Einträge gefunden</p>
                 <VButton :href="route('catched.create')">Jetzt eintragen</VButton>
             </div>
 
@@ -19,7 +20,7 @@
                     <button @click="toggleOpen(date)"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
                         <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length
-                        }})</span>
+                            }})</span>
                         <span class="ml-6 flex h-7 items-center">
                             <PlusIcon v-if="!isOpen(date)" class="cursor-pointer size-6" />
                             <MinusIcon v-else class="cursor-pointer size-6" />
@@ -55,6 +56,7 @@ import PageWrapper from '@/Layouts/PageWrapper.vue';
 import { onMounted, ref, watch } from 'vue';
 import DropdownFilter from '@/components/DropdownFilter.vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
+import ResetButton from '@/components/pagination/ResetButton.vue';
 
 interface CatchedData {
     id: number;
@@ -85,6 +87,12 @@ interface Props {
 const props = defineProps<Props>();
 
 let isUpdating = false;
+
+const originalDateRange = ref({
+    startDate: new Date(props.dateRange?.startDate),
+    endDate: new Date(props.dateRange?.endDate)
+});
+
 
 const dateRange = ref({
     startDate: new Date(props.dateRange?.startDate || new Date().setDate(new Date().getDate() - 7)),
@@ -134,6 +142,11 @@ const handleFiltersChanged = (newFilters) => {
 
     search();
 };
+
+const resetDateRange = () => {
+    dateRange.value = originalDateRange.value;
+    search();
+}
 
 const search = () => {
     if (isUpdating) return;
