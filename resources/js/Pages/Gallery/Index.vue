@@ -22,7 +22,7 @@
             <img v-if="item.images.length" :src="item.images[0].url" alt="Bild" class="w-full h-48 object-cover" />
             <div class="p-4">
               <h2 class="text-lg font-semibold">{{ item.name }}</h2>
-              <p class="text-sm text-gray-500">{{ item.date }}</p>
+              <p class="text-sm text-gray-500">{{ item.date }} - {{ item.waters }}</p>
             </div>
             </Link>
           </div>

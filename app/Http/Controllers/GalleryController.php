@@ -47,6 +47,7 @@ class GalleryController extends Controller
                 return [
                     'id' => $catched->id,
                     'name' => $catched->name,
+                    'waters' => $catched->waters,
                     'date' => $catched->date->format('d.m.Y'),
                     'images' => $catched->getMedia('photos')->map(function ($media) {
                         return [
