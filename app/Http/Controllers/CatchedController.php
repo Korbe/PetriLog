@@ -7,12 +7,12 @@ use App\Models\Catched;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CatchedFilterRequest;
+use App\Http\Requests\FilterRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CatchedController extends Controller
 {
-    public function index(CatchedFilterRequest $request)
+    public function index(FilterRequest $request)
 {
     /** @var \App\Models\User $user */
     $user = Auth::user();

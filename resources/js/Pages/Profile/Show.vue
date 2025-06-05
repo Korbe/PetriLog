@@ -1,11 +1,11 @@
 <script setup>
-import Layout from '@/Layouts/Layout.vue';
 import DeleteUserForm from '@/Pages/Profile/Partials/DeleteUserForm.vue';
 import LogoutOtherBrowserSessionsForm from '@/Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue';
 import SectionBorder from '@/JetstreamComponents/SectionBorder.vue';
 import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
+import PageWrapper from '@/Layouts/PageWrapper.vue';
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
@@ -14,8 +14,7 @@ defineProps({
 </script>
 
 <template>
-    <Layout title="Profile">
-        <div>
+        <PageWrapper title="Profil" :backTo="route('dashboard')">
             <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm :user="$page.props.auth.user" />
@@ -46,6 +45,5 @@ defineProps({
                     <DeleteUserForm class="mt-10 sm:mt-0" />
                 </template>
             </div>
-        </div>
-    </Layout>
+        </PageWrapper>
 </template>

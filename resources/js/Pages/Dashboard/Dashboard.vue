@@ -1,8 +1,5 @@
 <template>
-    <Layout :title="'Petri Heil ' + $page.props.auth.user.name">
-        <template v-slot:actions>
-        </template>
-
+    <PageWrapper :title="'Petri Heil ' + $page.props.auth.user.name" hideBackButton>
         <div class="space-y-5">
             <div class="flex space-x-5 w-full">
 
@@ -25,13 +22,13 @@
 
             </div>
         </div>
-    </Layout>
+    </PageWrapper>
 </template>
 <script setup>
-import Layout from '@/Layouts/Layout.vue';
 import VButton from '@/components/VButton.vue';
 import CatchedStatsMonthlyCard from './CatchedStatsMonthlyCard.vue';
 import CatchedStatsYearlyCard from './CatchedStatsYearlyCard.vue';
+import PageWrapper from '@/Layouts/PageWrapper.vue';
 
 const props = defineProps({
     catchedStatsMonthly: {

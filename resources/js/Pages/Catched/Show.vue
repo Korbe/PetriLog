@@ -1,12 +1,8 @@
 <template>
-  <Layout title="Fang" :backTo="route('catched.index')">
+  <PageWrapper title="Fang">
     <template v-slot:actions>
       <VButton :href="route('catched.edit', catched.id)">Bearbeiten</VButton>
     </template>
-
-
-
-
 
     <div class="flex flex-wrap gap-5 my-5">
       <!-- Erste Box: volle Breite auf Mobile -->
@@ -48,13 +44,13 @@
 
     <vue-easy-lightbox v-if="isLightboxOpen" :visible="isLightboxOpen"
       :imgs="props.catched.media.map(item => item.original_url)" :index="currentImageIndex" @hide="closeLightbox" />
-  </Layout>
+  </PageWrapper>
 </template>
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import Layout from '@/Layouts/Layout.vue';
 import VButton from '@/components/VButton.vue';
 import VueEasyLightbox from 'vue-easy-lightbox';
+import PageWrapper from '@/Layouts/PageWrapper.vue';
 
 const props = defineProps({
   catched: Object,

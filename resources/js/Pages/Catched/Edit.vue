@@ -1,5 +1,5 @@
 <script setup>
-import Layout from '@/Layouts/Layout.vue';
+import PageWrapper from '@/Layouts/PageWrapper.vue';
 import CatchedForm from './CatchedForm.vue';
 
 defineProps({
@@ -7,8 +7,8 @@ defineProps({
 });
 </script>
 <template>
-    <Layout title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
+    <PageWrapper title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
         <CatchedForm :catched="catched" :isEdit="true" />
-    </Layout>
+    </PageWrapper>
 </template>
 

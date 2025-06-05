@@ -1,14 +1,14 @@
 <script setup>
-import Layout from '@/Layouts/Layout.vue';
 import CatchedForm from './CatchedForm.vue';
+import PageWrapper from '@/Layouts/PageWrapper.vue';
 
 const props = defineProps({
-    errors: Object, // Fehler vom Backend
+    errors: Object,
 })
 </script>
 
 <template>
-    <Layout title="Fang eintragen" :backTo="route('catched.index')">
+    <PageWrapper title="Fang eintragen" :backTo="route('catched.index')">
         <CatchedForm :errors=errors :isEdit="false" />
-    </Layout>
+    </PageWrapper>
 </template>
