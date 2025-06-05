@@ -1,10 +1,23 @@
 <script setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Sidebar from './Sidebar/Sidebar.vue';
 import Header from './Header/Header.vue';
 import Banner from '@/components/Banner.vue';
+import { router } from '@inertiajs/vue3';
 
 const sidebarOpen = ref(false);
+
+function closeSidebarOnNavigate() {
+  sidebarOpen.value = false;
+}
+
+onMounted(() => {
+  router.on('navigate', closeSidebarOnNavigate);
+});
+
+onBeforeUnmount(() => {
+  router.off('navigate', closeSidebarOnNavigate);
+});
 
 </script>
 <template>
