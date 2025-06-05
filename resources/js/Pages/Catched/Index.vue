@@ -1,7 +1,7 @@
 <template>
     <PageWrapper title="Fänge" :backTo="route('dashboard')">
         <template v-slot:actions>
-            <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" />
+            <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
             <VDateRangePicker align="right" v-model="dateRange" />
             <ResetButton @click="resetDateRange" />
             <VButton :href="route('catched.create')">Eintragen</VButton>
