@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
 
 class CatchedController extends Controller
 {
@@ -75,7 +77,7 @@ class CatchedController extends Controller
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
             'remark' => 'nullable|string',
-            'photos.*' => 'nullable|image|max:5120', // max 5MB pro Bild
+            'photos.*' => 'nullable|image|max:30000',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -84,7 +86,8 @@ class CatchedController extends Controller
 
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))->take(3)->each(function ($photo) use ($catch) {
-                $catch->addMedia($photo)->toMediaCollection('photos');
+                $media = $catch->addMedia($photo)->toMediaCollection('photos');
+                $this->UnLinkOptimizeImageAndCleanup($media);
             });
         }
 
@@ -143,8 +146,11 @@ class CatchedController extends Controller
 
         $catched->update($validated);
 
-        foreach ($newPhotos as $photo)
-            $catched->addMedia($photo)->toMediaCollection('photos');
+        foreach ($newPhotos as $photo) {
+            $media = $catched->addMedia($photo)->toMediaCollection('photos');
+            $this->UnLinkOptimizeImageAndCleanup($media);
+        }
+
 
         return redirect()->route('catched.show', $catched->id)->with('success', 'Fang erfolgreich aktualisiert.');
     }
@@ -178,5 +184,24 @@ class CatchedController extends Controller
         }
 
         return redirect()->back()->with('success', 'Bild gelöscht.');
+    }
+
+    public function UnLinkOptimizeImageAndCleanup($media){
+        $originalPath = $media->getPath();
+        $optimizedPath = $media->getPath('optimized');
+
+        if (file_exists($originalPath)) {
+            unlink($originalPath);
+        }
+
+        if (file_exists($optimizedPath)) {
+            rename($optimizedPath, $originalPath);
+        }
+
+        $conversionDirectory = storage_path('app/public/' . $media->id . '/conversions');
+
+        if (File::exists($conversionDirectory)) {
+            File::deleteDirectory($conversionDirectory);
+        }
     }
 }
