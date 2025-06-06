@@ -94,7 +94,7 @@ return [
     'mac_address' => 'Das :attribute-Feld muss eine gültige MAC-Adresse sein.',
     'max' => [
         'array' => 'Das :attribute-Feld darf nicht mehr als :max Elemente haben.',
-        'file' => 'Das :attribute-Feld darf nicht größer als :max Kilobyte sein.',
+        'file' => 'Ein Foto darf maximal :max KB groß sein.',
         'numeric' => 'Das :attribute-Feld darf nicht größer als :max sein.',
         'string' => 'Das :attribute-Feld darf nicht mehr als :max Zeichen enthalten.',
     ],

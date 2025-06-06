@@ -5,6 +5,11 @@
       <VFileInput v-if="canUploadMore" type="file" v-model="form.photos" :multiple="true" :max="3" accept="image/*"
         class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
 
+        <div v-if="errors['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
+        <div v-if="errors['photos.1']" class="text-xs mt-1 text-red-500">{{ errors['photos.1'] }}</div>
+        <div v-if="errors['photos.2']" class="text-xs mt-1 text-red-500">{{ errors['photos.2'] }}</div>
+
+
       <ImagePreview :modelValue="allImages" @remove="removeImage" />
 
 
@@ -16,10 +21,12 @@
       <VSelect label="Gewässer" v-model="form.waters" :reduce="option => option.value" :options="watersAustria"
         :error="errors?.waters" mandatory />
 
-        <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField" @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
+      <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField"
+        @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
 
 
-      <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters" :error="errors?.waters" />
+      <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters"
+        :error="errors?.waters" />
 
 
 
@@ -31,20 +38,16 @@
 
       <VTextarea v-model="form.remark" label="Bemerkungen"></VTextarea>
 
-      
 
-      <GoogleMapPicker
-        label="Tippe auf die Position, an der du dich gerade befindest"
-        :initialLat="form.latitude"
-        :initialLng="form.longitude"
-        @locationSelected="updateLocation"
-      />
+
+      <GoogleMapPicker label="Tippe auf die Position, an der du dich gerade befindest" :initialLat="form.latitude"
+        :initialLng="form.longitude" @locationSelected="updateLocation" />
 
       <VInput label="Adresse" v-model="form.address" :error="errors?.address" />
-      <VInput v-if="form.latitude" label="Latitude" v-model="form.latitude" :error="errors?.latitude" />
-      <VInput v-if="form.longitude" label="Longitude" v-model="form.longitude" :error="errors?.longitude" />
+      <VInput label="Latitude" v-model="form.latitude" :error="errors?.latitude" />
+      <VInput label="Longitude" v-model="form.longitude" :error="errors?.longitude" />
 
-      
+
       <div class="flex justify-end">
         <VButton type="submit">{{ isEdit ? 'Aktualisieren' : 'Speichern' }}</VButton>
         <VButton v-if="isEdit" type="button" @click="deleteCatched" variant="danger" class="ml-3">
