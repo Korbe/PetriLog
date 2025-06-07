@@ -155,7 +155,6 @@ class CatchedController extends Controller
 
         foreach ($newPhotos as $photo) {
             $media = $catched->addMedia($photo)->toMediaCollection('photos');
-            $media->generateConversions();
             $this->UnLinkOptimizeImageAndCleanup($media);
         }
 
