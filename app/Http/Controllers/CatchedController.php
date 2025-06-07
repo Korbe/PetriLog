@@ -66,6 +66,8 @@ class CatchedController extends Controller
 
     public function store(Request $request)
     {
+        Log::info("CatchedController - store");
+
         $validated = $request->validate([
             'name' => 'required|string',
             'length' => 'required|integer',

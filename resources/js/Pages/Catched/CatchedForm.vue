@@ -5,9 +5,9 @@
       <VFileInput v-if="canUploadMore" type="file" v-model="form.photos" :multiple="true" :max="3" accept="image/*"
         class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
 
-        <div v-if="errors['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
-        <div v-if="errors['photos.1']" class="text-xs mt-1 text-red-500">{{ errors['photos.1'] }}</div>
-        <div v-if="errors['photos.2']" class="text-xs mt-1 text-red-500">{{ errors['photos.2'] }}</div>
+        <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
+        <div v-if="errors?.['photos.1']" class="text-xs mt-1 text-red-500">{{ errors['photos.1'] }}</div>
+        <div v-if="errors?.['photos.2']" class="text-xs mt-1 text-red-500">{{ errors['photos.2'] }}</div>
 
 
       <ImagePreview :modelValue="allImages" @remove="removeImage" />
