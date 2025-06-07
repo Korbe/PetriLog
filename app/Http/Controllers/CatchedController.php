@@ -85,12 +85,16 @@ class CatchedController extends Controller
 
         $validated['user_id'] = Auth::id();
 
+        Log::info("CatchedController - validierung ist durch");
+
         $catch = Catched::create($validated);
 
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))->take(3)->each(function ($photo) use ($catch) {
+                Log::info('Starte Upload für: ' . $photo->getClientOriginalName() . ' (' . $photo->getSize() . ' bytes)');
                 try {
                     $media = $catch->addMedia($photo)->toMediaCollection('photos');
+                    Log::info('Upload erfolgreich: ' . $photo->getClientOriginalName());
                     $this->UnLinkOptimizeImageAndCleanup($media);
                 } catch (\Exception $e) {
                     Log::error('Image upload failed: ' . $e->getMessage());
