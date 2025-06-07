@@ -87,7 +87,6 @@ class CatchedController extends Controller
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))->take(3)->each(function ($photo) use ($catch) {
                 $media = $catch->addMedia($photo)->toMediaCollection('photos');
-                $media->generateConversions();
                 $this->UnLinkOptimizeImageAndCleanup($media);
             });
         }
