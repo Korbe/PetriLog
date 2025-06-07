@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
@@ -67,9 +66,7 @@ class CatchedController extends Controller
 
     public function store(Request $request)
     {
-        Log::info("CatchedController - store");
-
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string',
             'length' => 'required|integer',
             'weight' => 'integer',
@@ -82,35 +79,21 @@ class CatchedController extends Controller
             'address' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:30720', // max in KB = 30 MB
+            'photos.*' => 'nullable|image|max:30720',
         ]);
 
-        if ($validator->fails()) {
-            Log::error('Validierungsfehler: ' . json_encode($validator->errors()->all()));
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $validated = $validator->validated();
         $validated['user_id'] = Auth::id();
-
-        Log::info("CatchedController - validierung ist durch");
 
         $catch = Catched::create($validated);
 
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))->take(3)->each(function ($photo) use ($catch) {
-                Log::info('Starte Upload für: ' . $photo->getClientOriginalName() . ' (' . $photo->getSize() . ' bytes)');
-                try {
-                    $media = $catch->addMedia($photo)->toMediaCollection('photos');
-                    Log::info('Upload erfolgreich: ' . $photo->getClientOriginalName());
-                    $this->UnLinkOptimizeImageAndCleanup($media);
-                } catch (\Exception $e) {
-                    Log::error('Image upload failed: ' . $e->getMessage());
-                }
+                $media = $catch->addMedia($photo)->toMediaCollection('photos');
+                $this->UnLinkOptimizeImageAndCleanup($media);
             });
         }
 
-        return redirect()->route('catched.show', $catch->id)->with('success', 'Fang erfolgreich eingetragen.');
+        return redirect()->route('catched.index')->with('success', 'Fang erfolgreich eingetragen!');
     }
 
     public function show(Catched $catched)
