@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Catched;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -77,7 +78,7 @@ class CatchedController extends Controller
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
             'remark' => 'nullable|string',
-            'photos.*' => 'nullable|image|max:30000',
+            'photos.*' => 'nullable|image|max:30720',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -86,8 +87,12 @@ class CatchedController extends Controller
 
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))->take(3)->each(function ($photo) use ($catch) {
-                $media = $catch->addMedia($photo)->toMediaCollection('photos');
-                $this->UnLinkOptimizeImageAndCleanup($media);
+                try {
+                    $media = $catch->addMedia($photo)->toMediaCollection('photos');
+                    $this->UnLinkOptimizeImageAndCleanup($media);
+                } catch (\Exception $e) {
+                    Log::error('Image upload failed: ' . $e->getMessage());
+                }
             });
         }
 
@@ -132,7 +137,7 @@ class CatchedController extends Controller
             'address' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:5120',
+            'photos.*' => 'nullable|image|max:30720',
         ]);
 
         $existingCount = $catched->getMedia('photos')->count();
@@ -187,7 +192,8 @@ class CatchedController extends Controller
         return redirect()->back()->with('success', 'Bild gelöscht.');
     }
 
-    public function UnLinkOptimizeImageAndCleanup($media){
+    public function UnLinkOptimizeImageAndCleanup($media)
+    {
         $originalPath = $media->getPath();
         $optimizedPath = $media->getPath('optimized');
 
