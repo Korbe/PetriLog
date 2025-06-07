@@ -110,7 +110,7 @@ class CatchedController extends Controller
             });
         }
 
-        return redirect()->route('catched.index')->with('success', 'Fang erfolgreich eingetragen!');
+        return redirect()->route('catched.show', $catch->id)->with('success', 'Fang erfolgreich eingetragen.');
     }
 
     public function show(Catched $catched)
