@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
@@ -68,7 +69,7 @@ class CatchedController extends Controller
     {
         Log::info("CatchedController - store");
 
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'length' => 'required|integer',
             'weight' => 'integer',
@@ -80,9 +81,16 @@ class CatchedController extends Controller
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
             'remark' => 'nullable|string',
-            'photos.*' => 'nullable|image|max:30720',
+            'photos' => 'nullable|array',
+            'photos.*' => 'nullable|image|max:30720', // max in KB = 30 MB
         ]);
 
+        if ($validator->fails()) {
+            Log::error('Validierungsfehler: ' . json_encode($validator->errors()->all()));
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validated();
         $validated['user_id'] = Auth::id();
 
         Log::info("CatchedController - validierung ist durch");
