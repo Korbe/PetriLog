@@ -13,28 +13,23 @@
       <ImagePreview :modelValue="allImages" @remove="removeImage" />
 
 
-      <VDateTimePicker v-model="form.date" label="Datum" mandatory />
+      <VDateTimePicker v-model="form.date" label="Datum" mandatory disabled/>
 
-      <VSelect label="Fisch Art" id="fishname" :options="fishSpeciesAustria" placeholder="Bitte wählen..." mandatory
+      <VSelect :disabled="isEdit" label="Fisch Art" id="fishname" :options="fishSpeciesAustria" placeholder="Bitte wählen..." mandatory
         v-model="form.name" :error="errors?.name" :reduce="option => option.value" />
 
-      <VSelect label="Gewässer" v-model="form.waters" :reduce="option => option.value" :options="watersAustria"
+      <VSelect :disabled="isEdit" label="Gewässer" id="watername" placeholder="Bitte wählen..." v-model="form.waters" :reduce="option => option.value" :options="watersAustria"
         :error="errors?.waters" mandatory />
 
       <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField"
         @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
 
+      <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters" :error="errors?.waters" />
 
-      <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters"
-        :error="errors?.waters" />
-
-
-
-      <VSlider label="Länge (Centimeter)" v-model="form.length" :min=1 :max=500 :error="errors?.length" />
+      <VInput :disabled="isEdit" label="Länge (Centimeter)" type="number" mandatory v-model="form.length" :error="errors?.length" />
       <VInput label="Gewicht (Gramm)" type="number" v-model="form.weight" :error="errors?.weight" />
-      <VSlider label="Tiefe (Meter)" v-model="form.depth" :min=1 :max=200 :error="errors?.depth" />
-      <VSlider label="Temperatur (°C)" v-model="form.temperature" :min=-20 :max=40 :error="errors?.temperature" />
-
+      <VInput label="Tiefe (Centimeter)" type="number" v-model="form.depth" :error="errors?.depth" />
+      <VInput label="Temperatur (°C)" type="number" v-model="form.temperature"  :error="errors?.temperature" />
 
       <VTextarea v-model="form.remark" label="Bemerkungen"></VTextarea>
 
@@ -63,7 +58,6 @@ import VFileInput from '@/components/VFileInput.vue';
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 import VSelect from '@/components/VSelect.vue';
-import VSlider from '@/components/VSlider.vue';
 import VTextarea from '@/components/VTextarea.vue';
 import VDateTimePicker from '@/components/VDateTimePicker.vue';
 import { useForm, router } from '@inertiajs/vue3';
@@ -192,17 +186,17 @@ const props = defineProps({
 });
 
 const form = useForm({
-  name: '',
-  length: 0,
-  weight: '0',
-  depth: 0,
-  temperature: 0,
-  waters: '',
+  name: null,
+  length: null,
+  weight: null,
+  depth: null,
+  temperature: null,
+  waters: null,
   date: new Date(),
   latitude: null,
   longitude: null,
-  address: '',
-  remark: '',
+  address: null,
+  remark: null,
   photos: [],
   media: [],
 });
@@ -213,17 +207,17 @@ watch(
   () => props.catched,
   (catched) => {
     if (catched) {
-      form.name = catched.name || '';
-      form.length = catched.length || 0;
-      form.weight = catched.weight || 0;
-      form.depth = catched.depth || 0;
-      form.temperature = catched.temperature || 0;
-      form.waters = catched.waters || '';
+      form.name = catched.name || null;
+      form.length = catched.length || null;
+      form.weight = catched.weight || null;
+      form.depth = catched.depth || null;
+      form.temperature = catched.temperature || null;
+      form.waters = catched.waters || null;
       form.date = new Date(catched.date) || new Date();
       form.latitude = catched.latitude || null;
       form.longitude = catched.longitude || null;
-      form.address = catched.address || '';
-      form.remark = catched.remark || '';
+      form.address = catched.address || null;
+      form.remark = catched.remark || null;
       form.media = catched.media || []
     }
   },

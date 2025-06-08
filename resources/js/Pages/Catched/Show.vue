@@ -13,13 +13,13 @@
 
       <div class="flex w-full md:w-[50%] xl:w-[30%]  space-x-5">
         <div class="w-[50%] bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5 space-y-3">
-          <p><b>Länge:</b> {{ catched.length }}cm</p>
-          <p><b>Gewicht:</b> {{ catched.weight }}g</p>
+          <p><b>Länge:</b> {{ catched.length ?? 'n/a ' }}cm</p>
+          <p><b>Gewicht:</b> {{ catched.weight ?? 'n/a ' }}g</p>
         </div>
 
         <div class="w-[50%] bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5 space-y-3">
-          <p><b>Tiefe:</b> {{ catched.depth }}m</p>
-          <p><b>Temperatur:</b> {{ catched.temperature }}°C</p>
+          <p><b>Tiefe:</b> {{ catched.depth ?? 'n/a '}}cm</p>
+          <p><b>Temperatur:</b> {{ catched.temperature ?? 'n/a '}}°C</p>
         </div>
       </div>
     </div>

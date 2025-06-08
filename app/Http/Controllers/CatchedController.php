@@ -67,16 +67,18 @@ class CatchedController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'length' => 'required|integer',
-            'weight' => 'integer',
-            'depth' => 'integer',
-            'temperature' => 'integer',
-            'waters' => 'required|string',
             'date' => 'required|date',
+            'name' => 'required|string',
+            'waters' => 'required|string',
+            'length' => 'required|integer',
+
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
+
+            'weight' => 'nullable|integer',
+            'depth' => 'nullable|integer',
+            'temperature' => 'nullable|integer',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
             'photos.*' => 'nullable|image|max:30720',
@@ -93,7 +95,7 @@ class CatchedController extends Controller
             });
         }
 
-        return redirect()->route('catched.index')->with('success', 'Fang erfolgreich eingetragen!');
+        return redirect()->route('catched.show', $catch->id)->with('success', 'Fang erfolgreich eingetragen.');
     }
 
     public function show(Catched $catched)
@@ -122,16 +124,18 @@ class CatchedController extends Controller
     public function update(Request $request, Catched $catched)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'length' => 'required|integer',
-            'weight' => 'integer',
-            'depth' => 'integer',
-            'temperature' => 'integer',
-            'waters' => 'required|string',
             'date' => 'required|date',
+            'name' => 'required|string',
+            'waters' => 'required|string',
+            'length' => 'required|integer',
+
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
+
+            'weight' => 'nullable|integer',
+            'depth' => 'nullable|integer',
+            'temperature' => 'nullable|integer',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
             'photos.*' => 'nullable|image|max:30720',
@@ -206,5 +210,8 @@ class CatchedController extends Controller
         if (File::exists($conversionDirectory)) {
             File::deleteDirectory($conversionDirectory);
         }
+
+        $media->size = File::size($originalPath);
+        $media->save();
     }
 }

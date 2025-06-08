@@ -6,7 +6,7 @@
     </label>
 
     <div class="relative">
-        <flat-pickr v-model="modelValue" :config="config" :id="id" :name="name"
+        <flat-pickr v-model="modelValue" :config="config" :id="id" :name="name" :disabled="disabled"
             class="form-input pl-9 dark:bg-gray-800 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 font-medium w-full" />
         <div class="absolute inset-0 right-auto flex items-center pointer-events-none">
             <svg class="fill-current text-gray-400 dark:text-gray-500 ml-3" width="16" height="16" viewBox="0 0 16 16">
@@ -36,6 +36,10 @@ const props = defineProps({
     mandatory: {
         type: Boolean,
         default: false
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -56,7 +60,7 @@ watch(modelValue, (val) => {
 
 const config = {
     enableTime: true,
-    dateFormat: 'Y-m-d H:i',
+    dateFormat: 'd.m.Y H:i',
     time_24hr: true
 }
 </script>
