@@ -21,7 +21,7 @@
       <VSelect :disabled="isEdit" label="Gewässer" id="watername" placeholder="Bitte wählen..." v-model="form.waters" :reduce="option => option.value" :options="watersAustria"
         :error="errors?.waters" mandatory />
 
-      <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField"
+      <span class="block text-sm font-medium mb-10" v-if="!isEdit && !showCustomWatersField"
         @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
 
       <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters" :error="errors?.waters" />
