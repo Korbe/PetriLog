@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FishController;
+use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\DashboardController;
@@ -17,5 +19,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     ->name('catched.photo.delete');
 
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+    Route::get('/waters', [WatersController::class, 'index'])->name('waters.index');
+    Route::get('/waters/{state}', [WatersController::class, 'state'])->name('waters.state');
+    Route::get('/waters/{state}/{lake}', [WatersController::class, 'waters'])->name('waters.state.waters');
+
+
+    Route::get('/fish', [FishController::class, 'index'])->name('fish.index');
+    Route::get('/fish/{fish}', [FishController::class, 'fish'])->name('fish.fish');
 
 });

@@ -29,6 +29,7 @@ import VButton from '@/components/VButton.vue';
 import CatchedStatsMonthlyCard from './CatchedStatsMonthlyCard.vue';
 import CatchedStatsYearlyCard from './CatchedStatsYearlyCard.vue';
 import PageWrapper from '@/Layouts/PageWrapper.vue';
+import { onMounted } from 'vue';
 
 const props = defineProps({
     catchedStatsMonthly: {
@@ -61,6 +62,9 @@ const props = defineProps({
     },
 })
 
+onMounted(() => {
+  sessionStorage.setItem('lastOrigin', window.location.href);
+});
 
 
 </script>
