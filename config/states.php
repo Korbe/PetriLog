@@ -142,6 +142,7 @@ return [
         "wallpaper" => "/images/wallpaper/Wien.jpg",
         "name" => "Wien",
         "desc" => "Wien, die Hauptstadt Österreichs, liegt an der Donau und bietet zahlreiche Möglichkeiten zum Angeln. Sowohl die Donau selbst als auch die Alte und Neue Donau sind beliebte Spots für Hobbyangler. Hier kann man auf Karpfen, Zander, Hecht oder Wels fischen. Angelkarten sind in der Stadtregion leicht erhältlich, und viele Bereiche bieten ruhige Ufer, ideal für entspannte Stunden in der Natur. Urbanes Angeln kombiniert Naturerlebnis und Stadtleben – ein einzigartiges Erlebnis für Angelfreunde in Wien.",
+        "lakes" => [],
         "rivers" => [
             "Donau" => ["link" => "/images/waters/Donau.jpeg"],
         ]

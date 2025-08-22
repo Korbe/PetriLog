@@ -9,8 +9,11 @@
                     <img :src="stateWaters.link" :alt="state" class="w-44 h-44 object-fill rounded-lg" />
                     <h1 class="text-xl font-bold pt-3">{{ state }}</h1>
                     <span class="font-medium text-lg">
-                        {{ Object.keys(stateWaters.lakes).length }} Seen und {{ Object.keys(stateWaters.rivers).length
-                        }} Flüsse
+                        {{ Object.keys(stateWaters.lakes).length }}
+                        {{ Object.keys(stateWaters.lakes).length === 1 ? 'See' : 'Seen' }}
+                        und
+                        {{ Object.keys(stateWaters.rivers).length }}
+                        {{ Object.keys(stateWaters.rivers).length === 1 ? 'Fluss' : 'Flüsse' }}
                     </span>
                 </div>
                 </Link>
