@@ -165,11 +165,14 @@ class CatchedController extends Controller
         return redirect()->route('catched.show', $catched->id)->with('success', 'Fang erfolgreich aktualisiert.');
     }
 
-    public function destroy(Catched $catched)
+    public function destroy($catched)
     {
-        $catched->delete();
+        $catchedEntity = Catched::find($catched);
+        
+        if($catchedEntity != null && $catchedEntity->user_id  == Auth::id())
+            $catchedEntity->delete();
 
-        return redirect()->route('catched.index')->with('success', 'Deleted.');
+        return redirect()->route('catched.index')->with('success', 'Fang gelöscht.');;
     }
 
     public function deletePhoto(Request $request, $mediaId)
