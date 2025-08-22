@@ -1,12 +1,14 @@
 <template>
-    <p class="text-lg my-5">Tippe auf die Positon in der Karte.</p>
+    <p class="text-center text-md font-medium text-gray-700 mb-5">Tippe auf die Positon in der Karte</p>
 
     <GoogleMapPicker :initialLat="modelValue.latitude" :initialLng="modelValue.longitude"
         @locationSelected="updateLocation" />
 
-    <VInput label="Adresse" v-model="modelValue.address" :error="errors?.address" />
-    <VInput label="Latitude" v-model="modelValue.latitude" :error="errors?.latitude" />
-    <VInput label="Longitude" v-model="modelValue.longitude" :error="errors?.longitude" />
+        <p v-if="!modelValue.latitude" class="text-center text-md font-medium text-gray-700 my-5">Noch keine Position eingegeben</p>
+
+    <VInput v-if="modelValue.address" label="Adresse" v-model="modelValue.address" :error="errors?.address" />
+    <VInput v-if="modelValue.latitude" label="Latitude" v-model="modelValue.latitude" :error="errors?.latitude" />
+    <VInput v-if="modelValue.longitude" label="Longitude" v-model="modelValue.longitude" :error="errors?.longitude" />
 </template>
 
 <script setup>

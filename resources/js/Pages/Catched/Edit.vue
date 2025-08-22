@@ -1,4 +1,3 @@
-
 <script setup>
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import VFileInput from '@/components/VFileInput.vue';
@@ -161,8 +160,8 @@ const watersAustria = [
 ];
 
 const props = defineProps({
-    catched: Object,
-    errors: Object,
+  catched: Object,
+  errors: Object,
 });
 
 const form = useForm({
@@ -231,7 +230,7 @@ const allImages = computed(() => {
 });
 
 const submit = () => {
-    form.post(route('catched.update', props.catched.id));
+  form.post(route('catched.update', props.catched.id));
 };
 
 const deleteCatched = () => {
@@ -270,63 +269,61 @@ const removeImage = (item) => {
 
 
 <template>
-    <PageWrapper title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
-        <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
-            <form @submit.prevent="submit" class="space-y-5">
+  <PageWrapper title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
+    <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
+      <form @submit.prevent="submit" class="space-y-5">
 
-                <VFileInput v-if="canUploadMore" type="file" v-model="form.photos" :multiple="true" :max="3"
-                    accept="image/*" class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
+        <VFileInput v-if="canUploadMore" type="file" v-model="form.photos" :multiple="true" :max="3" accept="image/*"
+          class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
 
-                <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
-                <div v-if="errors?.['photos.1']" class="text-xs mt-1 text-red-500">{{ errors['photos.1'] }}</div>
-                <div v-if="errors?.['photos.2']" class="text-xs mt-1 text-red-500">{{ errors['photos.2'] }}</div>
-
-
-                <ImagePreview :modelValue="allImages" @remove="removeImage" />
+        <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
+        <div v-if="errors?.['photos.1']" class="text-xs mt-1 text-red-500">{{ errors['photos.1'] }}</div>
+        <div v-if="errors?.['photos.2']" class="text-xs mt-1 text-red-500">{{ errors['photos.2'] }}</div>
 
 
-                <VDateTimePicker v-model="form.date" label="Datum" mandatory />
+        <ImagePreview :modelValue="allImages" @remove="removeImage" />
 
-                <VSelect label="Fisch Art" id="fishname" :options="fishSpeciesAustria" placeholder="Bitte wählen..."
-                    mandatory v-model="form.name" :error="errors?.name" :reduce="option => option.value" />
 
-                <VSelect label="Gewässer" id="watername" placeholder="Bitte wählen..." v-model="form.waters"
-                    :reduce="option => option.value" :options="watersAustria" :error="errors?.waters" mandatory />
+        <VDateTimePicker v-model="form.date" label="Datum" mandatory />
 
-                <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField"
-                    @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
+        <VSelect label="Fisch Art" id="fishname" :options="fishSpeciesAustria" placeholder="Bitte wählen..." mandatory
+          v-model="form.name" :error="errors?.name" :reduce="option => option.value" />
 
-                <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters"
-                    :error="errors?.waters" />
+        <VSelect label="Gewässer" id="watername" placeholder="Bitte wählen..." v-model="form.waters"
+          :reduce="option => option.value" :options="watersAustria" :error="errors?.waters" mandatory />
 
-                <VInput label="Länge (Centimeter)" type="number" mandatory v-model="form.length"
-                    :error="errors?.length" />
-                <VInput label="Gewicht (Gramm)" type="number" v-model="form.weight" :error="errors?.weight" />
-                <VInput label="Tiefe (Centimeter)" type="number" v-model="form.depth" :error="errors?.depth" />
-                <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" :error="errors?.temperature" />
-                <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure"
-                    :error="errors?.air_pressure" />
-                <VInput label="Köder" type="text" v-model="form.bait" :error="errors?.bait" />
+        <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField"
+          @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
 
-                <VTextarea v-model="form.remark" label="Bemerkungen"></VTextarea>
+        <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters"
+          :error="errors?.waters" />
+
+        <VInput label="Länge (Centimeter)" type="number" mandatory v-model="form.length" :error="errors?.length" />
+        <VInput label="Gewicht (Gramm)" type="number" v-model="form.weight" :error="errors?.weight" />
+        <VInput label="Tiefe (Centimeter)" type="number" v-model="form.depth" :error="errors?.depth" />
+        <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" :error="errors?.temperature" />
+        <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure" :error="errors?.air_pressure" />
+        <VInput label="Köder" type="text" v-model="form.bait" :error="errors?.bait" />
+
+        <VTextarea v-model="form.remark" label="Bemerkungen"></VTextarea>
 
 
 
-                <GoogleMapPicker label="Tippe auf die Position in der Karte um die Position zu aktualisieren"
-                    :initialLat="form.latitude" :initialLng="form.longitude" @locationSelected="updateLocation" />
+        <GoogleMapPicker label="Tippe auf die Position in der Karte um die Position zu aktualisieren"
+          :initialLat="form.latitude" :initialLng="form.longitude" @locationSelected="updateLocation" />
 
-                <VInput label="Adresse" v-model="form.address" :error="errors?.address" />
-                <VInput label="Latitude" v-model="form.latitude" :error="errors?.latitude" />
-                <VInput label="Longitude" v-model="form.longitude" :error="errors?.longitude" />
+        <VInput label="Adresse" v-model="form.address" :error="errors?.address" />
+        <VInput label="Latitude" v-model="form.latitude" :error="errors?.latitude" />
+        <VInput label="Longitude" v-model="form.longitude" :error="errors?.longitude" />
 
 
-                <div class="flex justify-end">
-                    <VButton type="submit">Aktualisieren</VButton>
-                    <VButton type="button" @click="deleteCatched" variant="danger" class="ml-3">
-                        Löschen
-                    </VButton>
-                </div>
-            </form>
+        <div class="flex justify-end">
+          <VButton type="submit">Aktualisieren</VButton>
+          <VButton type="button" @click="deleteCatched" variant="danger" class="ml-3">
+            Löschen
+          </VButton>
         </div>
-    </PageWrapper>
+      </form>
+    </div>
+  </PageWrapper>
 </template>

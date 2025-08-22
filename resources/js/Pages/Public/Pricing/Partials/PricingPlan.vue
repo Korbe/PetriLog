@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import PageIllustration from '../../PageIllustration.vue';
+import { Link } from '@inertiajs/vue3';
 
 const isAnnual = ref(true)
 </script>
@@ -122,8 +123,8 @@ const isAnnual = ref(true)
                                 </li>
                             </ul>
                             <div class="mt-6">
-                                <a class="btn-sm py-1.5 rounded-lg text-white bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] hover:bg-[length:100%_150%] bg-[bottom] shadow-sm w-full"
-                                    href="#0">Try for free</a>
+                                <Link class="btn-sm py-1.5 rounded-lg text-white bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] hover:bg-[length:100%_150%] bg-[bottom] shadow-sm w-full"
+                                    href="register">Jetzt kostenlos testen</Link>
                             </div>
                         </div>
 

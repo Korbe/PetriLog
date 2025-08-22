@@ -5,7 +5,7 @@ import CatchedAdvancedData from './Steps/CatchedAdvancedData.vue';
 import CatchedRemark from './Steps/CatchedRemark.vue';
 import CatchedImages from './Steps/CatchedImages.vue';
 import CatchedPosition from './Steps/CatchedPosition.vue';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { CheckIcon } from '@heroicons/vue/24/solid';
 
@@ -18,11 +18,11 @@ const alertMessage = ref('');
 
 
 const steps = [
-    { id: '01', name: 'Einfach', component: CatchedBasicData },
-    { id: '02', name: 'Erweitert', component: CatchedAdvancedData },
-    { id: '03', name: 'Bemerkungen', component: CatchedRemark },
-    { id: '04', name: 'Fotos', component: CatchedImages },
-    { id: '05', name: 'Position', component: CatchedPosition },
+    { id: '01', name: 'Basisdaten', component: CatchedBasicData },
+    { id: '02', name: 'Position', component: CatchedPosition },
+    { id: '03', name: 'Fotos', component: CatchedImages },
+    { id: '04', name: 'Erweitert', component: CatchedAdvancedData },
+    { id: '05', name: 'Bemerkungen', component: CatchedRemark },
 ]
 
 const form = ref({
@@ -109,9 +109,9 @@ watch(
                 {{ alertMessage }}
             </div>
 
-
             <!-- Form Wizard Step Content -->
             <div class="max-w-xl mx-auto">
+                 <p class="lg:hidden text-center text-xl font-medium text-gray-700 mb-2">{{steps[currentStep].name}}</p>
                 <component :is="steps[currentStep].component" v-model="form" :errors="errors" />
 
                 <!-- Navigation Buttons -->

@@ -17,7 +17,7 @@
 
       <div class="p-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <div v-for="item in catcheds" :key="item.id" class="bg-white dark:bg-gray-800 shadow-md rounded-xl overflow-hidden">
+          <div v-for="item in catcheds" :key="item.id" class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
             <Link :href="route('catched.show', item.id)">
             <img v-if="item.images.length" :src="item.images[0].url" alt="Bild" class="w-full h-48 object-cover" />
             <div class="p-4">

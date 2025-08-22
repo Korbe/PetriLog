@@ -8,7 +8,7 @@
         <div class="flex-1 flex items-center">
           <!-- Logo -->
           <Link class="inline-flex" href="/" aria-label="PetriLog">
-            <img src="/images/icons/logo-152.png" class="w-32" />
+            <img src="/images/icons/logo-512.png" class="w-32" />
           </Link>
         </div>
 
@@ -18,11 +18,11 @@
           <!-- Desktop menu links -->
           <ul class="text-sm flex grow justify-center flex-wrap items-center gap-4 lg:gap-8">
             <li class="px-3 py-1">
-              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition"
-                href="/pricing">Pricing</Link>
+              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium"
+                href="/pricing">Preise</Link>
             </li>
             <li class="px-3 py-1">
-              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition"
+              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium"
                 href="/contact">Kontakt</Link>
             </li>
           </ul>
