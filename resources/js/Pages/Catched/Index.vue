@@ -52,7 +52,7 @@ import { MinusIcon, PlusIcon } from '@heroicons/vue/24/outline'
 import { router } from '@inertiajs/vue3';
 import VButton from "@/components/VButton.vue";
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { onMounted, ref, watch } from 'vue';
 import DropdownFilter from '@/components/DropdownFilter.vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';

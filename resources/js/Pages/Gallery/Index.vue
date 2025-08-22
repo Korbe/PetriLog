@@ -37,7 +37,7 @@
 import DropdownFilter from '@/components/DropdownFilter.vue';
 import VButton from '@/components/VButton.vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { onMounted, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 import ResetButton from '@/components/pagination/ResetButton.vue';

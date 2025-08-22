@@ -35,7 +35,7 @@
     </PageWrapper>
 </template>
 <script setup>
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 defineProps({
     state: Object
 });

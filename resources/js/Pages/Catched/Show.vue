@@ -50,7 +50,7 @@
 import { ref, onMounted, watch } from 'vue';
 import VButton from '@/components/VButton.vue';
 import VueEasyLightbox from 'vue-easy-lightbox';
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 
 const props = defineProps({
   catched: Object,

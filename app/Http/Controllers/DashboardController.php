@@ -8,6 +8,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -30,11 +31,14 @@ class DashboardController extends Controller
 
     public function getCatchedStatisticsForPeriod(Carbon $startDate, Carbon $endDate)
     {
+        $userId = Auth::id();
+
         // Hole alle Datumswerte und deren Anzahl gruppiert nach Tag aus der Tabelle
         $results = Catched::select(
             DB::raw('DATE(date) as day'),
             DB::raw('COUNT(*) as count')
         )
+            ->where('user_id', $userId) // nur eigene Einträge
             ->whereBetween('date', [$startDate->copy()->startOfDay(), $endDate->copy()->endOfDay()])
             ->groupBy('day')
             ->orderBy('day')
@@ -65,43 +69,46 @@ class DashboardController extends Controller
     }
 
     public function getCatchedStatisticsForCurrentYear()
-{
-    // Jahresanfang und -ende festlegen
-    $startDate = now()->startOfYear();
-    $endDate = now()->endOfYear();
+    {
+        $userId = Auth::id();
 
-    // Hole alle Datumswerte und deren Anzahl gruppiert nach Monat aus der Tabelle
-    $results = Catched::select(
+        // Jahresanfang und -ende festlegen
+        $startDate = now()->startOfYear();
+        $endDate = now()->endOfYear();
+
+        // Hole alle Datumswerte und deren Anzahl gruppiert nach Monat aus der Tabelle
+        $results = Catched::select(
             DB::raw('MONTH(date) as month'),
             DB::raw('COUNT(*) as count')
         )
-        ->whereBetween('date', [$startDate, $endDate])
-        ->groupBy('month')
-        ->orderBy('month')
-        ->get();
+            ->where('user_id', $userId) // nur eigene Einträge
+            ->whereBetween('date', [$startDate, $endDate])
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
-    $months = [];
-    $counts = [];
+        $months = [];
+        $counts = [];
 
-    // Für jeden Monat von 1 bis 12
-    for ($month = 1; $month <= 12; $month++) {
-        // Monat als zweistellige Zahl z.B. "01", "02", ..., "12"
-        $monthString = str_pad($month, 2, '0', STR_PAD_LEFT);
-        // Optional: Monatsname (deutsch oder englisch)
-        $months[] = $monthString;
+        // Für jeden Monat von 1 bis 12
+        for ($month = 1; $month <= 12; $month++) {
+            // Monat als zweistellige Zahl z.B. "01", "02", ..., "12"
+            $monthString = str_pad($month, 2, '0', STR_PAD_LEFT);
+            // Optional: Monatsname (deutsch oder englisch)
+            $months[] = $monthString;
 
-        // Suche ob der Monat in den Ergebnissen ist
-        $found = $results->firstWhere('month', $month);
-        $counts[] = $found ? $found->count : 0;
+            // Suche ob der Monat in den Ergebnissen ist
+            $found = $results->firstWhere('month', $month);
+            $counts[] = $found ? $found->count : 0;
+        }
+
+        // Gesamtanzahl der Catched Einträge im Jahr
+        $total = $results->sum('count');
+
+        return [
+            'timestamps' => $months,
+            'scores' => $counts,
+            'total' => $total,
+        ];
     }
-
-    // Gesamtanzahl der Catched Einträge im Jahr
-    $total = $results->sum('count');
-
-    return [
-        'timestamps' => $months,
-        'scores' => $counts,
-        'total' => $total,
-    ];
-}
 }

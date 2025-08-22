@@ -1,6 +1,6 @@
 <script setup>
 import CatchedForm from './CatchedForm.vue';
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 
 const props = defineProps({
     errors: Object,

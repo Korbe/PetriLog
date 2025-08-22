@@ -22,7 +22,7 @@
 </template>
 <script setup>
 import VInput from '@/components/VInput.vue';
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { ref, computed, onMounted } from 'vue';
 
 const props = defineProps({

@@ -5,7 +5,7 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Link } from '@inertiajs/vue3';
-import Layout from './Layouts/Layout.vue';
+import Layout from './Layouts/Dashboard/Layout.vue';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -15,7 +15,7 @@ createInertiaApp({
         const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
         let page = pages[`./Pages/${name}.vue`]
 
-        if (!name.includes('Auth'))
+        if (!name.includes('Auth') && !name.includes('Public'))
             page.default.layout ??= Layout;
 
         return pages[`./Pages/${name}.vue`];

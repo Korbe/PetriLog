@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Sidebar from './Sidebar/Sidebar.vue';
 import Header from './Header/Header.vue';
 import Banner from '@/components/Banner.vue';
@@ -13,10 +13,6 @@ function closeSidebarOnNavigate() {
 
 onMounted(() => {
   router.on('navigate', closeSidebarOnNavigate);
-});
-
-onBeforeUnmount(() => {
-  router.off('navigate', closeSidebarOnNavigate);
 });
 
 </script>

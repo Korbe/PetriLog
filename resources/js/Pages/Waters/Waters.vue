@@ -23,7 +23,7 @@
     </PageWrapper>
 </template>
 <script setup>
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { onMounted } from 'vue';
 defineProps({
     waters: Object

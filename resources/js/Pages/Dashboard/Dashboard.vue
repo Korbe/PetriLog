@@ -28,7 +28,7 @@
 import VButton from '@/components/VButton.vue';
 import CatchedStatsMonthlyCard from './CatchedStatsMonthlyCard.vue';
 import CatchedStatsYearlyCard from './CatchedStatsYearlyCard.vue';
-import PageWrapper from '@/Layouts/PageWrapper.vue';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { onMounted } from 'vue';
 
 const props = defineProps({

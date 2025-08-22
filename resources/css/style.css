@@ -62,7 +62,20 @@
   --text-6xl--letter-spacing: -0.02em;
 
   --breakpoint-xs: 480px;
+
+  --animate-infinite-scroll: infinite-scroll; 
+
+   @keyframes infinite-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
 }
+
+
 
 @layer base {
   *,
@@ -73,3 +86,4 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+
