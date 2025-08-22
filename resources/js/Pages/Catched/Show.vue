@@ -11,7 +11,7 @@
         <p class="text-xl">{{ formatDate(catched.date) }} - {{ catched.waters }}</p>
       </div>
 
-      <div class="flex w-full md:w-[50%] xl:w-[30%]  space-x-5">
+      <div class="flex w-full md:w-[50%] space-x-5">
         <div class="w-[50%] bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5 space-y-3">
           <p><b>Länge:</b> {{ catched.length ?? 'n/a ' }}cm</p>
           <p><b>Gewicht:</b> {{ catched.weight ?? 'n/a ' }}g</p>
@@ -20,6 +20,11 @@
         <div class="w-[50%] bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5 space-y-3">
           <p><b>Tiefe:</b> {{ catched.depth ?? 'n/a '}}cm</p>
           <p><b>Temperatur:</b> {{ catched.temperature ?? 'n/a '}}°C</p>
+        </div>
+
+        <div class="w-[50%] bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5 space-y-3">
+          <p><b>Luftdruck:</b> {{ catched.air_pressure ?? 'n/a '}}hPa</p>
+          <p><b>Köder:</b> {{ catched.bait ?? 'n/a '}}</p>
         </div>
       </div>
     </div>

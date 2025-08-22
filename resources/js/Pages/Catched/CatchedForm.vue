@@ -13,23 +13,25 @@
       <ImagePreview :modelValue="allImages" @remove="removeImage" />
 
 
-      <VDateTimePicker v-model="form.date" label="Datum" mandatory disabled/>
+      <VDateTimePicker v-model="form.date" label="Datum" mandatory/>
 
-      <VSelect :disabled="isEdit" label="Fisch Art" id="fishname" :options="fishSpeciesAustria" placeholder="Bitte wählen..." mandatory
+      <VSelect label="Fisch Art" id="fishname" :options="fishSpeciesAustria" placeholder="Bitte wählen..." mandatory
         v-model="form.name" :error="errors?.name" :reduce="option => option.value" />
 
-      <VSelect :disabled="isEdit" label="Gewässer" id="watername" placeholder="Bitte wählen..." v-model="form.waters" :reduce="option => option.value" :options="watersAustria"
+      <VSelect label="Gewässer" id="watername" placeholder="Bitte wählen..." v-model="form.waters" :reduce="option => option.value" :options="watersAustria"
         :error="errors?.waters" mandatory />
 
-      <span class="block text-sm font-medium mb-10" v-if="!isEdit && !showCustomWatersField"
+      <span class="block text-sm font-medium mb-10" v-if="!showCustomWatersField"
         @click="showCustomWatersField = true">Dein Gewässer ist nicht dabei? Klick hier</span>
 
       <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters" :error="errors?.waters" />
 
-      <VInput :disabled="isEdit" label="Länge (Centimeter)" type="number" mandatory v-model="form.length" :error="errors?.length" />
+      <VInput label="Länge (Centimeter)" type="number" mandatory v-model="form.length" :error="errors?.length" />
       <VInput label="Gewicht (Gramm)" type="number" v-model="form.weight" :error="errors?.weight" />
       <VInput label="Tiefe (Centimeter)" type="number" v-model="form.depth" :error="errors?.depth" />
       <VInput label="Temperatur (°C)" type="number" v-model="form.temperature"  :error="errors?.temperature" />
+      <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure"  :error="errors?.air_pressure" />
+      <VInput label="Köder" type="text" v-model="form.bait" :error="errors?.bait" />
 
       <VTextarea v-model="form.remark" label="Bemerkungen"></VTextarea>
 
@@ -197,6 +199,8 @@ const form = useForm({
   longitude: null,
   address: null,
   remark: null,
+  air_pressure: null,
+  bait: null,
   photos: [],
   media: [],
 });
@@ -217,6 +221,8 @@ watch(
       form.latitude = catched.latitude || null;
       form.longitude = catched.longitude || null;
       form.address = catched.address || null;
+      form.air_pressure = catched.air_pressure || null;
+      form.bait = catched.bait || null;
       form.remark = catched.remark || null;
       form.media = catched.media || []
     }

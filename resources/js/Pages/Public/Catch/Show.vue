@@ -8,23 +8,28 @@
 
 
 
-      <div class="gap-5 my-5">
+      <div class="gap-5 md:my-5">
         <!-- Erste Box: volle Breite auf Mobile -->
-        <div class="w-full md:w-[32%] overflow-hidden rounded-lg p-5">
+        <div class="w-full md:w-[32%] overflow-hidden rounded-lg px-5">
           <h1 class="mr-4 text-4xl text-primary-500">{{ catched.name }}</h1>
           <p class="text-xl">{{ formatDate(catched.date) }} - {{ catched.waters }}</p>
           <p>Gefangen von <b>{{ user }}</b></p>
         </div>
 
-        <div class="flex w-full md:w-[50%] xl:w-[40%]  space-x-5">
-          <div class="w-[50%] rounded-lg p-5 space-y-3">
+        <div class="flex flex-col md:flex-row w-full md:w-[50%] space-x-5 p-5">
+          <div class="w-full md:w-[50%] rounded-lg py-3 space-y-3">
             <p><b>Länge:</b> {{ catched.length ?? 'n/a ' }}cm</p>
             <p><b>Gewicht:</b> {{ catched.weight ?? 'n/a ' }}g</p>
           </div>
 
-          <div class="w-[50%] rounded-lg p-5 space-y-3">
+          <div class="md:w-[50%] rounded-lg py-3 space-y-3">
             <p><b>Tiefe:</b> {{ catched.depth ?? 'n/a ' }}cm</p>
             <p><b>Temperatur:</b> {{ catched.temperature ?? 'n/a ' }}°C</p>
+          </div>
+
+          <div class="md:w-[50%] rounded-lg py-3 space-y-3">
+            <p><b>Luftdruck:</b> {{ catched.air_pressure ?? 'n/a ' }}hPa</p>
+            <p><b>Köder:</b> {{ catched.bait ?? 'n/a ' }}</p>
           </div>
         </div>
       </div>
