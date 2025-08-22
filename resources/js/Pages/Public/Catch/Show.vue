@@ -6,12 +6,10 @@
 
     <div class="max-w-6xl mt-20 md:mt-10 mx-auto ">
 
-
-
       <div class="gap-5 md:my-5">
         <!-- Erste Box: volle Breite auf Mobile -->
         <div class="w-full md:w-[32%] overflow-hidden rounded-lg px-5">
-          <h1 class="mr-4 text-4xl text-primary-500">{{ catched.name }}</h1>
+          <h1 class="mr-4 text-5xl text-primary-500">{{ catched.name }}</h1>
           <p class="text-xl">{{ formatDate(catched.date) }} - {{ catched.waters }}</p>
           <p>Gefangen von <b>{{ user }}</b></p>
         </div>
@@ -34,7 +32,8 @@
         </div>
       </div>
 
-            <ul role="list" class="px-5 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
+      <ul role="list"
+        class="px-5 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
         <li v-for="(media, index) in props.catched.media" :key="media.name">
           <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
             :src="media.original_url" alt="" />
@@ -51,10 +50,10 @@
 
 
 
-      <div class="my-5 mx-5">
-        <p><b>Adressse:</b><br> {{ catched.address }}</p>
+      <div class="mb-20 mx-5">
+        <p class="mb-5"><b>Adressse:</b><br> {{ catched.address }}</p>
         <div class="rounded-2xl  md:w-full" ref="map" style="width: 100%; height: 400px;"></div>
-        
+
       </div>
 
       <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente" buttonText="Registrieren"
@@ -127,11 +126,16 @@ watch(() => props.catched, () => {
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
+
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
-};
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
 
 const openLightbox = (index) => {
   currentImageIndex.value = index;
