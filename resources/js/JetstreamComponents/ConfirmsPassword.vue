@@ -83,7 +83,7 @@ const closeModal = () => {
                     <DialogTitle class="text-lg font-bold">{{ title }}</DialogTitle>
                     <p class="mt-2 text-sm text-gray-600">{{ content }}</p>
                     <div class="mt-4">
-                        <VInput class="mt-1 w-full" ref="passwordInput" label="Password" v-model="form.password"
+                        <VInput class="mt-1 w-full" ref="passwordInput" label="Passwort" v-model="form.password"
                             type="password" :error="form.error" />
                     </div>
 
