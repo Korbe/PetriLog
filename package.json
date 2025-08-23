@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && vite build --ssr",
         "dev": "vite",
         "deploy": "dep deploy"
     },
@@ -14,6 +14,7 @@
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/vite": "^4.0.5",
         "@vitejs/plugin-vue": "^5.0.0",
+        "@vue/server-renderer": "^3.5.19",
         "@vueuse/core": "^12.5.0",
         "chart.js": "^4.4.7",
         "chartjs-adapter-moment": "^1.0.1",

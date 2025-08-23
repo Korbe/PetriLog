@@ -31,9 +31,16 @@ task('fpm:restart', function () {
     run('sudo systemctl restart php8.3-fpm');
 });
 
+task('ssr:restart', function () {
+    run('sudo supervisorctl restart inertia-ssr');
+});
+
+
 after('deploy:vendors', 'npm:install');
 after('npm:install', 'npm:build');
 after('deploy:success', 'fpm:restart');
+after('deploy:success', 'ssr:restart');
 
 after('deploy:setup', 'deploy:unlock');
 after('deploy:failed', 'deploy:unlock');
+
