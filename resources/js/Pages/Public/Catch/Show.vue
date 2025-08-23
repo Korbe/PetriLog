@@ -2,6 +2,25 @@
 
   <Layout>
 
+    <Head :title="catched.name">
+
+      <!-- Open Graph -->
+      <meta property="og:title" :content="catched.name" />
+      <meta property="og:description"
+        :content="`Gefangen am ${new Date(catched.date).toLocaleDateString('de-DE')} mit einer Länge von ${catched.length}cm.`" />
+      <meta property="og:image" :content="catched.media[0]?.original_url || '/images/icons/logo-512.png'" />
+      <meta property="og:url" :content="route('public.catched.show', catched.id)" />
+      <meta property="og:type" content="website" />
+
+      <!-- Twitter Cards -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" :content="catched.name" />
+      <meta name="twitter:description"
+        :content="`Gefangen am ${new Date(catched.date).toLocaleDateString('de-DE')} mit einer Länge von ${catched.length}cm.`" />
+      <meta name="twitter:image" :content="catched.media[0]?.original_url || '/images/icons/logo-512.png'" />
+
+    </Head>
+
     <PageIllustration />
 
     <div class="max-w-6xl mt-20 md:mt-10 mx-auto ">
@@ -25,7 +44,8 @@
           <h1 class="text-5xl text-primary-500">{{ catched.name }}</h1>
           <div class="flex justify-between">
             <p class="text-xl">{{ formatDate(catched.date) }} - {{ catched.waters }}</p>
-            <VButton v-if="$page.props?.auth?.user?.id == props.catched.user_id" :href="route('catched.edit', catched.id)">
+            <VButton v-if="$page.props?.auth?.user?.id == props.catched.user_id"
+              :href="route('catched.edit', catched.id)">
               Bearbeiten</VButton>
           </div>
 
@@ -129,6 +149,7 @@ import Layout from '@/Layouts/Public/Layout.vue';
 import PageIllustration from '../PageIllustration.vue';
 import CtaAlternative from '../CtaAlternative.vue';
 import VButton from '@/components/VButton.vue';
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
   catched: Object,

@@ -1,6 +1,8 @@
 <template>
     <Layout>
 
+        <Head title="Kontakt" />
+
         <PageIllustration />
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -35,5 +37,6 @@
 <script setup>
 import Layout from '@/Layouts/Public/Layout.vue';
 import PageIllustration from '../PageIllustration.vue';
+import { Head } from '@inertiajs/vue3';
 
 </script>

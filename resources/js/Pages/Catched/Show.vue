@@ -44,7 +44,7 @@
       <div class="mx-2 mt-5">
         <div class="w-full flex justify-around space-x-5">
           <VButton class="w-full" :href="route('catched.edit', catched.id)">Bearbeiten</VButton>
-          <VButton class="w-full" :href="route('catched.edit', catched.id)"><span class="flex">
+          <VButton class="w-full" @click="openShare"><span class="flex">
               <ShareIcon class="w-4 mr-2" />Teilen
             </span></VButton>
         </div>
@@ -57,41 +57,61 @@
               <table class="relative min-w-full divide-y divide-gray-300">
                 <tbody class="divide-y divide-gray-200">
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300 sm:pl-0">Länge</td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.length ? catched.length +
+                    <td
+                      class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300 sm:pl-0">
+                      Länge</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.length ?
+                      catched.length +
                       "cm" : 'n/a ' }}</td>
                   </tr>
 
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">Gewicht
+                    <td
+                      class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">
+                      Gewicht
                     </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.weight ? catched.weight +
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.weight ?
+                      catched.weight +
                       "g" : 'n/a ' }}</td>
                   </tr>
 
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">Tiefe</td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.depth ? catched.depth +
+                    <td
+                      class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">
+                      Tiefe</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.depth ?
+                      catched.depth +
                       "cm" : 'n/a ' }}</td>
                   </tr>
 
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">Temperatur
+                    <td
+                      class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">
+                      Temperatur
                     </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.temperature ?
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{
+                      catched.temperature
+                        ?
                       catched.temperature + "°C" : 'n/a ' }}</td>
                   </tr>
 
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">Luftdruck
+                    <td
+                      class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">
+                      Luftdruck
                     </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.air_pressure ?
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{
+                      catched.air_pressure
+                        ?
                       catched.air_pressure + "hPa" : 'n/a' }}</td>
                   </tr>
 
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">Köder</td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.bait ? catched.bait :
+                    <td
+                      class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-300  sm:pl-0">
+                      Köder</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{ catched.bait ?
+                      catched.bait :
                       'n/a' }}</td>
                   </tr>
 
@@ -114,6 +134,8 @@
 
       </div>
     </div>
+
+    <ShareDialog v-model="isShareOpen" :share-url="route('public.catched.show', catched.id)" />
   </PageWrapper>
 </template>
 <script setup>
@@ -123,6 +145,7 @@ import VueEasyLightbox from 'vue-easy-lightbox';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import Show from '@/Pages/Public/Catch/Show.vue';
 import { ShareIcon } from '@heroicons/vue/24/solid';
+import ShareDialog from "@/components/ShareDialog.vue";
 
 const props = defineProps({
   catched: Object,
@@ -131,8 +154,12 @@ const props = defineProps({
 const map = ref(null);
 const isLightboxOpen = ref(false);
 const currentImageIndex = ref(0);
-
+const isShareOpen = ref(false);
 let gmap = null;
+
+const openShare = () => {
+  isShareOpen.value = true;
+};
 
 const initMap = () => {
   if (!map.value) return;

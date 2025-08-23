@@ -1,5 +1,8 @@
-<template>
+<template>  
     <Layout>
+
+        <Head title="Home" />
+
         <Hero/>
         <FeaturesPlanet />
         <FeaturesHome />
@@ -14,5 +17,6 @@ import FeaturesPlanet from './Partials/FeaturesPlanet.vue';
 import FeaturesHome from './Partials/FeaturesHome.vue';
 import TestimonialsCarousel from './Partials/TestimonialsCarousel.vue';
 import Cta from './Partials/Cta.vue';
+import { Head } from '@inertiajs/vue3';
 
 </script>
