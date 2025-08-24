@@ -38,6 +38,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'isAdmin',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
@@ -62,11 +63,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'isAdmin' => 'boolean'
         ];
     }
 
     public function catched()
     {
         return $this->hasMany(Catched::class);
+    }
+    
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin === true;
     }
 }
