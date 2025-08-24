@@ -1,9 +1,26 @@
-<template>  
+<template>
     <Layout>
 
-        <Head title="Home" />
+        <Head title="Home">
+            <meta name="description"
+                content="Behalte den Überblick über deine Fänge, teile deine Erlebnisse und analysiere deine Angelerfolge mit PetriLog.">
 
-        <Hero/>
+            <meta property="og:title" content="PetriLog - Dein digitales Fangbuch" />
+            <meta property="og:description"
+                content="Behalte den Überblick über deine Fänge, teile deine Erlebnisse und analysiere deine Angelerfolge mit PetriLog." />
+            <meta property="og:image" content="/images/icons/logo-512.png" />
+            <meta property="og:url" content="https://petrilog.korbitsch.at/" />
+            <meta property="og:type" content="website" />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="PetriLog - Dein digitales Fangbuch" />
+            <meta name="twitter:description"
+                content="Behalte den Überblick über deine Fänge, teile deine Erlebnisse und analysiere deine Angelerfolge mit PetriLog." />
+            <meta name="twitter:image" content="/images/icons/logo-512.png" />
+
+        </Head>
+
+        <Hero />
         <FeaturesPlanet />
         <FeaturesHome />
         <TestimonialsCarousel />

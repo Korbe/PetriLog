@@ -8,7 +8,7 @@
         <div class="flex-1 flex items-center">
           <!-- Logo -->
           <Link class="inline-flex" href="/" aria-label="PetriLog">
-            <img src="/images/icons/logo-512.png" class="w-32" />
+          <img src="/images/icons/logo-512.png" class="w-32" />
           </Link>
         </div>
 
@@ -18,12 +18,12 @@
           <!-- Desktop menu links -->
           <ul class="text-sm flex grow justify-center flex-wrap items-center gap-4 lg:gap-8">
             <li class="px-3 py-1">
-              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium"
-                href="/pricing">Preise</Link>
+              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium" href="/pricing">
+              Preise</Link>
             </li>
             <li class="px-3 py-1">
-              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium"
-                href="/contact">Kontakt</Link>
+              <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium" href="/contact">
+              Kontakt</Link>
             </li>
           </ul>
 
@@ -35,10 +35,12 @@
             <Link class="btn-sm text-gray-200 bg-primary-500 hover:bg-gray-50 shadow-sm" href="/login">Login</Link>
           </li>
           <li v-if="!$page.props.auth.user">
-            <Link class="btn-sm text-gray-200 bg-gray-800 hover:bg-gray-900 shadow-sm" href="/register">Registrieren</Link>
+            <Link class="btn-sm text-gray-200 bg-gray-800 hover:bg-gray-900 shadow-sm" href="/register">Registrieren
+            </Link>
           </li>
           <li v-if="$page.props.auth.user">
-            <Link class="btn-sm text-gray-200 bg-gray-800 hover:bg-gray-900 shadow-sm" href="/dashboard">Dashboard</Link>
+            <Link class="btn-sm text-gray-200 bg-gray-800 hover:bg-gray-900 shadow-sm" href="/dashboard">Dashboard
+            </Link>
           </li>
         </ul>
 
@@ -48,12 +50,8 @@
           <!-- Hamburger button -->
           <button
             class="group inline-flex w-8 h-8 text-gray-800 bg-white text-center items-center justify-center transition"
-            ref="hamburger"
-            :class="{ active: mobileNavOpen }"
-            aria-controls="mobile-nav"
-            :aria-expanded="mobileNavOpen"
-            @click="mobileNavOpen = !mobileNavOpen"
-          >
+            ref="hamburger" :class="{ active: mobileNavOpen }" aria-controls="mobile-nav" :aria-expanded="mobileNavOpen"
+            @click="mobileNavOpen = !mobileNavOpen">
             <span class="sr-only">Menu</span>
             <svg class="fill-current pointer-events-none" width="16" height="16" viewBox="0 0 16 16"
               xmlns="http://www.w3.org/2000/svg">
@@ -70,35 +68,22 @@
           </button>
 
           <!-- Mobile navigation -->
-          <Transition
-            enter-active-class="transition ease-out duration-200 transform"
-            enter-from-class="opacity-0 -translate-y-2"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition ease-out duration-200"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-          >
+          <Transition enter-active-class="transition ease-out duration-200 transform"
+            enter-from-class="opacity-0 -translate-y-2" enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition ease-out duration-200" leave-from-class="opacity-100"
+            leave-to-class="opacity-0">
             <nav id="mobile-nav" ref="mobileNav" v-show="mobileNavOpen"
               class="absolute top-full z-20 left-0 w-full bg-white rounded-xl shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(var(--color-gray-100),var(--color-gray-200))_border-box] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] before:[mask-composite:exclude_!important] before:pointer-events-none">
               <ul class="text-sm p-2">
                 <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/pricing">Pricing</Link>
+                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/pricing">Pricing
+                  </Link>
                 </li>
                 <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/customers">Customers</Link>
+                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/contact">Kontakt
+                  </Link>
                 </li>
-                <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/blog">Blog</Link>
-                </li>
-                <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/documentation">Docs</Link>
-                </li>
-                <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/support">Support center</Link>
-                </li>
-                <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/apps">Apps</Link>
-                </li>
+
               </ul>
             </nav>
           </Transition>

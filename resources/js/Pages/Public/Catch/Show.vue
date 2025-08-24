@@ -5,7 +5,7 @@
     <Head :title="catched.name">
 
       <!-- Open Graph -->
-      <meta property="og:title" :content="catched.name" />
+      <meta property="og:title" :content="catched.name + ' - PetriLog'" />
       <meta property="og:description"
         :content="`Gefangen am ${new Date(catched.date).toLocaleDateString('de-DE')} mit einer Länge von ${catched.length}cm.`" />
       <meta property="og:image" :content="catched.media[0]?.original_url || '/images/icons/logo-512.png'" />
