@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2">
+  <div class="flex flex-wrap justify-center gap-2">
     <div v-for="(item, index) in props.modelValue" :key="index"
       class="w-28 flex flex-col items-center border p-1 rounded-md">
       <img :src="getUrl(item, index)" class="w-20 h-20 object-cover rounded-md border mb-2" alt="Preview" />

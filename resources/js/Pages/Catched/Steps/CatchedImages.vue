@@ -1,6 +1,6 @@
 <template>
   <p class="text-center block text-md font-medium text-gray-700 mb-5">Lade maximal drei Bilder hoch</p>
-    <VFileInput v-if="canUploadMore" type="file" v-model="props.modelValue.photos" :multiple="true" :max="3" accept="image/*"
+    <VPrettyFileInput v-if="canUploadMore" type="file" v-model="props.modelValue.photos" :multiple="true" :max="3" accept="image/*"
         class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
 
     <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
@@ -14,6 +14,7 @@
 import VFileInput from '@/components/VFileInput.vue';
 import ImagePreview from '../ImagePreview.vue';
 import { computed } from 'vue';
+import VPrettyFileInput from '@/components/VPrettyFileInput.vue';
 
 const props = defineProps({
     modelValue: Object,
