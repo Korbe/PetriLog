@@ -2,7 +2,7 @@
   <div class="w-full">
     <!-- Label with optional tooltip and mandatory mark -->
     <div class="flex items-center justify-between mb-2" v-if="label">
-      <label :for="id" class="block text-sm font-medium">
+      <label :for="id" class="block text-md md:text-sm font-medium">
         {{ label }}
         <span v-if="mandatory" class="text-red-500">*</span>
       </label>

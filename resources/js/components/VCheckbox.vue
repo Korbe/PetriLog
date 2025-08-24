@@ -9,7 +9,7 @@
         :disabled="disabled"
         @change="$emit('update:modelValue', $event.target.checked)"
       />
-      <span class="text-sm ml-2">{{ label }}</span>
+      <span class="text-md md:text-sm ml-2">{{ label }}</span>
     </label>
   </div>
 </template>
