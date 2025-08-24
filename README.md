@@ -125,3 +125,9 @@ Damit kann dein Deployment-Skript folgende Kommandos ohne Passwort nutzen:
 
 - `sudo systemctl restart php8.3-fpm`  
 - `sudo supervisorctl restart inertia-ssr`
+
+# Seeding
+
+Um den Admin zu seeden folgenden Befehl ausführen
+	
+	php artisan db:seed --class=AdminUserSeeder	

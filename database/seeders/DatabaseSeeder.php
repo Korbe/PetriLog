@@ -14,15 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::find(1) ?? User::factory()->create([
-            'id' => 1,
-            'name' => 'Lukas Korbitsch',
-            'email' => 'korbitschl@gmail.com',
-            'password' => Hash::make('password'),
-        ]);
-       
-        $this->call([
-            CatchedSeeder::class,
-        ]);
+        if (app()->environment('local')) {
+            $this->call([
+                AdminUserSeeder::class,
+                CatchedSeeder::class,
+            ]);
+        }
     }
 }
