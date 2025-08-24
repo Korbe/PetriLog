@@ -19,19 +19,26 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 </script>
 
 <template>
+
     <Head title="Email Verification" />
 
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
+            <h1 class="font-medium text-2xl mt-3">Email bestätigen</h1>
         </template>
 
-        <div class="mb-4 text-sm text-gray-600">
-            Bevor Sie fortfahren, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf den Link klicken, den wir Ihnen gerade per E-Mail zugeschickt haben. Sollten Sie die E-Mail nicht erhalten haben, senden wir Ihnen gerne eine neue zu.
+        <div class="space-y-5 mb-4 text-sm text-gray-600">
+            <p>Bevor du fortfahrst, bestätige bitte deine E-Mail-Adresse, indem du auf den Link klicken, den wir dir
+                gerade per
+                E-Mail zugeschickt haben.</p>
+            <p>Solltest du die E-Mail nicht erhalten haben, senden wir dir gerne eine neue zu.</p>
         </div>
 
+
         <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">
-            Ein neuer Bestätigungslink wurde an die E-Mail-Adresse gesendet, die Sie in Ihren Profileinstellungen angegeben haben.
+            Ein neuer Bestätigungslink wurde an die E-Mail-Adresse gesendet, die du im Registrierungsformular eingeben hast.
+            haben.
         </div>
 
         <form @submit.prevent="submit">
@@ -41,19 +48,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                 </PrimaryButton>
 
                 <div>
-                    <Link
-                        :href="route('profile.show')"
-                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                    >
-                        Profle bearbeiten</Link>
-
-                    <Link
-                        :href="route('logout')"
-                        method="post"
-                        as="button"
-                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ms-2"
-                    >
-                        Abmelden
+                    <Link :href="route('logout')" method="post" as="button"
+                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ms-2">
+                    Abmelden
                     </Link>
                 </div>
             </div>

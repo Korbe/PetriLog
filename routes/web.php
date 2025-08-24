@@ -7,6 +7,7 @@ use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
@@ -15,10 +16,17 @@ Route::get('/contact', [PublicController::class, 'contact'])->name('public.conta
 Route::get('/catch/{catch}', [PublicController::class, 'showCatched'])->name('public.catched.show');
 
 
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/dashboard')->with('success', 'Deine E-Mail wurde erfolgreich bestätigt!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     Route::resource('catched', CatchedController::class)->except(['update']);
     Route::post('catched/{catched}/update', [CatchedController::class, 'update'])->name('catched.update');
     Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->middleware(['auth', 'verified'])->name('catched.photo.delete');
@@ -31,5 +39,4 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/fish', [FishController::class, 'index'])->name('fish.index');
     Route::get('/fish/{fish}', [FishController::class, 'fish'])->name('fish.fish');
-
 });
