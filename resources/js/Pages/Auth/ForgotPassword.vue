@@ -30,7 +30,7 @@ const submit = () => {
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
-            Passwort vergessen? Kein Problem. Teilen Sie uns einfach Ihre E-Mail-Adresse mit und wir senden Ihnen per E-Mail einen Link zum Zurücksetzen Ihres Passworts, mit dem Sie ein neues Passwort festlegen können.
+            Passwort vergessen? Kein Problem. Teile uns einfach deine E-Mail-Adresse mit und wir senden dir per E-Mail einen Link zum Zurücksetzen deines Passworts, mit dem du ein neues Passwort festlegen kannst.
         </div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
