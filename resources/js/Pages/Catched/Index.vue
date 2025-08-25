@@ -10,7 +10,7 @@
         <div class="md:w-1/2 m-auto">
 
             <div v-if="Object.keys(groupedCatcheds).length === 0"
-                class="text-center bg-white rounded-lg shadow-lg p-5 flex flex-col my-2">
+                class="text-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex flex-col my-2">
                 <p class="pb-5">Für diesen Zeitraum wurden keine Einträge gefunden</p>
                 <VButton :href="route('catched.create')">Jetzt eintragen</VButton>
             </div>

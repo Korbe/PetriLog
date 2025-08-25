@@ -10,7 +10,7 @@
     <div class="w-full m-auto">
 
       <div v-if="catcheds.length === 0"
-        class="m-auto mt-20 w-1/2 text-center bg-white rounded-lg shadow-lg p-5 flex flex-col my-2">
+        class="m-auto mt-20 w-1/2 text-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex flex-col my-2">
         <p class="pb-5">Für diesen Zeitraum wurden keine Einträge mit Bildern gefunden</p>
         <VButton :href="route('catched.create')">Jetzt eintragen</VButton>
       </div>

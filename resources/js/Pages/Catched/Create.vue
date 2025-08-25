@@ -77,8 +77,7 @@ watch(
 
 <template>
     <PageWrapper title="Fang eintragen" :backTo="route('catched.index')">
-
-        <div class="bg-white p-5 rounded-lg">
+        <div class="bg-white dark:bg-gray-800 p-5 rounded-lg">
             <!-- Progress Steps -->
             <nav class="hidden lg:block mb-5" aria-label="Progress">
                 <ol role="list"
@@ -99,7 +98,7 @@ watch(
                                 </template>
                                 <template v-else>{{ step.id }}</template>
                             </span>
-                            <span class="ml-4">{{ step.name }}</span>
+                            <span class="ml-4 dark:text-gray-500">{{ step.name }}</span>
                         </span>
                     </li>
                 </ol>
@@ -111,12 +110,12 @@ watch(
 
             <!-- Form Wizard Step Content -->
             <div class="max-w-xl mx-auto">
-                 <p class="lg:hidden text-center text-xl font-medium text-gray-700 mb-2">{{steps[currentStep].name}}</p>
+                 <p class="lg:hidden text-center text-xl font-medium text-gray-700 dark:text-gray-400 mb-2">{{steps[currentStep].name}}</p>
                 <component :is="steps[currentStep].component" v-model="form" :errors="errors" />
 
                 <!-- Navigation Buttons -->
                 <div class="mt-6 flex justify-between">
-                    <button class="cursor-pointer px-4 py-2 bg-gray-200 rounded" :disabled="currentStep === 0"
+                    <button class="cursor-pointer px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded" :disabled="currentStep === 0"
                         @click="prevStep">
                         Zurück
                     </button>

@@ -1,5 +1,5 @@
 <template>
-  <p class="text-center block text-md font-medium text-gray-700 mb-5">Lade maximal drei Bilder hoch</p>
+  <p class="text-center block text-md font-medium text-gray-700 dark:text-gray-400 mb-5">Lade maximal drei Bilder hoch</p>
     <VPrettyFileInput v-if="canUploadMore" type="file" v-model="props.modelValue.photos" :multiple="true" :max="3" accept="image/*"
         class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
 
