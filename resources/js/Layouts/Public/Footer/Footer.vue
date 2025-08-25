@@ -9,14 +9,15 @@ const props = defineProps({
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
       <!-- Top area: Blocks -->
-      <div class="grid sm:grid-cols-12 gap-10 py-8 md:py-12" :class="props.border ? 'border-t [border-image:linear-gradient(to_right,transparent,var(--color-slate-200),transparent)1]' : ''">
+      <div class="grid sm:grid-cols-12 gap-10 py-8 md:py-12"
+        :class="props.border ? 'border-t [border-image:linear-gradient(to_right,transparent,var(--color-slate-200),transparent)1]' : ''">
 
         <!-- 1st block -->
         <div class="sm:col-span-12 lg:col-span-4">
           <div>
             <!-- Logo -->
             <Link class="inline-flex" href="/" aria-label="PetriLog">
-              <img src="/images/icons/logo-152.png" class="w-32" />
+            <img src="/images/icons/logo-152.png" class="w-32" />
             </Link>
           </div>
           <div class="text-sm text-gray-600">
@@ -25,26 +26,29 @@ const props = defineProps({
         </div>
 
         <!-- 2nd block -->
-        <!-- <div class="sm:col-span-6 md:col-span-3 lg:col-span-2 space-y-2">
-          <h3 class="text-sm font-medium">Product</h3>
+        <div class="sm:col-span-6 md:col-span-3 lg:col-span-2 space-y-2">
+          <h3 class="text-sm font-medium">Seiten</h3>
           <ul class="text-sm space-y-2">
             <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" to="#0">Features</Link>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('public.pricing')">Preis</Link>
             </li>
             <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" to="#0">Integrations</Link>
-            </li>
-            <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" to="#0">Pricing & Plans</Link>
-            </li>
-            <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" to="#0">Changelog</Link>
-            </li>
-            <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" to="#0">Our method</Link>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('public.contact')">Kontakt</Link>
             </li>
           </ul>
-        </div> -->
+        </div>
+
+        <div class="sm:col-span-6 md:col-span-3 lg:col-span-2 space-y-2">
+          <h3 class="text-sm font-medium">Rechtliches</h3>
+          <ul class="text-sm space-y-2">
+            <li>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('terms.show')">Nutzungsbedingungen</Link>
+            </li>
+            <li>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('policy.show')">Datenschutzerklärung</Link>
+            </li>
+          </ul>
+        </div>
 
       </div>
 

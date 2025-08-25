@@ -5,8 +5,6 @@ import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo
 import Checkbox from '@/JetstreamComponents/Checkbox.vue';
 import InputError from '@/JetstreamComponents/InputError.vue';
 import InputLabel from '@/JetstreamComponents/InputLabel.vue';
-import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
-import TextInput from '@/JetstreamComponents/TextInput.vue';
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 import VPassword from '@/components/VPassword.vue';
@@ -62,7 +60,7 @@ const submit = () => {
 
                         <div class="ms-2">
                             Ich stimme den <a target="_blank" :href="route('terms.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">AGB</a> und <a target="_blank" :href="route('policy.show')"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a> und <a target="_blank" :href="route('policy.show')"
                                 class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Datenschutzerklärung</a> zu.
                         </div>
                     </div>
