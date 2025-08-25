@@ -1,29 +1,19 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import Cookies from 'js-cookie';
+import { Link } from '@inertiajs/vue3';
 
 const showBanner = ref(false);
 const cookieName = 'petriCookieConsent';
 const cookieDurationDays = 365;
 
-function setCookie(name, value, days) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
-}
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
-function acceptCookies() {
-    setCookie(cookieName, '1', cookieDurationDays);
+const acceptCookies = () => {
+    Cookies.set(cookieName, '1', { expires: cookieDurationDays, path: '/' });
     showBanner.value = false;
-}
+};
 
 onMounted(() => {
-    if (!getCookie(cookieName)) {
+    if (!Cookies.get(cookieName)) {
         showBanner.value = true;
     }
 });
