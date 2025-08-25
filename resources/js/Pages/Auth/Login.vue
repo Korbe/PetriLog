@@ -9,6 +9,7 @@ import VPassword from '@/components/VPassword.vue';
 import Cookies from 'js-cookie';
 import { ref, onMounted } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/solid';
+import InputError from '@/JetstreamComponents/InputError.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -78,6 +79,7 @@ const editEmail = () => {
                             <PencilIcon class="w-5 h-5" />
                         </button>
                     </div>
+                    <InputError class="mt-2 text-center" :message="form.errors.email" />
                 </template>
             </div>
 
