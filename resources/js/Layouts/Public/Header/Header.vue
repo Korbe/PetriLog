@@ -19,7 +19,7 @@
           <ul class="text-sm flex grow justify-center flex-wrap items-center gap-4 lg:gap-8">
             <li class="px-3 py-1">
               <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium" href="/pricing">
-              Preise</Link>
+              Preis</Link>
             </li>
             <li class="px-3 py-1">
               <Link class="text-gray-700 hover:text-gray-900 flex items-center transition font-medium" href="/contact">

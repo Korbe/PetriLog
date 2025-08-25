@@ -9,7 +9,7 @@ import { Head } from '@inertiajs/vue3';
 <template>
   <Layout>
 
-    <Head title="Preise">
+    <Head title="Preis">
 
       <meta name="description"
         content="Ein Preis, ein Paket: Sichere dir das PetriLog Jahresabo und nutze alle Funktionen ohne Einschränkung.">
