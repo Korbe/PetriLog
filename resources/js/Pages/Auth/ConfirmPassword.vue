@@ -3,10 +3,8 @@ import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
-import InputError from '@/JetstreamComponents/InputError.vue';
-import InputLabel from '@/JetstreamComponents/InputLabel.vue';
-import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
-import TextInput from '@/JetstreamComponents/TextInput.vue';
+import VButton from '@/components/VButton.vue';
+import VInput from '@/components/VInput.vue';
 
 const form = useForm({
     password: '',
@@ -26,6 +24,7 @@ const submit = () => {
 </script>
 
 <template>
+
     <Head title="Secure Area" />
 
     <AuthenticationCard>
@@ -34,29 +33,20 @@ const submit = () => {
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your password before continuing.
+            Dies ist ein geschützter Bereich der Anwendung. Bitte bestätige dein Passwort, bevor du fortfährst.
         </div>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="password" value="Passwort" />
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="current-password"
-                    autofocus
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
+                <VInput label="Passwort" id="password" ref="passwordInput" v-model="form.password" type="password"
+                    class="mt-1 block w-full" required autocomplete="current-password" :error="form.errors.password" />
             </div>
 
             <div class="flex justify-end mt-4">
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Confirm
-                </PrimaryButton>
+                <VButton type="submit" class="ms-4" :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing">
+                    Bestätige
+                </VButton>
             </div>
         </form>
     </AuthenticationCard>

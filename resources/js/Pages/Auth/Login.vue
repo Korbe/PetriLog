@@ -3,11 +3,9 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
 import Checkbox from '@/JetstreamComponents/Checkbox.vue';
-import InputError from '@/JetstreamComponents/InputError.vue';
-import InputLabel from '@/JetstreamComponents/InputLabel.vue';
-import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
-import TextInput from '@/JetstreamComponents/TextInput.vue';
 import VButton from '@/components/VButton.vue';
+import VInput from '@/components/VInput.vue';
+import VPassword from '@/components/VPassword.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -36,7 +34,6 @@ const submit = () => {
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
-                <VButton :href="route('register')">Registrieren</VButton>
         </template>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -45,8 +42,8 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
+                <VInput
+                    label="Email"
                     id="email"
                     v-model="form.email"
                     type="email"
@@ -54,21 +51,20 @@ const submit = () => {
                     required
                     autofocus
                     autocomplete="username"
+                    :error="form.errors.email"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Passwort" />
-                <TextInput
+                <VPassword
+                    label="Passwort"
                     id="password"
                     v-model="form.password"
-                    type="password"
                     class="mt-1 block w-full"
                     required
                     autocomplete="current-password"
+                    :error="form.errors.password"
                 />
-                <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="block mt-4">
@@ -78,14 +74,18 @@ const submit = () => {
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <div class="flex w-full justify-center mt-4">
+                <!-- <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Passwort vergessen?
-                </Link>
+                </Link> -->
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <VButton type="submit" class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Anmelden
-                </PrimaryButton>
+                </VButton>
+            </div>
+
+            <div class="mx-auto flex justify-center mt-5">
+                <Link class="" :href="route('register')">Neues Konto anlegen</Link>
             </div>
         </form>
     </AuthenticationCard>
