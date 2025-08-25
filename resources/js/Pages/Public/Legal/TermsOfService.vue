@@ -3,6 +3,26 @@
 
         <Head title="Nutzungsbedingungen">
 
+            <title>Datenschutzerklärung</title>
+            <meta name="description"
+                content="Lies die Datenschutzerklärung von PetriLog. Erfahre, wie wir deine Daten schützen, welche Informationen wir speichern und wie du deine Rechte wahrnehmen kannst.">
+            <meta name="keywords"
+                content="PetriLog, Datenschutzerklärung, Datenschutz, Angler, Fangbuch, persönliche Daten">
+
+            <!-- Open Graph / Facebook -->
+            <meta property="og:title" content="PetriLog - Datenschutzerklärung">
+            <meta property="og:description"
+                content="Lies die Datenschutzerklärung von PetriLog. Erfahre, wie wir deine Daten schützen, welche Informationen wir speichern und wie du deine Rechte wahrnehmen kannst.">
+            <meta property="og:type" content="website">
+            <meta property="og:url" content="https://petrilog.com/privacy-policy">
+            <meta property="og:image" content="https://petrilog.com/logo.png">
+
+            <!-- Twitter Card -->
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="PetriLog - Datenschutzerklärung">
+            <meta name="twitter:description"
+                content="Lies die Datenschutzerklärung von PetriLog. Erfahre, wie wir deine Daten schützen, welche Informationen wir speichern und wie du deine Rechte wahrnehmen kannst.">
+            <meta name="twitter:image" content="https://petrilog.com/logo.png">
 
         </Head>
 
