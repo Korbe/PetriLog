@@ -6,6 +6,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ImprintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
@@ -14,6 +15,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
+Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint.show');
 Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
 

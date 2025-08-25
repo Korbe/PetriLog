@@ -42,10 +42,15 @@ const props = defineProps({
           <h3 class="text-sm font-medium">Rechtliches</h3>
           <ul class="text-sm space-y-2">
             <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('terms.show')">Nutzungsbedingungen</Link>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('imprint.show')">Impressum</Link>
             </li>
             <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('policy.show')">Datenschutzerklärung</Link>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('terms.show')">Nutzungsbedingungen
+              </Link>
+            </li>
+            <li>
+              <Link class="text-gray-600 hover:text-gray-900 transition" :href="route('policy.show')">
+              Datenschutzerklärung</Link>
             </li>
           </ul>
         </div>
