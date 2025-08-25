@@ -4,6 +4,7 @@ import Sidebar from './Sidebar/Sidebar.vue';
 import Header from './Header/Header.vue';
 import Banner from '@/components/Banner.vue';
 import { router } from '@inertiajs/vue3';
+import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
 
 const sidebarOpen = ref(false);
 
@@ -29,6 +30,9 @@ onMounted(() => {
 
       <!-- Site header -->
       <Header :sidebarOpen="sidebarOpen" @toggle-sidebar="sidebarOpen = !sidebarOpen" />
+
+      <PwaInstallBanner />
+
 
       <Banner />
 
