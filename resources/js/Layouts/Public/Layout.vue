@@ -10,6 +10,8 @@
             <slot />
         </main>
 
+        <CookieBanner />
+
         <!-- Site footer -->
         <Footer />
 
@@ -18,4 +20,5 @@
 <script setup>
 import Header from './Header/Header.vue';
 import Footer from './Footer/Footer.vue';
+import CookieBanner from '@/components/CookieBanner.vue';
 </script>
