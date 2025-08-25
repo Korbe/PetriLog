@@ -42,7 +42,7 @@
           </h3>
           <ul class="mt-3">
             <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r" :class="isActive('/dashboard') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
-              <Link href="/" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
+              <Link href="/dashboard" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/dashboard') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
                 <div class="flex items-center">
                   <HomeIcon class="shrink-0 w-5 h-5" :class="isActive('/dashboard') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
                   <span class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Dashboard</span>
