@@ -5,10 +5,16 @@ import Cookies from 'js-cookie';
 const showBanner = ref(false);
 let deferredPrompt = null;
 const cookieName = 'petriPwaBannerDismissed';
-const cookieDurationHours = 24;
+// const cookieDurationHours = 24;
+
+// function setDismissCookie() {
+//     Cookies.set(cookieName, '1', { expires: cookieDurationHours / 24 });
+// }
+
+const cookieDurationMinutes = 1;
 
 function setDismissCookie() {
-    Cookies.set(cookieName, '1', { expires: cookieDurationHours / 24 });
+    Cookies.set(cookieName, '1', { expires: cookieDurationMinutes / 1440 });
 }
 
 function handleInstallClick() {
@@ -35,10 +41,15 @@ function handleDismissClick() {
 }
 
 onMounted(() => {
-    if (Cookies.get(cookieName)) return;
+    // Wenn Cookie gesetzt oder App bereits installiert → Banner nicht zeigen
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isiOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    const isInstalledIOS = isiOS && window.navigator.standalone;
+
+    if (Cookies.get(cookieName) || isStandalone || isInstalledIOS) return;
 
     // Banner nur auf kleinen Bildschirmen anzeigen
-    if (window.innerWidth < 640) { // Tailwind "sm" breakpoint
+    if (window.innerWidth < 640) {
         showBanner.value = true;
     }
 
@@ -56,10 +67,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <div v-if="showBanner"
-        class="fixed bottom-0 inset-x-0 bg-gray-800 text-white p-4 flex items-center justify-between shadow-lg z-50 sm:hidden">
-        <p class="text-sm">
-            PetriLog zum Startbildschirm hinzufügen für schnellen Zugriff.
+    <div v-if="showBanner" class="bg-white rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
+        <p class="text-sm font-medium">
+            PetriLog zum Startbildschirm hinzufügen
         </p>
         <div class="flex items-center space-x-2">
             <button @click="handleInstallClick"

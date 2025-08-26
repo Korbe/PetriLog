@@ -1,9 +1,13 @@
 <template>
     <PageWrapper :title="'Petri Heil ' + $page.props.auth.user.name" hideBackButton>
         <div class="space-y-5">
+
+            <PwaInstallBanner />
+
             <div class="flex space-x-5 w-full">
 
                 <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
+
                     <div
                         class="w-full lg:w-1/3 bg-white flex flex-col text-center justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
                         <h1 class="text-xl font-medium">Fisch gefangen?</h1>
@@ -30,6 +34,7 @@ import CatchedStatsMonthlyCard from './CatchedStatsMonthlyCard.vue';
 import CatchedStatsYearlyCard from './CatchedStatsYearlyCard.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { onMounted } from 'vue';
+import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
 
 const props = defineProps({
     catchedStatsMonthly: {
@@ -63,7 +68,7 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  sessionStorage.setItem('lastOrigin', window.location.href);
+    sessionStorage.setItem('lastOrigin', window.location.href);
 });
 
 
