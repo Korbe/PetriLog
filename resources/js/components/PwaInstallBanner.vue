@@ -46,7 +46,6 @@ onMounted(() => {
     const isiOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
     const isInstalledIOS = isiOS && window.navigator.standalone;
 
-    alert("cookie set" + Cookies.get(cookieName) != null);
     alert("isStandalone:" + isStandalone);
     alert("isInstalledIOS:" + isInstalledIOS);
 
