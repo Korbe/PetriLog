@@ -4,6 +4,7 @@ import { renderToString } from '@vue/server-renderer'
 import { createSSRApp, h } from 'vue'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Link } from '@inertiajs/vue3';
+import './pwa.js';
 
 createServer(page =>
     createInertiaApp({

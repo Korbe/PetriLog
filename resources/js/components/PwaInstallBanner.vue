@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
 
 const showBanner = ref(false);
-let deferredPrompt = null;
 const cookieName = 'petriPwaBannerDismissed';
 const cookieDurationHours = 24;
 
@@ -12,18 +11,18 @@ function setDismissCookie() {
 }
 
 function handleInstallClick() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(choiceResult => {
+    if (window.deferredPrompt) {
+        window.deferredPrompt.prompt();
+        window.deferredPrompt.userChoice.then(choiceResult => {
             if (choiceResult.outcome === 'accepted') {
                 console.log('PWA installiert!');
             }
-            deferredPrompt = null;
+            window.deferredPrompt = null;
             setDismissCookie();
             showBanner.value = false;
         });
     } else {
-        alert('Bitte das Teilen-Symbol in Safari nutzen und "Zum Startbildschirm" auswählen.');
+        alert('In Chrome die drei Punkte klicken und "Zum Startbildschirm hinzufügen" auswählen, unter Safari bitte das Teilen-Symbol in nutzen und "Zum Startbildschirm" auswählen.');
         setDismissCookie();
         showBanner.value = false;
     }
@@ -36,12 +35,6 @@ function handleDismissClick() {
 
 onMounted(() => {
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        alert("beforeinstallprompt");
-        e.preventDefault();
-        deferredPrompt = e;
-    });
-
     window.addEventListener('appinstalled', () => {
         console.log('PWA erfolgreich installiert');
         setDismissCookie();
@@ -53,9 +46,9 @@ onMounted(() => {
     const isiOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
     const isInstalledIOS = isiOS && window.navigator.standalone;
 
-    alert("cookie set" + Cookies.get(cookieName) != null)
+    alert("cookie set" + Cookies.get(cookieName) != null);
     alert("isStandalone:" + isStandalone);
-    alert("isInstalledIOS:" + isInstalledIOS)
+    alert("isInstalledIOS:" + isInstalledIOS);
 
     if (Cookies.get(cookieName) || isStandalone || isInstalledIOS) return;
 
