@@ -5,16 +5,10 @@ import Cookies from 'js-cookie';
 const showBanner = ref(false);
 let deferredPrompt = null;
 const cookieName = 'petriPwaBannerDismissed';
-// const cookieDurationHours = 24;
-
-// function setDismissCookie() {
-//     Cookies.set(cookieName, '1', { expires: cookieDurationHours / 24 });
-// }
-
-const cookieDurationMinutes = 1;
+const cookieDurationHours = 24;
 
 function setDismissCookie() {
-    Cookies.set(cookieName, '1', { expires: cookieDurationMinutes / 1440 });
+    Cookies.set(cookieName, '1', { expires: cookieDurationHours / 24 });
 }
 
 function handleInstallClick() {
