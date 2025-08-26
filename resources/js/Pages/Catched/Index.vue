@@ -4,15 +4,29 @@
             <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
             <VDateRangePicker align="right" v-model="dateRange" />
             <ResetButton @click="resetDateRange" />
-            <VButton :href="route('catched.create')">Eintragen</VButton>
+            <VButton v-if="canAddNewEntry()" :href="route('catched.create')">Eintragen</VButton>
         </template>
 
         <div class="md:w-1/2 m-auto">
 
+            <div v-if="!canAddNewEntry()" class="bg-red-100 text-center border border-red-300 text-red-900 
+              dark:bg-red-900 dark:border-red-700 dark:text-red-100 
+              px-4 py-3 mb-5 rounded-lg shadow-md">
+                <p class="text-sm mt-1">
+                    Deine Testphase erlaubt derzeit <strong>5 Einträge</strong>. Mit einem Jahresabo kannst du alle Funktionen ohne Limit nutzen – probiere es aus!
+                </p>
+                <div class="mt-3">
+                    <Link href="/billing" class="inline-block bg-primary-500 hover:bg-primary-600 
+                text-white font-medium px-4 py-2 rounded-lg shadow">
+                    Jetzt Abo abschließen
+                    </Link>
+                </div>
+            </div>
+
             <div v-if="Object.keys(groupedCatcheds).length === 0"
                 class="text-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex flex-col my-2">
                 <p class="pb-5">Für diesen Zeitraum wurden keine Einträge gefunden</p>
-                <VButton :href="route('catched.create')">Jetzt eintragen</VButton>
+                <VButton v-if="canAddNewEntry()" :href="route('catched.create')">Jetzt eintragen</VButton>
             </div>
 
             <div v-for="(items, date) in groupedCatcheds" :key="date" class="py-2">
@@ -20,7 +34,7 @@
                     <button @click="toggleOpen(date)"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
                         <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length
-                            }})</span>
+                        }})</span>
                         <span class="ml-6 flex h-7 items-center">
                             <PlusIcon v-if="!isOpen(date)" class="cursor-pointer size-6" />
                             <MinusIcon v-else class="cursor-pointer size-6" />
@@ -49,11 +63,11 @@
 
 <script setup lang="ts">
 import { MinusIcon, PlusIcon } from '@heroicons/vue/24/outline'
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import VButton from "@/components/VButton.vue";
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
 
@@ -76,11 +90,25 @@ interface CatchedData {
 }
 
 interface Props {
+    totalCatchedCount: number,
     groupedCatcheds: Record<string, CatchedData[]>;
     dateRange: {
         startDate: string;
         endDate: string;
     };
+}
+
+
+const page = usePage()
+
+// User aus den Inertia-Props
+const user = computed(() => page.props.auth.user)
+
+// Trial-Status
+const isOnTrial = computed(() => user.value?.onTrial)
+
+const canAddNewEntry = () => {
+    return isOnTrial && props.totalCatchedCount < 5
 }
 
 const props = defineProps<Props>();

@@ -5,9 +5,10 @@ import CatchedAdvancedData from './Steps/CatchedAdvancedData.vue';
 import CatchedRemark from './Steps/CatchedRemark.vue';
 import CatchedImages from './Steps/CatchedImages.vue';
 import CatchedPosition from './Steps/CatchedPosition.vue';
-import { ref, watch } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { computed, ref, watch } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { CheckIcon } from '@heroicons/vue/24/solid';
+import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
 
 const props = defineProps({
     errors: Object,
@@ -16,6 +17,14 @@ const props = defineProps({
 const currentStep = ref(0);
 const alertMessage = ref('');
 const loading = ref(false);
+
+const page = usePage()
+
+// User aus den Inertia-Props
+const user = computed(() => page.props.auth.user)
+
+// Trial-Status
+const isOnTrial = computed(() => user.value?.onTrial)
 
 const steps = [
     { id: '01', name: 'Basisdaten', component: CatchedBasicData },
@@ -90,7 +99,11 @@ watch(
 
 <template>
     <PageWrapper title="Fang eintragen" :backTo="route('catched.index')">
-        <div class="bg-white dark:bg-gray-800 p-5 rounded-lg">
+
+        <TrialEndedBanner v-if="!isOnTrial" />
+
+        <div v-else class="bg-white dark:bg-gray-800 p-5 rounded-lg">
+
             <!-- Progress Steps -->
             <nav class="hidden lg:block mb-5" aria-label="Progress">
                 <ol role="list"

@@ -6,10 +6,11 @@ import VInput from '@/components/VInput.vue';
 import VSelect from '@/components/VSelect.vue';
 import VTextarea from '@/components/VTextarea.vue';
 import VDateTimePicker from '@/components/VDateTimePicker.vue';
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, usePage } from '@inertiajs/vue3';
 import { watch, computed, ref } from 'vue';
 import ImagePreview from './ImagePreview.vue';
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue';
+import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
 
 
 const fishSpeciesAustria = [
@@ -164,6 +165,14 @@ const props = defineProps({
   errors: Object,
 });
 
+const page = usePage()
+
+// User aus den Inertia-Props
+const user = computed(() => page.props.auth.user)
+
+// Trial-Status
+const isOnTrial = computed(() => user.value?.onTrial)
+
 const form = useForm({
   name: null,
   length: null,
@@ -262,7 +271,10 @@ const removeImage = (item) => {
 
 <template>
   <PageWrapper title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
-    <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
+
+    <TrialEndedBanner v-if="!isOnTrial" />
+
+    <div v-else class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
       <form @submit.prevent="submit" class="space-y-5">
 
         <VFileInput v-if="canUploadMore" type="file" v-model="form.photos" :multiple="true" :max="3" accept="image/*"

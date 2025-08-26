@@ -2,6 +2,10 @@
     <PageWrapper :title="'Petri Heil ' + $page.props.auth.user.name" hideBackButton>
         <div class="space-y-5">
 
+            <TrialEndedBanner v-if="!isOnTrial" />
+
+            <TrialBanner />
+
             <PwaInstallBanner />
 
             <div class="flex space-x-5 w-full">
@@ -33,8 +37,11 @@ import VButton from '@/components/VButton.vue';
 import CatchedStatsMonthlyCard from './CatchedStatsMonthlyCard.vue';
 import CatchedStatsYearlyCard from './CatchedStatsYearlyCard.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
+import TrialBanner from '@/components/TrialBanner.vue';
+import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
+import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     catchedStatsMonthly: {
@@ -66,6 +73,15 @@ const props = defineProps({
         },
     },
 })
+
+
+const page = usePage()
+
+// User aus den Inertia-Props
+const user = computed(() => page.props.auth.user)
+
+// Trial-Status
+const isOnTrial = computed(() => user.value?.onTrial)
 
 onMounted(() => {
     sessionStorage.setItem('lastOrigin', window.location.href);

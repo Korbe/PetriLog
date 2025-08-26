@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -19,6 +20,15 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (is_null($user->trial_started_at)) {
+                $user->trial_started_at = now();
+            }
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -62,6 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
+            'trial_started_at' => 'datetime',
             'password' => 'hashed',
             'isAdmin' => 'boolean'
         ];
@@ -71,9 +82,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Catched::class);
     }
-    
+
     public function isAdmin(): bool
     {
         return $this->isAdmin === true;
+    }
+
+    public function onTrial(): bool
+    {
+        return $this->trial_started_at
+            && $this->trial_started_at->addDays(14)->isFuture();
+    }
+
+    public function trialEndsAt(): ?Carbon
+    {
+        return $this->trial_started_at?->copy()->addDays(14);
     }
 }

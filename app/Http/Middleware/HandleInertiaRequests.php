@@ -46,6 +46,8 @@ class HandleInertiaRequests extends Middleware
                 'user' => fn() => Auth::user() ? [
                     'id' => Auth::id(),
                     'name' => Auth::user()->name,
+                    'onTrial' => Auth::user()->onTrial(),
+                    'trialEndsAt' => Auth::user()->trialEndsAt(),
                 ] : null,
             ],
         ]);

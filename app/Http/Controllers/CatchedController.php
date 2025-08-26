@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Inertia\Inertia;
 use App\Models\Catched;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
 
 class CatchedController extends Controller
 {
@@ -21,6 +17,8 @@ class CatchedController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        $totalCatchedCount = $user->catched()->count();
 
         $dateRange = $user->catched()
             ->selectRaw('MIN(date) as earliest, MAX(date) as latest')
@@ -55,12 +53,22 @@ class CatchedController extends Controller
             'dateRange' => [
                 'startDate' => $startDate,
                 'endDate' => $endDate
-            ]
+            ],
+            'totalCatchedCount' => $totalCatchedCount,
         ]);
     }
 
     public function create()
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Wenn User noch im Trial ist und mehr als 5 catched-Einträge hat → redirect
+        if ($user->onTrial() && $user->catched()->count() >= 5) {
+            return redirect()->route('catched.index')
+                ->with('error', 'Du hast das Limit deiner Testphase erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
+        }
+
         return Inertia::render('Catched/Create');
     }
 
