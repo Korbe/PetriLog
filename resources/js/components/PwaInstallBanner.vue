@@ -37,7 +37,7 @@ function handleDismissClick() {
 onMounted(() => {
 
     window.addEventListener('beforeinstallprompt', (e) => {
-        alert(beforeinstallprompt);
+        alert("beforeinstallprompt");
         e.preventDefault();
         deferredPrompt = e;
     });
