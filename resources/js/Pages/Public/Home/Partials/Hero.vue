@@ -19,10 +19,10 @@
               class="relative before:absolute before:inset-0 before:border-y before:[border-image:linear-gradient(to_right,transparent,--theme(--color-slate-300/.8),transparent)1]">
               <div class="relative max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out"
                 data-aos-delay="450">
-                <a class="btn text-white bg-linear-to-t bg-primary-500 bg-[length:100%_100%] hover:bg-[length:100%_150%] bg-[bottom] shadow-sm w-full mb-4 sm:w-auto sm:mb-0 group"
-                  href="#0">
+                <Link class="btn text-white bg-linear-to-t bg-primary-500 bg-[length:100%_100%] hover:bg-[length:100%_150%] bg-[bottom] shadow-sm w-full mb-4 sm:w-auto sm:mb-0 group"
+                  href="/register">
                   <span class="relative inline-flex items-center"> Jetzt Fang eintragen </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

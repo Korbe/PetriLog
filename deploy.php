@@ -11,10 +11,10 @@ add('shared_files', []);
 add('shared_dirs', []);
 add('writable_dirs', []);
 
-host('217.154.67.144')
+host('207.154.223.201')
     ->set('ssh_multiplexing', false)
     ->set('remote_user', 'deployer')
-    ->set('deploy_path', '/var/www/petrilog.korbitsch.at');
+    ->set('deploy_path', '/var/www/petrilog.com');
 
 // Hooks
 task('npm:install', function () {
@@ -27,9 +27,9 @@ task('npm:build', function () {
     run('npm run build');
 });
 
-task('fpm:restart', function () {
-    run('sudo systemctl restart php8.3-fpm');
-});
+// task('fpm:restart', function () {
+//     run('sudo systemctl restart php8.3-fpm');
+// });
 
 task('ssr:restart', function () {
     run('sudo supervisorctl restart inertia-ssr');
@@ -38,7 +38,7 @@ task('ssr:restart', function () {
 
 after('deploy:vendors', 'npm:install');
 after('npm:install', 'npm:build');
-after('deploy:success', 'fpm:restart');
+//after('deploy:success', 'fpm:restart');
 after('deploy:success', 'ssr:restart');
 
 after('deploy:setup', 'deploy:unlock');
