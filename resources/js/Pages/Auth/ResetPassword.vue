@@ -35,7 +35,7 @@ const submit = () => {
         </template>
 
         <div>
-            <h1 class="text-center font-medium text-lg mb-2">Passwort zurücksetzen</h1>
+            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Passwort zurücksetzen</h1>
         </div>
 
         <form @submit.prevent="submit">

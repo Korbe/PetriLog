@@ -58,10 +58,10 @@ const submit = () => {
                     <div class="flex items-center">
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
 
-                        <div class="ms-2">
+                        <div class="ms-2 dark:text-gray-400">
                             Ich stimme den <a target="_blank" :href="route('terms.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a> und <a target="_blank" :href="route('policy.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Datenschutzerklärung</a> zu.
+                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a> und <a target="_blank" :href="route('policy.show')"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Datenschutzerklärung</a> zu.
                         </div>
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />
@@ -75,8 +75,8 @@ const submit = () => {
                 </VButton>
             </div>
 
-            <div class="flex justify-center mt-5">
-                <Link :href="route('login')" class="text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <div class="flex justify-center mt-5 ">
+                <Link :href="route('login')" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 rounded-md">
                     Du hast schon ein Konto?
                 </Link>
             </div>

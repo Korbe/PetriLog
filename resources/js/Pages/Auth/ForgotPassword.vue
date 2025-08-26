@@ -27,10 +27,10 @@ const submit = () => {
         </template>
 
         <div>
-            <h1 class="text-center font-medium text-lg mb-2">Passwort vergessen?</h1>
+            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Passwort vergessen?</h1>
         </div>
 
-        <div class="mb-4 text-sm text-center text-gray-600">
+        <div class="mb-4 text-sm text-center text-gray-600 dark:text-gray-400">
             Keine Sorge, wir senden dir Anweisungen zum Zurücksetzen deines Passworts zu.
         </div>
 

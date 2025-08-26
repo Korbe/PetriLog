@@ -29,10 +29,10 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
         </template>
 
         <div>
-            <h1 class="text-center font-medium text-lg mb-2">Email Adresse bestätigen</h1>
+            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Email Adresse bestätigen</h1>
         </div>
 
-        <div class="space-y-5 mb-4 text-center text-gray-600">
+        <div class="space-y-5 mb-4 text-center text-gray-600 dark:text-gray-400">
             <p>Bitte bestätige deine E-Mail über den Link, den wir dir soeben gesendet haben.</p>
             <p>Keine Mail bekommen?<br> Wir schicken dir gerne eine neue.</p>
         </div>
@@ -53,7 +53,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 
         <div class="flex justify-center mt-5">
             <Link :href="route('logout')" method="post" as="button"
-                class="text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ms-2">
+                class="text-gray-600 hover:text-gray-900 rounded-md">
             Abmelden
             </Link>
         </div>

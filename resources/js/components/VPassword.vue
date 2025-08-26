@@ -2,7 +2,7 @@
     <div>
         <!-- Label -->
         <div class="flex items-center justify-between" v-if="label">
-            <label :for="id" class="block text-md md:text-sm font-medium mb-1">
+            <label :for="id" class="block text-md md:text-sm font-medium mb-1 dark:text-gray-400">
                 {{ label }}
                 <span v-if="mandatory" class="text-red-500">*</span>
             </label>
