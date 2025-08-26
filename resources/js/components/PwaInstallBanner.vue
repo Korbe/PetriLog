@@ -34,20 +34,10 @@ function handleDismissClick() {
 }
 
 onMounted(() => {
-
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA erfolgreich installiert');
-        setDismissCookie();
-        showBanner.value = false;
-    });
-
     // Wenn Cookie gesetzt oder App bereits installiert → Banner nicht zeigen
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     const isiOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
     const isInstalledIOS = isiOS && window.navigator.standalone;
-
-    alert("isStandalone:" + isStandalone);
-    alert("isInstalledIOS:" + isInstalledIOS);
 
     if (Cookies.get(cookieName) || isStandalone || isInstalledIOS) return;
 
@@ -55,12 +45,18 @@ onMounted(() => {
     if (window.innerWidth < 640) {
         showBanner.value = true;
     }
+
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA erfolgreich installiert');
+        setDismissCookie();
+        showBanner.value = false;
+    });
 });
 </script>
 
 <template>
-    <div v-if="showBanner" class="bg-white rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
-        <p class="text-sm font-medium">
+    <div v-if="showBanner"  class="bg-white dark:bg-gray-800 rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
+        <p class="text-sm font-medium pr-1">
             PetriLog zum Startbildschirm hinzufügen
         </p>
         <div class="flex items-center space-x-2">
