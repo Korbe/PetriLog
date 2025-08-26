@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Spark\Billable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -20,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use Billable;
 
     protected static function booted()
     {
@@ -88,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isAdmin === true;
     }
 
-    public function onTrial(): bool
+    public function isOnTrial(): bool
     {
         return $this->trial_started_at
             && $this->trial_started_at->addDays(14)->isFuture();

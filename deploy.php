@@ -35,9 +35,15 @@ task('ssr:restart', function () {
     run('sudo supervisorctl restart inertia-ssr');
 });
 
+task('build:fix-permissions', function () {
+    run('sudo chown -R deployer:deployer {{release_path}}');
+});
+
+
 
 after('deploy:vendors', 'npm:install');
 after('npm:install', 'npm:build');
+//after('npm:build', 'build:fix-permissions');
 after('deploy:success', 'fpm:restart');
 after('deploy:success', 'ssr:restart');
 
