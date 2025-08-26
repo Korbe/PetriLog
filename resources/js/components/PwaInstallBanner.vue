@@ -35,19 +35,9 @@ function handleDismissClick() {
 }
 
 onMounted(() => {
-    // Wenn Cookie gesetzt oder App bereits installiert → Banner nicht zeigen
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    const isiOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-    const isInstalledIOS = isiOS && window.navigator.standalone;
-
-    if (Cookies.get(cookieName) || isStandalone || isInstalledIOS) return;
-
-    // Banner nur auf kleinen Bildschirmen anzeigen
-    if (window.innerWidth < 640) {
-        showBanner.value = true;
-    }
 
     window.addEventListener('beforeinstallprompt', (e) => {
+        alert(beforeinstallprompt);
         e.preventDefault();
         deferredPrompt = e;
     });
@@ -57,6 +47,22 @@ onMounted(() => {
         setDismissCookie();
         showBanner.value = false;
     });
+
+    // Wenn Cookie gesetzt oder App bereits installiert → Banner nicht zeigen
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isiOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    const isInstalledIOS = isiOS && window.navigator.standalone;
+
+    alert("cookie set" + Cookies.get(cookieName) != null)
+    alert("isStandalone:" + isStandalone);
+    alert("isInstalledIOS:" + isInstalledIOS)
+
+    if (Cookies.get(cookieName) || isStandalone || isInstalledIOS) return;
+
+    // Banner nur auf kleinen Bildschirmen anzeigen
+    if (window.innerWidth < 640) {
+        showBanner.value = true;
+    }
 });
 </script>
 
