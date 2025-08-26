@@ -234,7 +234,9 @@ const submit = () => {
 };
 
 const deleteCatched = () => {
-  form.delete(route('catched.destroy', props.catched.id));
+  if (confirm('Fang wirklich löschen?')) {
+    form.delete(route('catched.destroy', props.catched.id));
+  }
 };
 
 const updateLocation = ({ lat, lng, address }) => {
@@ -257,16 +259,6 @@ const removeImage = (item) => {
   }
 };
 </script>
-
-
-
-
-
-
-
-
-
-
 
 <template>
   <PageWrapper title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
@@ -324,6 +316,8 @@ const removeImage = (item) => {
           </VButton>
         </div>
       </form>
+
+
     </div>
   </PageWrapper>
 </template>

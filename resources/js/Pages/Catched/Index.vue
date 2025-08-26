@@ -54,7 +54,6 @@ import VButton from "@/components/VButton.vue";
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { onMounted, ref, watch } from 'vue';
-import DropdownFilter from '@/components/DropdownFilter.vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
 

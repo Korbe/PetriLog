@@ -102,9 +102,7 @@ class CatchedController extends Controller
 
     public function show(Catched $catched)
     {
-        if ($catched->user_id !== Auth::id()) {
-            abort(403);
-        }
+        $this->authorize('view', $catched);
 
         return Inertia::render('Catched/Show', [
             'catched' => $catched->load('media'),
@@ -113,8 +111,7 @@ class CatchedController extends Controller
 
     public function edit(Catched $catched)
     {
-        if ($catched->user_id !== Auth::id())
-            abort(403);
+        $this->authorize('update', $catched);
 
         $catched->load('media');
 
@@ -125,6 +122,8 @@ class CatchedController extends Controller
 
     public function update(Request $request, Catched $catched)
     {
+        $this->authorize('update', $catched);
+
         $validated = $request->validate([
             'date' => 'required|date',
             'name' => 'required|string',
@@ -165,14 +164,12 @@ class CatchedController extends Controller
         return redirect()->route('catched.show', $catched->id)->with('success', 'Fang erfolgreich aktualisiert.');
     }
 
-    public function destroy($catched)
+    public function destroy(Catched $catched)
     {
-        $catchedEntity = Catched::find($catched);
-        
-        if($catchedEntity != null && $catchedEntity->user_id  == Auth::id())
-            $catchedEntity->delete();
+        $this->authorize('delete', $catched);
+        $catched->delete();
 
-        return redirect()->route('catched.index')->with('success', 'Fang gelöscht.');;
+        return redirect()->route('catched.index')->with('success', 'Fang gelöscht.');
     }
 
     public function deletePhoto(Request $request, $mediaId)
