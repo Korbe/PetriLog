@@ -15,7 +15,7 @@ const props = defineProps({
 
 const currentStep = ref(0);
 const alertMessage = ref('');
-
+const loading = ref(false);
 
 const steps = [
     { id: '01', name: 'Basisdaten', component: CatchedBasicData },
@@ -43,12 +43,25 @@ const form = ref({
     media: [],
 });
 
-function nextStep() {
+async function nextStep() {
     if (currentStep.value < steps.length - 1) {
         currentStep.value++
     } else {
+        loading.value = true;
+
         const formProxy = useForm(form.value)
-        formProxy.post(route('catched.store'))
+
+        formProxy.post(route('catched.store'), {
+            onFinish: () => {
+                loading.value = false
+            },
+            onSuccess: () => {
+                loading.value = false;
+            },
+            onError: (errors) => {
+                loading.value = false;
+            }
+        })
     }
 }
 
@@ -110,13 +123,26 @@ watch(
 
             <!-- Form Wizard Step Content -->
             <div class="max-w-xl mx-auto">
-                 <p class="lg:hidden text-center text-xl font-medium text-gray-700 dark:text-gray-400 mb-2">{{steps[currentStep].name}}</p>
-                <component :is="steps[currentStep].component" v-model="form" :errors="errors" />
+                <p class="lg:hidden text-center text-xl font-medium text-gray-700 dark:text-gray-400 mb-2">
+                    {{ steps[currentStep].name }}</p>
+                <component v-if="!loading" :is="steps[currentStep].component" v-model="form" :errors="errors" />
+
+                <div v-if="loading" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-100 z-50">
+                    <div class="relative w-32 h-32 mb-6">
+                        <div
+                            class="absolute inset-0 border-8 border-primary-500 border-t-transparent rounded-full animate-spin">
+                        </div>
+                        <div
+                            class="absolute inset-4 border-4 border-blue-300 border-t-transparent rounded-full animate-spin-slow">
+                        </div>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-700 animate-pulse">Bitte warten...</p>
+                </div>
 
                 <!-- Navigation Buttons -->
                 <div class="mt-6 flex justify-between">
-                    <button class="cursor-pointer px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded" :disabled="currentStep === 0"
-                        @click="prevStep">
+                    <button class="cursor-pointer px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded"
+                        :disabled="currentStep === 0" @click="prevStep">
                         Zurück
                     </button>
                     <button class="cursor-pointer px-4 py-2 bg-primary-500 text-white rounded" @click="nextStep">
