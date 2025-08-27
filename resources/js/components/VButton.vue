@@ -33,7 +33,7 @@
   >
     <svg
       v-if="loading"
-      class="animate-spin fill-current shrink-0"
+      class="animate-spin fill-current shrink-0 mr-2"
       width="16"
       height="16"
       viewBox="0 0 16 16"

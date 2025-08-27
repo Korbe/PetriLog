@@ -10,6 +10,7 @@ use App\Http\Controllers\ImprintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
+use Spark\Http\Controllers\BillingPortalController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
@@ -31,13 +32,13 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('catched', CatchedController::class)->except(['update']);
     Route::post('catched/{catched}/update', [CatchedController::class, 'update'])->name('catched.update');
-    Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->middleware(['auth', 'verified'])->name('catched.photo.delete');
+    Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->name('catched.photo.delete');
 
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
     Route::get('/waters', [WatersController::class, 'index'])->name('waters.index');

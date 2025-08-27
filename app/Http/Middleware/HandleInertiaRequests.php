@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                     'onTrial' => Auth::user()->isOnTrial(),
                     'trialEndsAt' => Auth::user()->trialEndsAt(),
                     'subscribed' => Auth::user()->subscribed(),
+                    'verified' => Auth::user()->hasVerifiedEmail()
                 ] : null,
             ],
         ]);

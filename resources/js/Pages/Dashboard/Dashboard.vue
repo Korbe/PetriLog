@@ -2,6 +2,8 @@
     <PageWrapper :title="'Petri Heil ' + $page.props.auth.user.name" hideBackButton>
         <div class="space-y-5">
 
+            <EmailVerificationBanner />
+
             <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
 
             <TrialBanner />
@@ -42,6 +44,7 @@ import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
 import TrialBanner from '@/components/TrialBanner.vue';
 import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
 import { usePage } from '@inertiajs/vue3';
+import EmailVerificationBanner from '@/components/EmailVerificationBanner.vue';
 
 const props = defineProps({
     catchedStatsMonthly: {
