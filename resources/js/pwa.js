@@ -1,6 +1,12 @@
-window.deferredPrompt = null;
+import { onMounted } from 'vue'
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    window.deferredPrompt = e;
+onMounted(() => {
+    if (typeof window !== 'undefined') {
+        window.deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredPrompt = e;
+        });
+    }
 });
