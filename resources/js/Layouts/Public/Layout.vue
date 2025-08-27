@@ -21,4 +21,16 @@
 import Header from './Header/Header.vue';
 import Footer from './Footer/Footer.vue';
 import CookieBanner from '@/components/CookieBanner.vue';
+import { onMounted } from 'vue'
+
+onMounted(() => {
+    if (typeof window !== 'undefined') {
+        window.deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredPrompt = e;
+        });
+    }
+});
 </script>
