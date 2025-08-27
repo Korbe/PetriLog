@@ -19,6 +19,8 @@ Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint.show
 Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
 
+Route::get('/coupon/{coupon}', function ($coupon) { return redirect('/?coupon=' . $coupon); });
+
 Route::get('/catch/{catch}', [PublicController::class, 'showCatched'])->name('public.catched.show');
 
 
