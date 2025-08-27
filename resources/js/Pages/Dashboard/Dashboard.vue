@@ -2,7 +2,7 @@
     <PageWrapper :title="'Petri Heil ' + $page.props.auth.user.name" hideBackButton>
         <div class="space-y-5">
 
-            <TrialEndedBanner v-if="!isOnTrial" />
+            <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
 
             <TrialBanner />
 

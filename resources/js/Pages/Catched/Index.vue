@@ -108,7 +108,7 @@ const user = computed(() => page.props.auth.user)
 const isOnTrial = computed(() => user.value?.onTrial)
 
 const canAddNewEntry = () => {
-    return isOnTrial && props.totalCatchedCount < 5
+    return !user.subscribed && isOnTrial && props.totalCatchedCount < 5
 }
 
 const props = defineProps<Props>();

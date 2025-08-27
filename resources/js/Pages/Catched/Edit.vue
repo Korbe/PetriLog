@@ -272,7 +272,7 @@ const removeImage = (item) => {
 <template>
   <PageWrapper title="Fang bearbeiten" :backTo="route('catched.show', catched.id)">
 
-    <TrialEndedBanner v-if="!isOnTrial" />
+    <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
 
     <div v-else class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
       <form @submit.prevent="submit" class="space-y-5">

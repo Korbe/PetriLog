@@ -100,7 +100,7 @@ watch(
 <template>
     <PageWrapper title="Fang eintragen" :backTo="route('catched.index')">
 
-        <TrialEndedBanner v-if="!isOnTrial" />
+        <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
 
         <div v-else class="bg-white dark:bg-gray-800 p-5 rounded-lg">
 
