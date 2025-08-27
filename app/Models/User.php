@@ -23,15 +23,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use TwoFactorAuthenticatable;
     use Billable;
 
-    protected static function booted()
-    {
-        static::creating(function ($user) {
-            if (is_null($user->trial_started_at)) {
-                $user->trial_started_at = now();
-            }
-        });
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -74,7 +65,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'trial_started_at' => 'datetime',
             'password' => 'hashed',
             'isAdmin' => 'boolean'
         ];
@@ -92,12 +82,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isOnTrial(): bool
     {
-        return $this->trial_started_at
-            && $this->trial_started_at->addDays(14)->isFuture();
+        return $this->created_at
+            && $this->created_at->addDays(14)->isFuture();
     }
 
     public function trialEndsAt(): ?Carbon
     {
-        return $this->trial_started_at?->copy()->addDays(14);
+        return $this->created_at?->copy()->addDays(14);
     }
 }
