@@ -16,13 +16,17 @@ onMounted(() => {
 
   alert("onMounted");
 
-  if (typeof window === 'undefined') return;
+  if (typeof window === undefined) {
+    alert("window is undefined")
+    return;
+  }
+
 
   alert("Ist deferredPrompt null " + deferredPrompt === undefined)
 
-  if(window.deferredPrompt != undefined)
+  if (window.deferredPrompt != undefined)
     return;
-  
+
   window.deferredPrompt == undefined
 
   // Globales Objekt vorbereiten
