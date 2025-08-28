@@ -9,8 +9,8 @@ return [
         'background_color' => '#ffffff',
         'theme_color' => '#118DF0',
         'display' => 'standalone',
-        'orientation'=> 'any',
-        'status_bar'=> 'black',
+        'orientation' => 'any',
+        'status_bar' => 'black',
         'icons' => [
             '72x72' => [
                 'path' => '/images/icons/logo-72.png',
@@ -49,6 +49,19 @@ return [
             '1668x2388' => '/images/icons/splash-1668x2388.png',
             '2048x2732' => '/images/icons/splash-2048x2732.png',
         ],
-        'custom' => []
+        'custom' => [
+            'description' => 'PetriLog ist eine moderne Anwendung für Angler der du deine Fänge dokumentieren kannst, inklusive Gewicht, Länge, Fangdatum, Ort und Fotos.',
+            "categories" => [
+                "entertainment",
+                "lifestyle",
+                "personalization",
+                "photo",
+                "social",
+                "sports",
+                "utilities"
+            ]
+        ],
+
+
     ]
 ];

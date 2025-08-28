@@ -100,7 +100,7 @@ class CatchedController extends Controller
             'bait' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:30720',
+            'photos.*' => 'nullable|image|max:102400',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -162,7 +162,7 @@ class CatchedController extends Controller
             'bait' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:30720',
+            'photos.*' => 'nullable|image|max:102400',
         ]);
 
         $existingCount = $catched->getMedia('photos')->count();
