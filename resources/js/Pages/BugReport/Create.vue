@@ -1,6 +1,6 @@
 <template>
     <PageWrapper title="Fehler melden" backTo="/dashboard">
-        <div class="md:w-1/2 m-auto space-y-4 bg-white p-5">
+        <div class="md:w-1/2 m-auto space-y-4 bg-white dark:bg-gray-800 rounded-lg p-5">
 
             <VInput label="Titel" v-model="form.title" placeholder="Kurze Fehlerbeschreibung" :error="errors.title" />
 
