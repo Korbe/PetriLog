@@ -14,7 +14,7 @@ function closeSidebarOnNavigate() {
 onMounted(() => {
   router.on('navigate', closeSidebarOnNavigate);
 
-  
+  alert("onMounted");
 
   if (typeof window === 'undefined') return;
 
