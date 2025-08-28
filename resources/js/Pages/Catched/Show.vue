@@ -143,7 +143,6 @@ import { ref, onMounted, watch } from 'vue';
 import VButton from '@/components/VButton.vue';
 import VueEasyLightbox from 'vue-easy-lightbox';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import Show from '@/Pages/Public/Catch/Show.vue';
 import { ShareIcon } from '@heroicons/vue/24/solid';
 import ShareDialog from "@/components/ShareDialog.vue";
 
@@ -161,20 +160,44 @@ const openShare = () => {
   isShareOpen.value = true;
 };
 
-const initMap = () => {
-  if (!map.value) return;
+const loadGoogleMaps = () => {
+  return new Promise((resolve, reject) => {
+    if (window.google && window.google.maps) {
+      resolve(window.google.maps);
+      return;
+    }
+
+    // Script nur einmal anhängen
+    if (document.getElementById("google-maps")) {
+      window._initMapCallback = () => resolve(window.google.maps);
+      return;
+    }
+
+    window._initMapCallback = () => resolve(window.google.maps);
+
+    const script = document.createElement("script");
+    script.id = "google-maps";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&callback=_initMapCallback";
+    script.async = true;
+    script.defer = true;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
+
+const initMap = (maps) => {
+  if (!map.value || !props.catched.latitude || !props.catched.longitude) return;
 
   const latitude = parseFloat(props.catched.latitude);
   const longitude = parseFloat(props.catched.longitude);
 
-  gmap = new google.maps.Map(map.value, {
+  gmap = new maps.Map(map.value, {
     center: { lat: latitude, lng: longitude },
     zoom: 16,
-    mapId: '6da85ff10ebc18655d496f80', // Optional, für Advanced Markers Themes
+    mapId: '6da85ff10ebc18655d496f80',
   });
 
-  // Nutze AdvancedMarkerElement
-  const { AdvancedMarkerElement } = google.maps.marker;
+  const { AdvancedMarkerElement } = maps.marker;
 
   new AdvancedMarkerElement({
     position: { lat: latitude, lng: longitude },
@@ -186,40 +209,40 @@ const initMap = () => {
 const shareUrl = ref("");
 const editUrl = ref("");
 
-onMounted(() => {
+onMounted(async () => {
   shareUrl.value = route('public.catched.show', props.catched.id);
-  editUrl.value = route('catched.edit', props.catched.id)
+  editUrl.value = route('catched.edit', props.catched.id);
 
-  if (!window.google) {
-    const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&loading=async';
-    script.async = true;
-    script.defer = true;
-    script.onload = () => initMap();
-    document.head.appendChild(script);
-  } else {
-    initMap();
+  try {
+    const maps = await loadGoogleMaps();
+    initMap(maps);
+  } catch (err) {
+    console.error("Google Maps konnte nicht geladen werden:", err);
   }
 });
 
-watch(() => props.catched, () => {
-  if (window.google) {
-    initMap();
+watch(() => props.catched, async () => {
+  if (window.google && window.google.maps) {
+    initMap(window.google.maps);
+  } else {
+    try {
+      const maps = await loadGoogleMaps();
+      initMap(maps);
+    } catch (err) {
+      console.error("Google Maps konnte nicht geladen werden:", err);
+    }
   }
 });
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
-
   return `${day}.${month}.${year} ${hours}:${minutes}`;
-}
+};
 
 const openLightbox = (index) => {
   currentImageIndex.value = index;

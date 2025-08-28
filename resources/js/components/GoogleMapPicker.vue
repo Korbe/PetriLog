@@ -54,33 +54,49 @@ const initMap = (lat, lng) => {
     })
 }
 
-// Prüfen, ob Google Maps geladen ist, sonst warten
-const waitForGoogleMaps = () => {
-    return new Promise((resolve) => {
-        if (window.google && google.maps) {
-            resolve()
-        } else {
-            const interval = setInterval(() => {
-                if (window.google && google.maps) {
-                    clearInterval(interval)
-                    resolve()
-                }
-            }, 100)
+// Google Maps dynamisch laden
+const loadGoogleMaps = () => {
+    return new Promise((resolve, reject) => {
+        if (window.google && window.google.maps) {
+            resolve(window.google.maps)
+            return
         }
+
+        // Script nur einmal anhängen
+        if (document.getElementById("google-maps")) {
+            window._initMapCallback = () => resolve(window.google.maps)
+            return
+        }
+
+        window._initMapCallback = () => resolve(window.google.maps)
+
+        const script = document.createElement("script")
+        script.id = "google-maps"
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&callback=_initMapCallback"
+        script.async = true
+        script.defer = true
+        script.onerror = reject
+        document.head.appendChild(script)
     })
 }
 
 onMounted(async () => {
-    await waitForGoogleMaps()
+    try {
+        await loadGoogleMaps()
 
-    if (props.initialLat && props.initialLng) {
-        initMap(props.initialLat, props.initialLng)
-    } else if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => initMap(position.coords.latitude, position.coords.longitude),
-            () => initMap(fallbackCoords.lat, fallbackCoords.lng)
-        )
-    } else {
+        if (props.initialLat && props.initialLng) {
+            initMap(props.initialLat, props.initialLng)
+        } else if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => initMap(position.coords.latitude, position.coords.longitude),
+                () => initMap(fallbackCoords.lat, fallbackCoords.lng)
+            )
+        } else {
+            initMap(fallbackCoords.lat, fallbackCoords.lng)
+        }
+    } catch (err) {
+        console.error("Google Maps konnte nicht geladen werden:", err)
+        // Fallback: Karte mit Standardkoordinaten initialisieren
         initMap(fallbackCoords.lat, fallbackCoords.lng)
     }
 })

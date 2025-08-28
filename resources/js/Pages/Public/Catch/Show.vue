@@ -1,5 +1,4 @@
 <template>
-
   <Layout>
 
     <Head :title="catched.name" />
@@ -144,49 +143,59 @@ const isLightboxOpen = ref(false);
 const currentImageIndex = ref(0);
 let gmap = null;
 
-// Sichere Initialisierung von Google Maps
-const waitForGoogleMaps = () => {
-  return new Promise((resolve) => {
+const loadGoogleMaps = () => {
+  return new Promise((resolve, reject) => {
     if (window.google && window.google.maps) {
       resolve(window.google.maps);
-    } else {
-      const interval = setInterval(() => {
-        if (window.google && window.google.maps) {
-          clearInterval(interval);
-          resolve(window.google.maps);
-        }
-      }, 100);
+      return;
     }
+
+    // Script nur einmal anhängen
+    if (document.getElementById("google-maps")) {
+      window._initMapCallback = () => resolve(window.google.maps);
+      return;
+    }
+
+    window._initMapCallback = () => resolve(window.google.maps);
+
+    const script = document.createElement("script");
+    script.id = "google-maps";
+    script.src =
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&loading=asyn&callback=_initMapCallback";
+    script.async = true;
+    script.defer = true;
+    script.onerror = reject;
+    document.head.appendChild(script);
   });
 };
 
-const initMap = () => {
+const initMap = (maps) => {
   if (!map.value || !props.catched.latitude || !props.catched.longitude) return;
 
   const latitude = parseFloat(props.catched.latitude);
   const longitude = parseFloat(props.catched.longitude);
 
-  gmap = new google.maps.Map(map.value, {
+  const gmap = new maps.Map(map.value, {
     center: { lat: latitude, lng: longitude },
     zoom: 16,
-    mapId: '6da85ff10ebc18655d496f80',
+    mapId: "6da85ff10ebc18655d496f80",
   });
 
-  const { AdvancedMarkerElement } = google.maps.marker;
+  const { AdvancedMarkerElement } = maps.marker;
 
   new AdvancedMarkerElement({
     position: { lat: latitude, lng: longitude },
     map: gmap,
-    title: props.catched.name ?? 'Markierter Punkt',
+    title: props.catched.name ?? "Markierter Punkt",
   });
 };
 
 onMounted(async () => {
   try {
-    await waitForGoogleMaps();
-    initMap();
+    const maps = await loadGoogleMaps();
+    initMap(maps);
   } catch (err) {
-    console.error('Google Maps konnte nicht geladen werden:', err);
+    console.error("Google Maps konnte nicht geladen werden:", err);
   }
 });
 
