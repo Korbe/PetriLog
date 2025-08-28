@@ -88,17 +88,17 @@ class PublicController extends Controller
 
         session([
             'meta' => [
-                'title' => "Ich habe {$catched->name} gefangen! - PetriLog",
+                'title' => "Schau was ich gefangen habe - PetriLog",
                 'description' => "Gefangen am {$catchDate} mit einer Länge von {$catched->length}cm.",
                 
-                'og:title' => "Ich habe {$catched->name} gefangen! - PetriLog",
+                'og:title' => "Schau was ich gefangen habe - PetriLog",
                 'og:description' => "Gefangen am {$catchDate} mit einer Länge von {$catched->length}cm.",
                 'og:image' => optional($catched->media->first())->original_url ?: asset('logo.png'),
                 'og:url' => route('public.catched.show', $catched->id),
                 'og:type' => 'website',
 
                 'twitter:card' => 'summary_large_image',
-                'twitter:title' => "Ich habe {$catched->name} gefangen! - PetriLog",
+                'twitter:title' => "Schau was ich gefangen habe - PetriLog",
                 'twitter:description' => "Gefangen am {$catchDate} mit einer Länge von {$catched->length}cm.",
                 'twitter:image' => optional($catched->media->first())->original_url ?: asset('logo.png'),
             ]
