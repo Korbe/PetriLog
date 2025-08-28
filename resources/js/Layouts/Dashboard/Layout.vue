@@ -20,8 +20,8 @@ onMounted(() => {
 
   alert("Ist deferredPrompt null " + deferredPrompt === undefined)
 
-  if(window.deferredPrompt == undefined)
-    return
+  if(window.deferredPrompt != undefined)
+    return;
   
   window.deferredPrompt == undefined
 
