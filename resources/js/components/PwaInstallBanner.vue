@@ -19,13 +19,9 @@ function handleInstallClick() {
                 setDismissCookie();
                 showBanner.value = false;
             }
-            window.deferredPrompt = null;
-            
         });
     } else {
-        alert('In Chrome die drei Punkte klicken und "Zum Startbildschirm hinzufügen" auswählen, unter Safari bitte das Teilen-Symbol in nutzen und "Zum Startbildschirm" auswählen.');
-        // setDismissCookie();
-        // showBanner.value = false;
+        alert('In Chrome im Menü "Zum Startbildschirm hinzufügen" auswählen. Unter Safari bitte das Teilen-Symbol nutzen und "Zum Startbildschirm" auswählen.');
     }
 }
 
