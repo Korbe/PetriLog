@@ -60,7 +60,7 @@ const editEmail = () => {
             <AuthenticationCardLogo />
         </template>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+        <div v-if="status" class="mb-4 text-center font-medium text-sm text-green-600">
             {{ status }}
         </div>
 
@@ -103,7 +103,7 @@ const editEmail = () => {
             </div>
 
             <div class="mx-auto flex justify-center mt-5 dark:text-gray-400">
-                <Link class="" :href="route('register')">Neues Konto anlegen</Link>
+                <Link class="" href="/register">Neues Konto anlegen</Link>
             </div>
         </form>
     </AuthenticationCard>

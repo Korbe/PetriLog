@@ -57,6 +57,8 @@ class CatchedController extends Controller
                 'endDate' => $endDate
             ],
             'totalCatchedCount' => $totalCatchedCount,
+            'createUrl' => route('catched.create'),
+            'currentUrl' => route('catched.index'),
         ]);
     }
 
@@ -73,7 +75,10 @@ class CatchedController extends Controller
                 ->with('error', 'Du hast das Limit deiner Testphase erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
         }
 
-        return Inertia::render('Catched/Create');
+        return Inertia::render('Catched/Create', [
+            "backTo" => route('catched.index'),
+            "storeUrl" => route('catched.store')
+        ]);
     }
 
     public function store(Request $request)

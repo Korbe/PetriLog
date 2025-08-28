@@ -26,6 +26,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard/Dashboard', [
             'catchedStatsMonthly' => $catchedStatsMonthly,
             'catchedStatsYearly' => $catchedStatsYearly,
+            'createUrl' => route('catched.create')
         ]);
     }
 

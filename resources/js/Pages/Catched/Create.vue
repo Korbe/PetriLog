@@ -12,6 +12,8 @@ import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
 
 const props = defineProps({
     errors: Object,
+    backToUrl: String,
+    storeUrl: String,
 })
 
 const currentStep = ref(0);
@@ -60,7 +62,7 @@ async function nextStep() {
 
         const formProxy = useForm(form.value)
 
-        formProxy.post(route('catched.store'), {
+        formProxy.post(props.storeUrl, {
             onFinish: () => {
                 loading.value = false
             },
@@ -98,7 +100,7 @@ watch(
 </script>
 
 <template>
-    <PageWrapper title="Fang eintragen" :backTo="route('catched.index')">
+    <PageWrapper title="Fang eintragen" :backTo="props.backToUrl">
 
         <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
 

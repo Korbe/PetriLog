@@ -7,6 +7,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Link } from '@inertiajs/vue3';
 import Layout from './Layouts/Dashboard/Layout.vue';
+import { InertiaProgress } from '@inertiajs/progress';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -29,6 +30,13 @@ createInertiaApp({
             .mount(el);
     },
     progress: {
-        color: '#4B5563',
+        color: '#118DF0',
     },
+});
+
+InertiaProgress.init({
+  color: '#118DF0',
+  
+  showSpinner: true,
+  delay: 250,
 });

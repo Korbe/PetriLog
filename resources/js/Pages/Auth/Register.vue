@@ -59,8 +59,8 @@ const submit = () => {
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
 
                         <div class="ms-2 dark:text-gray-400">
-                            Ich stimme den <a target="_blank" :href="route('terms.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a> und <a target="_blank" :href="route('policy.show')"
+                            Ich stimme den <a target="_blank" href="/terms-of-service"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a> und <a target="_blank" href="/privacy-policy"
                                 class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Datenschutzerklärung</a> zu.
                         </div>
                     </div>
@@ -76,7 +76,7 @@ const submit = () => {
             </div>
 
             <div class="flex justify-center mt-5 ">
-                <Link :href="route('login')" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 rounded-md">
+                <Link href="/login" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 rounded-md">
                     Du hast schon ein Konto?
                 </Link>
             </div>

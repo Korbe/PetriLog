@@ -36,7 +36,9 @@ const props = defineProps({
 const canvas = ref(null)
 let chart = null
 const darkMode = useDark()
-const { tooltipBodyColor, tooltipBgColor, tooltipBorderColor } = getChartColors()
+const tooltipBodyColor = ref('#000') // Default-Wert für SSR
+const tooltipBgColor = ref('#fff')
+const tooltipBorderColor = ref('#ccc')
 
 const resolveCssVariable = (variableName) => getCssVariable(`--color-${variableName}`)
 
@@ -121,7 +123,15 @@ const initChart = () => {
   })
 }
 
-onMounted(initChart)
+
+onMounted(() => {
+  const colors = getChartColors()
+  tooltipBodyColor.value = colors.tooltipBodyColor
+  tooltipBgColor.value = colors.tooltipBgColor
+  tooltipBorderColor.value = colors.tooltipBorderColor
+
+  initChart();
+})
 onUnmounted(() => chart?.destroy())
 watch(() => [props.data, props.color], () => {
   chart?.destroy()

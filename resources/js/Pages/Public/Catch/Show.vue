@@ -27,8 +27,8 @@
           <h1 class="text-5xl text-primary-500">{{ catched.name }}</h1>
           <div class="flex justify-between">
             <p class="text-xl">{{ formatDate(catched.date) }} - {{ catched.waters }}</p>
-            <VButton v-if="$page.props?.auth?.user?.id == props.catched.user_id"
-              :href="route('catched.edit', catched.id)">
+            <VButton v-if="props.catched != null && $page.props?.auth?.user?.id == props.catched.user_id"
+              :href="`/catched/${catched.id}/edit`">
               Bearbeiten</VButton>
           </div>
 

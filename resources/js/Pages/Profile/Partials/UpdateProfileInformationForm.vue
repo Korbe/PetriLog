@@ -47,7 +47,7 @@ const selectNewPhoto = () => {
 const updatePhotoPreview = () => {
     const photo = photoInput.value.files[0];
 
-    if (! photo) return;
+    if (!photo) return;
 
     const reader = new FileReader();
 
@@ -79,7 +79,8 @@ const clearPhotoFileInput = () => {
     <FormSection @submitted="updateProfileInformation">
         <template #header>
             <h1 class="text-lg font-medium text-gray-800 dark:text-gray-100">Profil Information</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Aktualisieren Sie die Profilinformationen und E-Mail-Adresse Ihres Kontos.</p>
+            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Aktualisieren Sie die Profilinformationen und
+                E-Mail-Adresse Ihres Kontos.</p>
         </template>
 
         <template #form>
@@ -88,39 +89,26 @@ const clearPhotoFileInput = () => {
             <!-- Profile Photo -->
             <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
-                <input
-                    id="photo"
-                    ref="photoInput"
-                    type="file"
-                    class="hidden"
-                    @change="updatePhotoPreview"
-                >
+                <input id="photo" ref="photoInput" type="file" class="hidden" @change="updatePhotoPreview">
 
                 <InputLabel for="photo" value="Photo" />
 
                 <!-- Current Profile Photo -->
-                <div v-show="! photoPreview" class="mt-2">
+                <div v-show="!photoPreview" class="mt-2">
                     <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full size-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
-                    <span
-                        class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
-                        :style="'background-image: url(\'' + photoPreview + '\');'"
-                    />
+                    <span class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
+                        :style="'background-image: url(\'' + photoPreview + '\');'" />
                 </div>
 
                 <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewPhoto">
                     Select A New Photo
                 </SecondaryButton>
 
-                <SecondaryButton
-                    v-if="user.profile_photo_path"
-                    type="button"
-                    class="mt-2"
-                    @click.prevent="deletePhoto"
-                >
+                <SecondaryButton v-if="user.profile_photo_path" type="button" class="mt-2" @click.prevent="deletePhoto">
                     Remove Photo
                 </SecondaryButton>
 
@@ -140,14 +128,10 @@ const clearPhotoFileInput = () => {
                     <p class="text-sm mt-2">
                         Ihre E-Mail-Adresse ist nicht bestätigt.
 
-                        <Link
-                            :href="route('verification.send')"
-                            method="post"
-                            as="button"
-                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                            @click.prevent="sendEmailVerification"
-                        >
-                            Klicken Sie hier, um die Bestätigungs-E-Mail erneut zu senden.
+                        <Link href="/email/verification-notification" method="post" as="button"
+                            class="cursor-pointer underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                            @click.prevent="sendEmailVerification">
+                        Klicken Sie hier, um die Bestätigungs-E-Mail erneut zu senden.
                         </Link>
                     </p>
 

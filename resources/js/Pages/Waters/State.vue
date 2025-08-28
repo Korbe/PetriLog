@@ -1,5 +1,5 @@
 <template>
-    <PageWrapper :title="state.name" :backTo="route('waters.index')">
+    <PageWrapper :title="state.name" :backTo="`/waters`">
 
         <div class="w-full md:w-1/2 mx-auto">
             <img :src="state.wallpaper" :alt="state" class="w-full h-40 md:h-80 object-cover rounded-lg" />
@@ -8,26 +8,22 @@
 
                 <p class="font-bold text-lg pt-5 pb-2">Seen</p>
                 <ul v-for="(lake, name) in state.lakes" :key="lake">
-
-                    <Link class="cursor-pointer" :href="route('waters.state.waters', { state: state.name, lake: name })">
+                    <Link class="cursor-pointer" :href="`/waters/${state.name}/${name}`">
                     <li class="flex items-center gap-5 p-3">
                         <img :src="lake.link" :alt="name" class="w-30 h-30 object-cover rounded-lg" />
                         <p class="font-bold">{{ name }}</p>
                     </li>
                     </Link>
-
                 </ul>
 
-                <p class="font-bold text-lg pt-5 pb-2">Flüße</p>
+                <p class="font-bold text-lg pt-5 pb-2">Flüsse</p>
                 <ul v-for="(river, name) in state.rivers" :key="river">
-                    
-                    <Link class="cursor-pointer" :href="route('waters.state.waters', { state: state.name, lake: name })">
+                    <Link class="cursor-pointer" :href="`/waters/${state.name}/${name}`">
                     <li class="flex items-center gap-5 p-3">
                         <img :src="river.link" :alt="name" class="w-30 h-30 object-cover rounded-lg" />
                         <p class="font-bold">{{ name }}</p>
                     </li>
                     </Link>
-
                 </ul>
             </div>
         </div>

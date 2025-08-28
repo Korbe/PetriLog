@@ -43,7 +43,7 @@
 
       <div class="mx-2 mt-5">
         <div class="w-full flex justify-around space-x-5">
-          <VButton class="w-full" :href="route('catched.edit', catched.id)">Bearbeiten</VButton>
+          <VButton v-if="catched != null" class="w-full" :href="editUrl">Bearbeiten</VButton>
           <VButton class="w-full" @click="openShare"><span class="flex">
               <ShareIcon class="w-4 mr-2" />Teilen
             </span></VButton>
@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <ShareDialog v-model="isShareOpen" :share-url="route('public.catched.show', catched.id)" />
+    <ShareDialog v-model="isShareOpen" :share-url="shareUrl" />
   </PageWrapper>
 </template>
 <script setup>
@@ -183,7 +183,13 @@ const initMap = () => {
   });
 };
 
+const shareUrl = ref("");
+const editUrl = ref("");
+
 onMounted(() => {
+  shareUrl.value = route('public.catched.show', props.catched.id);
+  editUrl.value = route('catched.edit', props.catched.id)
+
   if (!window.google) {
     const script = document.createElement('script');
     script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&loading=async';

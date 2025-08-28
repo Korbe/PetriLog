@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-        <PageWrapper title="Profil" :backTo="route('dashboard')">
+        <PageWrapper title="Profil" backTo="/dashboard">
             <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm :user="$page.props.auth.user" />

@@ -1,10 +1,10 @@
 <template>
-    <PageWrapper title="Gewässer" :backTo="route('dashboard')">
+    <PageWrapper title="Gewässer" :backTo="`/dashboard`">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div v-for="(stateWaters, state) in states" :key="state" class="pb-4 ">
 
-                <Link :href="route('waters.state', state)">
+                <Link :href="`/waters/${state}`">
                 <div class="flex flex-col items-center pb-10">
                     <img :src="stateWaters.link" :alt="state" class="w-44 h-44 object-fill rounded-lg" />
                     <h1 class="text-xl font-bold pt-3">{{ state }}</h1>

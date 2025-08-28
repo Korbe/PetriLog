@@ -18,7 +18,7 @@
                         class="w-full lg:w-1/3 bg-white flex flex-col text-center justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
                         <h1 class="text-xl font-medium">Fisch gefangen?</h1>
                         <p>Gratulation, trage deine Fang jetzt ein</p>
-                        <VButton class="m-5" :href="route('catched.create')">Eintragen</VButton>
+                        <VButton class="m-5" :href="createUrl">Eintragen</VButton>
                     </div>
 
                     <div class="w-full lg:w-1/3 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
@@ -75,6 +75,7 @@ const props = defineProps({
             required: true,
         },
     },
+    createUrl: String,
 })
 
 

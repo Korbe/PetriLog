@@ -1,10 +1,10 @@
 <template>
-    <PageWrapper title="Fänge" :backTo="route('dashboard')">
+    <PageWrapper title="Fänge" backTo="/dashboard">
         <template v-slot:actions>
             <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
             <VDateRangePicker align="right" v-model="dateRange" />
             <ResetButton @click="resetDateRange" />
-            <VButton v-if="canAddNewEntry()" :href="route('catched.create')">Eintragen</VButton>
+            <VButton v-if="canAddNewEntry()" :href="createUrl">Eintragen</VButton>
         </template>
 
         <div class="md:w-1/2 m-auto">
@@ -26,7 +26,7 @@
             <div v-if="Object.keys(groupedCatcheds).length === 0"
                 class="text-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex flex-col my-2">
                 <p class="pb-5">Für diesen Zeitraum wurden keine Einträge gefunden</p>
-                <VButton v-if="canAddNewEntry()" :href="route('catched.create')">Jetzt eintragen</VButton>
+                <VButton v-if="canAddNewEntry()" :href="createUrl">Jetzt eintragen</VButton>
             </div>
 
             <div v-for="(items, date) in groupedCatcheds" :key="date" class="py-2">
@@ -45,8 +45,8 @@
                 <transition name="fade">
                     <div v-if="isOpen(date)" class="mt-2 pl-2 pr-2">
                         <div v-for="catched in items" :key="catched.id">
-                            <Link class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2"
-                                :href="route('catched.show', catched.id)">
+                            <Link :href="`/catched/${catched.id}`" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2"
+                                >
                             <span>
                                 <span class="text-primary-500"><b>{{ catched.name }}</b></span> - {{ catched.waters
                                 }}
@@ -96,6 +96,9 @@ interface Props {
         startDate: string;
         endDate: string;
     };
+    createUrl: string,
+    showUrl: string,
+    currentUrl: string,
 }
 
 
@@ -189,7 +192,7 @@ const search = () => {
     };
 
     router.get(
-        route('catched.index'), request,
+        props.currentUrl, request,
         {
             preserveState: true,
             preserveScroll: true,

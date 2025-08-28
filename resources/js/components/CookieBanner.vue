@@ -24,7 +24,7 @@ onMounted(() => {
         class="fixed bottom-0 inset-x-0 bg-gray-800 text-white p-4 flex items-center justify-between shadow-lg z-50">
         <p class="text-sm">
             Wenn du diese Seite nutzt, stimmst du unserer
-            <Link :href="route('policy.show')" class="underline hover:text-gray-300">Datenschutzerklärung</Link> zu.
+            <Link href="/privacy-policy" class="underline hover:text-gray-300">Datenschutzerklärung</Link> zu.
         </p>
         <button @click="acceptCookies" class="ml-4 text-white hover:text-gray-300 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

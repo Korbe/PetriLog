@@ -52,7 +52,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
         </form>
 
         <div class="flex justify-center mt-5">
-            <Link :href="route('logout')" method="post" as="button"
+            <Link href="/logout" method="post" as="button"
                 class="text-gray-600 hover:text-gray-900 rounded-md">
             Abmelden
             </Link>

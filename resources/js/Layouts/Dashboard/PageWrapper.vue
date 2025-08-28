@@ -25,9 +25,13 @@
 <script setup>
 import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
 import { Head } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { onMounted, ref } from 'vue';
 
-const backUrl = computed(() => props.backTo ?? sessionStorage.getItem('lastOrigin'));
+const backUrl = ref("");
+
+onMounted(() => {
+    backUrl.value = props.backTo ?? sessionStorage.getItem('lastOrigin')
+})
 
 const props = defineProps({
     title: String,

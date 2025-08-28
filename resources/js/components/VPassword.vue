@@ -17,7 +17,7 @@
             <!-- Rechts: Vergessen? oder Icon -->
             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                 <!-- Vergessen? -->
-                <Link v-if="showForgot && !modelValue" :href="route('password.request')"
+                <Link v-if="showForgot && !modelValue" href="/forgot-password"
                     class="text-sm text-primary-600 hover:underline whitespace-nowrap">
                 Vergessen?
                 </Link>
