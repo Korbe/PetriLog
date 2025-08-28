@@ -11,6 +11,9 @@ function setDismissCookie() {
 }
 
 function handleInstallClick() {
+
+    alert("window.deferredPrompt" + window.deferredPrompt)
+
     if (window.deferredPrompt) {
         window.deferredPrompt.prompt();
         window.deferredPrompt.userChoice.then(choiceResult => {
@@ -19,6 +22,7 @@ function handleInstallClick() {
                 setDismissCookie();
                 showBanner.value = false;
             }
+            setDismissCookie();
         });
     } else {
         alert('In Chrome im Menü "Zum Startbildschirm hinzufügen" auswählen. Unter Safari bitte das Teilen-Symbol nutzen und "Zum Startbildschirm" auswählen.');
