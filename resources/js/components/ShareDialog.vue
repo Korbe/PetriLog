@@ -53,16 +53,23 @@ const copyToClipboard = async () => {
                         </div>
 
                         <!-- Facebook Share -->
-                        <div class="mb-4">
+                        <div class="mb-4 flex space-x-2">
                             <a :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`"
                                 target="_blank" rel="noopener"
-                                class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
+                                class="flex w-full items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
                                 <span>Auf Facebook teilen</span>
+                            </a>
+                            <a :href="`https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`"
+                                target="_blank" rel="noopener"
+                                class="flex w-full items-center space-x-2 px-4 py-2 bg-blue-400 text-white rounded-lg">
+                                <span>Auf Twitter teilen</span>
                             </a>
                         </div>
 
                         <!-- URL Copy -->
+                         <p class="pb-2">Oder direkt den Link posten:</p>
                         <div class="flex items-center space-x-2">
+                            
                             <VInput class="flex-1" :model-value="shareUrl" readonly />
                             <VButton @click="copyToClipboard" class="p-2 bg-gray-200 rounded-lg hover:bg-gray-300">
                                 <ClipboardIcon class="w-5 h-5 text-white" />
