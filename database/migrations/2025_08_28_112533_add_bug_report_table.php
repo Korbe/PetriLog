@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('category');
-            $table->string('steps');
-            $table->string('url');
+            $table->string('category')->nullable();;
+            $table->string('steps')->nullable();;
+            $table->string('url')->nullable();;
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

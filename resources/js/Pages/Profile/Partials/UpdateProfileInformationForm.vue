@@ -124,13 +124,12 @@ const clearPhotoFileInput = () => {
             <div class="col-span-6 sm:col-span-4">
 
                 <VInput id="email" label="Email" v-model="form.email" mandatory :error="form.errors.email" />
-                <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at == null">
+                <div v-if="$page.props.jetstream.hasEmailVerification && !user.verified">
                     <p class="text-sm mt-2">
                         Ihre E-Mail-Adresse ist nicht bestätigt.
 
                         <Link href="/email/verification-notification" method="post" as="button"
-                            class="cursor-pointer underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                            @click.prevent="sendEmailVerification">
+                            class="cursor-pointer underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                         Klicken Sie hier, um die Bestätigungs-E-Mail erneut zu senden.
                         </Link>
                     </p>

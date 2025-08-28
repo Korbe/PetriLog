@@ -25,7 +25,7 @@ class BugReportController extends Controller
             'description' => 'nullable|string',
             'steps' => 'nullable|string',
             'url' => 'nullable|string',
-            'category' => 'required|string|in:ui,performance,data_issue,other',
+            'category' => 'nullable|string|in:ui,performance,data_issue,other',
         ]);
 
         $user = Auth::user();
