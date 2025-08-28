@@ -20,12 +20,13 @@
 
                             <p><strong>PetriLog</strong></p>
                             <p>Verantwortlich für den Inhalt:</p>
-                            <p>Korbitsch Lukas<br>
+                            <p class="py-5">Korbitsch Lukas<br>
                                 Kiesweg 19<br>
                                 9500 Villach<br>
                                 Österreich</p>
 
-                            <p>Kontakt:</p>
+                            <a class="underline" href="https://korbitsch.at">Korbitsch.at</a>
+                            <p class="pt-5">Kontakt:</p>
                             <p>
                                 E-Mail: <a href="mailto:info@korbitsch.at"
                                     class="text-blue-600 underline">info@korbitsch.at</a><br>
