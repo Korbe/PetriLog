@@ -1,25 +1,7 @@
 <template>
     <Layout>
 
-        <Head title="Kontakt">
-
-            <meta name="description"
-                content="Du hast Fragen oder Feedback? Kontaktiere uns direkt - wir freuen uns von dir zu hören.">
-
-            <meta property="og:title" content="PetriLog Kontakt" />
-            <meta property="og:description"
-                content="Du hast Fragen oder Feedback? Kontaktiere uns direkt - wir freuen uns von dir zu hören." />
-            <meta property="og:image" content="/images/icons/logo-512.png" />
-            <meta property="og:url" content="https://petrilog.korbitsch.at/kontakt" />
-            <meta property="og:type" content="website" />
-
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content="PetriLog Kontakt" />
-            <meta name="twitter:description"
-                content="Du hast Fragen oder Feedback? Kontaktiere uns direkt - wir freuen uns von dir zu hören." />
-            <meta name="twitter:image" content="/images/icons/logo-512.png" />
-
-        </Head>
+        <Head title="Kontakt" />
 
         <PageIllustration />
 

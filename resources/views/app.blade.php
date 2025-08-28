@@ -3,9 +3,18 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-    @inertiaHead
+    {{-- Dynamische Meta aus Session --}}
+    @if(session('meta'))
+        @foreach(session('meta') as $name => $content)
+            @if(Str::startsWith($name, 'og:'))
+                <meta property="{{ $name }}" content="{{ $content }}">
+            @else
+                <meta name="{{ $name }}" content="{{ $content }}">
+            @endif
+        @endforeach
+    @endif
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +29,7 @@
 
     @routes
     @vite('resources/js/app.js')
-    
+    @inertiaHead
 </head>
 
 <body class="font-sans antialiased">

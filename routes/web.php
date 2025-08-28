@@ -17,12 +17,12 @@ Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
 Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint.show');
-Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
+Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
 
 Route::get('/coupon/{coupon}', function ($coupon) { return redirect('/?coupon=' . $coupon); });
 
-Route::get('/catch/{catch}', [PublicController::class, 'showCatched'])->name('public.catched.show');
+Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('public.catched.show');
 
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

@@ -14,6 +14,8 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        session()->forget('meta');
+
         $catchedStatsMonthly = $this->getCatchedStatisticsForPeriod(
             Carbon::now()->startOfMonth(),
             Carbon::now()->endOfMonth()

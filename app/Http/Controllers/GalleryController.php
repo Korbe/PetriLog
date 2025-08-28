@@ -12,6 +12,8 @@ class GalleryController extends Controller
 {
     public function index(FilterRequest $request)
     {
+        session()->forget('meta');
+        
         /** @var \App\Models\User $user */
         $user = Auth::user();
 

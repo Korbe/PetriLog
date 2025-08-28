@@ -2,24 +2,7 @@
 
   <Layout>
 
-    <Head :title="catched.name">
-
-      <!-- Open Graph -->
-      <meta property="og:title" :content="catched.name + ' - PetriLog'" />
-      <meta property="og:description"
-        :content="`Gefangen am ${new Date(catched.date).toLocaleDateString('de-DE')} mit einer Länge von ${catched.length}cm.`" />
-      <meta property="og:image" :content="catched.media[0]?.original_url || '/images/icons/logo-512.png'" />
-      <meta property="og:url" :content="route('public.catched.show', catched.id)" />
-      <meta property="og:type" content="website" />
-
-      <!-- Twitter Cards -->
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" :content="catched.name" />
-      <meta name="twitter:description"
-        :content="`Gefangen am ${new Date(catched.date).toLocaleDateString('de-DE')} mit einer Länge von ${catched.length}cm.`" />
-      <meta name="twitter:image" :content="catched.media[0]?.original_url || '/images/icons/logo-512.png'" />
-
-    </Head>
+    <Head :title="catched.name" />
 
     <PageIllustration />
 

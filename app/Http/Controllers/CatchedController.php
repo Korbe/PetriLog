@@ -15,6 +15,8 @@ class CatchedController extends Controller
 {
     public function index(FilterRequest $request)
     {
+        session()->forget('meta');
+
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
@@ -60,6 +62,8 @@ class CatchedController extends Controller
 
     public function create()
     {
+        session()->forget('meta');
+
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
@@ -110,6 +114,8 @@ class CatchedController extends Controller
 
     public function show(Catched $catched)
     {
+        session()->forget('meta');
+
         $this->authorize('view', $catched);
 
         return Inertia::render('Catched/Show', [
@@ -119,6 +125,8 @@ class CatchedController extends Controller
 
     public function edit(Catched $catched)
     {
+        session()->forget('meta');
+
         $this->authorize('update', $catched);
 
         $catched->load('media');

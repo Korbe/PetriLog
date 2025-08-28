@@ -9,6 +9,8 @@ class FishController extends Controller
 {
     public function index()
     {
+        session()->forget('meta');
+
         $fish = Config::get('fish');
 
         return Inertia::render('Fish/Index', [
@@ -18,6 +20,8 @@ class FishController extends Controller
 
     public function fish($fishname)
     {
+        session()->forget('meta');
+
         $fish = Config::get('fish');
 
         // Schauen, ob das gesuchte Fisch existiert

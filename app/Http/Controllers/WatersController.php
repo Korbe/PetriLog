@@ -9,6 +9,8 @@ class WatersController extends Controller
 {
     public function index()
     {
+        session()->forget('meta');
+
         $states = Config::get('states');
 
         return Inertia::render('Waters/Index', [
@@ -18,6 +20,8 @@ class WatersController extends Controller
 
     public function state(string $state)
     {
+        session()->forget('meta');
+
         $states = Config::get('states');
 
         // Schauen, ob das gesuchte Bundesland existiert
@@ -35,6 +39,8 @@ class WatersController extends Controller
 
     public function waters($state, $lakeOrRiver)
     {
+        session()->forget('meta');
+
         $waters = Config::get('waters');
 
         // Schauen, ob das gesuchte See oder Fluss existiert

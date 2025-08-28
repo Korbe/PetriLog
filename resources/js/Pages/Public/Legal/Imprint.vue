@@ -1,54 +1,7 @@
 <template>
     <Layout>
 
-        <Head title="Impressum">
-
-            <title>Impressum</title>
-            <meta name="description"
-                content="Impressum der PetriLog App - Angaben gemäß §5 TMG. Kontaktinformationen und rechtliche Hinweise.">
-            <meta name="robots" content="index, follow">
-
-            <!-- Open Graph / Social Media -->
-            <meta property="og:title" content="Impressum | PetriLog">
-            <meta property="og:description"
-                content="Impressum der PetriLog App - Angaben gemäß §5 TMG. Kontaktinformationen und rechtliche Hinweise.">
-            <meta property="og:type" content="website">
-            <meta property="og:url" content="https://petrilog.com/impressum">
-            <meta property="og:image" content="https://petrilog.com/logo.pn">
-
-            <!-- Twitter Card -->
-            <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:title" content="Impressum | PetriLog">
-            <meta name="twitter:description"
-                content="Impressum der PetriLog App - Angaben gemäß §5 TMG. Kontaktinformationen und rechtliche Hinweise.">
-            <meta name="twitter:image" content="https://petrilog.com/logo.pn">
-
-
-
-
-
-
-
-            <meta name="description"
-                content="Lies die Nutzungsbedingungen von PetriLog. Erfahre alles über die Nutzung unserer Fangbuch-App, Verantwortlichkeiten und Richtlinien.">
-            <meta name="keywords" content="PetriLog, Nutzungsbedingungen, Fangbuch, Angler, Bedingungen">
-
-            <!-- Open Graph / Facebook -->
-            <meta property="og:title" content="PetriLog - Nutzungsbedingungen">
-            <meta property="og:description"
-                content="Lies die Nutzungsbedingungen von PetriLog. Erfahre alles über die Nutzung unserer Fangbuch-App, Verantwortlichkeiten und Richtlinien.">
-            <meta property="og:type" content="website">
-            <meta property="og:url" content="https://petrilog.com/terms-of-service">
-            <meta property="og:image" content="https://petrilog.com/logo.png">
-
-            <!-- Twitter Card -->
-            <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:title" content="PetriLog - Nutzungsbedingungen">
-            <meta name="twitter:description"
-                content="Lies die Nutzungsbedingungen von PetriLog. Erfahre alles über die Nutzung unserer Fangbuch-App, Verantwortlichkeiten und Richtlinien.">
-            <meta name="twitter:image" content="https://petrilog.com/logo.png">
-
-        </Head>
+        <Head title="Impressum" />
 
         <section class="relative">
 

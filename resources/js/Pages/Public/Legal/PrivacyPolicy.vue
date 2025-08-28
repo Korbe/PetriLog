@@ -1,29 +1,7 @@
 <template>
     <Layout>
 
-        <Head title="Datenschutzerklärung">
-
-            <title>Nutzungsbedingungen</title>
-            <meta name="description"
-                content="Lies die Nutzungsbedingungen von PetriLog. Erfahre alles über die Nutzung unserer Fangbuch-App, Verantwortlichkeiten und Richtlinien.">
-            <meta name="keywords" content="PetriLog, Nutzungsbedingungen, Fangbuch, Angler, Bedingungen">
-
-            <!-- Open Graph / Facebook -->
-            <meta property="og:title" content="PetriLog - Nutzungsbedingungen">
-            <meta property="og:description"
-                content="Lies die Nutzungsbedingungen von PetriLog. Erfahre alles über die Nutzung unserer Fangbuch-App, Verantwortlichkeiten und Richtlinien.">
-            <meta property="og:type" content="website">
-            <meta property="og:url" content="https://petrilog.com/terms-of-service">
-            <meta property="og:image" content="https://petrilog.com/logo.png">
-
-            <!-- Twitter Card -->
-            <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:title" content="PetriLog - Nutzungsbedingungen">
-            <meta name="twitter:description"
-                content="Lies die Nutzungsbedingungen von PetriLog. Erfahre alles über die Nutzung unserer Fangbuch-App, Verantwortlichkeiten und Richtlinien.">
-            <meta name="twitter:image" content="https://petrilog.com/logo.png">
-
-        </Head>
+        <Head title="Datenschutzerklärung" />
 
         <section class="relative">
 
