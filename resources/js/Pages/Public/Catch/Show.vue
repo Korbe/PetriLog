@@ -142,11 +142,26 @@ const props = defineProps({
 const map = ref(null);
 const isLightboxOpen = ref(false);
 const currentImageIndex = ref(0);
-
 let gmap = null;
 
+// Sichere Initialisierung von Google Maps
+const waitForGoogleMaps = () => {
+  return new Promise((resolve) => {
+    if (window.google && window.google.maps) {
+      resolve(window.google.maps);
+    } else {
+      const interval = setInterval(() => {
+        if (window.google && window.google.maps) {
+          clearInterval(interval);
+          resolve(window.google.maps);
+        }
+      }, 100);
+    }
+  });
+};
+
 const initMap = () => {
-  if (!map.value) return;
+  if (!map.value || !props.catched.latitude || !props.catched.longitude) return;
 
   const latitude = parseFloat(props.catched.latitude);
   const longitude = parseFloat(props.catched.longitude);
@@ -154,10 +169,9 @@ const initMap = () => {
   gmap = new google.maps.Map(map.value, {
     center: { lat: latitude, lng: longitude },
     zoom: 16,
-    mapId: '6da85ff10ebc18655d496f80', // Optional, für Advanced Markers Themes
+    mapId: '6da85ff10ebc18655d496f80',
   });
 
-  // Nutze AdvancedMarkerElement
   const { AdvancedMarkerElement } = google.maps.marker;
 
   new AdvancedMarkerElement({
@@ -167,32 +181,9 @@ const initMap = () => {
   });
 };
 
-
-const loadGoogleMaps = () => {
-  return new Promise((resolve, reject) => {
-    if (window.google && window.google.maps) {
-      resolve(window.google.maps);
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker`;
-    script.async = true;
-    script.defer = true;
-
-    script.onload = () => {
-      if (window.google && window.google.maps) resolve(window.google.maps);
-      else reject(new Error('Google Maps failed to load'));
-    };
-    script.onerror = reject;
-
-    document.head.appendChild(script);
-  });
-};
-
 onMounted(async () => {
   try {
-    await loadGoogleMaps();
+    await waitForGoogleMaps();
     initMap();
   } catch (err) {
     console.error('Google Maps konnte nicht geladen werden:', err);
@@ -200,23 +191,20 @@ onMounted(async () => {
 });
 
 watch(() => props.catched, () => {
-  if (window.google) {
+  if (window.google && window.google.maps) {
     initMap();
   }
 });
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
-
   return `${day}.${month}.${year} ${hours}:${minutes}`;
-}
+};
 
 const openLightbox = (index) => {
   currentImageIndex.value = index;
