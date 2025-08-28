@@ -20,6 +20,7 @@ function handleInstallClick() {
                 showBanner.value = false;
             }
             setDismissCookie();
+            showBanner.value = false;
         });
     } else {
         alert('In Chrome im Menü "Zum Startbildschirm hinzufügen" auswählen. Unter Safari bitte das Teilen-Symbol nutzen und "Zum Startbildschirm" auswählen.');
