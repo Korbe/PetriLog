@@ -14,33 +14,25 @@ function closeSidebarOnNavigate() {
 onMounted(() => {
   router.on('navigate', closeSidebarOnNavigate);
 
-  alert("onMounted");
-
   if (typeof window === undefined) {
-    alert("window is undefined")
     return;
   }
 
+  alert("Ist deferredPrompt null -" + window.deferredPrompt)
 
-  alert("Ist deferredPrompt null " + deferredPrompt === undefined)
+  if (!window.deferredPrompt) {
+    window.deferredPrompt = null;
 
-  if (window.deferredPrompt != undefined)
-    return;
+    // Listener nur einmal hinzufügen
+    const handleBeforeInstall = (e) => {
+      e.preventDefault();
+      window.deferredPrompt = e;
+      alert('beforeinstallprompt event captured');
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+    };
 
-  window.deferredPrompt == undefined
-
-  // Globales Objekt vorbereiten
-  window.deferredPrompt = null;
-
-  // Listener nur einmal hinzufügen
-  const handleBeforeInstall = (e) => {
-    e.preventDefault();
-    window.deferredPrompt = e;
-    alert('beforeinstallprompt event captured');
-    window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-  };
-
-  window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+  }
 });
 
 </script>
