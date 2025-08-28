@@ -61,7 +61,7 @@ const copyToClipboard = async () => {
                             </a>
                             <a :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=Schau was ich gefangen habe! - PetriLog`"
                                 target="_blank" rel="noopener"
-                                class="flex w-full items-center space-x-2 px-4 py-2 bg-blue-400 text-white rounded-lg">
+                                class="flex w-full items-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-lg">
                                 <span>Auf Twitter teilen</span>
                             </a>
                         </div>
