@@ -43,13 +43,13 @@ class Catched extends Model implements HasMedia
         $this->addMediaCollection('photos')->useFallbackUrl('/logo.png');
     }
 
-    public function registerMediaConversions(?Media $media = null): void
-    {
-        $this->addMediaConversion('optimized')
-            ->format('webp')
-            ->quality(60)
-            ->optimize()
-            ->nonQueued()
-            ->performOnCollections('photos');
-    }
+    // public function registerMediaConversions(?Media $media = null): void
+    // {
+    //     $this->addMediaConversion('optimized')
+    //         ->format('webp')
+    //         ->quality(60)
+    //         ->optimize()
+    //         ->nonQueued()
+    //         ->performOnCollections('photos');
+    // }
 }
