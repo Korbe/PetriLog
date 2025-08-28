@@ -245,7 +245,7 @@ Beispiel-Konfiguration für Laravel:
 
 Datei :
 	
-	/etc/supervisor/conf.d/petrilog-queue.conf:
+	/etc/supervisor/conf.d/petrilog-queue.conf
 
 Inhalt:
 
