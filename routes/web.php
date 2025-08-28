@@ -52,3 +52,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
     Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
     Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 });
+
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
