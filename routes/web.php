@@ -7,10 +7,10 @@ use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImprintController;
+use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
-use Spark\Http\Controllers\BillingPortalController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
@@ -48,4 +48,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
 
     Route::get('/fish', [FishController::class, 'index'])->name('fish.index');
     Route::get('/fish/{fish}', [FishController::class, 'fish'])->name('fish.fish');
+
+    Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
+    Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 });
