@@ -24,26 +24,32 @@ class ProcessMediaCleanup implements ShouldQueue
 
     public function handle()
     {
-        Log::info("Processing media {$this->media->id}");
+        try {
 
-        $originalPath = $this->media->getPath();
-        $optimizedPath = $this->media->getPath('optimized');
+            Log::info("Processing media {$this->media->id}");
 
-        if (file_exists($originalPath)) {
-            unlink($originalPath);
+            $originalPath = $this->media->getPath();
+            $optimizedPath = $this->media->getPath('optimized');
+
+            if (file_exists($originalPath)) {
+                unlink($originalPath);
+            }
+
+            if (file_exists($optimizedPath)) {
+                rename($optimizedPath, $originalPath);
+            }
+
+            $conversionDirectory = storage_path('app/public/' . $this->media->id . '/conversions');
+
+            if (File::exists($conversionDirectory)) {
+                File::deleteDirectory($conversionDirectory);
+            }
+
+            $this->media->size = File::size($originalPath);
+            $this->media->save();
+        } catch (\Exception $e) {
+            Log::error("Media cleanup failed for {$this->media->id}: {$e->getMessage()}");
+            throw $e;
         }
-
-        if (file_exists($optimizedPath)) {
-            rename($optimizedPath, $originalPath);
-        }
-
-        $conversionDirectory = storage_path('app/public/' . $this->media->id . '/conversions');
-
-        if (File::exists($conversionDirectory)) {
-            File::deleteDirectory($conversionDirectory);
-        }
-
-        $this->media->size = File::size($originalPath);
-        $this->media->save();
     }
 }

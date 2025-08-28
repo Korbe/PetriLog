@@ -40,8 +40,12 @@ task('build:fix-permissions', function () {
 });
 
 task('queue:restart', function () {
-    run('sudo supervisorctl restart petrilog-queue');
+    run('php {{release_path}}/artisan queue:restart');
 });
+
+// task('queue:supervisorctl:restart', function () {
+//     run('sudo supervisorctl restart petrilog-queue');
+// });
 
 
 
@@ -51,6 +55,7 @@ after('npm:install', 'npm:build');
 after('deploy:success', 'fpm:restart');
 after('deploy:success', 'ssr:restart');
 after('deploy:success', 'queue:restart');
+// after('deploy:success', 'queue:supervisorctl:restart');
 
 after('deploy:setup', 'deploy:unlock');
 after('deploy:failed', 'deploy:unlock');
