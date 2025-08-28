@@ -33,7 +33,6 @@ onMounted(() => {
   const handleBeforeInstall = (e) => {
     e.preventDefault();
     window.deferredPrompt = e;
-    alert('beforeinstallprompt event captured');
     window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
   };
 

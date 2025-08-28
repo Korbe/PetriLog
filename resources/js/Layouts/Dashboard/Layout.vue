@@ -18,8 +18,6 @@ onMounted(() => {
     return;
   }
 
-  alert("Ist deferredPrompt null -" + window.deferredPrompt)
-
   if (!window.deferredPrompt) {
     window.deferredPrompt = null;
 
@@ -27,7 +25,6 @@ onMounted(() => {
     const handleBeforeInstall = (e) => {
       e.preventDefault();
       window.deferredPrompt = e;
-      alert('beforeinstallprompt event captured');
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
     };
 

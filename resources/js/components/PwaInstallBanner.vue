@@ -11,9 +11,6 @@ function setDismissCookie() {
 }
 
 function handleInstallClick() {
-
-    alert("window.deferredPrompt " + window.deferredPrompt);
-
     if (window.deferredPrompt) {
         window.deferredPrompt.prompt();
         window.deferredPrompt.userChoice.then(choiceResult => {
