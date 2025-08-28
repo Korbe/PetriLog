@@ -26,7 +26,7 @@ onMounted(() => {
 <template>
     <div v-if="!user.subscribed && showBanner" class="bg-yellow-100 border border-yellow-300 text-yellow-900 
          dark:bg-yellow-900 dark:border-yellow-700 dark:text-yellow-100 
-         px-4 py-3 rounded-lg relative flex items-start sm:items-center sm:justify-between shadow-md">
+         px-4 py-3 mr-2 rounded-lg relative flex items-start sm:items-center sm:justify-between shadow-md">
         <p class="text-sm font-medium">
             Du befindest dich in der <strong>Testphase</strong>, diese läuft am
             <span class="font-semibold">

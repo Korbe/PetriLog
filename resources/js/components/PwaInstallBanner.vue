@@ -16,15 +16,16 @@ function handleInstallClick() {
         window.deferredPrompt.userChoice.then(choiceResult => {
             if (choiceResult.outcome === 'accepted') {
                 console.log('PWA installiert!');
+                setDismissCookie();
+                showBanner.value = false;
             }
             window.deferredPrompt = null;
-            setDismissCookie();
-            showBanner.value = false;
+            
         });
     } else {
         alert('In Chrome die drei Punkte klicken und "Zum Startbildschirm hinzufügen" auswählen, unter Safari bitte das Teilen-Symbol in nutzen und "Zum Startbildschirm" auswählen.');
-        setDismissCookie();
-        showBanner.value = false;
+        // setDismissCookie();
+        // showBanner.value = false;
     }
 }
 
