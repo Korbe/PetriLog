@@ -167,16 +167,35 @@ const initMap = () => {
   });
 };
 
-onMounted(() => {
-  if (!window.google) {
+
+const loadGoogleMaps = () => {
+  return new Promise((resolve, reject) => {
+    if (window.google && window.google.maps) {
+      resolve(window.google.maps);
+      return;
+    }
+
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&loading=async';
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker`;
     script.async = true;
     script.defer = true;
-    script.onload = () => initMap();
+
+    script.onload = () => {
+      if (window.google && window.google.maps) resolve(window.google.maps);
+      else reject(new Error('Google Maps failed to load'));
+    };
+    script.onerror = reject;
+
     document.head.appendChild(script);
-  } else {
+  });
+};
+
+onMounted(async () => {
+  try {
+    await loadGoogleMaps();
     initMap();
+  } catch (err) {
+    console.error('Google Maps konnte nicht geladen werden:', err);
   }
 });
 
