@@ -30,10 +30,10 @@ const props = defineProps({
           <h3 class="text-sm font-medium">Seiten</h3>
           <ul class="text-sm space-y-2">
             <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" href="/Preis">Preis</Link>
+              <Link class="text-gray-600 hover:text-gray-900 transition" href="/pricing">Preis</Link>
             </li>
             <li>
-              <Link class="text-gray-600 hover:text-gray-900 transition" href="/Kontakt">Kontakt</Link>
+              <Link class="text-gray-600 hover:text-gray-900 transition" href="/contact">Kontakt</Link>
             </li>
           </ul>
         </div>
