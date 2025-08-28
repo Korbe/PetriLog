@@ -5,7 +5,7 @@ return [
     'manifest' => [
         'name' => env('APP_NAME', 'PetriLog'),
         'short_name' => 'PetriLog',
-        'start_url' => '/',
+        'start_url' => '/login',
         'background_color' => '#ffffff',
         'theme_color' => '#118DF0',
         'display' => 'standalone',
