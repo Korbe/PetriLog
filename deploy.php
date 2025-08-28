@@ -39,6 +39,10 @@ task('build:fix-permissions', function () {
     run('sudo chown -R deployer:deployer {{release_path}}');
 });
 
+task('queue:restart', function () {
+    run('sudo supervisorctl restart petrilog-queue');
+});
+
 
 
 after('deploy:vendors', 'npm:install');
@@ -46,7 +50,9 @@ after('npm:install', 'npm:build');
 //after('npm:build', 'build:fix-permissions');
 after('deploy:success', 'fpm:restart');
 after('deploy:success', 'ssr:restart');
+after('deploy:success', 'queue:restart');
 
 after('deploy:setup', 'deploy:unlock');
 after('deploy:failed', 'deploy:unlock');
+
 

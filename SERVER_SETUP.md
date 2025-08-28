@@ -237,3 +237,34 @@ Server für HTTPS:
 
 	sudo apt install jpegoptim optipng pngquant gifsicle svgo webp -y
 
+## Queue vorbereiten
+
+Supervisor sorgt dafür, dass der Queue-Worker im Hintergrund läuft und nach einem Crash automatisch neu startet.
+
+Beispiel-Konfiguration für Laravel:
+
+Datei :
+	
+	/etc/supervisor/conf.d/petrilog-queue.conf:
+
+Inhalt:
+
+	[program:petrilog-queue]
+	process_name=%(program_name)s_%(process_num)02d
+	command=php /var/www/petrilog.com/current/artisan queue:work
+	autostart=true
+	autorestart=true
+	user=deployer
+	numprocs=1
+	redirect_stderr=true
+	stdout_logfile=/var/www/petrilog.com/storage/logs/queue.log
+
+
+numprocs=1 → Anzahl paralleler Worker, je nach Last erhöhen
+
+Nach Änderung laden:
+
+	sudo supervisorctl reread
+	sudo supervisorctl update
+	sudo supervisorctl start petrilog-queue:*
+

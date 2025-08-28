@@ -22,7 +22,7 @@
         "spatie/image": "^3.8",
         "spatie/image-optimizer": "^1.8",
         "spatie/laravel-image-optimizer": "^1.8",
-        "spatie/laravel-medialibrary": "^11.13",
+        "spatie/laravel-medialibrary": "^11.14",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
