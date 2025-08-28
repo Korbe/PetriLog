@@ -14,7 +14,7 @@ function closeSidebarOnNavigate() {
 onMounted(() => {
   router.on('navigate', closeSidebarOnNavigate);
 
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' && window.deferredPrompt == undefined) return;
 
   // Globales Objekt vorbereiten
   window.deferredPrompt = null;
