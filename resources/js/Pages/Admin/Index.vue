@@ -11,7 +11,7 @@
                         <h1 class="text-xl font-medium">Pulse</h1>
                         <p>Laravel Pulse überwacht deine App in Echtzeit und liefert sofortige Einblicke in Performance,
                             Queries und Fehler.</p>
-                        <VButton class="m-5" href="/pulse">Zu Pulse</VButton>
+                        <a class="m-5 cursor-pointer btn bg-primary-500 text-gray-100 hover:bg-primary-600 active:bg-primary-600 transition-all duration-150 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-600" href="/pulse">Zu Pulse</a>
                     </div>
 
                      <div
