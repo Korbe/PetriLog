@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FishController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
@@ -20,7 +21,9 @@ Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint.show
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
 Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
 
-Route::get('/coupon/{coupon}', function ($coupon) { return redirect('/?coupon=' . $coupon); });
+Route::get('/coupon/{coupon}', function ($coupon) {
+    return redirect('/?coupon=' . $coupon);
+});
 
 Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('public.catched.show');
 
@@ -51,4 +54,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
 
     Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
     Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
+
+
+    Route::post('/admin', [AdminController::class, 'index'])->name('admin.index');
+});
+
+Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/bugreports', [BugReportController::class, 'index'])->name('bugreports.index');
+    Route::get('/bugreports/{bugreport}', [BugReportController::class, 'show'])->name('bugreports.show');
+    Route::delete('/bugreports/{report}', [BugReportController::class, 'destroy'])->name('bugreports.destroy');
 });
