@@ -47,8 +47,6 @@ class HandleInertiaRequests extends Middleware
                     'id' => Auth::id(),
                     'name' => Auth::user()->name,
                     'isAdmin' => Auth::user()->isAdmin(),
-                    'onTrial' => Auth::user()->isOnTrial(),
-                    'trialEndsAt' => Auth::user()->trialEndsAt(),
                     'subscribed' => Auth::user()->subscribed(),
                     'verified' => Auth::user()->hasVerifiedEmail()
                 ] : null,

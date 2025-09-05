@@ -8,7 +8,6 @@ import CatchedPosition from './Steps/CatchedPosition.vue';
 import { computed, ref, watch } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { CheckIcon } from '@heroicons/vue/24/solid';
-import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
 
 const props = defineProps({
     errors: Object,
@@ -24,9 +23,6 @@ const page = usePage()
 
 // User aus den Inertia-Props
 const user = computed(() => page.props.auth.user)
-
-// Trial-Status
-const isOnTrial = computed(() => user.value?.onTrial)
 
 const steps = [
     { id: '01', name: 'Basisdaten', component: CatchedBasicData },
@@ -102,9 +98,7 @@ watch(
 <template>
     <PageWrapper title="Fang eintragen" :backTo="props.backToUrl">
 
-        <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
-
-        <div v-else class="bg-white dark:bg-gray-800 p-5 rounded-lg">
+        <div class="bg-white dark:bg-gray-800 p-5 rounded-lg">
 
             <!-- Progress Steps -->
             <nav class="hidden lg:block mb-5" aria-label="Progress">

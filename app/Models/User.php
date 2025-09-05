@@ -79,15 +79,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->isAdmin === true;
     }
-
-    public function isOnTrial(): bool
-    {
-        return $this->created_at
-            && $this->created_at->addDays(14)->isFuture();
-    }
-
-    public function trialEndsAt(): ?Carbon
-    {
-        return $this->created_at?->copy()->addDays(14);
-    }
 }

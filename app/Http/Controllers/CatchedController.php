@@ -69,14 +69,16 @@ class CatchedController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Wenn User noch im Trial ist und mehr als 5 catched-Einträge hat → redirect
-        if (!$user->subscribed() && $user->isOnTrial() && $user->catched()->count() >= 5) {
+        $totalCatchedCount = $user->catched()->count();
+
+        // Wenn User nicht subscribed ist und mehr als 5 catched-Einträge hat → redirect
+        if (!$user->subscribed() && $totalCatchedCount >= 5) {
             return redirect()->route('catched.index')
-                ->with('error', 'Du hast das Limit deiner Testphase erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
+                ->with('error', 'Du hast das Limit an Einträgen erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
         }
 
         return Inertia::render('Catched/Create', [
-            "backTo" => route('catched.index'),
+            "backToUrl" => route('catched.index'),
             "storeUrl" => route('catched.store')
         ]);
     }

@@ -4,10 +4,6 @@
 
             <EmailVerificationBanner />
 
-            <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
-
-            <TrialBanner />
-
             <PwaInstallBanner />
 
             <div class="flex space-x-5 w-full">
@@ -41,8 +37,6 @@ import CatchedStatsYearlyCard from './CatchedStatsYearlyCard.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { computed, onMounted } from 'vue';
 import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
-import TrialBanner from '@/components/TrialBanner.vue';
-import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
 import { usePage } from '@inertiajs/vue3';
 import EmailVerificationBanner from '@/components/EmailVerificationBanner.vue';
 
@@ -83,9 +77,6 @@ const page = usePage()
 
 // User aus den Inertia-Props
 const user = computed(() => page.props.auth.user)
-
-// Trial-Status
-const isOnTrial = computed(() => user.value?.onTrial)
 
 onMounted(() => {
     sessionStorage.setItem('lastOrigin', window.location.href);

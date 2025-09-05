@@ -9,11 +9,11 @@
 
         <div class="md:w-1/2 m-auto">
 
-            <div v-if="!canAddNewEntry()" class="bg-red-100 text-center border border-red-300 text-red-900 
+            <div v-if="!canAddNewEntry()" class="bg-white text-center border border-red-300 text-red-900 
               dark:bg-red-900 dark:border-red-700 dark:text-red-100 
               px-4 py-3 mb-5 rounded-lg shadow-md">
                 <p class="text-sm mt-1">
-                    Deine Testphase erlaubt derzeit <strong>5 Einträge</strong>. Mit einem Jahresabo kannst du alle Funktionen ohne Limit nutzen – probiere es aus!
+                    Du hast das Gratis Limit von <strong>5 Einträge</strong> erreicht. <br/>Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
                 </p>
                 <div class="mt-3">
                     <Link href="/billing" class="inline-block bg-primary-500 hover:bg-primary-600 
@@ -107,11 +107,8 @@ const page = usePage()
 // User aus den Inertia-Props
 const user = computed(() => page.props.auth.user)
 
-// Trial-Status
-const isOnTrial = computed(() => user.value?.onTrial)
-
 const canAddNewEntry = () => {
-    return !user.subscribed && isOnTrial && props.totalCatchedCount < 5
+    return !user.subscribed && props.totalCatchedCount < 5
 }
 
 const props = defineProps<Props>();

@@ -10,8 +10,6 @@ import { useForm, router, usePage } from '@inertiajs/vue3';
 import { watch, computed, ref, onMounted } from 'vue';
 import ImagePreview from './ImagePreview.vue';
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue';
-import TrialEndedBanner from '@/components/TrialEndedBanner.vue';
-
 
 const fishSpeciesAustria = [
   { label: 'Aal', value: 'Aal' },
@@ -170,9 +168,6 @@ const page = usePage()
 // User aus den Inertia-Props
 const user = computed(() => page.props.auth.user)
 
-// Trial-Status
-const isOnTrial = computed(() => user.value?.onTrial)
-
 const form = useForm({
   name: null,
   length: null,
@@ -280,9 +275,7 @@ const removeImage = (item) => {
 <template>
   <PageWrapper title="Fang bearbeiten" :backTo="`/catched/${catched.id}`">
 
-    <TrialEndedBanner v-if="!user.subscribed && !isOnTrial" />
-
-    <div v-else class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
+    <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
 
       <div v-if="loading" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-100 z-50">
         <div class="relative w-32 h-32 mb-6">
