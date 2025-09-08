@@ -56,9 +56,9 @@ const isAnnual = ref(true)
                                     class="text-gray-200 font-medium underline underline-offset-4 decoration-gray-600 mb-1">
                                     Jahresabo</div>
                                 <div class="flex items-baseline pb-4 mb-4 border-b border-gray-600 border-dashed">
-                                    <span class="text-gray-200 text-2xl font-bold">$</span>
+                                    <span class="text-gray-200 text-2xl font-bold">€</span>
                                     <span class="text-gray-200 text-4xl font-bold tabular-nums"
-                                        v-text="isAnnual ? 60 : 5"></span>
+                                        v-text="isAnnual ? '29,99' : '2,49'"></span>
                                     <span class="text-sm text-gray-400 pl-1"
                                         v-text="isAnnual ? '/Jahr' : '/Monat'"></span>
                                 </div>
