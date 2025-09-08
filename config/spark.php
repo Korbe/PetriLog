@@ -101,15 +101,16 @@ return [
 
             'plans' => [
                 [
-                    'name' => 'Jahresabo',
+                    'name' => 'PetriLog Abo',
                     'short_description' => 'Alle Funktionen freigeschaltet, um deine Fänge das ganze Jahr über zu dokumentieren und zu teilen.',
-                    // 'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN', 'pri_1000'),
+                    'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN'),
                     'yearly_id' => env('SPARK_STANDARD_YEARLY_PLAN'),
                     'features' => [
                         'Unbegrenzt Einträge',
                         'Google Maps Integration',
                         'Fotos hochladen',
                         'Fang mit Freunden teilen',
+                        'Alle Funktionen freigeschaltet',
                         '-- Keine extra Kosten'
                     ],
                     'archived' => false,

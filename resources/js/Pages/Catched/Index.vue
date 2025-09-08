@@ -13,7 +13,7 @@
               dark:bg-red-900 dark:border-red-700 dark:text-red-100 
               px-4 py-3 mb-5 rounded-lg shadow-md">
                 <p class="text-sm mt-1">
-                    Du hast das Gratis Limit von <strong>5 Einträge</strong> erreicht. <br/>Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
+                    Du hast das Gratis Limit von erreicht. <br/>Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
                 </p>
                 <div class="mt-3">
                     <Link href="/billing" class="inline-block bg-primary-500 hover:bg-primary-600 

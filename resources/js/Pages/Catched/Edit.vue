@@ -335,7 +335,8 @@ const removeImage = (item) => {
 
         <div class="flex justify-end">
           <VButton type="submit">Aktualisieren</VButton>
-          <VButton type="button" @click="deleteCatched" variant="danger" class="ml-3">
+          <VButton v-if="!user.subscribed" href="/billing" variant="danger" class="ml-3">Löschen</VButton>
+          <VButton v-else :disabled="!user.subscribed" type="button" @click="deleteCatched" variant="danger" class="ml-3">
             Löschen
           </VButton>
         </div>
