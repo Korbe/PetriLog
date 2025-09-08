@@ -103,7 +103,7 @@ return [
                 [
                     'name' => 'PetriLog Abo',
                     'short_description' => 'Alle Funktionen freigeschaltet, um deine Fänge das ganze Jahr über zu dokumentieren und zu teilen.',
-                    'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN'),
+                    //'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN'),
                     'yearly_id' => env('SPARK_STANDARD_YEARLY_PLAN'),
                     'features' => [
                         'Unbegrenzt Einträge',
