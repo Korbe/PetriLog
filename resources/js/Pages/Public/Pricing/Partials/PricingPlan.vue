@@ -18,7 +18,7 @@ const isAnnual = ref(true)
                 <!-- Section header -->
                 <div class="text-center pb-12">
                     <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                        Ein Jahresabo für echte Angler</h1>
+                        Ein Abo für echte Angler</h1>
                     <div class="max-w-3xl mx-auto">
                         <p class="text-lg text-gray-700">Alle Funktionen freigeschaltet, um deine Fänge das ganze Jahr
                             über zu dokumentieren und zu teilen.</p>
@@ -54,7 +54,7 @@ const isAnnual = ref(true)
                             <div class="mb-4">
                                 <div
                                     class="text-gray-200 font-medium underline underline-offset-4 decoration-gray-600 mb-1">
-                                    Jahresabo</div>
+                                    PetriLog Plus</div>
                                 <div class="flex items-baseline pb-4 mb-4 border-b border-gray-600 border-dashed">
                                     <span class="text-gray-200 text-2xl font-bold">€</span>
                                     <span class="text-gray-200 text-4xl font-bold tabular-nums"
@@ -62,7 +62,7 @@ const isAnnual = ref(true)
                                     <span class="text-sm text-gray-400 pl-1"
                                         v-text="isAnnual ? '/Jahr' : '/Monat'"></span>
                                 </div>
-                                <div class="text-sm text-gray-300">Ein Abo für alles</div>
+                                <div class="text-sm text-gray-300">Ein Abo für alles inkl. MwSt</div>
                             </div>
                             <ul class="text-sm text-gray-400 space-y-2 grow">
                                 <li class="flex items-center">
@@ -79,7 +79,7 @@ const isAnnual = ref(true)
                                         <path
                                             d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
                                     </svg>
-                                    <span>Bis zu 3 Bildern pro Fang</span>
+                                    <span>Bilder hochladen</span>
                                 </li>
                                 <li class="flex items-center">
                                     <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"

@@ -34,6 +34,10 @@ const faqs = [
     {
         question: 'Wie kann ich PetriLog abonnieren?',
         answer: 'Es gibt nur ein Jahresabo, das alle Funktionen freischaltet. Du kannst das Abo direkt auf unserer Website abschließen.'
+    },
+    {
+        question: 'Gibt es ein Monatsabo?',
+        answer: 'Es gibt nur ein Jahresabo, dass du buchen kannst.'
     }
 ];
 </script>
