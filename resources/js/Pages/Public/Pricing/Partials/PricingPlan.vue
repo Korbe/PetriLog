@@ -58,7 +58,7 @@ const isAnnual = ref(true)
                                 <div class="flex items-baseline pb-4 mb-4 border-b border-gray-600 border-dashed">
                                     <span class="text-gray-200 text-2xl font-bold">€</span>
                                     <span class="text-gray-200 text-4xl font-bold tabular-nums"
-                                        v-text="isAnnual ? '29,99' : '2,49'"></span>
+                                        v-text="isAnnual ? '49,99' : '4,17'"></span>
                                     <span class="text-sm text-gray-400 pl-1"
                                         v-text="isAnnual ? '/Jahr' : '/Monat'"></span>
                                 </div>

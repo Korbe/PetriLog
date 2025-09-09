@@ -31,7 +31,7 @@ const testimonials = [
     <div class="pt-12 md:pt-20">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-3xl md:text-4xl font-bold">Angler lieben PetriLog</h2>
+          <h2 class="text-3xl md:text-4xl font-bold">Österreich's Angler lieben PetriLog</h2>
         </div>
       </div>
       <div class="relative flex justify-center max-w-[94rem] mx-auto">

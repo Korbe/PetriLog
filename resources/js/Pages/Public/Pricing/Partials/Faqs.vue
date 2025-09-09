@@ -4,12 +4,12 @@ import Accordion from './Accordion.vue';
 const faqs = [
     {
         question: 'Was ist PetriLog?',
-        answer: 'PetriLog ist dein digitales Angel-Tagebuch, in dem du alle gefangenen Fische mit Länge, Gewicht, Tiefe, Wassertemperatur und Fotos festhalten kannst.',
+        answer: 'PetriLog ist dein digitales Angel-Tagebuch in Österreich, in dem du alle gefangenen Fische mit Länge, Gewicht, Tiefe, Wassertemperatur und Fotos und mehr festhalten kannst.',
         active: true
     },
     {
         question: 'Kann ich mehrere Fänge pro Tag eintragen?',
-        answer: 'Ja! Du kannst unbegrenzt viele Einträge pro Tag hinzufügen und behältst so den vollen Überblick über deine Fänge.',
+        answer: 'Ja! Du kannst mit PetriLog Plus unbegrenzt viele Einträge pro Tag hinzufügen und behältst so den vollen Überblick über deine Fänge. Ohne Abo sind die Einträge auf maximal 5 begrenzt.',
     },
     {
         question: 'Wie viele Fotos kann ich pro Fang speichern?',
@@ -38,7 +38,12 @@ const faqs = [
     {
         question: 'Gibt es ein Monatsabo?',
         answer: 'Es gibt nur ein Jahresabo, dass du buchen kannst.'
-    }
+    },
+    {
+        question: 'Habt ihr auch deutsche Seen?',
+        answer: 'PetriLog bietet derzeit nur Österreichische Gewässer an.',
+        active: true
+    },
 ];
 </script>
 

@@ -14,7 +14,7 @@
             dokumentieren, Erinnerungen bewahren.</h1>
           <div class="max-w-3xl mx-auto">
             <p class="text-lg text-gray-700 mb-8" data-aos="zoom-y-out" data-aos-delay="300">PetriLog hilft dir, deine
-              schönsten Fänge zu dokumentieren und mit Freunden zu teilen.</p>
+              schönsten Fänge in Österreich zu dokumentieren und mit Freunden zu teilen.</p>
             <div
               class="relative before:absolute before:inset-0 before:border-y before:[border-image:linear-gradient(to_right,transparent,--theme(--color-slate-300/.8),transparent)1]">
               <div class="relative max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out"

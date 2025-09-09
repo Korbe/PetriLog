@@ -14,7 +14,7 @@ import { ShareIcon } from '@heroicons/vue/24/solid';
         </div>
 
         <!-- Planet -->
-        <div class="pb-16 md:pb-20" data-aos="zoom-y-out">
+        <div data-aos="zoom-y-out">
           <div class="text-center">
             <div
               class="inline-flex relative rounded-full before:absolute before:inset-0 before:-z-10 before:scale-[.85] before:bg-linear-to-b before:from-blue-900 before:to-sky-700/50 before:blur-3xl before:animate-[pulse_4s_cubic-bezier(.4,0,.6,1)_infinite] after:absolute after:inset-0 after:rounded-[inherit] after:[background:radial-gradient(closest-side,var(--color-blue-500),transparent)]">
@@ -29,7 +29,7 @@ import { ShareIcon } from '@heroicons/vue/24/solid';
 
         <!-- Grid -->
         <div
-          class="grid sm:grid-cols-2 lg:grid-cols-3 overflow-hidden *:p-6 md:*:p-10 *:relative *:before:absolute *:before:bg-gray-800 *:before:[block-size:100vh] *:before:[inline-size:1px] *:before:[inset-inline-start:-1px] *:before:[inset-block-start:0] *:after:absolute *:after:bg-gray-800 *:after:[block-size:1px] *:after:[inline-size:100vw] *:after:[inset-inline-start:0] *:after:[inset-block-start:-1px]">
+          class="-mt-24 grid sm:grid-cols-2 lg:grid-cols-3 overflow-hidden *:p-6 md:*:p-10 *:relative *:before:absolute *:before:bg-gray-800 *:before:[block-size:100vh] *:before:[inline-size:1px] *:before:[inset-inline-start:-1px] *:before:[inset-block-start:0] *:after:absolute *:after:bg-gray-800 *:after:[block-size:1px] *:after:[inline-size:100vw] *:after:[inset-inline-start:0] *:after:[inset-block-start:-1px]">
           <article>
             <h3 class="font-medium text-gray-200 flex items-center space-x-2 mb-2">
               <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16">

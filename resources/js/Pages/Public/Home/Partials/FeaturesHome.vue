@@ -8,7 +8,7 @@
 
         <!-- Section header -->
         <div class="max-w-3xl mx-auto text-center pb-24 md:pb-14">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4">Dein Fischertagebuch – jederzeit griffbereit</h2>
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Dein Österreichisches Fischertagebuch – jederzeit griffbereit</h2>
           <p class="text-lg text-gray-700">Erfolge mit Freunden teilen – alles an einem Ort.</p>
         </div>
 
