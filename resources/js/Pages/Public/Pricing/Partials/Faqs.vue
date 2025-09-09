@@ -17,7 +17,7 @@ const faqs = [
     },
     {
         question: 'Kann ich meine Fänge mit Freunden teilen?',
-        answer: 'Ja! Du kannst einzelne Fänge oder dein gesamtes Tagebuch über Social Media oder einen direkten Link teilen.'
+        answer: 'Ja! Du kannst einzelne Fänge über Social Media oder einen direkten Link teilen.'
     },
     {
         question: 'Sind meine Daten sicher gespeichert?',
@@ -33,7 +33,7 @@ const faqs = [
     },
     {
         question: 'Wie kann ich PetriLog abonnieren?',
-        answer: 'Es gibt nur ein Jahresabo, das alle Funktionen freischaltet. Du kannst das Abo direkt auf unserer Website abschließen.'
+        answer: 'Wenn du eingeloggt bist gehe auf den Reiter Abo dann auf den Jährlichen Plan abonnieren.'
     },
     {
         question: 'Gibt es ein Monatsabo?',
