@@ -3,7 +3,8 @@
         <label v-if="label" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
             {{ label }}
         </label>
-        <div :id="id" ref="mapElement" class="w-full h-[500px]" style="min-height: 500px;"></div>
+        <div :id="id" ref="mapElement" style="width:100%; height:500px; min-height:500px;" <!-- feste Höhe -->
+            ></div>
     </div>
 </template>
 
@@ -39,25 +40,27 @@ const waitForGoogleMaps = (retries = 20) => {
     })
 }
 
-// Map initialisieren
 const initMap = (lat, lng) => {
     map = new window.google.maps.Map(mapElement.value, {
         center: { lat, lng },
         zoom: 18,
         gestureHandling: 'greedy'
-        //mapId: '6da85ff10ebc18655d496f80'
     })
 
-    // Klassischer Marker (stabil auf allen Geräten inkl. iPad)
     if (lat && lng) {
         marker = new window.google.maps.Marker({
             position: { lat, lng },
             map,
-            title: props.label || 'Ausgewählter Punkt'
+            title: props.label || 'Ausgewählter Punkt',
+            optimized: false // iOS Stabilitätsfix
         })
     }
 
-    // Klick-Listener → Marker setzen + Geocoding
+    // Workaround für iOS: Map "refreshen" wenn idle
+    window.google.maps.event.addListenerOnce(map, 'idle', () => {
+        window.google.maps.event.trigger(map, 'resize')
+    })
+
     map.addListener('click', (event) => {
         const clickedLat = event.latLng.lat()
         const clickedLng = event.latLng.lng()
@@ -66,18 +69,15 @@ const initMap = (lat, lng) => {
 
         marker = new window.google.maps.Marker({
             position: { lat: clickedLat, lng: clickedLng },
-            map
+            map,
+            optimized: false
         })
 
         const geocoder = new window.google.maps.Geocoder()
-        geocoder.geocode(
-            { location: { lat: clickedLat, lng: clickedLng } },
-            (results, status) => {
-                const address =
-                    status === 'OK' && results[0] ? results[0].formatted_address : null
-                emit('locationSelected', { lat: clickedLat, lng: clickedLng, address })
-            }
-        )
+        geocoder.geocode({ location: { lat: clickedLat, lng: clickedLng } }, (results, status) => {
+            const address = (status === 'OK' && results[0]) ? results[0].formatted_address : null
+            emit('locationSelected', { lat: clickedLat, lng: clickedLng, address })
+        })
     })
 }
 
@@ -87,12 +87,6 @@ onMounted(async () => {
 
         if (props.initialLat && props.initialLng) {
             initMap(props.initialLat, props.initialLng)
-        } else if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) =>
-                    initMap(position.coords.latitude, position.coords.longitude),
-                () => initMap(fallbackCoords.lat, fallbackCoords.lng)
-            )
         } else {
             initMap(fallbackCoords.lat, fallbackCoords.lng)
         }
