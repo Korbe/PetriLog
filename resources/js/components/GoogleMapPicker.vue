@@ -22,8 +22,22 @@ const emit = defineEmits(['locationSelected'])
 const mapElement = ref(null)
 let map = null
 let marker = null
-
 const fallbackCoords = { lat: 47.0707, lng: 15.4395 } // Graz als Beispiel
+
+const waitForGoogleMaps = (retries = 20) => {
+    return new Promise((resolve, reject) => {
+        const check = () => {
+            if (window.google && window.google.maps) {
+                resolve(window.google.maps)
+            } else if (retries > 0) {
+                setTimeout(() => check(--retries), 300)
+            } else {
+                reject(new Error('Google Maps API wurde nicht geladen.'))
+            }
+        }
+        check()
+    })
+}
 
 // Map initialisieren
 const initMap = (lat, lng) => {
@@ -65,21 +79,23 @@ const initMap = (lat, lng) => {
     })
 }
 
-onMounted(() => {
-    if (!(window.google && window.google.maps)) {
-        alert('Google Maps API wurde nicht geladen.')
-        return
-    }
+onMounted(async () => {
+    try {
+        await waitForGoogleMaps()
 
-    if (props.initialLat && props.initialLng) {
-        initMap(props.initialLat, props.initialLng)
-    } else if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) =>
-                initMap(position.coords.latitude, position.coords.longitude),
-            () => initMap(fallbackCoords.lat, fallbackCoords.lng)
-        )
-    } else {
+        if (props.initialLat && props.initialLng) {
+            initMap(props.initialLat, props.initialLng)
+        } else if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) =>
+                    initMap(position.coords.latitude, position.coords.longitude),
+                () => initMap(fallbackCoords.lat, fallbackCoords.lng)
+            )
+        } else {
+            initMap(fallbackCoords.lat, fallbackCoords.lng)
+        }
+    } catch (err) {
+        console.error(err.message)
         initMap(fallbackCoords.lat, fallbackCoords.lng)
     }
 })

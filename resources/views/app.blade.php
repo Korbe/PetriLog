@@ -22,7 +22,7 @@
 
     {{-- Google Maps API vorladen --}}
     <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}&libraries=marker&loading=async"
+        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}&libraries=marker"
         async defer></script>
 
     <!-- Scripts -->
