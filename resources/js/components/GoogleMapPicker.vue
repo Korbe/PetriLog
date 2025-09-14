@@ -44,7 +44,8 @@ const initMap = (lat, lng) => {
     map = new window.google.maps.Map(mapElement.value, {
         center: { lat, lng },
         zoom: 18,
-        mapId: '6da85ff10ebc18655d496f80'
+        gestureHandling: 'greedy'
+        //mapId: '6da85ff10ebc18655d496f80'
     })
 
     // Klassischer Marker (stabil auf allen Geräten inkl. iPad)

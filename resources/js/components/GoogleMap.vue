@@ -47,7 +47,8 @@ const initMap = () => {
     gmap = new window.google.maps.Map(map.value, {
         center: { lat, lng },
         zoom: 16,
-        mapId: '6da85ff10ebc18655d496f80',
+        gestureHandling: 'greedy'
+        //mapId: '6da85ff10ebc18655d496f80',
     })
 
     const marker = new window.google.maps.Marker({
