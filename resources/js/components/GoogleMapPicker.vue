@@ -3,8 +3,8 @@
         <label v-if="label" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
             {{ label }}
         </label>
-        <div :id="id" ref="mapElement" style="width:100%; height:500px; min-height:500px;" <!-- feste Höhe -->
-            ></div>
+        <div :id="id" ref="mapElement" class="w-full"
+            style="height:500px; min-height:500px; display:block; background:#eee;"></div>
     </div>
 </template>
 
@@ -84,12 +84,13 @@ const initMap = (lat, lng) => {
 onMounted(async () => {
     try {
         await waitForGoogleMaps()
-
-        if (props.initialLat && props.initialLng) {
-            initMap(props.initialLat, props.initialLng)
-        } else {
-            initMap(fallbackCoords.lat, fallbackCoords.lng)
-        }
+        setTimeout(() => {
+            if (props.initialLat && props.initialLng) {
+                initMap(props.initialLat, props.initialLng)
+            } else {
+                initMap(fallbackCoords.lat, fallbackCoords.lng)
+            }
+        }, 300)
     } catch (err) {
         console.error(err.message)
         initMap(fallbackCoords.lat, fallbackCoords.lng)
