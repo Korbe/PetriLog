@@ -1,8 +1,7 @@
 <template>
     <p class="text-center text-md font-medium text-gray-700 dark:text-gray-400 mb-5">Tippe auf die Positon in der Karte</p>
 
-    <GoogleMapPicker :initialLat="modelValue.latitude" :initialLng="modelValue.longitude"
-        @locationSelected="updateLocation" />
+    <GoogleMapPicker @locationSelected="updateLocation" />
 
         <p v-if="!modelValue.latitude" class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Noch keine Position eingegeben</p>
 

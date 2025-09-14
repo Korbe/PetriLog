@@ -92,7 +92,7 @@
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{
                       catched.temperature
                         ?
-                      catched.temperature + "°C" : 'n/a ' }}</td>
+                        catched.temperature + "°C" : 'n/a ' }}</td>
                   </tr>
 
                   <tr>
@@ -103,7 +103,7 @@
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{
                       catched.air_pressure
                         ?
-                      catched.air_pressure + "hPa" : 'n/a' }}</td>
+                        catched.air_pressure + "hPa" : 'n/a' }}</td>
                   </tr>
 
                   <tr>
@@ -130,8 +130,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg mx-2 mt-5 mb-20 border-1 dark:border-0  p-5">
         <p class="mb-5"><b>Hier gefangen</b><br> {{ catched.address }}</p>
-        <div class="rounded-2xl  md:w-full" ref="map" style="width: 100%; height: 400px;"></div>
-
+        <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.name" />
       </div>
     </div>
 
@@ -145,94 +144,21 @@ import VueEasyLightbox from 'vue-easy-lightbox';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { ShareIcon } from '@heroicons/vue/24/solid';
 import ShareDialog from "@/components/ShareDialog.vue";
+import GoogleMap from '@/components/GoogleMap.vue';
 
 const props = defineProps({
   catched: Object,
+  shareUrl: String,
+  editUrl: String,
 });
 
-const map = ref(null);
 const isLightboxOpen = ref(false);
 const currentImageIndex = ref(0);
 const isShareOpen = ref(false);
-let gmap = null;
 
 const openShare = () => {
   isShareOpen.value = true;
 };
-
-const loadGoogleMaps = () => {
-  return new Promise((resolve, reject) => {
-    if (window.google && window.google.maps) {
-      resolve(window.google.maps);
-      return;
-    }
-
-    // Script nur einmal anhängen
-    if (document.getElementById("google-maps")) {
-      window._initMapCallback = () => resolve(window.google.maps);
-      return;
-    }
-
-    window._initMapCallback = () => resolve(window.google.maps);
-
-    const script = document.createElement("script");
-    script.id = "google-maps";
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&callback=_initMapCallback";
-    script.async = true;
-    script.defer = true;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-};
-
-const initMap = (maps) => {
-  if (!map.value || !props.catched.latitude || !props.catched.longitude) return;
-
-  const latitude = parseFloat(props.catched.latitude);
-  const longitude = parseFloat(props.catched.longitude);
-
-  gmap = new maps.Map(map.value, {
-    center: { lat: latitude, lng: longitude },
-    zoom: 16,
-    mapId: '6da85ff10ebc18655d496f80',
-  });
-
-  const { AdvancedMarkerElement } = maps.marker;
-
-  new AdvancedMarkerElement({
-    position: { lat: latitude, lng: longitude },
-    map: gmap,
-    title: props.catched.name ?? 'Markierter Punkt',
-  });
-};
-
-const shareUrl = ref("");
-const editUrl = ref("");
-
-onMounted(async () => {
-  shareUrl.value = route('public.catched.show', props.catched.id);
-  editUrl.value = route('catched.edit', props.catched.id);
-
-  try {
-    const maps = await loadGoogleMaps();
-    initMap(maps);
-  } catch (err) {
-    console.error("Google Maps konnte nicht geladen werden:", err);
-  }
-});
-
-watch(() => props.catched, async () => {
-  if (window.google && window.google.maps) {
-    initMap(window.google.maps);
-  } else {
-    try {
-      const maps = await loadGoogleMaps();
-      initMap(maps);
-    } catch (err) {
-      console.error("Google Maps konnte nicht geladen werden:", err);
-    }
-  }
-});
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);

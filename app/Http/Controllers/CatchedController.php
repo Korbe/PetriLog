@@ -126,6 +126,8 @@ class CatchedController extends Controller
 
         return Inertia::render('Catched/Show', [
             'catched' => $catched->load('media'),
+            'shareUrl' => route('public.catched.show', $catched->id),
+            'editUrl' => route('catched.edit', $catched->id)
         ]);
     }
 

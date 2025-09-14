@@ -106,104 +106,33 @@
         </div>
       </div>
 
-
-
-
       <div class="mx-2 mt-5 mb-20 border-1 p-5">
         <p class="mb-5"><b>Hier gefangen</b><br> {{ catched.address }}</p>
-        <div class="rounded-2xl  md:w-full" ref="map" style="width: 100%; height: 400px;"></div>
-
+        <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.name" />
       </div>
 
       <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente" buttonText="Registrieren"
         buttonLink="/register" />
     </div>
-
-
-
-
   </Layout>
 </template>
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref } from 'vue';
 import VueEasyLightbox from 'vue-easy-lightbox';
 import Layout from '@/Layouts/Public/Layout.vue';
 import PageIllustration from '../PageIllustration.vue';
 import CtaAlternative from '../CtaAlternative.vue';
 import VButton from '@/components/VButton.vue';
 import { Head } from '@inertiajs/vue3';
+import GoogleMap from '@/components/GoogleMap.vue';
 
 const props = defineProps({
   catched: Object,
   user: String,
 });
 
-const map = ref(null);
 const isLightboxOpen = ref(false);
 const currentImageIndex = ref(0);
-let gmap = null;
-
-const loadGoogleMaps = () => {
-  return new Promise((resolve, reject) => {
-    if (window.google && window.google.maps) {
-      resolve(window.google.maps);
-      return;
-    }
-
-    // Script nur einmal anhängen
-    if (document.getElementById("google-maps")) {
-      window._initMapCallback = () => resolve(window.google.maps);
-      return;
-    }
-
-    window._initMapCallback = () => resolve(window.google.maps);
-
-    const script = document.createElement("script");
-    script.id = "google-maps";
-    script.src =
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ywPxkkW1oOy70Rab2oqnhF02DLe5MA&libraries=marker&loading=asyn&callback=_initMapCallback";
-    script.async = true;
-    script.defer = true;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-};
-
-const initMap = (maps) => {
-  if (!map.value || !props.catched.latitude || !props.catched.longitude) return;
-
-  const latitude = parseFloat(props.catched.latitude);
-  const longitude = parseFloat(props.catched.longitude);
-
-  const gmap = new maps.Map(map.value, {
-    center: { lat: latitude, lng: longitude },
-    zoom: 16,
-    mapId: "6da85ff10ebc18655d496f80",
-  });
-
-  const { AdvancedMarkerElement } = maps.marker;
-
-  new AdvancedMarkerElement({
-    position: { lat: latitude, lng: longitude },
-    map: gmap,
-    title: props.catched.name ?? "Markierter Punkt",
-  });
-};
-
-onMounted(async () => {
-  try {
-    const maps = await loadGoogleMaps();
-    initMap(maps);
-  } catch (err) {
-    console.error("Google Maps konnte nicht geladen werden:", err);
-  }
-});
-
-watch(() => props.catched, () => {
-  if (window.google && window.google.maps) {
-    initMap();
-  }
-});
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);

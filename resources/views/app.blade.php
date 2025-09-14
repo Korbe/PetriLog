@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- Dynamische Meta aus Session --}}
-    @if(session('meta'))
-        @foreach(session('meta') as $name => $content)
-            @if(Str::startsWith($name, 'og:'))
+    @if (session('meta'))
+        @foreach (session('meta') as $name => $content)
+            @if (Str::startsWith($name, 'og:'))
                 <meta property="{{ $name }}" content="{{ $content }}">
             @else
                 <meta name="{{ $name }}" content="{{ $content }}">
@@ -19,6 +19,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    {{-- Google Maps API vorladen --}}
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=marker&loading=async"
+        async defer></script>
 
     <!-- Scripts -->
     @laravelPWA

@@ -7,7 +7,7 @@ import VSelect from '@/components/VSelect.vue';
 import VTextarea from '@/components/VTextarea.vue';
 import VDateTimePicker from '@/components/VDateTimePicker.vue';
 import { useForm, router, usePage } from '@inertiajs/vue3';
-import { watch, computed, ref, onMounted } from 'vue';
+import { watch, computed, ref } from 'vue';
 import ImagePreview from './ImagePreview.vue';
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue';
 
