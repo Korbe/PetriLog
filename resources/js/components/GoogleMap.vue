@@ -50,9 +50,7 @@ const initMap = () => {
         mapId: '6da85ff10ebc18655d496f80',
     })
 
-    const { AdvancedMarkerElement } = window.google.maps.marker
-
-    new AdvancedMarkerElement({
+    const marker = new window.google.maps.Marker({
         position: { lat, lng },
         map: gmap,
         title: props.title,

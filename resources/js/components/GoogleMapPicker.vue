@@ -3,7 +3,7 @@
         <label v-if="label" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
             {{ label }}
         </label>
-        <div :id="id" class="w-full h-[500px]" ref="mapElement"></div>
+        <div :id="id" ref="mapElement" class="w-full h-[500px]" style="min-height: 500px;"></div>
     </div>
 </template>
 
@@ -47,22 +47,23 @@ const initMap = (lat, lng) => {
         mapId: '6da85ff10ebc18655d496f80'
     })
 
-    const { AdvancedMarkerElement } = window.google.maps.marker
-
+    // Klassischer Marker (stabil auf allen Geräten inkl. iPad)
     if (lat && lng) {
-        marker = new AdvancedMarkerElement({
+        marker = new window.google.maps.Marker({
             position: { lat, lng },
-            map
+            map,
+            title: props.label || 'Ausgewählter Punkt'
         })
     }
 
+    // Klick-Listener → Marker setzen + Geocoding
     map.addListener('click', (event) => {
         const clickedLat = event.latLng.lat()
         const clickedLng = event.latLng.lng()
 
-        if (marker) marker.map = null
+        if (marker) marker.setMap(null)
 
-        marker = new AdvancedMarkerElement({
+        marker = new window.google.maps.Marker({
             position: { lat: clickedLat, lng: clickedLng },
             map
         })
