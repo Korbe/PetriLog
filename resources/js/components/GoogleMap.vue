@@ -1,5 +1,6 @@
 <template>
-    <div ref="map" class="w-full h-[400px] rounded-2xl"></div>
+    <div ref="map" class="w-full h-[400px] "></div>
+    <!-- rounded-2xl -->
 </template>
 
 <script setup>
