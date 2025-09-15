@@ -49,7 +49,7 @@ const initMap = () => {
         center: { lat, lng },
         zoom: 16,
         gestureHandling: 'greedy',
-        mapId: '6da85ff10ebc18655d496f80',
+        //mapId: '6da85ff10ebc18655d496f80',
     })
 
     const { AdvancedMarkerElement } = window.google.maps.marker
