@@ -19,7 +19,6 @@ function setDismissCookie() {
 function handleInstallClick() {
     if (isiOS) {
         alert('Bitte das Teilen-Symbol nutzen und "Zum Startbildschirm" auswählen.');
-        //setDismissCookie();
         showBanner.value = false;
         return;
     }
@@ -32,7 +31,6 @@ function handleInstallClick() {
             } else {
                 alert('In Chrome bitte im Menü "Zum Startbildschirm hinzufügen" auswählen.');
             }
-            //setDismissCookie();
             showBanner.value = false;
         });
     } else {

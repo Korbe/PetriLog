@@ -29,7 +29,7 @@ const copyToClipboard = async () => {
 
 <template>
     <TransitionRoot as="template" :show="props.modelValue">
-        <Dialog as="div" class="relative z-50" @close="close">
+        <Dialog as="div" class="relative z-50 " @close="close">
             <!-- Overlay -->
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                 leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -42,9 +42,9 @@ const copyToClipboard = async () => {
                     enter-from="opacity-0 translate-y-4 scale-95" enter-to="opacity-100 translate-y-0 scale-100"
                     leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 scale-100"
                     leave-to="opacity-0 translate-y-4 scale-95">
-                    <DialogPanel class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+                    <DialogPanel class="w-full max-w-md rounded-2xl dark:bg-gray-800 bg-white p-6 shadow-xl">
                         <div class="flex justify-between items-center mb-4">
-                            <DialogTitle class="text-lg font-medium text-gray-900">
+                            <DialogTitle class="text-lg font-medium dark:text-gray-200 text-gray-900">
                                 Fang teilen
                             </DialogTitle>
                             <button @click="close" class="rounded-md p-2 text-gray-400 hover:text-gray-600">
@@ -66,10 +66,21 @@ const copyToClipboard = async () => {
                             </a>
                         </div>
 
+                        <div class="my-2">
+                            <!-- WhatsApp Share -->
+                            <a :href="`https://wa.me/?text=${encodeURIComponent(`Schau was ich gefangen habe! ${shareUrl}`)}`"
+                                target="_blank" rel="noopener"
+                                class="flex w-full items-center space-x-2 px-4 py-2 bg-green-500 text-white rounded-lg">
+                                <span>Auf WhatsApp teilen</span>
+                            </a>
+                        </div>
+
+
+
                         <!-- URL Copy -->
-                         <p class="pb-2">Oder direkt den Link posten:</p>
+                        <p class="pb-2 dark:text-gray-200">Oder direkt den Link posten:</p>
                         <div class="flex items-center space-x-2">
-                            
+
                             <VInput class="flex-1" :model-value="shareUrl" readonly />
                             <VButton @click="copyToClipboard" class="p-2 bg-gray-200 rounded-lg hover:bg-gray-300">
                                 <ClipboardIcon class="w-5 h-5 text-white" />
