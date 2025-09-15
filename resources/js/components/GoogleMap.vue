@@ -1,5 +1,5 @@
 <template>
-    <div ref="map" class="w-full h-[400px] "></div>
+    <div ref="map" class="w-full h-[400px]"></div>
     <!-- rounded-2xl -->
 </template>
 
@@ -49,10 +49,11 @@ const initMap = () => {
         center: { lat, lng },
         zoom: 16,
         gestureHandling: 'greedy'
-        //mapId: '6da85ff10ebc18655d496f80',
     })
 
-    const marker = new window.google.maps.Marker({
+    const { AdvancedMarkerElement } = window.google.maps.marker
+
+    new AdvancedMarkerElement({
         position: { lat, lng },
         map: gmap,
         title: props.title,

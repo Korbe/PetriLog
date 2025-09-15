@@ -49,12 +49,13 @@ const initMap = (lat, lng) => {
         gestureHandling: 'greedy'
     })
 
+    const { AdvancedMarkerElement } = window.google.maps.marker
+
     if (lat && lng) {
-        marker = new window.google.maps.Marker({
+        marker = new AdvancedMarkerElement({
             position: { lat, lng },
             map,
             title: props.label || 'Ausgewählter Punkt',
-            optimized: false // iOS Fix
         })
     }
 
@@ -66,12 +67,11 @@ const initMap = (lat, lng) => {
         const clickedLat = event.latLng.lat()
         const clickedLng = event.latLng.lng()
 
-        if (marker) marker.setMap(null)
+        if (marker) marker.map = null // AdvancedMarker entfernen
 
-        marker = new window.google.maps.Marker({
+        marker = new AdvancedMarkerElement({
             position: { lat: clickedLat, lng: clickedLng },
             map,
-            optimized: false
         })
 
         const geocoder = new window.google.maps.Geocoder()
