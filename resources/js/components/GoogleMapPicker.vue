@@ -46,7 +46,8 @@ const initMap = (lat, lng) => {
     map = new window.google.maps.Map(mapElement.value, {
         center: { lat, lng },
         zoom: 18,
-        gestureHandling: 'greedy'
+        gestureHandling: 'greedy',
+        mapId: '6da85ff10ebc18655d496f80',
     })
 
     const { AdvancedMarkerElement } = window.google.maps.marker
