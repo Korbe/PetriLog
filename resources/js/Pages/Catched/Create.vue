@@ -8,6 +8,7 @@ import CatchedPosition from './Steps/CatchedPosition.vue';
 import { computed, ref, watch } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { CheckIcon } from '@heroicons/vue/24/solid';
+import FullLoadingScreen from '@/components/FullLoadingScreen.vue';
 
 const props = defineProps({
     errors: Object,
@@ -136,17 +137,7 @@ watch(
                     {{ steps[currentStep].name }}</p>
                 <component v-if="!loading" :is="steps[currentStep].component" v-model="form" :errors="errors" />
 
-                <div v-if="loading" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-100 z-50">
-                    <div class="relative w-32 h-32 mb-6">
-                        <div
-                            class="absolute inset-0 border-8 border-primary-500 border-t-transparent rounded-full animate-spin">
-                        </div>
-                        <div
-                            class="absolute inset-4 border-4 border-blue-300 border-t-transparent rounded-full animate-spin-slow">
-                        </div>
-                    </div>
-                    <p class="text-3xl font-bold text-gray-700 animate-pulse">Bitte warten...</p>
-                </div>
+                <FullLoadingScreen v-if="loading" />
 
                 <!-- Navigation Buttons -->
                 <div class="mt-6 flex justify-between">
