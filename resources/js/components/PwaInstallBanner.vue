@@ -65,7 +65,7 @@ onMounted(() => {
     <div v-if="showBanner"
         class="bg-white dark:bg-gray-800 rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
         <p class="text-sm font-medium pr-1">
-            Startbildschirm hinzufügen
+            Zum Startbildschirm hinzufügen
         </p>
         <div class="flex items-center space-x-2">
             <button @click="handleInstallClick"
