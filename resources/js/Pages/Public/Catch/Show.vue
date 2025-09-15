@@ -35,6 +35,19 @@
         </div>
       </div>
 
+      <div class="hidden md:block">
+        <ul role="list"
+          class="px-5 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
+          <li v-for="(media, index) in props.catched.media" :key="media.name">
+            <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
+              :src="media.original_url" alt="" />
+          </li>
+          <vue-easy-lightbox v-if="isLightboxOpen" :visible="isLightboxOpen"
+            :imgs="props.catched.media.map(item => item.original_url)" :index="currentImageIndex"
+            @hide="closeLightbox" />
+        </ul>
+      </div>
+
       <div class="px-4 sm:px-6 lg:px-8 border-1 mt-5 m-2 rounded-lg">
         <div class="flow-root">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -87,18 +100,7 @@
         </div>
       </div>
 
-      <div class="hidden md:block">
-        <ul role="list"
-          class="px-5 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
-          <li v-for="(media, index) in props.catched.media" :key="media.name">
-            <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
-              :src="media.original_url" alt="" />
-          </li>
-          <vue-easy-lightbox v-if="isLightboxOpen" :visible="isLightboxOpen"
-            :imgs="props.catched.media.map(item => item.original_url)" :index="currentImageIndex"
-            @hide="closeLightbox" />
-        </ul>
-      </div>
+      
 
       <div class="mx-2 mt-5">
         <div v-if="catched.remark" class=" w-full border-1 rounded-lg p-5">
@@ -106,7 +108,7 @@
         </div>
       </div>
 
-      <div class="mx-2 mt-5 mb-20 border-1 p-5">
+      <div class="mx-2 mt-5 mb-20 border-1 p-5 rounded-lg">
         <p class="mb-5"><b>Hier gefangen</b><br> {{ catched.address }}</p>
         <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.name" />
       </div>
