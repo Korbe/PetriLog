@@ -24,8 +24,11 @@ const mapElement = ref(null)
 let map = null
 let marker = null
 
-// 👉 Villach als Default
+// Villach als Default
 const fallbackCoords = { lat: 46.6103, lng: 13.8558 }
+
+// Prüfen ob Gerät iOS/macOS
+const isApple = /iPad|iPhone|Macintosh/.test(navigator.userAgent)
 
 const waitForGoogleMaps = (retries = 20) => {
     return new Promise((resolve, reject) => {
@@ -47,17 +50,27 @@ const initMap = (lat, lng) => {
         center: { lat, lng },
         zoom: 18,
         gestureHandling: 'greedy',
-        //mapId: '6da85ff10ebc18655d496f80',
+        ...(isApple ? {} : { mapId: '6da85ff10ebc18655d496f80' }) // mapId nur für Android/Windows
     })
 
-    const { AdvancedMarkerElement } = window.google.maps.marker
-
     if (lat && lng) {
-        marker = new AdvancedMarkerElement({
-            position: { lat, lng },
-            map,
-            title: props.label || 'Ausgewählter Punkt',
-        })
+        if (!isApple && window.google.maps.marker?.AdvancedMarkerElement) {
+            // ✅ AdvancedMarkerElement für Nicht-Apple
+            const { AdvancedMarkerElement } = window.google.maps.marker
+            marker = new AdvancedMarkerElement({
+                position: { lat, lng },
+                map,
+                title: props.label || 'Ausgewählter Punkt',
+            })
+        } else {
+            // ❌ Klassischer Marker für iOS/macOS
+            marker = new window.google.maps.Marker({
+                position: { lat, lng },
+                map,
+                title: props.label || 'Ausgewählter Punkt',
+                optimized: false
+            })
+        }
     }
 
     window.google.maps.event.addListenerOnce(map, 'idle', () => {
@@ -68,12 +81,27 @@ const initMap = (lat, lng) => {
         const clickedLat = event.latLng.lat()
         const clickedLng = event.latLng.lng()
 
-        if (marker) marker.map = null // AdvancedMarker entfernen
+        if (marker) {
+            if (!isApple && marker instanceof window.google.maps.marker.AdvancedMarkerElement) {
+                marker.map = null
+            } else {
+                marker.setMap(null)
+            }
+        }
 
-        marker = new AdvancedMarkerElement({
-            position: { lat: clickedLat, lng: clickedLng },
-            map,
-        })
+        if (!isApple && window.google.maps.marker?.AdvancedMarkerElement) {
+            const { AdvancedMarkerElement } = window.google.maps.marker
+            marker = new AdvancedMarkerElement({
+                position: { lat: clickedLat, lng: clickedLng },
+                map,
+            })
+        } else {
+            marker = new window.google.maps.Marker({
+                position: { lat: clickedLat, lng: clickedLng },
+                map,
+                optimized: false
+            })
+        }
 
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode(

@@ -23,6 +23,10 @@ const props = defineProps({
 
 const map = ref(null)
 let gmap = null
+let marker = null
+
+// Prüfen ob Gerät iOS/macOS
+const isApple = /iPad|iPhone|Macintosh/.test(navigator.userAgent)
 
 const waitForGoogleMaps = (retries = 20) => {
     return new Promise((resolve, reject) => {
@@ -30,7 +34,7 @@ const waitForGoogleMaps = (retries = 20) => {
             if (window.google && window.google.maps) {
                 resolve(window.google.maps)
             } else if (retries > 0) {
-                setTimeout(() => check(--retries), 300) // alle 300ms prüfen
+                setTimeout(() => check(--retries), 300)
             } else {
                 reject(new Error('Google Maps API wurde nicht geladen.'))
             }
@@ -49,15 +53,29 @@ const initMap = () => {
         center: { lat, lng },
         zoom: 16,
         gestureHandling: 'greedy',
-        //mapId: '6da85ff10ebc18655d496f80',
+        ...(isApple ? {} : { mapId: '6da85ff10ebc18655d496f80' }) // mapId nur für Android/Windows
     })
 
-    const { AdvancedMarkerElement } = window.google.maps.marker
+    if (!isApple && window.google.maps.marker?.AdvancedMarkerElement) {
+        // ✅ AdvancedMarkerElement für Nicht-Apple
+        const { AdvancedMarkerElement } = window.google.maps.marker
+        marker = new AdvancedMarkerElement({
+            position: { lat, lng },
+            map: gmap,
+            title: props.title,
+        })
+    } else {
+        // ❌ Klassischer Marker für Apple Geräte
+        marker = new window.google.maps.Marker({
+            position: { lat, lng },
+            map: gmap,
+            title: props.title,
+            optimized: false
+        })
+    }
 
-    new AdvancedMarkerElement({
-        position: { lat, lng },
-        map: gmap,
-        title: props.title,
+    window.google.maps.event.addListenerOnce(gmap, 'idle', () => {
+        window.google.maps.event.trigger(gmap, 'resize')
     })
 }
 
