@@ -50,7 +50,7 @@ return [
             '2048x2732' => '/images/icons/splash-2048x2732.png',
         ],
         'custom' => [
-            'description' => 'PetriLog ist eine moderne Anwendung für Angler der du deine Fänge dokumentieren kannst, inklusive Gewicht, Länge, Fangdatum, Ort und Fotos.',
+            'description' => 'PetriLog ist eine moderne Anwendung für Angler mit der du deine Fänge dokumentieren kannst, inklusive Gewicht, Länge, Fangdatum, Ort und Fotos.',
             "categories" => [
                 "entertainment",
                 "lifestyle",
