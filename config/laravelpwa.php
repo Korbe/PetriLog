@@ -3,6 +3,7 @@
 return [
     'name' => 'PetriLog',
     'manifest' => [
+        "id" => "com.korbitsch.petrilog",
         'name' => env('APP_NAME', 'PetriLog'),
         'short_name' => 'PetriLog',
         'start_url' => '/login',

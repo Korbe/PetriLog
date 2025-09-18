@@ -14,7 +14,7 @@
         </div>
 
         <!-- Right: Actions -->
-        <div class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+        <div class="flex flex-wrap justify-start sm:justify-end gap-2">
             <slot name="actions" />
         </div>
 
