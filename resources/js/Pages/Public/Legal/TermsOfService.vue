@@ -46,50 +46,65 @@
                                 sorgfältig durch.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">1. Allgemeine Nutzung</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">1. Geltungsbereich</h2>
                             <p class="mb-4">
-                                PetriLog ist eine Plattform zur Dokumentation von Angel-Fängen. Sie erklären sich damit
-                                einverstanden, die Anwendung nur zu legalen Zwecken und in Übereinstimmung mit allen
-                                geltenden Gesetzen zu nutzen.
+                                Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge, die zwischen den
+                                Nutzern (im Folgenden
+                                „Mitglied“) und der Plattform Petrilog geschlossen werden.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">2. Registrierung und Konto</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">2. Vertragsgegenstand</h2>
                             <p class="mb-4">
-                                Für die Nutzung bestimmter Funktionen ist eine Registrierung erforderlich. Sie sind
-                                verantwortlich für die Sicherheit Ihres Kontos und Ihrer Zugangsdaten. Geben Sie Ihr
-                                Passwort nicht weiter.
+                                Petrilog bietet seinen Mitgliedern die Möglichkeit, Gewässerdaten (Seen, Tiefen, etc.)
+                                zu erfassen und einzusehen.
+                                Die Nutzung ist an eine kostenpflichtige Mitgliedschaft gebunden.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">3. Inhalte und Medien</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">3. Mitgliedschaft und Preise</h2>
                             <p class="mb-4">
-                                Sie sind verantwortlich für alle Inhalte, die Sie in PetriLog hochladen, einschließlich
-                                Fotos, Texte und Fangdaten. Bitte laden Sie keine urheberrechtlich geschützten oder
-                                rechtswidrigen Inhalte hoch.
+                                Die Mitgliedschaft kostet jährlich 49,99 € und verlängert sich automatisch um ein
+                                weiteres Jahr, sofern sie nicht
+                                rechtzeitig gekündigt wird.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">4. Haftung</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">4. Vertragsabschluss</h2>
                             <p class="mb-4">
-                                PetriLog übernimmt keine Haftung für Schäden, Verluste oder Probleme, die durch die
-                                Nutzung der Plattform entstehen. Die Nutzung erfolgt auf eigenes Risiko.
+                                Der Vertrag kommt mit Abschluss des Registrierungsprozesses und Bestätigung durch
+                                Petrilog zustande.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">5. Änderungen der Plattform</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">5. Widerrufsrecht</h2>
                             <p class="mb-4">
-                                Wir behalten uns das Recht vor, PetriLog jederzeit zu aktualisieren, zu ändern oder
-                                einzustellen. Über wesentliche Änderungen werden Nutzer, soweit möglich, informiert.
+                                Mitglieder haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu
+                                widerrufen. Die Frist beträgt
+                                14 Tage ab dem Tag des Vertragsabschlusses.
+                            </p>
+                            <p class="mb-4">
+                                Um das Widerrufsrecht auszuüben, muss das Mitglied Petrilog mittels einer eindeutigen
+                                Erklärung (z. B. per E-Mail)
+                                über den Entschluss, diesen Vertrag zu widerrufen, informieren.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">6. Datenschutz</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">6. Kündigung</h2>
                             <p class="mb-4">
-                                Die Verarbeitung Ihrer Daten erfolgt gemäß unserer <a href="/privacy-policy"
-                                    class="text-blue-600">Datenschutzerklärung</a>. Bitte lesen Sie diese aufmerksam.
+                                Die Mitgliedschaft kann jederzeit zum Ende der jeweiligen Laufzeit gekündigt werden.
+                                Ohne Kündigung verlängert sich
+                                die Mitgliedschaft automatisch um ein weiteres Jahr.
                             </p>
 
-                            <h2 class="text-2xl font-semibold mt-8 mb-4">7. Änderungen der Nutzungsbedingungen</h2>
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">7. Haftung</h2>
                             <p class="mb-4">
-                                Wir können diese Nutzungsbedingungen jederzeit anpassen. Die aktuelle Version ist stets
-                                auf unserer Website verfügbar. Durch die weitere Nutzung der Plattform erklären Sie sich
-                                mit den geänderten Bedingungen einverstanden.
+                                Petrilog haftet nur für Schäden, die auf einer vorsätzlichen oder grob fahrlässigen
+                                Pflichtverletzung beruhen. Für
+                                leichte Fahrlässigkeit haftet Petrilog nur bei Verletzung wesentlicher
+                                Vertragspflichten.
+                            </p>
+
+                            <h2 class="text-2xl font-semibold mt-8 mb-4">8. Schlussbestimmungen</h2>
+                            <p class="mb-4">
+                                Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Wirksamkeit der
+                                übrigen Bestimmungen unberührt.
+                                Es gilt das Recht der Bundesrepublik Deutschland.
                             </p>
 
                             <p class="mt-8 text-gray-600">
