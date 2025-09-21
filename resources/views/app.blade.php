@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="de">
 
 <head>
+    <meta http-equiv="content-language" content="de">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="robots" content="index, follow">
+
+
+
 
     {{-- Dynamische Meta aus Session --}}
     @if (session('meta'))
@@ -25,7 +30,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-54ZZQRJ2RT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'G-54ZZQRJ2RT');
@@ -36,7 +44,32 @@
         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}&libraries=marker&loading=async"
         async defer loading="async"></script>
 
-    <!-- Scripts -->
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+            "@type": "Organization",
+            "name": "{{ config('app.name') }}",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('logo.png') }}"
+            },
+            {
+            "@type": "WebSite",
+            "url": "{{ url()->current() }}",
+            "name": "{{ config('app.name') }}",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "{{ url('/search?q={search_term_string}') }}",
+                "query-input": "required name=search_term_string"
+            }
+            }
+        ]
+        }
+    </script>
+
+
     @laravelPWA
 
     @routes
