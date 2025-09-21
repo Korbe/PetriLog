@@ -2,7 +2,7 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-<img src="https://petrilog.korbitsch.at/logo.png" class="logo" alt="PetriLog">
+<img src="https://petrilog.korbitsch.at/logo.png" alt="Logo" class="logo" alt="PetriLog">
 </x-mail::header>
 </x-slot:header>
 

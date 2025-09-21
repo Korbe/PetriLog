@@ -8,7 +8,7 @@
         <div class="flex-1 flex items-center">
           <!-- Logo -->
           <Link class="inline-flex" href="/" aria-label="PetriLog">
-          <img src="/images/icons/logo-512.png" class="w-32" />
+          <img src="/images/icons/logo-512.png" alt="Logo" class="w-32" />
           </Link>
         </div>
 

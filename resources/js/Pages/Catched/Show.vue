@@ -9,13 +9,13 @@
         <!-- Erstes Bild groß über 2 Spalten -->
         <div class="col-span-2">
           <img v-if="props.catched.media[0]" @click="openLightbox(0)" :src="props.catched.media[0].original_url"
-            class="w-full h-64 object-cover rounded-lg cursor-pointer" />
+            class="w-full h-64 object-cover rounded-lg cursor-pointer" alt="user-image-1" />
         </div>
 
         <!-- Restliche Bilder dynamisch -->
         <div v-for="(media, index) in props.catched.media.slice(1)" :key="media.id" class="col-span-1">
           <img @click="openLightbox(index + 1)" :src="media.original_url"
-            class="w-full h-32 object-cover rounded-lg cursor-pointer" />
+            class="w-full h-32 object-cover rounded-lg cursor-pointer" :alt="'user-image-' + index" />
         </div>
       </div>
 
@@ -24,7 +24,7 @@
           class="px-5  md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
           <li v-for="(media, index) in props.catched.media" :key="media.name">
             <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
-              :src="media.original_url" alt="" />
+              :src="media.original_url" :alt="'user-image' + index" />
           </li>
           <vue-easy-lightbox v-if="isLightboxOpen" :visible="isLightboxOpen"
             :imgs="props.catched.media.map(item => item.original_url)" :index="currentImageIndex"

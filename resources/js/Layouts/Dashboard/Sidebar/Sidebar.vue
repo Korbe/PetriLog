@@ -28,8 +28,8 @@
         </button>
         <!-- Logo -->
         <Link class="block" href="/">
-          <img src="/logo.png" class="h-16 hidden 2xl:block" />
-          <img src="/logo-short.png" class="h-10 2xl:hidden" />
+          <img src="/logo.png" alt="Logo" class="h-16 hidden 2xl:block" />
+          <img src="/logo-short.png" alt="Logo" class="h-10 2xl:hidden" />
         </Link>
       </div>
 

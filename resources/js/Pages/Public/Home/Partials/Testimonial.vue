@@ -6,7 +6,7 @@ const props = defineProps(['testimonial'])
   <article
     class="relative flex flex-col rounded-2xl h-full p-5 shadow-lg md:odd:-rotate-1 md:even:rotate-1 bg-white/70 shadow-black/[0.03] before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(var(--color-gray-100),var(--color-gray-200))_border-box] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] before:[mask-composite:exclude_!important] before:pointer-events-none">
     <header class="flex items-center gap-3 mb-4">
-      <img class="shrink-0 rounded-full" :src="props.testimonial.img" width="44" height="44"
+      <img class="shrink-0 rounded-full" :src="props.testimonial.img" alt="image" width="44" height="44"
         :alt="props.testimonial.name" />
       <div>
         <div class="font-bold">{{ props.testimonial.name }}</div>
@@ -27,15 +27,7 @@ const props = defineProps(['testimonial'])
         </div>
       </div>
     </div>
-    <div v-if="props.testimonial.videoThumb" class="grow">
-      <p class="font-semibold mb-4">
-        <slot />
-      </p>
-      <a :href="props.testimonial.videoUrl">   
-        <img class="w-full" :src="props.testimonial.videoThumb" width="312" height="180" alt="View on YouTuobe" />
-      </a>
-    </div>
-    <div v-else class="grow text-sm text-gray-700">
+    <div class="grow text-sm text-gray-700">
       <slot />
     </div>
   </article>

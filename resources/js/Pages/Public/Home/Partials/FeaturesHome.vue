@@ -13,7 +13,7 @@
         </div>
 
         <div class="max-w-3xl mx-auto" data-aos="zoom-y-out" data-aos-delay="600">
-          <img src="/images/public/petrilog_catch.png" class="border-1 border-gray-300 rounded-md">
+          <img src="/images/public/petrilog_catch.png" alt="catch" class="border-1 border-gray-300 rounded-md">
         </div>
 
         <!-- Grid -->
