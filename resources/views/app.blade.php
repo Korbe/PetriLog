@@ -45,28 +45,32 @@
         async defer loading="async"></script>
 
 
+    @php
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'Organization',
+                    'name' => config('app.name'),
+                    'url' => url('/'),
+                    'logo' => asset('logo.png'),
+                ],
+                [
+                    '@type' => 'WebSite',
+                    'url' => url()->current(),
+                    'name' => config('app.name'),
+                    'potentialAction' => [
+                        '@type' => 'SearchAction',
+                        'target' => url('/search?q={search_term_string}'),
+                        'query-input' => 'required name=search_term_string',
+                    ],
+                ],
+            ],
+        ];
+    @endphp
+
     <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-            "@type": "Organization",
-            "name": "{{ config('app.name') }}",
-            "url": "{{ url('/') }}",
-            "logo": "{{ asset('logo.png') }}"
-            },
-            {
-            "@type": "WebSite",
-            "url": "{{ url()->current() }}",
-            "name": "{{ config('app.name') }}",
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": "{{ url('/search?q={search_term_string}') }}",
-                "query-input": "required name=search_term_string"
-            }
-            }
-        ]
-        }
+        {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT) !!}
     </script>
 
 
