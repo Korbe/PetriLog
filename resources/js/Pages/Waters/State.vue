@@ -2,8 +2,8 @@
     <PageWrapper :title="state.name" :backTo="`/waters`">
 
         <div class="w-full md:w-1/2 mx-auto">
-            <img :src="state.wallpaper" :alt="state" class="w-full h-40 md:h-80 object-cover rounded-lg" />
-            <div class="bg-white p-3 md:p-10 md:pt-5">
+            <img :src="state.wallpaper" :alt="state" class="w-full h-40 md:h-80 object-cover rounded-t-lg" />
+            <div class="bg-white dark:bg-gray-800 p-3 md:p-10 md:pt-5 rounded-b-lg">
                 <p class="pt-5">{{ state.desc }}</p>
 
                 <p class="font-bold text-lg pt-5 pb-2">Seen</p>
