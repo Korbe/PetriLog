@@ -41,15 +41,16 @@ class WatersController extends Controller
     {
         session()->forget('meta');
 
-        $waters = Config::get('waters');
+        $lakes = Config::get('lakes');
+        $rivers = Config::get('rivers');
 
         // Schauen, ob das gesuchte See oder Fluss existiert
-        if (!array_key_exists($lakeOrRiver, $waters)) {
+        if (array_key_exists($lakeOrRiver, $lakes)) {
+            $data = $lakes[$lakeOrRiver];
+        }else if(array_key_exists($lakeOrRiver, $rivers)){
+            $data = $rivers[$lakeOrRiver];
+        }else
             abort(404, 'See oder Fluss nicht gefunden');
-        }
-
-        // Passendes Bundesland holen
-        $data = $waters[$lakeOrRiver];
 
         return Inertia::render('Waters/Waters', [
             'waters' => $data
