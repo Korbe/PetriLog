@@ -5,10 +5,10 @@
             <img :src="waters.link" :alt="waters" class="w-full h-40 md:h-80 object-cover rounded-t-lg" />
             <div class="bg-white dark:bg-gray-800 p-3 md:p-10 rounded-b-lg">
 
-                <p class="pt-5">{{ waters.desc }}</p>
+                <p class="pt-5" v-html="waters.desc"></p>
 
                 <h2 class="font-bold pt-5">Tipp:</h2>
-                <p>{{ waters.tips }}</p>
+                <p v-html="waters.tips"></p>
 
                 <p class="font-bold text-lg pt-5 pb-2">Diese Fische sind hier heimisch</p>
                 <ul v-for="(fish, name) in waters.fish" :key="fish">
