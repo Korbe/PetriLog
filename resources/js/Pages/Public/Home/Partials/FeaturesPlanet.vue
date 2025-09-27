@@ -69,9 +69,9 @@ import { ShareIcon } from '@heroicons/vue/24/solid';
                 <path
                   d="M8 0a1 1 0 0 1 1 1v14a1 1 0 1 1-2 0V1a1 1 0 0 1 1-1Zm6 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1a1 1 0 1 1 0 2h-1a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3h1a1 1 0 1 1 0 2h-1ZM1 1a1 1 0 0 0 0 2h1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 1 0 0 2h1a3 3 0 0 0 3-3V4a3 3 0 0 0-3-3H1Z" />
               </svg>
-              <span>Gewässer-Logbuch</span>
+              <span>Gewässer-Wiki</span>
             </h3>
-            <p class="text-[15px] text-gray-400">Ob See, Fluss oder Bach – dokumentiere deine Angelplätze und finde deine Hotspots jederzeit wieder.</p>
+            <p class="text-[15px] text-gray-400">Schau dir genau an welche Gewässer es in Österreich gibt und welche Fische hier heimisch sind.</p>
           </article>
           <article>
             <h3 class="font-medium text-gray-200 flex items-center space-x-2 mb-2">
