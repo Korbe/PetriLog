@@ -202,8 +202,8 @@ return [
 			Flossen: Alle Flossen, insbesondere die Bauch- und Afterflossen, sind abgerundet. 
 			Färbung: Die Grundfärbung ist meist dunkel olivgrün oder -braun. Die Flanken können einen gelbgrünen oder goldenen Glanz aufweisen, während der Bauch oft heller oder gelblich-orange ist. ",
 	],
-	"Regenbodenorelle" => [
-		"name" => "Regenbogenorelle",
+	"Regenbogenforelle" => [
+		"name" => "Regenbogenforelle",
 		"link" => "Regenbogenforelle.jpeg",
 		"desc" => "Die Regenbogenforelle ist ein torpedoförmiger Salmonide mit einem charakteristischen rosa schillernden Längsband auf den Körperseiten und vielen kleinen schwarzen Punkten. Sie stammt aus Nordamerika, ist ein beliebter Speisefisch und erreicht Längen von 25–60 cm. Ihr Lebensraum sind kühle, sauerstoffreiche Fließgewässer, und sie ist weniger anspruchsvoll als die Bachforelle. 
 			Form: Spindelförmiger, torpedoförmiger Körper. 
