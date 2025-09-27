@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spark\Billable;
+use Laravel\Paddle\Customer;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -22,6 +23,17 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
     use Billable;
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            foreach ($user->catched as $catch) {
+                $catch->delete(); //delete it directly here to delete images too
+            }
+
+            Customer::where('email', $user->email)->delete(); //delete the customer so there is no exception when he registers again
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
