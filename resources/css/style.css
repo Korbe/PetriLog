@@ -98,3 +98,16 @@
     transform: rotate(360deg);
   }
 }
+
+.multiselect {
+  .multiselect__tags {
+    border: 1px solid #e1e3e6;
+  }
+
+  .multiselect__placeholder {
+    color:rgb(80, 80, 80);
+  }
+
+}
+
+

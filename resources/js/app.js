@@ -1,6 +1,7 @@
 import './bootstrap';
 import './pwa.js';
 import '../css/app.css';
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';

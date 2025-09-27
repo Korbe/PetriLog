@@ -27,6 +27,7 @@
         "laravel-vite-plugin": "^1.2.0",
         "vite": "^6.0.11",
         "vue-easy-lightbox": "^1.19.0",
-        "vue-flatpickr-component": "^11.0.5"
+        "vue-flatpickr-component": "^11.0.5",
+        "vue-multiselect": "^3.3.1"
     }
 }
