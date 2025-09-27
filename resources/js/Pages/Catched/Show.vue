@@ -122,8 +122,8 @@
         </div>
       </div>
 
-      <div class="bg-white dark:bg-gray-800 rounded-lg border-1 dark:border-0  mx-2 mt-5">
-        <div v-if="catched.remark" class=" w-full   p-5">
+      <div v-if="catched.remark" class="bg-white dark:bg-gray-800 rounded-lg border-1 dark:border-0  mx-2 mt-5">
+        <div class=" w-full p-5">
           <p>{{ catched.remark }}</p>
         </div>
       </div>
