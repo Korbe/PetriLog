@@ -68,7 +68,7 @@ const copyToClipboard = async () => {
 
                         <div class="my-2">
                             <!-- WhatsApp Share -->
-                            <a :href="`https://wa.me/?text=${encodeURIComponent(`Schau was ich gefangen habe! ${shareUrl}`)}`"
+                            <a :href="`https://wa.me/?text=${encodeURIComponent(`${shareUrl}`)}`"
                                 target="_blank" rel="noopener"
                                 class="flex w-full items-center space-x-2 px-4 py-2 bg-green-500 text-white rounded-lg">
                                 <span>Auf WhatsApp teilen</span>
