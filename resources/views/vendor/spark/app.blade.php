@@ -7,11 +7,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=Nunito:400,600,700" rel="stylesheet">
 
     <!-- Scripts -->
-    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
 
     <!-- Styles -->
@@ -26,14 +24,16 @@
         }
     </style>
     @endif
-
     @inertiaHead
 </head>
+
+@inertiaHead
+
 <body class="font-sans antialiased">
     @inertia
 
     <!-- Scripts -->
-    <script>
+    <script type="module">
         window.translations = <?php echo $translations; ?>;
 
         {!! file_get_contents($jsPath) !!}
