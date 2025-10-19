@@ -13,7 +13,7 @@
               dark:bg-red-900 dark:border-red-700 dark:text-red-100 
               px-4 py-3 mb-5 rounded-lg shadow-md">
                 <p class="text-sm mt-1">
-                    Du hast das Gratis Limit von erreicht. <br/>Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
+                    Du hast das Gratis Limit erreicht. <br />Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
                 </p>
                 <div class="mt-3">
                     <Link href="/billing" class="inline-block bg-primary-500 hover:bg-primary-600 
@@ -45,8 +45,8 @@
                 <transition name="fade">
                     <div v-if="isOpen(date)" class="mt-2 pl-2 pr-2">
                         <div v-for="catched in items" :key="catched.id">
-                            <Link :href="`/catched/${catched.id}`" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2"
-                                >
+                            <Link :href="`/catched/${catched.id}`"
+                                class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2">
                             <span>
                                 <span class="text-primary-500"><b>{{ catched.name }}</b></span> - {{ catched.waters
                                 }}
@@ -104,11 +104,14 @@ interface Props {
 
 const page = usePage()
 
-// User aus den Inertia-Props
-const user = computed(() => page.props.auth.user)
-
 const canAddNewEntry = () => {
-    return !user.subscribed && props.totalCatchedCount < 5
+    if (page.props.auth.user.subscribed) 
+        return true; 
+    
+    if (props.totalCatchedCount <= 5)
+        return false;
+    
+    return true;
 }
 
 const props = defineProps<Props>();
