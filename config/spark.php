@@ -91,7 +91,7 @@ return [
         // Features::billingAddressCollection(['required' => true]),
         // Features::mustAcceptTerms(),
         // Features::euVatCollection(['home-country' => 'BE']),
-        // Features::invoiceEmails(['custom-addresses' => true]),
+        Features::invoiceEmails(['custom-addresses' => true]),
         Features::paymentNotificationEmails(),
     ],
 
