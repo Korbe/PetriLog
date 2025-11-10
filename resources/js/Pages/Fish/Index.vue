@@ -6,11 +6,12 @@
         </template>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-5">
+
             <div v-for="(fish, name) in filteredFish" :key="name" class="pb-4 ">
 
                 <Link :href="route('fish.fish', name)">
                     <div class="flex flex-col items-center pb-10">
-                        <img :src="fish.link" :alt="name" class="w-72 h-44 object-cover rounded-lg" />
+                        <img :src="fish.link" :alt="name" class="w-72 h-44 object-contain rounded-lg bg-white" />
                         <h1 class="text-xl font-bold pt-3">{{ name }}</h1>
                     </div>
                 </Link>
