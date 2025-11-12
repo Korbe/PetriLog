@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Catched;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -23,10 +22,21 @@ class DashboardController extends Controller
 
         $catchedStatsYearly = $this->getCatchedStatisticsForCurrentYear();
 
+        $heaviestCatch = $this->heaviestCatch();
+        $longestCatch = $this->longestCatch();
+
+        $routeHeaviest = $heaviestCatch ? route("catched.show", $heaviestCatch->id) : "";
+        $routeLongest = $longestCatch ? route("catched.show", $longestCatch->id) : "";
+
         return Inertia::render('Dashboard/Dashboard', [
             'catchedStatsMonthly' => $catchedStatsMonthly,
             'catchedStatsYearly' => $catchedStatsYearly,
-            'createUrl' => route('catched.create')
+            'heaviestCatch' => $heaviestCatch,
+            'longestCatch' => $longestCatch,
+
+            'createUrl' => route('catched.create'),
+            'routeHeaviest' => $routeHeaviest,
+            'routeLongest' => $routeLongest,
         ]);
     }
 
@@ -113,5 +123,33 @@ class DashboardController extends Controller
             'scores' => $counts,
             'total' => $total,
         ];
+    }
+
+    public function longestCatch()
+    {
+        $userId = Auth::id();
+
+        $catched = Catched::where('user_id', $userId)
+            ->orderByDesc('length')
+            ->first();
+
+        if ($catched != null)
+            $catched->load('media');
+
+        return $catched;
+    }
+
+    public function heaviestCatch()
+    {
+        $userId = Auth::id();
+
+        $catched = Catched::where('user_id', $userId)
+            ->orderByDesc('weight')
+            ->first();
+
+        if ($catched != null)
+            $catched->load('media');
+
+        return $catched;
     }
 }

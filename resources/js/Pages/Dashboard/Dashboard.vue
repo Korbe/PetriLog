@@ -24,6 +24,22 @@
                     <div class="w-full lg:w-1/3 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
                         <CatchedStatsYearlyCard :data="catchedStatsYearly" />
                     </div>
+
+                </div>
+
+            </div>
+
+            <div class="flex space-x-5 w-full">
+
+                <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
+
+                    <div class="w-full lg:w-1/2 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
+                        <LongestCatchCard :catched="longestCatch" :route="routeLongest" />
+                    </div>
+
+                    <div class="w-full lg:w-1/2 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
+                        <HeaviestCatchCard :catched="heaviestCatch" :route="routeHeaviest" />
+                    </div>
                 </div>
 
             </div>
@@ -39,6 +55,8 @@ import { computed, onMounted } from 'vue';
 import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
 import { usePage } from '@inertiajs/vue3';
 import EmailVerificationBanner from '@/components/EmailVerificationBanner.vue';
+import LongestCatchCard from './LongestCatchCard.vue';
+import HeaviestCatchCard from './HeaviestCatchCard.vue';
 
 const props = defineProps({
     catchedStatsMonthly: {
@@ -69,7 +87,12 @@ const props = defineProps({
             required: true,
         },
     },
+    heaviestCatch : Object,
+    longestCatch : Object,
+
     createUrl: String,
+    routeHeaviest: String,
+    routeLongest: String
 })
 
 
