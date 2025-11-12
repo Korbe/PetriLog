@@ -1,7 +1,12 @@
 <template>
     <PageWrapper title="Gewässer" :backTo="`/dashboard`">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+            class="flex items-center gap-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 text-sm">
+            <span>Diese Liste ist unvollständig und wird laufend ergänzt.</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
             <div v-for="(stateWaters, state) in states" :key="state" class="pb-4 ">
 
                 <Link :href="`/waters/${state}`">
