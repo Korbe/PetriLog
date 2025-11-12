@@ -108,7 +108,7 @@ const canAddNewEntry = () => {
     if (page.props.auth.user.subscribed) 
         return true; 
     
-    if (props.totalCatchedCount <= 5)
+    if (props.totalCatchedCount >= 5)
         return false;
     
     return true;
