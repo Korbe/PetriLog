@@ -76,7 +76,7 @@
               class="absolute top-full z-20 left-0 w-full bg-white rounded-xl shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(var(--color-gray-100),var(--color-gray-200))_border-box] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] before:[mask-composite:exclude_!important] before:pointer-events-none">
               <ul class="text-sm p-2">
                 <li>
-                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/pricing">Pricing
+                  <Link class="flex text-gray-700 hover:bg-gray-100 rounded-lg py-1.5 px-2" href="/pricing">Preis
                   </Link>
                 </li>
                 <li>

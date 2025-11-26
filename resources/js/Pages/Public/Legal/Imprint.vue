@@ -34,7 +34,11 @@
                                     88</a>
                             </p>
 
-                            <p>Umsatzsteuer-Identifikationsnummer: keine</p>
+                            <p>Umsatzsteuer-Identifikationsnummer: Kleinstunternehmer</p>
+
+                            <hr class="my-4">
+
+                            <p>Quelle Bilder - Wikipedia.com</p>
 
                             <hr class="my-4">
 
