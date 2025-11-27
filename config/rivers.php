@@ -10,9 +10,9 @@ return [
         "name"  => "Bregenzer Ach",
         "desc"  => "Hauptfluss des Bregenzerwalds; klare, kalte Gebirgsache mit Schotterbänken und tiefen Gumpen.",
         "fish"  => [
-            "Bachforelle"       => ["link" => "Bachforelle.jpg"],
-            "Äsche"             => ["link" => "Äsche.jpeg"],
-            "Regenbogenforelle" => ["link" => "Regenbogenforelle.jpeg"],
+            "Bachforelle"       => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"             => ["link" => "/images/fish/Äsche.jpeg"],
+            "Regenbogenforelle" => ["link" => "/images/fish/Regenbogenforelle.jpeg"],
         ],
         "tips"  => "Sommer: Trockenfliegen an Rieselstrecken; Frühjahr/Herbst: Streamer und kleine Wobbler in tiefen Rinnen."
     ],
@@ -22,9 +22,9 @@ return [
         "name"  => "Ill",
         "desc"  => "Großer Alpenfluss im Walgau; wechselnde Staustrecken und freie Rauschen.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Huchen"      => ["link" => "Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
         ],
         "tips"  => "Niedrigwasser: Nymphen tief präsentieren; kalte Monate: Huchen großvolumig, langsam führen (lokale Bestimmungen beachten)."
     ],
@@ -34,8 +34,8 @@ return [
         "name"  => "Dornbirner Ach",
         "desc"  => "Kurz, aber abwechslungsreich – von Schluchten bis zum Bodensee-Delta.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Kleine Spinner/Streamer in Taschenwasser; vorsichtige Pirsch an klaren Tagen."
     ],
@@ -45,8 +45,8 @@ return [
         "name"  => "Leiblach",
         "desc"  => "Grenzbach zu Deutschland; kiesig, strukturreich.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Feines Gerät; natürliche Muster bei klarem Wasser."
     ],
@@ -60,10 +60,10 @@ return [
         "name"  => "Inn",
         "desc"  => "Alpen-Hauptfluss; breite Rieselstrecken, Staubereiche und urbane Abschnitte (Innsbruck).",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Huchen"      => ["link" => "Huchen.jpg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Sommer: Nymphe & Trockenfliege an Rauschen; Winter: Huchen langsam mit Großstreamer/Gummi."
     ],
@@ -73,8 +73,8 @@ return [
         "name"  => "Lech",
         "desc"  => "Naturnaher Wildfluss mit Schotterinseln; Natura-2000-Gebiet.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
         ],
         "tips"  => "Große, flächige Läufe systematisch abfischen; Waten nur, wo erlaubt/sicher."
     ],
@@ -84,8 +84,8 @@ return [
         "name"  => "Ötztaler Ache",
         "desc"  => "Gletscherfluss; kräftige Strömung, tiefe Gumpen.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Schwere Nymphen/Streamer; Vorsicht bei Schmelzwasser."
     ],
@@ -95,8 +95,8 @@ return [
         "name"  => "Ziller",
         "desc"  => "Seitenfluss des Inn im Zillertal; kanalartige Abschnitte und kiesige Rauschen.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Nymphen tief; kleine Wobbler an Übergängen."
     ],
@@ -106,8 +106,8 @@ return [
         "name"  => "Isel",
         "desc"  => "Letzter frei fließender Gletscherfluss der Ostalpen (Osttirol).",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Sommer: frühe/ späte Tageszeiten; kraftvolle Strömung beachten."
     ],
@@ -121,10 +121,10 @@ return [
         "name"  => "Salzach",
         "desc"  => "Großer Alpenfluss, bildet abschnittsweise Grenze zu Bayern; urbane und natürliche Abschnitte.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Huchen"      => ["link" => "Huchen.jpg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Wechsel zwischen Nymphe/Streamer; Huchen in kalten Monaten an Kehrwassern."
     ],
@@ -134,8 +134,8 @@ return [
         "name"  => "Saalach",
         "desc"  => "Klarer Gebirgsfluss aus Tirol kommend; mündet bei Salzburg in die Salzach.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Trockenfliege an ruhigen Läufen; Nymphe in tiefen Taschen."
     ],
@@ -145,8 +145,8 @@ return [
         "name"  => "Lammer",
         "desc"  => "Bekannt für Lammeröfen-Schlucht; glasklares Wasser.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Vorsichtiges Anpirschen; kleine, natürliche Muster."
     ],
@@ -160,10 +160,10 @@ return [
         "name"  => "Donau",
         "desc"  => "Großer Strom durch das Eferdinger Becken und Linz; Buhnenfelder, Alt- und Seitenarme.",
         "fish"  => [
-            "Zander" => ["link" => "Zander.jpg"],
-            "Wels"   => ["link" => "Wels.jpeg"],
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Barbe"  => ["link" => "Barbe.jpeg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Wels"   => ["link" => "/images/fish/Wels.jpeg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Barbe"  => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Zander in der Dämmerung an Steinpackungen; Wels nachts großvolumig in Rinnen."
     ],
@@ -173,9 +173,9 @@ return [
         "name"  => "Traun",
         "desc"  => "Klarer Alpenfluss (Traunsee → Donau); kiesige Rauschen, tiefe Pools.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Huchen"      => ["link" => "Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
         ],
         "tips"  => "Nymphen- und Streamerfischerei; Winter: Huchen (Regeln beachten)."
     ],
@@ -185,9 +185,9 @@ return [
         "name"  => "Enns",
         "desc"  => "Grenzfluss zu Steiermark/NÖ; wechselt zwischen Staubereichen und Rauschen.",
         "fish"  => [
-            "Huchen"      => ["link" => "Huchen.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Übergänge/Rinnen abklopfen; schwere Muster bei höherem Wasser."
     ],
@@ -197,8 +197,8 @@ return [
         "name"  => "Ager",
         "desc"  => "Abfluss des Attersees; klare Sicht, konstante Wassertemperatur.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
         ],
         "tips"  => "Feine Nymphen; Sichtfischerei bei Sonne."
     ],
@@ -208,8 +208,8 @@ return [
         "name"  => "Steyr",
         "desc"  => "Trinkwasser-klar; mäandrierende Rinnen und Kolke.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
         ],
         "tips"  => "Tagesrandzeiten; lange Vorfächer bei glasklarem Wasser."
     ],
@@ -223,10 +223,10 @@ return [
         "name"  => "Donau",
         "desc"  => "Wachau, Tullnerfeld & Marchfeld – Buhnen, Strömungskanten, Altarme.",
         "fish"  => [
-            "Zander" => ["link" => "Zander.jpg"],
-            "Wels"   => ["link" => "Wels.jpeg"],
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Barbe"  => ["link" => "Barbe.jpeg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Wels"   => ["link" => "/images/fish/Wels.jpeg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Barbe"  => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Gummifische an Buhnenköpfen; Wels nachts mit Großgummi/Deadbait."
     ],
@@ -236,9 +236,9 @@ return [
         "name"  => "Kamp",
         "desc"  => "Aus dem Waldviertel; oberlauf klar & kiesig, unterhalb der Stauseen strukturreich.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Oberlauf: Trockenfliege; Unterlauf: Nymphe/Spinner in Zügen."
     ],
@@ -248,8 +248,8 @@ return [
         "name"  => "Ybbs",
         "desc"  => "Klares Voralpengewässer; wechselt zwischen Gumpen und Rauschen.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
         ],
         "tips"  => "Nymphe tief; feine Trockenfliegen an glatten Läufen."
     ],
@@ -259,9 +259,9 @@ return [
         "name"  => "Traisen",
         "desc"  => "Renaturierte Untere Traisen; schöne Kiesbänke, strukturreiche Rinnen.",
         "fish"  => [
-            "Barbe"       => ["link" => "Barbe.jpeg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Nase"        => ["link" => "Nase.jpg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Nase"        => ["link" => "/images/fish/Nase.jpg"],
         ],
         "tips"  => "Barben auf Grund mit Käse/Teig; Fliege in glasklaren Abschnitten."
     ],
@@ -271,9 +271,9 @@ return [
         "name"  => "Pielach",
         "desc"  => "Bekannt für Huchen-Vorkommen; natürlicher Flusslauf.",
         "fish"  => [
-            "Huchen"      => ["link" => "Huchen.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
         ],
         "tips"  => "Große Köder bei kaltem Wasser; Huchen- und Schonzeiten beachten."
     ],
@@ -283,9 +283,9 @@ return [
         "name"  => "Thaya",
         "desc"  => "Grenzfluss zu Tschechien; langsamere, tiefe Abschnitte und Mäander.",
         "fish"  => [
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Zander" => ["link" => "Zander.jpg"],
-            "Rapfen" => ["link" => "Rapfen.jpeg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Rapfen" => ["link" => "/images/fish/Rapfen.jpeg"],
         ],
         "tips"  => "Hecht an Schilfkanten; Zander in Dämmerung an Kanten."
     ],
@@ -295,9 +295,9 @@ return [
         "name"  => "March",
         "desc"  => "Auenlandschaft an der Grenze zur Slowakei; Altarm- und Buhnenfischerei.",
         "fish"  => [
-            "Zander" => ["link" => "Zander.jpg"],
-            "Wels"   => ["link" => "Wels.jpeg"],
-            "Hecht"  => ["link" => "Hecht.jpg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Wels"   => ["link" => "/images/fish/Wels.jpeg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
         ],
         "tips"  => "Gummifische an Strömungskanten; toter Köderfisch nachts auf Wels."
     ],
@@ -307,9 +307,9 @@ return [
         "name"  => "Leitha",
         "desc"  => "Grenzfluss NÖ–Burgenland; ruhigere Abschnitte mit Schilf und Weiden.",
         "fish"  => [
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Barsch" => ["link" => "Barsch.jpeg"],
-            "Schleie"=> ["link" => "schleie.jpg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Barsch" => ["link" => "/images/fish/Barsch.jpeg"],
+            "Schleie"=> ["link" => "/images/fish/schleie.jpg"],
         ],
         "tips"  => "Kleine Köder in Krautzonen; vorsichtige Annäherung."
     ],
@@ -323,10 +323,10 @@ return [
         "name"  => "Donau",
         "desc"  => "Großstadt-Strom – Donaukanal, Neue Donau & Hauptstrom; Spundwände, Steinpackungen, Brücken.",
         "fish"  => [
-            "Zander" => ["link" => "Zander.jpg"],
-            "Wels"   => ["link" => "Wels.jpeg"],
-            "Rapfen" => ["link" => "Rapfen.jpeg"],
-            "Barsch" => ["link" => "Barsch.jpeg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Wels"   => ["link" => "/images/fish/Wels.jpeg"],
+            "Rapfen" => ["link" => "/images/fish/Rapfen.jpeg"],
+            "Barsch" => ["link" => "/images/fish/Barsch.jpeg"],
         ],
         "tips"  => "Zander nachts mit Gummi/Jig an Kanten; Rapfen tags mit schnellen Topwater/Spinner."
     ],
@@ -336,8 +336,8 @@ return [
         "name"  => "Wienfluss",
         "desc"  => "Kanalisiert durch die Stadt; kurze, fischereilich interessante Abschnitte.",
         "fish"  => [
-            "Döbel- Aitel"       => ["link" => "Döbel-Aitel.jpeg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
+            "Döbel- Aitel"       => ["link" => "/images/fish/Döbel-Aitel.jpeg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Kleine Wobbler/Spinner unter Brücken; Schon- und Schutzbestimmungen beachten."
     ],
@@ -347,8 +347,8 @@ return [
         "name"  => "Liesingbach",
         "desc"  => "Kleingewässer im Süden Wiens; renaturierte Abschnitte.",
         "fish"  => [
-            "Döbel"       => ["link" => "Döbel-Aitel.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle."],
+            "Döbel"       => ["link" => "/images/fish/Döbel-Aitel.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle."],
         ],
         "tips"  => "Ultraleicht; vorsichtiges Auftreten in flachen Bereichen."
     ],
@@ -362,10 +362,10 @@ return [
         "name"  => "Leitha",
         "desc"  => "Gemächlich, krautreich; Auwald-Abschnitte mit Altarmen.",
         "fish"  => [
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Barsch" => ["link" => "Barsch.jpeg"],
-            "Schleie"=> ["link" => "schleie.jpg"],
-            "Schuppenkarpfen"=> ["link" => "Schuppenkarpfen.jpeg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Barsch" => ["link" => "/images/fish/Barsch.jpeg"],
+            "Schleie"=> ["link" => "/images/fish/schleie.jpg"],
+            "Schuppenkarpfen"=> ["link" => "/images/fish/Schuppenkarpfen.jpeg"],
         ],
         "tips"  => "Waggler an Krautkanten; Hecht mit Weedless-Rigs."
     ],
@@ -375,9 +375,9 @@ return [
         "name"  => "Raab",
         "desc"  => "Grenz-/Übergangsfluss zur Steiermark und HU; langsamer, strukturreicher Unterlauf.",
         "fish"  => [
-            "Zander" => ["link" => "Zander.jpg"],
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Wels"   => ["link" => "Wels.jpeg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Wels"   => ["link" => "/images/fish/Wels.jpeg"],
         ],
         "tips"  => "Zander in Dämmerung; Wels nachts an Rinnen/Unterständen."
     ],
@@ -387,9 +387,9 @@ return [
         "name"  => "Lafnitz",
         "desc"  => "Naturnaher Grenzfluss zu der Steiermark; Mäander, Totholz, Uferabbrüche.",
         "fish"  => [
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Schuppenkarpfen"=> ["link" => "Schuppenkarpfen.jpeg"],
-            "Schleie"=> ["link" => "schleie.jpg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Schuppenkarpfen"=> ["link" => "/images/fish/Schuppenkarpfen.jpeg"],
+            "Schleie"=> ["link" => "/images/fish/schleie.jpg"],
         ],
         "tips"  => "Leise Pirsch; kleine, natürliche Köder."
     ],
@@ -399,9 +399,9 @@ return [
         "name"  => "Pinka",
         "desc"  => "Südliches Flusssystem; strukturreich mit Weiden und Kolken.",
         "fish"  => [
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Barsch" => ["link" => "Barsch.jpeg"],
-            "Schuppenkarpfen"=> ["link" => "Schuppenkarpfen.jpeg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Barsch" => ["link" => "/images/fish/Barsch.jpeg"],
+            "Schuppenkarpfen"=> ["link" => "/images/fish/Schuppenkarpfen.jpeg"],
         ],
         "tips"  => "Kleine Spinner/Cranks entlang Uferkanten; feine Grundmontagen auf Friedfisch."
     ],
@@ -415,10 +415,10 @@ return [
         "name"  => "Mur",
         "desc"  => "Landesfluss – von alpinen Rauschen bis zu breiten Unterläufen bei Graz & Leibnitz.",
         "fish"  => [
-            "Huchen"      => ["link" => "Huchen.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
-            "Nase"        => ["link" => "Nase.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
+            "Nase"        => ["link" => "/images/fish/Nase.jpg"],
         ],
         "tips"  => "Huchen im Winter mit Großködern; Barben auf Grund an Kiesrinnen."
     ],
@@ -428,8 +428,8 @@ return [
         "name"  => "Mürz",
         "desc"  => "Kalter Voralpenfluss; kiesig und schnell.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Nymphe tief, Trockenfliege bei Schlupf."
     ],
@@ -439,9 +439,9 @@ return [
         "name"  => "Raab",
         "desc"  => "Mittellauf mit wechselnden Rinnen, Altarmen und Wehren.",
         "fish"  => [
-            "Zander" => ["link" => "Zander.jpg"],
-            "Hecht"  => ["link" => "Hecht.jpg"],
-            "Wels"   => ["link" => "Wels.jpeg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
+            "Hecht"  => ["link" => "/images/fish/Hecht.jpg"],
+            "Wels"   => ["link" => "/images/fish/Wels.jpeg"],
         ],
         "tips"  => "Gummifische & Spinnerbaits an Krautkanten."
     ],
@@ -451,8 +451,8 @@ return [
         "name"  => "Enns",
         "desc"  => "Alpiner Abschnitt an der Landesgrenze zu OÖ; kiesige Rauschen.",
         "fish"  => [
-            "Huchen"      => ["link" => "Huchen.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Streamer in tiefe Gumpen; Respekt vor Strömung."
     ],
@@ -466,10 +466,10 @@ return [
         "name"  => "Drau",
         "desc"  => "Wichtigster Fluss Kärntens; Staustrecken, Altarmreste, freiere Fließabschnitte.",
         "fish"  => [
-            "Äsche"  => ["link" => "Äsche.jpeg"],
-            "Huchen" => ["link" => "Huchen.jpg"],
-            "Barbe"  => ["link" => "Barbe.jpeg"],
-            "Zander" => ["link" => "Zander.jpg"],
+            "Äsche"  => ["link" => "/images/fish/Äsche.jpeg"],
+            "Huchen" => ["link" => "/images/fish/Huchen.jpg"],
+            "Barbe"  => ["link" => "/images/fish/Barbe.jpeg"],
+            "Zander" => ["link" => "/images/fish/Zander.jpg"],
         ],
         "tips"  => "Äschen/Nymphe in Rauschen; Zander abends in Staubereichen; Huchen im Winter groß."
     ],
@@ -479,9 +479,9 @@ return [
         "name"  => "Gail",
         "desc"  => "Naturnaher Alpenfluss im Gailtal; breite Kiesbänke, klare Läufe.",
         "fish"  => [
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Huchen"      => ["link" => "Huchen.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Huchen"      => ["link" => "/images/fish/Huchen.jpg"],
         ],
         "tips"  => "Trockenfliege bei ruhiger Oberfläche; Streamer in tiefen Zügen."
     ],
@@ -491,8 +491,8 @@ return [
         "name"  => "Gurk",
         "desc"  => "Typischer Kärntner Voralpenfluss; strukturreich mit Kolken.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Nymphen & kleine Wobbler; feine Präsentation in klarem Wasser."
     ],
@@ -502,9 +502,9 @@ return [
         "name"  => "Lavant",
         "desc"  => "Fluss im Lavanttal; wechselt zwischen kanalartig und naturnahen Strecken.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
-            "Barbe"       => ["link" => "Barbe.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
+            "Barbe"       => ["link" => "/images/fish/Barbe.jpeg"],
         ],
         "tips"  => "Feines Gerät; Nymphe tief an Kanten."
     ],
@@ -514,8 +514,8 @@ return [
         "name"  => "Glan",
         "desc"  => "Nebenfluss der Gurk bei St. Veit/Klagenfurt; kiesig, klar.",
         "fish"  => [
-            "Bachforelle" => ["link" => "Bachforelle.jpg"],
-            "Äsche"       => ["link" => "Äsche.jpeg"],
+            "Bachforelle" => ["link" => "/images/fish/Bachforelle.jpg"],
+            "Äsche"       => ["link" => "/images/fish/Äsche.jpeg"],
         ],
         "tips"  => "Ultraleicht; natürliche Farben."
     ],
