@@ -6,8 +6,11 @@
     <p v-if="!modelValue.latitude" class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Noch keine Position eingegeben</p>
 
     <VInput v-if="modelValue.address" label="Adresse" v-model="modelValue.address" :error="errors?.address" />
+    <div class="flex space-x-1 mt-5">
     <VInput v-if="modelValue.latitude" label="Latitude" v-model="modelValue.latitude" :error="errors?.latitude" />
-    <VInput v-if="modelValue.longitude" label="Longitude" v-model="modelValue.longitude" :error="errors?.longitude" />
+    <VInput v-if="modelValue.longitude" label="Longitude" v-model="modelValue.longitude" :error="errors?.longitude" />    
+    </div>
+    
 </template>
 
 <script setup>
