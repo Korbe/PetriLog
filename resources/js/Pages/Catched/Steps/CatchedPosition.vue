@@ -1,9 +1,9 @@
 <template>
-    <p class="text-center text-md font-medium text-gray-700 dark:text-gray-400 mb-5">Tippe auf die Positon in der Karte</p>
+    
 
     <GoogleMapPicker @locationSelected="updateLocation" />
-
-        <p v-if="!modelValue.latitude" class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Noch keine Position eingegeben</p>
+    <p class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Tippe auf die Positon in der Karte</p>
+    <p v-if="!modelValue.latitude" class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Noch keine Position eingegeben</p>
 
     <VInput v-if="modelValue.address" label="Adresse" v-model="modelValue.address" :error="errors?.address" />
     <VInput v-if="modelValue.latitude" label="Latitude" v-model="modelValue.latitude" :error="errors?.latitude" />

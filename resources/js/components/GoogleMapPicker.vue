@@ -71,6 +71,8 @@ const initMap = (lat, lng) => {
                 optimized: false
             })
         }
+
+        emitLocation(lat, lng);
     }
 
     window.google.maps.event.addListenerOnce(map, 'idle', () => {
@@ -103,16 +105,24 @@ const initMap = (lat, lng) => {
             })
         }
 
-        const geocoder = new window.google.maps.Geocoder()
-        geocoder.geocode(
-            { location: { lat: clickedLat, lng: clickedLng } },
-            (results, status) => {
-                const address =
-                    status === 'OK' && results[0] ? results[0].formatted_address : null
-                emit('locationSelected', { lat: clickedLat, lng: clickedLng, address })
-            }
-        )
+        emitLocation(clickedLat, clickedLng)
     })
+}
+
+const emitLocation = (lat, lng) => {
+    const geocoder = new window.google.maps.Geocoder()
+
+    geocoder.geocode(
+        { location: { lat, lng } },
+        (results, status) => {
+            const address =
+                status === 'OK' && results[0]
+                    ? results[0].formatted_address
+                    : null
+
+            emit('locationSelected', { lat, lng, address })
+        }
+    )
 }
 
 onMounted(async () => {
