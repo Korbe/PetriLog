@@ -1,15 +1,25 @@
 <template>
-    <div>
-        <label v-if="label" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ label }}
-        </label>
-        <div :id="id" ref="mapElement" class="w-full"
-            style="height:500px; min-height:500px; display:block; background:#eee;"></div>
+    <div class="relative w-full" style="height:500px; min-height:500px;">
+        <!-- 🔄 Loading Overlay -->
+        <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 z-10">
+            <!-- Spinner -->
+            <div class="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+
+            <!-- Text -->
+            <div class="mt-3 text-sm text-gray-600">
+                Standort wird ermittelt…
+            </div>
+        </div>
+
+        <!-- 🗺️ Map -->
+        <div v-show="!isLoading" :id="id" ref="mapElement" class="w-full h-full" style="background:#eee;"></div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+
+const isLoading = ref(true)
 
 const props = defineProps({
     id: { type: String, default: 'google-map-picker' },
@@ -53,6 +63,8 @@ const initMap = (lat, lng) => {
         ...(isApple ? {} : { mapId: '6da85ff10ebc18655d496f80' }) // mapId nur für Android/Windows
     })
 
+
+
     if (lat && lng) {
         if (!isApple && window.google.maps.marker?.AdvancedMarkerElement) {
             // ✅ AdvancedMarkerElement für Nicht-Apple
@@ -73,9 +85,17 @@ const initMap = (lat, lng) => {
         }
 
         emitLocation(lat, lng);
+
+        isLoading.value = false
+
+        // Resize NACH Sichtbarkeit
+        setTimeout(() => {
+            window.google.maps.event.trigger(map, 'resize')
+        }, 0)
     }
 
     window.google.maps.event.addListenerOnce(map, 'idle', () => {
+        isLoading.value = false
         window.google.maps.event.trigger(map, 'resize')
     })
 
