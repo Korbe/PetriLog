@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 AdminUserSeeder::class,
                 CatchedSeeder::class,
+                StatesSeeder::class,
+                FishSeeder::class,
+                LakeSeeder::class,
+                RiverSeeder::class
             ]);
         }
     }

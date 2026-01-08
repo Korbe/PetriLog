@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FishController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
@@ -10,8 +9,13 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImprintController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\LakeController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\RiverController;
+use App\Http\Controllers\Admin\StateController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
+use App\Http\Controllers\Admin\FishAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
@@ -64,4 +68,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/bugreports', [BugReportController::class, 'index'])->name('bugreports.index');
     Route::get('/bugreports/{bugreport}', [BugReportController::class, 'show'])->name('bugreports.show');
     Route::delete('/bugreports/{report}', [BugReportController::class, 'destroy'])->name('bugreports.destroy');
+
+    Route::resource('state', StateController::class);
+    Route::resource('lake', LakeController::class);
+    Route::resource('river', RiverController::class);
+    Route::resource('fish', FishAdminController::class)->except(['show']);
 });

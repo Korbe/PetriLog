@@ -4,7 +4,7 @@ return [
     // 🌊 Kärnten
     "Wörthersee" => [
         "state" => "Kärnten",
-        "link" => "/images/waters/Woerthersee.jpeg",
+        "link" => "/images/waters/Woerthersee.jpg",
         "name" => "Wörthersee",
         "desc" => "Größter See Kärntens mit strukturreichen Buchten, Schilfkanten und tiefem Freiwasser. Sehr artenreich; gute Infrastruktur (Boote, Karten, Stege).",
         "fish" => [

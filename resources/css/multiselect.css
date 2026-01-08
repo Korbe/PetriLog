@@ -1,0 +1,92 @@
+/* -----------------------
+   Vue Multiselect Global Override
+   Farbe: #118bf0
+   Dark Mode kompatibel
+------------------------ */
+
+/* Container */
+.multiselect {
+  border: 1px solid #118bf0 !important;
+  border-radius: 0.375rem !important;
+  background-color: #fff !important;
+  color: #111 !important;
+}
+
+/* Focus / active */
+.multiselect--active {
+  border-color: #118bf0 !important;
+  box-shadow: 0 0 0 2px rgba(17, 139, 240, 0.2) !important;
+}
+
+/* Input & single value */
+.multiselect__input,
+.multiselect__single {
+  color: #111 !important;
+}
+
+/* Placeholder */
+.multiselect__placeholder {
+  color: #118bf0 !important;
+  opacity: 0.7 !important;
+}
+
+/* Options */
+.multiselect__option--highlight {
+  background-color: #118bf0 !important;
+  color: #fff !important;
+}
+
+.multiselect__option--selected {
+  background-color: rgba(17, 139, 240, 0.2) !important;
+  color: #118bf0 !important;
+  font-weight: 600 !important;
+}
+
+/* Tags for multiple select */
+.multiselect__tag {
+  background-color: #118bf0 !important;
+  color: #fff !important;
+}
+
+.multiselect__tag-icon:after {
+  color: #fff !important;
+}
+
+/* -----------------------
+   Dark Mode
+------------------------ */
+.dark .multiselect {
+  background-color: #1f2937 !important; /* Tailwind slate-800 */
+  border-color: #118bf0 !important;
+  color: #e5e7eb !important; /* Tailwind gray-200 */
+}
+
+.dark .multiselect__input,
+.dark .multiselect__single {
+  color: #e5e7eb !important;
+}
+
+.dark .multiselect__placeholder {
+  color: #118bf0 !important;
+  opacity: 0.6 !important;
+}
+
+.dark .multiselect__content-wrapper {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+}
+
+.dark .multiselect__option--highlight {
+  background-color: #118bf0 !important;
+  color: #fff !important;
+}
+
+.dark .multiselect__option--selected {
+  background-color: rgba(17, 139, 240, 0.25) !important;
+  color: #118bf0 !important;
+}
+
+.dark .multiselect__tag {
+  background-color: #118bf0 !important;
+  color: #fff !important;
+}

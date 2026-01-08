@@ -2,7 +2,7 @@
     <PageWrapper :title="waters.name" :backTo="`/waters/${waters.state}`">
 
         <div class="w-full md:w-1/2 mx-auto">
-            <img :src="waters.link" :alt="waters" class="w-full h-40 md:h-80 object-cover rounded-t-lg" />
+            <img :src="waters.link" :alt="waters.name" class="w-full h-40 md:h-80 object-cover rounded-t-lg" />
             <div class="bg-white dark:bg-gray-800 p-3 md:p-10 rounded-b-lg">
 
                 <p class="pt-5" v-html="waters.desc"></p>
