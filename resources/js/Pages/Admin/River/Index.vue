@@ -6,8 +6,20 @@
         </template>
 
         <div class="space-y-5">
+
+            <!-- Suchfeld -->
+            <div class="px-5 mt-4">
+                <input
+                    type="text"
+                    v-model="search"
+                    placeholder="Suche nach Flüssen..."
+                    class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                />
+            </div>
+
             <div class="flex space-x-5 w-full">
                 <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
+
                     <div class="mt-8 mx-5 flow-root">
                         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="bg-white rounded-lg dark:bg-gray-800 inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -23,8 +35,10 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
-                                        <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                            v-for="river in rivers" :key="river.id"
+                                        <tr 
+                                            class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
+                                            v-for="river in filteredRivers" 
+                                            :key="river.id"
                                             @click="goToEdit(river.id)">
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
                                                 {{ river.name }}
@@ -40,6 +54,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -50,6 +65,7 @@
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { Inertia } from '@inertiajs/inertia';
+import { ref, computed } from 'vue';
 
 interface State {
     id: number;
@@ -64,7 +80,17 @@ interface River {
 
 const props = defineProps<{
     rivers: River[];
-}>()
+}>();
+
+const search = ref(''); // Suchbegriff
+
+// Computed für gefilterte Flüsse
+const filteredRivers = computed(() => {
+    if (!search.value) return props.rivers;
+    return props.rivers.filter(river =>
+        river.name.toLowerCase().includes(search.value.toLowerCase())
+    );
+});
 
 function goToEdit(riverId: number) {
   Inertia.visit(route('admin.river.edit', riverId), {

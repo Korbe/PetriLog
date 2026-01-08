@@ -5,13 +5,16 @@
             <VButton href="/admin/fish/create">hinzufügen</VButton>
         </template>
 
-
         <div class="space-y-5">
 
+            <!-- Suchfeld -->
+            <div class="px-5 mt-4">
+                <input type="text" v-model="search" placeholder="Suche nach Fischen..."
+                    class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200" />
+            </div>
+
             <div class="flex space-x-5 w-full">
-
                 <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
-
                     <div class="mt-8 mx-5 flow-root">
                         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div
@@ -33,21 +36,19 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
-
                                         <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                            v-for="fish in fishs" :key="fish.id" @click="goToEdit(fish.id)">
+                                            v-for="fish in filteredFish" :key="fish.id" @click="goToEdit(fish.id)">
                                             <td
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
-                                                {{ fish.name }}</td>
-                                            <td
-                                                class="whitespace-nowrap px-3 py-4 text-sm text-gray-500  dark:text-gray-400">
-                                                {{
-                                                    fish.rivers_count }}
+                                                {{ fish.name }}
                                             </td>
                                             <td
-                                                class="whitespace-nowrap px-3 py-4 text-sm text-gray-500  dark:text-gray-400">
-                                                {{
-                                                    fish.lakes_count }}
+                                                class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                                {{ fish.rivers_count }}
+                                            </td>
+                                            <td
+                                                class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                                {{ fish.lakes_count }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -55,35 +56,44 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </PageWrapper>
 </template>
+
 <script setup lang="ts">
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { Inertia } from '@inertiajs/inertia';
+import { ref, computed } from 'vue';
 
 interface Fish {
     id: number;
     name: string;
     desc: string;
-    lakes_count: number,
-    rivers_count: number
+    lakes_count: number;
+    rivers_count: number;
 }
 
 const props = defineProps<{
     fishs: Fish[];
-}>()
+}>();
 
-function goToEdit(fishId) {
-  Inertia.visit(route('admin.fish.edit', fishId), {
-    preserveScroll: true,
-    preserveState: true,
-  });
+const search = ref(''); // Suchbegriff
+
+// Computed für gefilterte Fische
+const filteredFish = computed(() => {
+    if (!search.value) return props.fishs;
+    return props.fishs.filter(f =>
+        f.name.toLowerCase().includes(search.value.toLowerCase())
+    );
+});
+
+function goToEdit(fishId: number) {
+    Inertia.visit(route('admin.fish.edit', fishId), {
+        preserveScroll: true,
+        preserveState: true,
+    });
 }
 </script>
