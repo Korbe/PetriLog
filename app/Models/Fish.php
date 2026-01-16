@@ -31,4 +31,11 @@ class Fish extends Model implements HasMedia
     {
         return $this->belongsToMany(River::class);
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('fish')
+            ->singleFile();
+    }
 }

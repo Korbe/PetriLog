@@ -7,7 +7,7 @@ import VTextarea from '@/components/VTextarea.vue';
 import VDateTimePicker from '@/components/VDateTimePicker.vue';
 import { useForm, router, usePage } from '@inertiajs/vue3';
 import { watch, computed, ref } from 'vue';
-import ImagePreview from './ImagePreview.vue';
+import ImagePreview from '../../components/ImagePreview.vue';
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue';
 import FullLoadingScreen from '@/components/FullLoadingScreen.vue';
 import { fishSpecies, waters } from './config.js';
@@ -114,18 +114,21 @@ const updateLocation = ({ lat, lng, address }) => {
 }
 
 const removeImage = (item) => {
-  if (item instanceof File) {
-    form.photos = form.photos.filter(photo => photo !== item);
-  } else {
-    if (confirm('Bild wirklich löschen?')) {
-      router.delete(route('catched.photo.delete', item.id), {
-        onSuccess: () => {
-          form.media = form.media.filter(media => media.id !== item.id);
-        }
-      });
-    }
+  if (item.file instanceof File) {
+    form.photos = form.photos.filter(file => file !== item.file)
+    return
   }
-};
+
+  if (item.readonly) {
+    if (!confirm('Bild wirklich löschen?')) return
+
+    router.delete(route('catched.photo.delete', item.id), {
+      onSuccess: () => {
+        form.media = form.media.filter(media => media.id !== item.id)
+      },
+    })
+  }
+}
 </script>
 
 <template>
@@ -147,40 +150,37 @@ const removeImage = (item) => {
 
         <ImagePreview :modelValue="allImages" @remove="removeImage" />
 
-
         <VDateTimePicker v-model="form.date" label="Datum" mandatory />
 
 
 
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-            Fish Art<span class="text-red-500"> *</span>
+          Fish Art<span class="text-red-500"> *</span>
         </label>
         <multiselect v-model="form.name" :options="fishSpecies" placeholder=""></multiselect>
         <div v-if="errors?.name" class="text-xs mt-1 text-red-500">{{ errors?.name }}</div>
 
-        <span class="block text-sm font-medium mb-5" v-if="!showCustomFishField"
-            @click="showCustomFishField = true">
-            Dein Fisch ist nicht dabei? Klick hier
+        <span class="block text-sm font-medium mb-5" v-if="!showCustomFishField" @click="showCustomFishField = true">
+          Dein Fisch ist nicht dabei? Klick hier
         </span>
 
-        <VInput v-if="showCustomFishField" label="Gib deine Fisch Art ein" v-model="form.name"
-            :error="errors?.name" />
+        <VInput v-if="showCustomFishField" label="Gib deine Fisch Art ein" v-model="form.name" :error="errors?.name" />
 
-          
-            
+
+
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-            Gewässer<span class="text-red-500"> *</span>
+          Gewässer<span class="text-red-500"> *</span>
         </label>
         <multiselect v-model="form.waters" :options="waters" placeholder=""></multiselect>
         <div v-if="errors?.waters" class="text-xs mt-1 text-red-500">{{ errors?.waters }}</div>
 
         <span class="block text-sm font-medium mb-5" v-if="!showCustomWatersField"
-            @click="showCustomWatersField = true">
-            Dein Gewässer ist nicht dabei? Klick hier
+          @click="showCustomWatersField = true">
+          Dein Gewässer ist nicht dabei? Klick hier
         </span>
 
         <VInput v-if="showCustomWatersField" label="Gib dein Gewässer ein" v-model="form.waters"
-            :error="errors?.waters" />
+          :error="errors?.waters" />
 
 
 

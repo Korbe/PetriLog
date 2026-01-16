@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Fish;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class FishAdminController extends Controller
 {
@@ -24,17 +26,31 @@ class FishAdminController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|unique:fish,name',
-            'desc' => 'nullable|string',
+            'name'  => 'required|string|unique:fish,name',
+            'desc'  => 'nullable|string',
+            'photo' => 'nullable|image|max:102400',
         ]);
 
-        Fish::create($data);
+        $fish = Fish::create([
+            'name' => $data['name'],
+            'desc' => $data['desc'] ?? null,
+        ]);
 
-        return redirect()->route('admin.fish.index')->with('success', 'Fish erstellt!');
+        if ($request->hasFile('photo')) {
+            $fish
+                ->addMedia($request->file('photo'))
+                ->toMediaCollection('fish');
+        }
+
+        return redirect()
+            ->route('admin.fish.index')
+            ->with('success', 'Fisch erstellt!');
     }
 
     public function edit(Fish $fish)
     {
+        $fish->load('media');
+
         return Inertia::render('Admin/Fish/Edit', [
             'fish' => $fish,
         ]);
@@ -43,18 +59,43 @@ class FishAdminController extends Controller
     public function update(Request $request, Fish $fish)
     {
         $data = $request->validate([
-            'name' => 'required|string|unique:fish,name,' . $fish->id,
-            'desc' => 'nullable|string',
+            'name'  => 'required|string|unique:fish,name,' . $fish->id,
+            'desc'  => 'nullable|string',
+            'photo' => 'nullable|image|max:102400',
         ]);
 
-        $fish->update($data);
+        $fish->update([
+            'name' => $data['name'],
+            'desc' => $data['desc'] ?? null,
+        ]);
 
-        return redirect()->route('admin.fish.index')->with('success', 'Fisch aktualisiert!');
+        if ($request->hasFile('photo')) {
+            // altes Bild löschen
+            $fish->clearMediaCollection('fish');
+
+            // neues Bild speichern
+            $fish
+                ->addMedia($request->file('photo'))
+                ->toMediaCollection('fish');
+        }
+
+        return redirect()
+            ->route('admin.fish.index')
+            ->with('success', 'Fisch aktualisiert!');
     }
 
     public function destroy(Fish $fish)
     {
         $fish->delete();
         return redirect()->route('admin.fish.index')->with('success', 'Fisch gelöscht!');
+    }
+
+    public function deletePhoto(Request $request, $mediaId)
+    {
+        $media = Media::findOrFail($mediaId);
+
+        $media->delete();
+
+        return redirect()->back()->with('success', 'Bild gelöscht.');
     }
 }

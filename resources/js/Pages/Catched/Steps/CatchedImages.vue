@@ -11,8 +11,7 @@
     <ImagePreview :modelValue="props.modelValue.photos" @remove="removeImage" />
 </template>
 <script setup>
-import VFileInput from '@/components/VFileInput.vue';
-import ImagePreview from '../ImagePreview.vue';
+import ImagePreview from '../../../components/ImagePreview.vue';
 import { computed } from 'vue';
 import VPrettyFileInput from '@/components/VPrettyFileInput.vue';
 
@@ -28,8 +27,6 @@ const canUploadMore = computed(() => {
 });
 
 const removeImage = (item) => {
-  if (item instanceof File) {
-    props.modelValue.photos = props.modelValue.photos.filter(photo => photo !== item);
-  }
-};
+  props.modelValue.photos = props.modelValue.photos.filter(file => file !== item.file)
+}
 </script>
