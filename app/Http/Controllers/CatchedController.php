@@ -77,10 +77,25 @@ class CatchedController extends Controller
                 ->with('error', 'Du hast das Limit an Einträgen erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
         }
 
+        $fish = Fish::orderByRaw("
+            name = 'Anderes / nicht gelistet' DESC,
+            name ASC
+        ")->get();
+
+        $lakes = Lake::orderByRaw("
+            name = 'Anderes / nicht gelistet' DESC,
+            name ASC
+        ")->get();
+
+        $rivers = River::orderByRaw("
+                name = 'd' DESC,
+                name ASC
+            ")->get();
+
         return Inertia::render('Catched/Create', [
-            'fish' => Fish::orderBy('name')->select('id', 'name')->get(),
-            'lakes' => Lake::orderBy('name')->select('id', 'name')->get(),
-            'rivers' => River::orderBy('name')->select('id', 'name')->get(),
+            'fish' => $fish,
+            'lakes' => $lakes,
+            'rivers' => $rivers,
             'backToUrl' => route('catched.index'),
             'storeUrl' => route('catched.store'),
         ]);
@@ -144,16 +159,31 @@ class CatchedController extends Controller
 
         $catched->load(['media', 'fish', 'lake', 'river']);
 
+        $fish = Fish::orderByRaw("
+            name = 'Anderes / nicht gelistet' DESC,
+            name ASC
+        ")->get();
+
+        $lakes = Lake::orderByRaw("
+            name = 'Anderes / nicht gelistet' DESC,
+            name ASC
+        ")->get();
+
+        $rivers = River::orderByRaw("
+                name = 'd' DESC,
+                name ASC
+            ")->get();
+
         return Inertia::render('Catched/Edit', [
             'catched' => $catched,
-            'fish' => Fish::orderBy('name')->select('id', 'name')->get(),
-            'lakes' => Lake::orderBy('name')->select('id', 'name')->get(),
-            'rivers' => River::orderBy('name')->select('id', 'name')->get(),
+            'fish' => $fish,
+            'lakes' => $lakes,
+            'rivers' => $rivers,
         ]);
     }
 
     public function update(Request $request, Catched $catched)
-    {   
+    {
         $this->authorize('update', $catched);
 
         $validated = $request->validate([
