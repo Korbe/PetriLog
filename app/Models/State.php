@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class State extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    
+
     protected $fillable = [
         'name',
         'desc',
@@ -25,5 +25,17 @@ class State extends Model implements HasMedia
     public function rivers(): BelongsToMany
     {
         return $this->belongsToMany(River::class);
+    }
+
+    public function associations(): BelongsToMany
+    {
+        return $this->belongsToMany(Association::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('state')
+            ->singleFile();
     }
 }

@@ -35,6 +35,11 @@ const cards = [
         href: '/admin/bugreports',
     },
     {
+        title: 'Verein Verwaltung',
+        desc: 'Hier können alle Vereine verwaltet werden.',
+        href: '/admin/association',
+    },
+    {
         title: 'Fish Verwaltung',
         desc: 'Hier können alle Fische verwaltet werden.',
         href: '/admin/fish',
