@@ -4,22 +4,15 @@
 
 
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-            Fish Art<span class="text-red-500"> *</span>
+            Fischart<span class="text-red-500"> *</span>
         </label>
-        <multiselect v-model="props.modelValue.name" :options="fishSpecies" placeholder=""></multiselect>
-        <div v-if="errors?.name" class="text-xs mt-1 text-red-500">{{ errors?.name }}</div>
 
-        <span class="block text-sm font-medium mb-5" v-if="!showCustomFishField"
-            @click="showCustomFishField = true">
-            Dein Fisch ist nicht dabei? Klick hier
-        </span>
+        <Multiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
 
-        <VInput v-if="showCustomFishField" label="Gib deine Fisch Art ein" v-model="props.modelValue.name"
-            :error="errors?.name" />
+        <div v-if="errors?.fish_id" class="text-xs mt-1 text-red-500">
+            {{ errors.fish_id }}
+        </div>
 
-
-
-            
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
             Gewässer<span class="text-red-500"> *</span>
         </label>
@@ -40,23 +33,36 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-import VDateTimePicker from '@/components/VDateTimePicker.vue';
-import VInput from '@/components/VInput.vue';
-import { fishSpecies, waters } from '../config.js';
+import { ref, computed } from 'vue'
+import VDateTimePicker from '@/components/VDateTimePicker.vue'
+import VInput from '@/components/VInput.vue'
 import Multiselect from 'vue-multiselect'
+import { waters } from '../config.js'
 
 const props = defineProps({
     modelValue: Object,
-    errors: Object
+    errors: Object,
+    fish: Array,
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const showCustomWatersField = ref(false);
-const showCustomFishField = ref(false);
+const showCustomWatersField = ref(false)
 
-
+/**
+ * Verbindung Multiselect ↔ fish_id
+ */
+const selectedFish = computed({
+    get() {
+        return props.fish.find(f => f.id === props.modelValue.fish_id) ?? null
+    },
+    set(value) {
+        emit('update:modelValue', {
+            ...props.modelValue,
+            fish_id: value?.id ?? null,
+        })
+    },
+})
 </script>
 
 <style scoped>

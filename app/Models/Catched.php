@@ -13,7 +13,7 @@ class Catched extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'name',
+        'fish_id',
         'length',
         'weight',
         'depth',
@@ -36,6 +36,11 @@ class Catched extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function fish()
+    {
+        return $this->belongsTo(Fish::class);
     }
 
     public function registerMediaCollections(): void

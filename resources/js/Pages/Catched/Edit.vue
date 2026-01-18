@@ -1,111 +1,83 @@
 <script setup>
-import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import VFileInput from '@/components/VFileInput.vue';
-import VButton from '@/components/VButton.vue';
-import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
-import VDateTimePicker from '@/components/VDateTimePicker.vue';
-import { useForm, router, usePage } from '@inertiajs/vue3';
-import { watch, computed, ref } from 'vue';
-import ImagePreview from '../../components/ImagePreview.vue';
-import GoogleMapPicker from '@/components/GoogleMapPicker.vue';
-import FullLoadingScreen from '@/components/FullLoadingScreen.vue';
-import { fishSpecies, waters } from './config.js';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
+import VFileInput from '@/components/VFileInput.vue'
+import VButton from '@/components/VButton.vue'
+import VInput from '@/components/VInput.vue'
+import VTextarea from '@/components/VTextarea.vue'
+import VDateTimePicker from '@/components/VDateTimePicker.vue'
+import { useForm, router, usePage } from '@inertiajs/vue3'
+import { computed, ref, watch } from 'vue'
+import ImagePreview from '@/components/ImagePreview.vue'
+import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
+import FullLoadingScreen from '@/components/FullLoadingScreen.vue'
+import { waters } from './config.js'
 import Multiselect from 'vue-multiselect'
 
 const props = defineProps({
   catched: Object,
   errors: Object,
-});
+  fish: Array,
+})
 
 const page = usePage()
-
-// User aus den Inertia-Props
 const user = computed(() => page.props.auth.user)
 
-const form = useForm({
-  name: null,
-  length: null,
-  weight: null,
-  depth: null,
-  temperature: null,
-  waters: null,
-  date: new Date(),
-  latitude: null,
-  longitude: null,
-  address: null,
-  remark: null,
-  air_pressure: null,
-  bait: null,
-  photos: [],
-  media: [],
-});
-
-const showCustomWatersField = ref(false);
-const showCustomFishField = ref(false);
-
-watch(
-  () => props.catched,
-  (catched) => {
-    if (catched) {
-      form.name = catched.name || null;
-      form.length = catched.length || null;
-      form.weight = catched.weight || null;
-      form.depth = catched.depth || null;
-      form.temperature = catched.temperature || null;
-      form.waters = catched.waters || null;
-      form.date = new Date(catched.date) || new Date();
-      form.latitude = catched.latitude || null;
-      form.longitude = catched.longitude || null;
-      form.address = catched.address || null;
-      form.air_pressure = catched.air_pressure || null;
-      form.bait = catched.bait || null;
-      form.remark = catched.remark || null;
-      form.media = catched.media || []
-    }
+/**
+ * Fish-Objekt für Multiselect
+ */
+const selectedFish = computed({
+  get() {
+    return props.fish.find(f => f.id === form.fish_id) ?? null
   },
-  { immediate: true }
-);
+  set(value) {
+    form.fish_id = value?.id ?? null
+  },
+})
 
-watch(
-  () => form.photos,
-  (newPhotos) => {
-    const maxUploads = 3;
-    const alreadyUploaded = form.media?.length || 0;
-    const allowedUploads = maxUploads - alreadyUploaded;
+const form = useForm({
+  fish_id: props.catched?.fish_id ?? null,
+  length: props.catched?.length ?? null,
+  weight: props.catched?.weight ?? null,
+  depth: props.catched?.depth ?? null,
+  temperature: props.catched?.temperature ?? null,
+  waters: props.catched?.waters ?? null,
+  date: props.catched?.date ? new Date(props.catched.date) : new Date(),
+  latitude: props.catched?.latitude ?? null,
+  longitude: props.catched?.longitude ?? null,
+  address: props.catched?.address ?? null,
+  remark: props.catched?.remark ?? null,
+  air_pressure: props.catched?.air_pressure ?? null,
+  bait: props.catched?.bait ?? null,
+  photos: [],
+  media: props.catched?.media ?? [],
+})
 
-    if (newPhotos.length > allowedUploads) {
-      // Beschränke auf nur erlaubte Anzahl
-      form.photos = newPhotos.slice(0, allowedUploads);
-    }
+/**
+ * Upload-Limit
+ */
+watch(() => form.photos, newPhotos => {
+  const allowed = 3 - (form.media?.length ?? 0)
+  if (newPhotos.length > allowed) {
+    form.photos = newPhotos.slice(0, allowed)
   }
-);
+})
 
-const canUploadMore = computed(() => {
-  return (form.media?.length ?? 0) < 3;
-});
-
-const allImages = computed(() => {
-  return [...form.media, ...form.photos];
-});
-
-const loading = ref(false);
+const canUploadMore = computed(() => (form.media?.length ?? 0) < 3)
+const allImages = computed(() => [...form.media, ...form.photos])
+const loading = ref(false)
 
 const submit = () => {
-  loading.value = true;
-
+  loading.value = true
   form.post(route('catched.update', props.catched.id), {
-    onFinish: () => {
-      loading.value = false
-    }
+    onFinish: () => (loading.value = false),
   })
 }
 
 const deleteCatched = () => {
   if (confirm('Fang wirklich löschen?')) {
-    form.delete(route('catched.destroy', props.catched.id));
+    form.delete(route('catched.destroy', props.catched.id))
   }
-};
+}
 
 const updateLocation = ({ lat, lng, address }) => {
   form.latitude = lat
@@ -113,23 +85,22 @@ const updateLocation = ({ lat, lng, address }) => {
   form.address = address
 }
 
-const removeImage = (item) => {
+const removeImage = item => {
   if (item.file instanceof File) {
     form.photos = form.photos.filter(file => file !== item.file)
     return
   }
 
-  if (item.readonly) {
-    if (!confirm('Bild wirklich löschen?')) return
-
+  if (item.readonly && confirm('Bild wirklich löschen?')) {
     router.delete(route('catched.photo.delete', item.id), {
       onSuccess: () => {
-        form.media = form.media.filter(media => media.id !== item.id)
+        form.media = form.media.filter(m => m.id !== item.id)
       },
     })
   }
 }
 </script>
+
 
 <template>
   <PageWrapper title="Fang bearbeiten" :backTo="`/catched/${catched.id}`">
@@ -155,18 +126,15 @@ const removeImage = (item) => {
 
 
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-          Fish Art<span class="text-red-500"> *</span>
+          Fischart<span class="text-red-500"> *</span>
         </label>
-        <multiselect v-model="form.name" :options="fishSpecies" placeholder=""></multiselect>
-        <div v-if="errors?.name" class="text-xs mt-1 text-red-500">{{ errors?.name }}</div>
 
-        <span class="block text-sm font-medium mb-5" v-if="!showCustomFishField" @click="showCustomFishField = true">
-          Dein Fisch ist nicht dabei? Klick hier
-        </span>
+        <Multiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen"
+          :close-on-select="true" />
 
-        <VInput v-if="showCustomFishField" label="Gib deine Fisch Art ein" v-model="form.name" :error="errors?.name" />
-
-
+        <div v-if="errors?.fish_id" class="text-xs mt-1 text-red-500">
+          {{ errors.fish_id }}
+        </div>
 
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
           Gewässer<span class="text-red-500"> *</span>

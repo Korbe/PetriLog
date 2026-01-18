@@ -8,7 +8,7 @@
       <div class="md:hidden grid grid-cols-2 gap-2 mx-2">
         <!-- Erstes Bild groß über 2 Spalten -->
         <div class="col-span-2">
-          <img v-if="props.catched.media[0]" @click="openLightbox(0)" :src="props.catched.media[0].original_url"
+          <img v-if="props.catched.media?.length" @click="openLightbox(0)" :src="props.catched.media[0].original_url"
             class="w-full h-64 object-cover rounded-lg cursor-pointer" alt="user-image-1" />
         </div>
 
@@ -34,7 +34,9 @@
 
       <div class=" mx-2 mt-5">
         <div class="p-3 bg-white dark:bg-gray-800 border-1 dark:border-0 rounded-lg w-full">
-          <h1 class="text-5xl text-primary-500">{{ catched.name }}</h1>
+          <h1 class="text-5xl text-primary-500">
+            {{ catched.fish?.name ?? 'Unbekannter Fisch' }}
+          </h1>
           <div class="flex justify-between">
             <p class="text-xl">{{ formatDate(catched.date) }} - {{ catched.waters }}</p>
           </div>
@@ -130,7 +132,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg mx-2 mt-5 mb-20 border-1 dark:border-0  p-5">
         <p class="mb-5"><b>Hier gefangen</b><br> {{ catched.address }}</p>
-        <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.name" />
+        <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.fish?.name ?? 'Fang'" />
       </div>
     </div>
 

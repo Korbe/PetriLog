@@ -14,6 +14,7 @@ const props = defineProps({
     errors: Object,
     backToUrl: String,
     storeUrl: String,
+    fish: Array,
 })
 
 const currentStep = ref(0);
@@ -34,7 +35,7 @@ const steps = [
 ]
 
 const form = ref({
-    name: null,
+    fish_id: null,
     length: null,
     weight: null,
     depth: null,
@@ -49,7 +50,7 @@ const form = ref({
     bait: null,
     photos: [],
     media: [],
-});
+})
 
 async function nextStep() {
     if (currentStep.value < steps.length - 1) {
@@ -135,7 +136,7 @@ watch(
             <div class="max-w-xl mx-auto">
                 <p class="lg:hidden text-center text-xl font-medium text-gray-700 dark:text-gray-400 mb-2">
                     {{ steps[currentStep].name }}</p>
-                <component v-if="!loading" :is="steps[currentStep].component" v-model="form" :errors="errors" />
+                <component v-if="!loading" :is="steps[currentStep].component" v-model="form" :errors="errors" :fish="props.fish" />
 
                 <FullLoadingScreen v-if="loading" />
 

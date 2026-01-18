@@ -32,6 +32,11 @@ class Fish extends Model implements HasMedia
         return $this->belongsToMany(River::class);
     }
 
+    public function catcheds()
+    {
+        return $this->hasMany(Catched::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this

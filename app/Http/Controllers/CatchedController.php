@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fish;
 use Inertia\Inertia;
 use App\Models\Catched;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ class CatchedController extends Controller
             : Carbon::parse($dateRange->latest)->endOfDay();
 
         $query = $user->catched()
+            ->with('fish')
             ->whereBetween('date', [$startDate, $endDate]);
 
         if (!empty($validated['onlyWithDescription']) && filter_var($validated['onlyWithDescription'], FILTER_VALIDATE_BOOLEAN)) {
@@ -78,6 +80,7 @@ class CatchedController extends Controller
         }
 
         return Inertia::render('Catched/Create', [
+            'fish' => Fish::orderBy('name')->select('id', 'name')->get(),
             "backToUrl" => route('catched.index'),
             "storeUrl" => route('catched.store')
         ]);
@@ -87,7 +90,7 @@ class CatchedController extends Controller
     {
         $validated = $request->validate([
             'date' => 'required|date',
-            'name' => 'required|string',
+            'fish_id' => 'required|exists:fish,id',
             'waters' => 'required|string',
             'length' => 'required|integer',
 
@@ -110,12 +113,17 @@ class CatchedController extends Controller
         $catch = Catched::create($validated);
 
         if ($request->hasFile('photos')) {
-            collect($request->file('photos'))->take(3)->each(function ($photo) use ($catch) {
-                $media = $catch->addMedia($photo)->toMediaCollection('photos');
-            });
+            collect($request->file('photos'))
+                ->take(3)
+                ->each(
+                    fn($photo) =>
+                    $catch->addMedia($photo)->toMediaCollection('photos')
+                );
         }
 
-        return redirect()->route('catched.show', $catch->id)->with('success', 'Fang erfolgreich eingetragen.');
+        return redirect()
+            ->route('catched.show', $catch->id)
+            ->with('success', 'Fang erfolgreich eingetragen.');
     }
 
     public function show(Catched $catched)
@@ -125,7 +133,7 @@ class CatchedController extends Controller
         $this->authorize('view', $catched);
 
         return Inertia::render('Catched/Show', [
-            'catched' => $catched->load('media'),
+            'catched' => $catched->load(['media', 'fish']),
             'shareUrl' => route('public.catched.show', $catched->id),
             'editUrl' => route('catched.edit', $catched->id)
         ]);
@@ -137,10 +145,15 @@ class CatchedController extends Controller
 
         $this->authorize('update', $catched);
 
-        $catched->load('media');
+        $catched->load(['media', 'fish']);
+
+        $fish = Fish::orderBy('name')
+            ->select('id', 'name')
+            ->get();
 
         return Inertia::render('Catched/Edit', [
-            'catched' => $catched
+            'catched' => $catched,
+            'fish' => $fish,
         ]);
     }
 
@@ -150,7 +163,7 @@ class CatchedController extends Controller
 
         $validated = $request->validate([
             'date' => 'required|date',
-            'name' => 'required|string',
+            'fish_id' => 'required|exists:fish,id',
             'waters' => 'required|string',
             'length' => 'required|integer',
 
@@ -170,21 +183,24 @@ class CatchedController extends Controller
 
         $existingCount = $catched->getMedia('photos')->count();
         $newPhotos = $request->file('photos', []);
-
         $remainingSlots = 3 - $existingCount;
 
         if (count($newPhotos) > $remainingSlots) {
-            return redirect()->back()->with('error', 'Du kannst maximal 3 Bilder hochladen. Es sind bereits ' . $existingCount . ' vorhanden.');
+            return back()->with(
+                'error',
+                "Du kannst maximal 3 Bilder hochladen. Bereits vorhanden: {$existingCount}"
+            );
         }
 
         $catched->update($validated);
 
         foreach ($newPhotos as $photo) {
-            $media = $catched->addMedia($photo)->toMediaCollection('photos');
+            $catched->addMedia($photo)->toMediaCollection('photos');
         }
 
-
-        return redirect()->route('catched.show', $catched->id)->with('success', 'Fang erfolgreich aktualisiert.');
+        return redirect()
+            ->route('catched.show', $catched->id)
+            ->with('success', 'Fang erfolgreich aktualisiert.');
     }
 
     public function destroy(Catched $catched)

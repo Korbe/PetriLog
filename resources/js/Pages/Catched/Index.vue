@@ -1,7 +1,6 @@
 <template>
     <PageWrapper title="Fänge" backTo="/dashboard">
         <template v-slot:actions>
-            <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
             <VDateRangePicker align="right" v-model="dateRange" />
             <ResetButton @click="resetDateRange" />
             <VButton v-if="canAddNewEntry()" :href="createUrl">Eintragen</VButton>
@@ -34,7 +33,7 @@
                     <button @click="toggleOpen(date)"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
                         <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length
-                        }})</span>
+                            }})</span>
                         <span class="ml-6 flex h-7 items-center">
                             <PlusIcon v-if="!isOpen(date)" class="cursor-pointer size-6" />
                             <MinusIcon v-else class="cursor-pointer size-6" />
@@ -48,8 +47,8 @@
                             <Link :href="`/catched/${catched.id}`"
                                 class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2">
                             <span>
-                                <span class="text-primary-500"><b>{{ catched.name }}</b></span> - {{ catched.waters
-                                }}
+                                <span class="text-primary-500"><b>{{ catched.fish?.name ?? 'Unbekannt' }}</b></span>
+                                - {{ catched.waters }}
                             </span>
                             <ChevronRightIcon class="h-6" />
                             </Link>
@@ -71,10 +70,15 @@ import { computed, onMounted, ref, watch } from 'vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
 
+interface Fish {
+    id: number;
+    name: string;
+}
+
 interface CatchedData {
     id: number;
     user_id: number;
-    name: string;
+    fish?: Fish;
     length: number;
     weight: number;
     depth: number;
@@ -97,24 +101,17 @@ interface Props {
         endDate: string;
     };
     createUrl: string,
-    showUrl: string,
     currentUrl: string,
 }
 
-
 const page = usePage()
 
-const canAddNewEntry = () => {
-    if (page.props.auth.user.subscribed) 
-        return true; 
-    
-    if (props.totalCatchedCount >= 5)
-        return false;
-    
-    return true;
-}
-
 const props = defineProps<Props>();
+
+const canAddNewEntry = () => {
+    if (page.props.auth.user.subscribed) return true;
+    return props.totalCatchedCount < 5;
+}
 
 let isUpdating = false;
 
@@ -122,7 +119,6 @@ const originalDateRange = ref({
     startDate: new Date(props.dateRange?.startDate),
     endDate: new Date(props.dateRange?.endDate)
 });
-
 
 const dateRange = ref({
     startDate: new Date(props.dateRange?.startDate || new Date().setDate(new Date().getDate() - 7)),
@@ -133,11 +129,7 @@ const filters = ref([
     { label: 'Beschreibung', value: 'onlyWithDescription', selected: false },
 ])
 
-watch(dateRange, (newRange) => {
-    handleDateRangeUpdate(newRange);
-}, { deep: true });
-
-
+watch(dateRange, (newRange) => handleDateRangeUpdate(newRange), { deep: true });
 
 const getFilterParams = () => {
     return filters.value
@@ -146,30 +138,12 @@ const getFilterParams = () => {
         .reduce((acc, curr) => ({ ...acc, ...curr }), {});
 };
 
-
 const handleDateRangeUpdate = (newRange) => {
-    // Check if both dates are present and valid
-    if (!newRange?.startDate || !newRange?.endDate) {
-        dateRange.value = newRange; // Update local state but don't trigger search
-        return;
-    }
-
-    // Validate dates are actual Date objects
-    if (!(newRange.startDate instanceof Date) || !(newRange.endDate instanceof Date))
-        return;
-
-    // Check if dates are valid (not NaN)
-    if (isNaN(newRange.startDate.getTime()) || isNaN(newRange.endDate.getTime()))
-        return;
+    if (!newRange?.startDate || !newRange?.endDate) return;
+    if (!(newRange.startDate instanceof Date) || !(newRange.endDate instanceof Date)) return;
+    if (isNaN(newRange.startDate.getTime()) || isNaN(newRange.endDate.getTime())) return;
 
     dateRange.value = newRange;
-
-    search();
-};
-
-const handleFiltersChanged = (newFilters) => {
-    filters.value = newFilters;
-
     search();
 };
 
@@ -185,32 +159,25 @@ const search = () => {
 
     const filterParams = getFilterParams();
 
-    const request = {
-        startDate: dateRange.value.startDate.toLocaleString(),
-        endDate: dateRange.value.endDate.toLocaleString(),
-        ...filterParams
-    };
-
     router.get(
-        props.currentUrl, request,
+        props.currentUrl,
+        {
+            startDate: dateRange.value.startDate.toLocaleString(),
+            endDate: dateRange.value.endDate.toLocaleString(),
+            ...filterParams
+        },
         {
             preserveState: true,
             preserveScroll: true,
-            onFinish: () => {
-                setTimeout(() => {
-                    isUpdating = false;
-                }, 0);
-            }
+            onFinish: () => { isUpdating = false; }
         }
     );
 };
 
-// State für geöffnete Accordion-Keys (z. B. Datum)
+// Accordion state
 const openKeys = ref<string[]>([]);
 
 const isOpen = (date: string) => openKeys.value.includes(date);
-
-// Merke geöffnete beim Öffnen
 const toggleOpen = (key: string) => {
     if (openKeys.value.includes(key))
         openKeys.value = openKeys.value.filter(k => k !== key);
@@ -220,17 +187,10 @@ const toggleOpen = (key: string) => {
     sessionStorage.setItem('catched-open', JSON.stringify(openKeys.value));
 };
 
-// Beim Mounten gespeicherten Zustand laden
 onMounted(() => {
-    sessionStorage.setItem('lastOrigin', window.location.href);
-
     const stored = sessionStorage.getItem('catched-open');
     if (stored) {
-        try {
-            openKeys.value = JSON.parse(stored);
-        } catch (_) {
-            openKeys.value = [];
-        }
+        try { openKeys.value = JSON.parse(stored); } catch (_) { openKeys.value = []; }
     }
 });
 </script>
