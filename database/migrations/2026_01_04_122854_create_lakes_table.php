@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('lakes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->string('link')->nullable();
             $table->text('desc')->nullable();
             $table->text('hint')->nullable();
             $table->timestamps();
