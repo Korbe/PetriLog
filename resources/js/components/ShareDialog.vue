@@ -18,11 +18,26 @@ const close = () => emit("update:modelValue", false);
 
 const copyToClipboard = async () => {
     try {
-        await navigator.clipboard.writeText(props.shareUrl);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            // Moderne Browser
+            await navigator.clipboard.writeText(props.shareUrl);
+        } else {
+            // Fallback für ältere Browser
+            const textarea = document.createElement('textarea');
+            textarea.value = props.shareUrl;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
         copied.value = true;
         setTimeout(() => (copied.value = false), 2000);
     } catch (err) {
         console.error("Fehler beim Kopieren:", err);
+        alert("Kopieren in die Zwischenablage funktioniert in diesem Browser leider nicht.");
     }
 };
 </script>
@@ -68,8 +83,8 @@ const copyToClipboard = async () => {
 
                         <div class="my-2">
                             <!-- WhatsApp Share -->
-                            <a :href="`https://wa.me/?text=${encodeURIComponent(`${shareUrl}`)}`"
-                                target="_blank" rel="noopener"
+                            <a :href="`https://wa.me/?text=${encodeURIComponent(`${shareUrl}`)}`" target="_blank"
+                                rel="noopener"
                                 class="flex w-full items-center space-x-2 px-4 py-2 bg-green-500 text-white rounded-lg">
                                 <span>Auf WhatsApp teilen</span>
                             </a>
