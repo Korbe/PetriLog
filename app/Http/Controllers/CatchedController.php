@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fish;
-use Inertia\Inertia;
 use App\Models\Catched;
+use App\Models\Lake;
+use App\Models\River;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\FilterRequest;
@@ -38,7 +40,7 @@ class CatchedController extends Controller
             : Carbon::parse($dateRange->latest)->endOfDay();
 
         $query = $user->catched()
-            ->with('fish')
+            ->with(['fish', 'lake', 'river'])
             ->whereBetween('date', [$startDate, $endDate]);
 
         if (!empty($validated['onlyWithDescription']) && filter_var($validated['onlyWithDescription'], FILTER_VALIDATE_BOOLEAN)) {
@@ -49,7 +51,6 @@ class CatchedController extends Controller
             ->orderBy('date', 'desc')
             ->get();
 
-        // Gruppiere nach Datum (nur das Datum, nicht Zeit)
         $grouped = $catchedItems->groupBy(fn($item) => $item->date->format('d.m.Y'));
 
         return Inertia::render('Catched/Index', [
@@ -68,12 +69,9 @@ class CatchedController extends Controller
     {
         session()->forget('meta');
 
-        /** @var \App\Models\User $user */
         $user = Auth::user();
-
         $totalCatchedCount = $user->catched()->count();
 
-        // Wenn User nicht subscribed ist und mehr als 5 catched-Einträge hat → redirect
         if (!$user->subscribed() && $totalCatchedCount >= 5) {
             return redirect()->route('catched.index')
                 ->with('error', 'Du hast das Limit an Einträgen erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
@@ -81,8 +79,10 @@ class CatchedController extends Controller
 
         return Inertia::render('Catched/Create', [
             'fish' => Fish::orderBy('name')->select('id', 'name')->get(),
-            "backToUrl" => route('catched.index'),
-            "storeUrl" => route('catched.store')
+            'lakes' => Lake::orderBy('name')->select('id', 'name')->get(),
+            'rivers' => River::orderBy('name')->select('id', 'name')->get(),
+            'backToUrl' => route('catched.index'),
+            'storeUrl' => route('catched.store'),
         ]);
     }
 
@@ -91,13 +91,12 @@ class CatchedController extends Controller
         $validated = $request->validate([
             'date' => 'required|date',
             'fish_id' => 'required|exists:fish,id',
-            'waters' => 'required|string',
+            'lake_id' => 'nullable|exists:lakes,id|required_without:river_id',
+            'river_id' => 'nullable|exists:rivers,id|required_without:lake_id',
             'length' => 'required|integer',
-
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
-
             'weight' => 'nullable|integer',
             'depth' => 'nullable|integer',
             'temperature' => 'nullable|integer',
@@ -106,6 +105,9 @@ class CatchedController extends Controller
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
             'photos.*' => 'nullable|image|max:102400',
+        ], [
+            'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
+            'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -115,10 +117,7 @@ class CatchedController extends Controller
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))
                 ->take(3)
-                ->each(
-                    fn($photo) =>
-                    $catch->addMedia($photo)->toMediaCollection('photos')
-                );
+                ->each(fn($photo) => $catch->addMedia($photo)->toMediaCollection('photos'));
         }
 
         return redirect()
@@ -129,48 +128,43 @@ class CatchedController extends Controller
     public function show(Catched $catched)
     {
         session()->forget('meta');
-
         $this->authorize('view', $catched);
 
         return Inertia::render('Catched/Show', [
-            'catched' => $catched->load(['media', 'fish']),
+            'catched' => $catched->load(['media', 'fish', 'lake', 'river']),
             'shareUrl' => route('public.catched.show', $catched->id),
-            'editUrl' => route('catched.edit', $catched->id)
+            'editUrl' => route('catched.edit', $catched->id),
         ]);
     }
 
     public function edit(Catched $catched)
     {
         session()->forget('meta');
-
         $this->authorize('update', $catched);
 
-        $catched->load(['media', 'fish']);
-
-        $fish = Fish::orderBy('name')
-            ->select('id', 'name')
-            ->get();
+        $catched->load(['media', 'fish', 'lake', 'river']);
 
         return Inertia::render('Catched/Edit', [
             'catched' => $catched,
-            'fish' => $fish,
+            'fish' => Fish::orderBy('name')->select('id', 'name')->get(),
+            'lakes' => Lake::orderBy('name')->select('id', 'name')->get(),
+            'rivers' => River::orderBy('name')->select('id', 'name')->get(),
         ]);
     }
 
     public function update(Request $request, Catched $catched)
-    {
+    {   
         $this->authorize('update', $catched);
 
         $validated = $request->validate([
             'date' => 'required|date',
             'fish_id' => 'required|exists:fish,id',
-            'waters' => 'required|string',
+            'lake_id' => 'nullable|exists:lakes,id|required_without:river_id',
+            'river_id' => 'nullable|exists:rivers,id|required_without:lake_id',
             'length' => 'required|integer',
-
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'address' => 'nullable|string',
-
             'weight' => 'nullable|integer',
             'depth' => 'nullable|integer',
             'temperature' => 'nullable|integer',
@@ -179,6 +173,9 @@ class CatchedController extends Controller
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
             'photos.*' => 'nullable|image|max:102400',
+        ], [
+            'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
+            'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
         ]);
 
         $existingCount = $catched->getMedia('photos')->count();
@@ -213,48 +210,14 @@ class CatchedController extends Controller
 
     public function deletePhoto(Request $request, $mediaId)
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
-
-        // Media-Objekt finden
         $media = Media::findOrFail($mediaId);
-
-        // Hole zugehörigen Catched-Eintrag
         $catched = Catched::findOrFail($media->model_id);
 
-        // Sicherheit: Gehört der Catched-Eintrag dem eingeloggten Benutzer?
-        if ($catched->user_id !== $user->id) {
-            abort(403, 'Unauthorized to delete this photo.');
-        }
+        if ($catched->user_id !== $user->id) abort(403);
 
-        // Nur löschen, wenn es wirklich aus der 'photos'-Collection ist
-        if ($media->collection_name === 'photos') {
-            $media->delete();
-        }
+        if ($media->collection_name === 'photos') $media->delete();
 
         return redirect()->back()->with('success', 'Bild gelöscht.');
-    }
-
-    public function UnLinkOptimizeImageAndCleanup($media)
-    {
-        $originalPath = $media->getPath();
-        $optimizedPath = $media->getPath('optimized');
-
-        if (file_exists($originalPath)) {
-            unlink($originalPath);
-        }
-
-        if (file_exists($optimizedPath)) {
-            rename($optimizedPath, $originalPath);
-        }
-
-        $conversionDirectory = storage_path('app/public/' . $media->id . '/conversions');
-
-        if (File::exists($conversionDirectory)) {
-            File::deleteDirectory($conversionDirectory);
-        }
-
-        $media->size = File::size($originalPath);
-        $media->save();
     }
 }

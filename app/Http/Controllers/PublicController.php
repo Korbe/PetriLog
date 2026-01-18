@@ -105,7 +105,7 @@ class PublicController extends Controller
         ]);
 
         return Inertia::render('Public/Catch/Show', [
-            'catched' => $catched->load(['media', 'fish']),
+            'catched' => $catched->load(['media', 'fish', 'lake', 'river']),
             'user' => $userName
         ]);
     }

@@ -14,6 +14,8 @@ class Catched extends Model implements HasMedia
 
     protected $fillable = [
         'fish_id',
+        'lake_id',
+        'river_id',
         'length',
         'weight',
         'depth',
@@ -41,6 +43,16 @@ class Catched extends Model implements HasMedia
     public function fish()
     {
         return $this->belongsTo(Fish::class);
+    }
+
+    public function lake()
+    {
+        return $this->belongsTo(Lake::class);
+    }
+
+    public function river()
+    {
+        return $this->belongsTo(River::class);
     }
 
     public function registerMediaCollections(): void

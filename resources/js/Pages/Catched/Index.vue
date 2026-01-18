@@ -32,8 +32,7 @@
                 <div>
                     <button @click="toggleOpen(date)"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
-                        <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length
-                            }})</span>
+                        <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length }})</span>
                         <span class="ml-6 flex h-7 items-center">
                             <PlusIcon v-if="!isOpen(date)" class="cursor-pointer size-6" />
                             <MinusIcon v-else class="cursor-pointer size-6" />
@@ -48,7 +47,10 @@
                                 class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex justify-between my-2">
                             <span>
                                 <span class="text-primary-500"><b>{{ catched.fish?.name ?? 'Unbekannt' }}</b></span>
-                                - {{ catched.waters }}
+                                -
+                                <span>
+                                    {{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }}
+                                </span>
                             </span>
                             <ChevronRightIcon class="h-6" />
                             </Link>
@@ -70,20 +72,20 @@ import { computed, onMounted, ref, watch } from 'vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
 
-interface Fish {
-    id: number;
-    name: string;
-}
+interface Fish { id: number; name: string }
+interface Lake { id: number; name: string }
+interface River { id: number; name: string }
 
 interface CatchedData {
     id: number;
     user_id: number;
     fish?: Fish;
+    lake?: Lake;
+    river?: River;
     length: number;
     weight: number;
     depth: number;
     temperature: number;
-    waters: string;
     date: string;
     latitude: number;
     longitude: number;
@@ -96,16 +98,12 @@ interface CatchedData {
 interface Props {
     totalCatchedCount: number,
     groupedCatcheds: Record<string, CatchedData[]>;
-    dateRange: {
-        startDate: string;
-        endDate: string;
-    };
+    dateRange: { startDate: string; endDate: string; };
     createUrl: string,
     currentUrl: string,
 }
 
 const page = usePage()
-
 const props = defineProps<Props>();
 
 const canAddNewEntry = () => {

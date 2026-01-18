@@ -15,6 +15,8 @@ const props = defineProps({
     backToUrl: String,
     storeUrl: String,
     fish: Array,
+    lakes: Array,
+    rivers: Array,
 })
 
 const currentStep = ref(0);
@@ -22,8 +24,6 @@ const alertMessage = ref('');
 const loading = ref(false);
 
 const page = usePage()
-
-// User aus den Inertia-Props
 const user = computed(() => page.props.auth.user)
 
 const steps = [
@@ -34,8 +34,11 @@ const steps = [
     { id: '05', name: 'Bemerkungen', component: CatchedRemark },
 ]
 
+// Form-Setup mit Lake & River
 const form = ref({
     fish_id: null,
+    lake_id: null,
+    river_id: null,
     length: null,
     weight: null,
     depth: null,
@@ -52,6 +55,7 @@ const form = ref({
     media: [],
 })
 
+// Wizard Navigation
 async function nextStep() {
     if (currentStep.value < steps.length - 1) {
         currentStep.value++
@@ -61,40 +65,25 @@ async function nextStep() {
         const formProxy = useForm(form.value)
 
         formProxy.post(props.storeUrl, {
-            onFinish: () => {
-                loading.value = false
-            },
-            onSuccess: () => {
-                loading.value = false;
-            },
-            onError: (errors) => {
-                loading.value = false;
-            }
+            onFinish: () => { loading.value = false },
+            onSuccess: () => { loading.value = false },
+            onError: (errors) => { loading.value = false }
         })
     }
 }
 
 function prevStep() {
-    if (currentStep.value > 0) {
-        currentStep.value--
-    }
+    if (currentStep.value > 0) currentStep.value--
 }
 
-watch(
-    () => props.errors,
-    (newErrors) => {
-        if (newErrors && Object.keys(newErrors).length > 0) {
-            currentStep.value = 0;
-            alertMessage.value = 'Es sind Fehler im Formular aufgetreten. Bitte überprüfe deine Eingaben.'
-
-            // Optional: nach 5 Sekunden ausblenden
-            setTimeout(() => {
-                alertMessage.value = ''
-            }, 5000)
-        }
+// Fehlerbehandlung: setze Wizard zurück auf Step 0
+watch(() => props.errors, (newErrors) => {
+    if (newErrors && Object.keys(newErrors).length > 0) {
+        currentStep.value = 0;
+        alertMessage.value = 'Es sind Fehler im Formular aufgetreten. Bitte überprüfe deine Eingaben.'
+        setTimeout(() => alertMessage.value = '', 5000)
     }
-)
-
+})
 </script>
 
 <template>
@@ -136,7 +125,9 @@ watch(
             <div class="max-w-xl mx-auto">
                 <p class="lg:hidden text-center text-xl font-medium text-gray-700 dark:text-gray-400 mb-2">
                     {{ steps[currentStep].name }}</p>
-                <component v-if="!loading" :is="steps[currentStep].component" v-model="form" :errors="errors" :fish="props.fish" />
+
+                <component v-if="!loading" :is="steps[currentStep].component" v-model="form" :errors="errors"
+                    :fish="props.fish" :lakes="props.lakes" :rivers="props.rivers" />
 
                 <FullLoadingScreen v-if="loading" />
 
@@ -153,6 +144,5 @@ watch(
             </div>
 
         </div>
-
     </PageWrapper>
 </template>
