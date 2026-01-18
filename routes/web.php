@@ -69,9 +69,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/bugreports/{bugreport}', [BugReportController::class, 'show'])->name('bugreports.show');
     Route::delete('/bugreports/{report}', [BugReportController::class, 'destroy'])->name('bugreports.destroy');
 
-    Route::resource('state', StateController::class);
     Route::resource('lake', LakeController::class);
     Route::resource('river', RiverController::class);
+    Route::resource('state', StateController::class)->except(['show', 'update']);
+    Route::post('state/{state}/update', [StateController::class, 'update'])->name('state.update');
+    Route::delete('state/photo/{mediaId}', [StateController::class, 'deletePhoto'])->name('state.photo.delete');
 
 
     Route::resource('fish', FishAdminController::class)->except(['show', 'update']);

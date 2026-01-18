@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
 use App\Models\State;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class StateController extends Controller
 {
@@ -26,9 +27,16 @@ class StateController extends Controller
         $data = $request->validate([
             'name'      => 'required|string|unique:states,name',
             'desc'      => 'nullable|string',
+            'photo'     => 'nullable|image|max:102400',
         ]);
 
-        State::create($data);
+        $state = State::create($data);
+
+        if ($request->hasFile('photo')) {
+            $state
+                ->addMedia($request->file('photo'))
+                ->toMediaCollection('state');
+        }
 
         return redirect()->route('admin.state.index');
     }
@@ -42,6 +50,8 @@ class StateController extends Controller
 
     public function edit(State $state)
     {
+        $state->load('media');
+
         return Inertia::render('Admin/State/Edit', [
             'state' => $state,
         ]);
@@ -52,9 +62,23 @@ class StateController extends Controller
         $data = $request->validate([
             'name'      => 'required|string|unique:states,name,' . $state->id,
             'desc'      => 'nullable|string',
+            'photo'     => 'nullable|image|max:102400',
         ]);
 
-        $state->update($data);
+        $state->update([
+            'name' => $data['name'],
+            'desc' => $data['desc'] ?? null,
+        ]);
+
+        if ($request->hasFile('photo')) {
+            // altes Bild löschen
+            $state->clearMediaCollection('state');
+
+            // neues Bild speichern
+            $state
+                ->addMedia($request->file('photo'))
+                ->toMediaCollection('state');
+        }
 
         return redirect()->route('admin.state.index');
     }
@@ -64,5 +88,14 @@ class StateController extends Controller
         $state->delete();
 
         return redirect()->route('admin.state.index');
+    }
+
+    public function deletePhoto(Request $request, $mediaId)
+    {
+        $media = Media::findOrFail($mediaId);
+
+        $media->delete();
+
+        return redirect()->back()->with('success', 'Bild gelöscht.');
     }
 }
