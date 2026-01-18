@@ -5,6 +5,13 @@
             <div class="p-6">
                 <form @submit.prevent="submit">
 
+                    <VFileInput v-if="!form.photo" type="file" v-model="form.photo" accept="image/*" :multiple="false"
+                        class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
+
+                    <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
+
+                    <ImagePreview class="mt-5" :modelValue="form.photo" @remove="removeImage" />
+
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
                     <VTextarea class="mt-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
                     <VTextarea class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
@@ -18,7 +25,9 @@
     </PageWrapper>
 </template>
 <script setup>
+import ImagePreview from '@/components/ImagePreview.vue';
 import VButton from '@/components/VButton.vue';
+import VFileInput from '@/components/VFileInput.vue';
 import VInput from '@/components/VInput.vue';
 import VTextarea from '@/components/VTextarea.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
@@ -28,13 +37,14 @@ import { useForm } from '@inertiajs/vue3'
 const form = useForm({
     name: '',
     desc: '',
+    photo: null,
 });
 
 function submit() {
-    form.post(route('admin.fish.store'), {
-        onSuccess: () => {
-            form.reset();
-        },
-    });
+    form.post(route('admin.fish.store'));
+}
+
+const removeImage = (item) => {
+    form.photo = null;
 }
 </script>

@@ -71,8 +71,6 @@ const destroy = () => {
 }
 
 const removeImage = (item) => {
-    console.log("remove image", item);
-
     if (item.file instanceof File) {
         form.photo = null;
         return
