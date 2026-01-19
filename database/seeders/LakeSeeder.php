@@ -16,12 +16,29 @@ class LakeSeeder extends Seeder
 
         DB::transaction(function () use ($lakes) {
 
+            // 1️⃣ Zuerst: Neutraler Default-Eintrag
+            Lake::updateOrCreate(
+                ['name' => 'Anderes / nicht gelistet'],
+                [
+                    'desc' => 'Sonstiges / nicht gelistetes Gewässer',
+                    'hint' => null,
+                    'is_default' => true,
+                ]
+            );
+
+            // 2️⃣ Danach alle Lakes aus der Config
             foreach ($lakes as $lakeKey => $data) {
 
-                // Name aus Config oder Key
+                $name = $data['name'] ?? $lakeKey;
+
+                // Falls in der Config zufällig gleich benannt → überspringen
+                if ($name === 'Anderes / nicht gelistet') {
+                    continue;
+                }
+
                 $lake = Lake::updateOrCreate(
                     [
-                        'name' => $data['name'] ?? $lakeKey,
+                        'name' => $name,
                     ],
                     [
                         'desc' => $data['desc'] ?? null,
@@ -31,9 +48,6 @@ class LakeSeeder extends Seeder
 
                 /**
                  * STATES anbinden (n:n)
-                 * erlaubt:
-                 * 'state' => 'Kärnten'
-                 * 'state' => ['Kärnten', 'Steiermark']
                  */
                 if (!empty($data['state'])) {
                     $states = (array) $data['state'];
