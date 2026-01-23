@@ -51,6 +51,10 @@ class HandleInertiaRequests extends Middleware
                     'verified' => Auth::user()->hasVerifiedEmail()
                 ] : null,
             ],
+            'isImpersonated' => function () {
+                $user = Auth::user();
+                return $user ? $user->isImpersonated() : false;
+            },
         ]);
     }
 }

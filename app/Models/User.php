@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Spark\Billable;
-use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
     use Billable;
+    use Impersonate;
 
     protected static function booted()
     {
@@ -87,5 +88,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin(): bool
     {
         return $this->isAdmin === true;
+    }
+
+    public function canImpersonate(): bool
+    {
+        return $this->isAdmin();
+    }
+
+    public function canBeImpersonated(): bool
+    {
+        return true;
     }
 }

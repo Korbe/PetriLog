@@ -39,7 +39,7 @@
                         <tbody class="divide-y divide-gray-200">
                             <tr v-for="user in filteredUsers" :key="user.id"
                                 class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                 <td
+                                <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400">
                                     {{ user.id }}</td>
                                 <td
@@ -57,8 +57,8 @@
 
                                 <!-- Aktionen -->
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
-                                    <VButton size="sm" variant="secondary"
-                                        :disabled="user.id === $page.props.auth.user.id" @click="impersonate(user.id)"
+                                    <VButton :href="route('admin.impersonate', user.id)" size="sm" variant="secondary"
+                                        :disabled="user.id === $page.props.auth.user.id"
                                         class="flex items-center gap-1">
                                         <UserCircleIcon class="w-5 h-5" />
                                         Impersonate
@@ -79,13 +79,7 @@
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 import { CheckIcon, XMarkIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
 import { ref, computed } from 'vue'
-import { router } from '@inertiajs/vue3'
 import VButton from '@/components/VButton.vue'
-import { usePage } from '@inertiajs/vue3'
-
-const page = usePage()
-
-const csrfToken = page.props.csrf_token;
 
 interface User {
     id: number
@@ -109,20 +103,4 @@ const filteredUsers = computed(() => {
         user.email.toLowerCase().includes(search.value.toLowerCase())
     )
 })
-
-// Impersonate nur erlauben für andere User
-function canImpersonate(user: User) {
-    return user.id !== page.props.auth.user.id
-}
-
-
-function impersonate(userId: number) {
-    if (!confirm('Als diesen User anmelden?')) return;
-
-    router.post(route('admin.impersonate.start', userId), {}, {
-        onSuccess: () => {
-            window.location.href = route('dashboard')
-        }
-    })
-}
 </script>

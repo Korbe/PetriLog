@@ -79,6 +79,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
 });
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+
+    Route::impersonate();
+
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/bugreports', [BugReportController::class, 'index'])->name('bugreports.index');
     Route::get('/bugreports/{bugreport}', [BugReportController::class, 'show'])->name('bugreports.show');
