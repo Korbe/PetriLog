@@ -11,6 +11,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImprintController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
@@ -97,4 +98,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::resource('fish', FishAdminController::class)->except(['show', 'update']);
     Route::post('fish/{fish}/update', [FishAdminController::class, 'update'])->name('fish.update');
     Route::delete('fish/photo/{mediaId}', [FishAdminController::class, 'deletePhoto'])->name('fish.photo.delete');
+
+    Route::get('user', [UserController::class, 'index'])->name('admin.users.index');
 });
+
+Route::middleware(['auth'])->group(function () {});

@@ -59,5 +59,10 @@ const cards = [
         desc: 'Hier können alle Flüsse verwaltet werden.',
         href: '/admin/river',
     },
+        {
+        title: 'User Verwaltung',
+        desc: 'Hier können alle User angesehen werden.',
+        href: '/admin/user',
+    },
 ];
 </script>
