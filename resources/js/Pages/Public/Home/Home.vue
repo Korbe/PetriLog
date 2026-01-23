@@ -4,7 +4,8 @@
         <Hero />
         <FeaturesPlanet />
         <FeaturesHome />
-        <TestimonialsCarousel />
+        <!-- <TestimonialsCarousel /> -->
+        <SponsorsCarousel />
         <Cta />
     </Layout>
 </template>
@@ -16,5 +17,6 @@ import FeaturesHome from './Partials/FeaturesHome.vue';
 import TestimonialsCarousel from './Partials/TestimonialsCarousel.vue';
 import Cta from './Partials/Cta.vue';
 import { Head } from '@inertiajs/vue3';
+import SponsorsCarousel from './Partials/SponsorsCarousel.vue';
 
 </script>
