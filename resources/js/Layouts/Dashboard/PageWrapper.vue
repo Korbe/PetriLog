@@ -7,10 +7,12 @@
 
         <!-- Left: Title -->
         <div class="mb-4 sm:mb-0 flex items-center">
-            <Link v-if="!hideBackButton" :href="backUrl" preserve-scroll preserve-state>
-            <ChevronLeftIcon class="w-6 h-6 mr-2"></ChevronLeftIcon>
+            <Link v-if="!hideBackButton" :href="backUrl" class="flex items-center gap-2">
+            <ChevronLeftIcon class="w-6 h-6 text-gray-800 dark:text-gray-100" />
+            <span class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
+                {{ title }}
+            </span>
             </Link>
-            <h1 class="p-0 m-0 text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">{{ title }}</h1>
         </div>
 
         <!-- Right: Actions -->

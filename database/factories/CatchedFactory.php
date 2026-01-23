@@ -26,13 +26,6 @@ class CatchedFactory extends Factory
             'Wolgazander', 'Zander', 'Zingel', 'Zobel', 'Zope', 'Zwergwels'
         ];
 
-        $watersAustria = [
-            'Donau', 'Drau', 'Enns', 'Gail', 'Gurk', 'Inn', 'Kamp', 'Leitha', 'March', 'Mur', 'Raab', 'Salzach', 'Thaya',
-            'Traun', 'Ybbs', 'Achensee', 'Altausseer See', 'Attersee', 'Faaker See', 'Fuschlsee', 'Grundlsee',
-            'Hallstätter See', 'Klopeiner See', 'Millstätter See', 'Mondsee', 'Neusiedler See', 'Ossiacher See',
-            'Traunsee', 'Weißensee', 'Wolfgangsee', 'Wörthersee', 'Zeller See'
-        ];
-
         return [
             'user_id' => User::find(1)->id,
             'name' => Arr::random($fishSpeciesAustria),
@@ -40,7 +33,6 @@ class CatchedFactory extends Factory
             'weight' => $this->faker->numberBetween(100, 10000),
             'depth' => $this->faker->numberBetween(1, 50),
             'temperature' => $this->faker->numberBetween(5, 30),
-            'waters' => Arr::random($watersAustria),
             'date' => $this->faker->dateTimeBetween('-20 weeks', 'now'),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),

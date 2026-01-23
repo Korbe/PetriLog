@@ -20,7 +20,6 @@ class Catched extends Model implements HasMedia
         'weight',
         'depth',
         'temperature',
-        'waters',
         'date',
         'latitude',
         'longitude',

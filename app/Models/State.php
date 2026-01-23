@@ -27,9 +27,9 @@ class State extends Model implements HasMedia
         return $this->belongsToMany(River::class);
     }
 
-    public function associations(): BelongsToMany
+    public function associations(): HasMany
     {
-        return $this->belongsToMany(Association::class);
+        return $this->hasMany(Association::class);
     }
 
     public function registerMediaCollections(): void

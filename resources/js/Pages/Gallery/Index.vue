@@ -22,7 +22,7 @@
             <img v-if="item.images.length" :src="item.images[0].url" alt="Bild" class="w-full h-48 object-cover" />
             <div class="p-4">
               <h2 class="text-lg font-semibold">{{ item.name }}</h2>
-              <p class="text-sm text-gray-500">{{ item.date }} - {{ item.waters }}</p>
+              <p class="text-sm text-gray-500">{{ item.date }} - <span class="text-primary-500">{{ item.water.name }}</span></p>
             </div>
             </Link>
           </div>
@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import DropdownFilter from '@/components/DropdownFilter.vue';
 import VButton from '@/components/VButton.vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';

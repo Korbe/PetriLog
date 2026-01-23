@@ -43,7 +43,6 @@ const form = ref({
     weight: null,
     depth: null,
     temperature: null,
-    waters: null,
     date: new Date(),
     latitude: null,
     longitude: null,

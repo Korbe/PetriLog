@@ -8,7 +8,7 @@ use App\Models\Association;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AssociationController extends Controller
+class AssociationAdminController extends Controller
 {
     public function index()
     {

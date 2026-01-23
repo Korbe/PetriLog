@@ -20,7 +20,7 @@
       <!-- Bildergalerie Desktop -->
       <div class="hidden md:block">
         <ul role="list"
-          class="px-5 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
+          class="px-3 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
           <li v-for="(media, index) in props.catched.media" :key="media.name">
             <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
               :src="media.original_url" :alt="'user-image' + index" />

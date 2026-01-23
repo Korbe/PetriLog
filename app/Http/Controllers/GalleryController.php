@@ -13,16 +13,15 @@ class GalleryController extends Controller
     public function index(FilterRequest $request)
     {
         session()->forget('meta');
-        
+
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Bestimme den frühesten und spätesten Fang für diesen User
+        // Bestimme den frühesten und spätesten Fang
         $dateRange = $user->catched()
             ->selectRaw('MIN(date) as earliest, MAX(date) as latest')
             ->first();
 
-        // Validiere das Request (startDate, endDate, onlyWithDescription)
         $validated = $request->validated();
 
         $startDate = isset($validated['startDate'])
@@ -33,12 +32,11 @@ class GalleryController extends Controller
             ? Carbon::parse($validated['endDate'])->endOfDay()
             : Carbon::parse($dateRange->latest)->endOfDay();
 
-        // Baue Query für alle Fänge mit Bildern im gegebenen Zeitraum
+        // Baue Query für alle Fänge inkl. Gewässer und Media
         $query = $user->catched()
-            ->with('media')
+            ->with(['media', 'lake', 'river']) // Lade Beziehungen eager
             ->whereBetween('date', [$startDate, $endDate]);
 
-        // Optionaler Filter: nur mit Beschreibung
         if (!empty($validated['onlyWithDescription']) && filter_var($validated['onlyWithDescription'], FILTER_VALIDATE_BOOLEAN)) {
             $query->whereNotNull('remark')->where('remark', '!=', '');
         }
@@ -46,19 +44,33 @@ class GalleryController extends Controller
         $catcheds = $query->get()
             ->filter(fn($catched) => $catched->hasMedia('photos'))
             ->map(function ($catched) {
+                // Bestimme Gewässer
+                $water = null;
+                if ($catched->lake) {
+                    $water = [
+                        'type' => 'lake',
+                        'id' => $catched->lake->id,
+                        'name' => $catched->lake->name,
+                    ];
+                } elseif ($catched->river) {
+                    $water = [
+                        'type' => 'river',
+                        'id' => $catched->river->id,
+                        'name' => $catched->river->name,
+                    ];
+                }
+
                 return [
                     'id' => $catched->id,
                     'name' => $catched->name,
-                    'waters' => $catched->waters,
                     'date' => $catched->date->format('d.m.Y'),
-                    'images' => $catched->getMedia('photos')->map(function ($media) {
-                        return [
-                            'url' => $media->getFullUrl(),
-                        ];
-                    }),
+                    'images' => $catched->getMedia('photos')->map(fn($media) => [
+                        'url' => $media->getFullUrl(),
+                    ]),
+                    'water' => $water, // Lake oder River
                 ];
             })
-            ->values(); // optional: index neu ordnen
+            ->values();
 
         return Inertia::render('Gallery/Index', [
             'catcheds' => $catcheds,

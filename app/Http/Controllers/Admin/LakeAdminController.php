@@ -9,7 +9,7 @@ use App\Models\Fish;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class LakeController extends Controller
+class LakeAdminController extends Controller
 {
     public function index()
     {

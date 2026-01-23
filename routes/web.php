@@ -2,22 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FishController;
+use App\Http\Controllers\LakeController;
+use App\Http\Controllers\RiverController;
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\PublicController;
-use App\Http\Controllers\WatersController;
 use App\Http\Controllers\CatchedController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImprintController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Admin\LakeController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\RiverController;
-use App\Http\Controllers\Admin\StateController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
 use App\Http\Controllers\Admin\FishAdminController;
-use App\Http\Controllers\Admin\AssociationController;
+use App\Http\Controllers\Admin\LakeAdminController;
+use App\Http\Controllers\Admin\RiverAdminController;
+use App\Http\Controllers\Admin\StateAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Admin\AssociationAdminController;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
@@ -49,13 +51,24 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
     Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->name('catched.photo.delete');
 
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
-    Route::get('/waters', [WatersController::class, 'index'])->name('waters.index');
-    Route::get('/waters/{state}', [WatersController::class, 'state'])->name('waters.state');
-    Route::get('/waters/{state}/{lake}', [WatersController::class, 'waters'])->name('waters.state.waters');
 
+    Route::prefix('states')->group(function () {
+
+        // Alle Bundesländer / States
+        Route::get('/', [StateController::class, 'index'])->name('states.index');
+
+        // Einzelnes Bundesland / State
+        Route::get('/{state}', [StateController::class, 'show'])->name('states.show');
+
+        // Einzelner See
+        Route::get('{state}/lakes/{lake}', [LakeController::class, 'show'])->name('lakes.show');
+
+        // Einzelner Fluss
+        Route::get('{state}/rivers/{river}', [RiverController::class, 'show'])->name('rivers.show');
+    });
 
     Route::get('/fish', [FishController::class, 'index'])->name('fish.index');
-    Route::get('/fish/{fish}', [FishController::class, 'fish'])->name('fish.fish');
+    Route::get('/fish/{fish}', [FishController::class, 'show'])->name('fish.show');
 
     Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
     Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
@@ -70,19 +83,18 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/bugreports/{bugreport}', [BugReportController::class, 'show'])->name('bugreports.show');
     Route::delete('/bugreports/{report}', [BugReportController::class, 'destroy'])->name('bugreports.destroy');
 
-    
-    Route::resource('lake', LakeController::class)->except(['show']);
-    Route::resource('river', RiverController::class)->except(['show']);
-    Route::resource('association', AssociationController::class)->except(['show']);
+
+    Route::resource('lake', LakeAdminController::class)->except(['show']);
+    Route::resource('river', RiverAdminController::class)->except(['show']);
+    Route::resource('association', AssociationAdminController::class)->except(['show']);
 
 
-    Route::resource('state', StateController::class)->except(['show', 'update']);
-    Route::post('state/{state}/update', [StateController::class, 'update'])->name('state.update');
-    Route::delete('state/photo/{mediaId}', [StateController::class, 'deletePhoto'])->name('state.photo.delete');
+    Route::resource('state', StateAdminController::class)->except(['show', 'update']);
+    Route::post('state/{state}/update', [StateAdminController::class, 'update'])->name('state.update');
+    Route::delete('state/photo/{mediaId}', [StateAdminController::class, 'deletePhoto'])->name('state.photo.delete');
 
 
     Route::resource('fish', FishAdminController::class)->except(['show', 'update']);
     Route::post('fish/{fish}/update', [FishAdminController::class, 'update'])->name('fish.update');
     Route::delete('fish/photo/{mediaId}', [FishAdminController::class, 'deletePhoto'])->name('fish.photo.delete');
-
 });

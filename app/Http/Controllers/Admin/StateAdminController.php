@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class StateController extends Controller
+class StateAdminController extends Controller
 {
     public function index()
     {
@@ -38,7 +38,7 @@ class StateController extends Controller
                 ->toMediaCollection('state');
         }
 
-        return redirect()->route('admin.state.index');
+        return redirect()->route('admin.state.index')->with('success', 'Fluss erstellt!');;
     }
 
     public function show(State $state)
@@ -80,7 +80,7 @@ class StateController extends Controller
                 ->toMediaCollection('state');
         }
 
-        return redirect()->route('admin.state.index');
+        return redirect()->route('admin.state.index')->with('success', 'Bundesland aktualisiert!');;
     }
 
     public function destroy(State $state)

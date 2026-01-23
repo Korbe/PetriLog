@@ -68,11 +68,11 @@
               </Link>
             </li>
 
-            <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r" :class="isActive('/waters') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
-              <Link href="/waters" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/waters') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
+            <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r" :class="isActive('/states') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
+              <Link href="/states" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/states') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
                 <div class="flex items-center">
-                  <WalletIcon class="shrink-0 w-5 h-5" :class="isActive('/waters') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
-                  <span class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Gewässer</span>
+                  <WalletIcon class="shrink-0 w-5 h-5" :class="isActive('/states') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
+                  <span class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Gewässer Wiki</span>
                 </div>
               </Link>
             </li>
@@ -81,7 +81,7 @@
               <Link href="/fish" class="block text-gray-800 dark:text-gray-100 truncate transition" :class="isActive('/fish') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
                 <div class="flex items-center">
                   <EyeIcon class="shrink-0 w-5 h-5" :class="isActive('/fish') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
-                  <span class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Fische</span>
+                  <span class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Fisch Wiki</span>
                 </div>
               </Link>
             </li>

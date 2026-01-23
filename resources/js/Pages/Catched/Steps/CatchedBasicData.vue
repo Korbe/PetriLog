@@ -68,6 +68,4 @@ const selectedRiver = computed({
         emit('update:modelValue', { ...props.modelValue, river_id: value?.id ?? null, lake_id: null })
     }
 })
-
-const showCustomWatersField = ref(false)
 </script>

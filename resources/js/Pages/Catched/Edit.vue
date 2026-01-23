@@ -32,7 +32,6 @@ const form = useForm({
   weight: props.catched?.weight ?? null,
   depth: props.catched?.depth ?? null,
   temperature: props.catched?.temperature ?? null,
-  waters: props.catched?.waters ?? null,
   date: props.catched?.date ? new Date(props.catched.date) : new Date(),
   latitude: props.catched?.latitude ?? null,
   longitude: props.catched?.longitude ?? null,

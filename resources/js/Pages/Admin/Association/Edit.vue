@@ -57,16 +57,20 @@ const form = useForm({
     name: props.association.name,
     desc: props.association.desc,
     link: props.association.link,
-    state: props.association.state,
-    state_id: props.association.state.id
+    state: props.association.state || null,
+    state_id: props.association.state ? props.association.state.id : null,
 });
 
 const stateOptions = props.states || []
 
 function submit() {
+    if (!form.state) {
+        alert('Bitte wähle ein Bundesland aus!');
+        return;
+    }
+
     form.state_id = form.state.id;
-    console.log(form);
-    //form.put(route('admin.association.update', props.lake.id));
+    form.put(route('admin.association.update', props.association.id));
 }
 
 function destroy() {

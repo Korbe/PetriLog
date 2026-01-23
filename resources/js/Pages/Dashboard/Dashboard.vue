@@ -11,17 +11,24 @@
                 <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
 
                     <div
-                        class="w-full lg:w-1/3 bg-white flex flex-col text-center justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
-                        <h1 class="text-xl font-medium">Fisch gefangen?</h1>
-                        <p>Gratulation, trage deine Fang jetzt ein</p>
-                        <VButton class="m-5" :href="createUrl">Eintragen</VButton>
+                        class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
+
+                        <DocumentPlusIcon class="h-12 w-12 text-blue-500 mb-4" />
+                        <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Fisch gefangen?</h1>
+                        <p class="text-gray-700 dark:text-gray-300 mb-5">Gratulation! Trage deinen Fang jetzt ein.</p>
+
+                        <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="createUrl">
+                            Eintragen
+                        </VButton>
                     </div>
 
-                    <div class="w-full lg:w-1/3 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
+                    <div
+                        class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105">
                         <CatchedStatsMonthlyCard :data="catchedStatsMonthly" />
                     </div>
 
-                    <div class="w-full lg:w-1/3 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
+                    <div
+                        class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105">
                         <CatchedStatsYearlyCard :data="catchedStatsYearly" />
                     </div>
 
@@ -33,11 +40,13 @@
 
                 <div class="flex flex-wrap lg:flex-nowrap w-full gap-5">
 
-                    <div class="w-full lg:w-1/2 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
+                    <div
+                        class="w-full lg:w-1/2 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col">
                         <LongestCatchCard :catched="longestCatch" :route="routeLongest" />
                     </div>
 
-                    <div class="w-full lg:w-1/2 flex flex-col bg-white dark:bg-gray-800 shadow-xs rounded-lg p-5">
+                    <div
+                        class="w-full lg:w-1/2 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col">
                         <HeaviestCatchCard :catched="heaviestCatch" :route="routeHeaviest" />
                     </div>
                 </div>
@@ -57,6 +66,7 @@ import { usePage } from '@inertiajs/vue3';
 import EmailVerificationBanner from '@/components/EmailVerificationBanner.vue';
 import LongestCatchCard from './LongestCatchCard.vue';
 import HeaviestCatchCard from './HeaviestCatchCard.vue';
+import { ArrowUpTrayIcon, DocumentPlusIcon, PlusCircleIcon } from '@heroicons/vue/24/solid';
 
 const props = defineProps({
     catchedStatsMonthly: {
@@ -87,8 +97,8 @@ const props = defineProps({
             required: true,
         },
     },
-    heaviestCatch : Object,
-    longestCatch : Object,
+    heaviestCatch: Object,
+    longestCatch: Object,
 
     createUrl: String,
     routeHeaviest: String,

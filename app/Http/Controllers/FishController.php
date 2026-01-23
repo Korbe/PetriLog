@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fish;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Config;
 
@@ -11,28 +12,30 @@ class FishController extends Controller
     {
         session()->forget('meta');
 
-        $fish = Config::get('fish');
+        $fish = Fish::where('name', '!=', 'Anderes / nicht gelistet')->get()->map(fn($f) => [
+            'id' => $f->id,
+            'name' => $f->name,
+            'media' => $f->getMedia('fish')->map(fn($m) => ['url' => $m->getUrl()]),
+        ]);
 
         return Inertia::render('Fish/Index', [
             'fish' => $fish
         ]);
     }
 
-    public function fish($fishname)
+    public function show(Fish $fish)
     {
         session()->forget('meta');
 
-        $fish = Config::get('fish');
-
-        // Schauen, ob das gesuchte Fisch existiert
-        if (!array_key_exists($fishname, $fish)) {
-            abort(404, 'Fisch nicht gefunden');
-        }
-
-        $data = $fish[$fishname];
-
-        return Inertia::render('Fish/Fish', [
-            "fish" => $data
+        return Inertia::render('Fish/Show', [
+            'fish' => [
+                'id' => $fish->id,
+                'name' => $fish->name,
+                'desc' => $fish->desc,
+                'media' => $fish->getMedia('fish')->map(fn($m) => [
+                    'url' => $m->getUrl(),
+                ]),
+            ]
         ]);
     }
 }
