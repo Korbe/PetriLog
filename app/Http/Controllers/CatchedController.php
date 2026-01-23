@@ -159,20 +159,9 @@ class CatchedController extends Controller
 
         $catched->load(['media', 'fish', 'lake', 'river']);
 
-        $fish = Fish::orderByRaw("
-            name = 'Anderes / nicht gelistet' DESC,
-            name ASC
-        ")->get();
-
-        $lakes = Lake::orderByRaw("
-            name = 'Anderes / nicht gelistet' DESC,
-            name ASC
-        ")->get();
-
-        $rivers = River::orderByRaw("
-                name = 'd' DESC,
-                name ASC
-            ")->get();
+        $rivers = River::orderByDesc('is_default')->orderBy('name')->get();
+        $fish = Fish::orderByDesc('is_default')->orderBy('name')->get();
+        $lakes  = Lake::orderByDesc('is_default')->orderBy('name')->get();
 
         return Inertia::render('Catched/Edit', [
             'catched' => $catched,
