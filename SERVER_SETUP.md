@@ -195,13 +195,14 @@ Server für HTTPS:
 	node -v
 	npm -v
 
-### 7.4 Rechte für sudo ohne Passwort
+### 7.4 Rechte für sudo ohne Passwort für Deployer.php
 
 	sudo visudo -f /etc/sudoers.d/deployer
 
 	Eintragen:
 	deployer ALL=(ALL) NOPASSWD: /bin/systemctl restart php8.4-fpm
 	deployer ALL=(ALL) NOPASSWD: /usr/bin/supervisorctl
+	deployer ALL=(ALL) NOPASSWD: /bin/systemctl reload nginx
 
 ## 8. SSR Server via Supervisor
 
