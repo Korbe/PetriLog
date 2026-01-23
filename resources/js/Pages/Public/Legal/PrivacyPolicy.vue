@@ -28,7 +28,7 @@
                             <p class="mb-4">
                                 Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br>
                                 <strong>Ing. Korbitsch Lukas</strong><br>
-                                E-Mail: <a href="mailto:info@korbitsch.at" class="text-blue-600">info@korbitsch.at</a>
+                                E-Mail: <a href="mailto:info@petrilog.com" class="text-blue-600">info@petrilog.com</a>
                             </p>
 
                             <h2 class="text-2xl font-semibold mt-8 mb-4">2. Erhebung und Verarbeitung personenbezogener

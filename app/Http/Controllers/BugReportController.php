@@ -70,7 +70,7 @@ class BugReportController extends Controller
 
         $bugReport = BugReport::create($data);
 
-        Mail::to('info@korbitsch.at')->send(new BugReportMail([
+        Mail::to('info@petrilog.com')->send(new BugReportMail([
             'bug' => $bugReport,
             'user' => $user,
         ]));

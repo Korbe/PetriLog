@@ -20,12 +20,14 @@
                     </div>
                 </div>
 
-                <div class="max-w-sm mx-auto gap-8">
+                <div class="max-w-lg mx-auto gap-8">
                     <div
                         class="relative flex flex-col h-full p-5 rounded-2xl backdrop-blur-xs bg-linear-to-tr from-gray-900 to-gray-700 shadow-lg shadow-black/[0.03]">
                         <div class="text-center">
-                            <div class="text-lg text-gray-300"><b>Email</b>: info@korbitsch.at</div>
-                            <div class="text-lg text-gray-300"><b>Tel</b>: +43 670 192 33 88</div>
+                            <div class="text-lg text-gray-300"><b>Email</b>: <a
+                                    href="mailto:info@petrilog.com">info@petrilog.com</a></div>
+                            <div class="text-lg text-gray-300"><b>Perschon (Vetrieb)</b>: <a href="tel:+436505222753">+43 650 522 27 53</a></div>
+                            <div class="text-lg text-gray-300"><b>Korbitsch (Technische Leitung)</b>: <a href="tel:+436701923388">+43 670 192 33 88</a></div>
                         </div>
                     </div>
 

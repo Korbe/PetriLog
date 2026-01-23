@@ -6,7 +6,7 @@
     </template>
 
     <div class="flex items-center gap-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 text-sm">
-      <span>Diese Liste ist unvollständig und wird laufend ergänzt. Sollten Sie Vorschläge oder Ergänzungen haben schreiben Sie uns gerne per Mail <a href="mailto:info@korbitsch.at">info@korbitsch.at</a></span>
+      <span>Diese Liste ist unvollständig und wird laufend ergänzt. Sollten Sie Vorschläge oder Ergänzungen haben schreiben Sie uns gerne per Mail <a href="mailto:info@petrilog.com">info@petrilog.com</a></span>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-5">

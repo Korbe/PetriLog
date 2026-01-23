@@ -10,6 +10,6 @@ class SendNewUserEmail
 {
     public function handle(Registered $event)
     {
-        Mail::to('info@korbitsch.at')->send(new NewUserMail($event->user));
+        Mail::to('info@petrilog.com')->send(new NewUserMail($event->user));
     }
 }
