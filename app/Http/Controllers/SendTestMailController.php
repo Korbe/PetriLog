@@ -15,6 +15,8 @@ class SendTestMailController extends Controller
 
         Mail::to('info@petrilog.com')
             ->send(new NewUserMail($user));
+        Mail::to('info@korbitsch.at')
+            ->send(new NewUserMail($user));
 
         return back()->with('success', 'Mail wurde versendet');
     }
