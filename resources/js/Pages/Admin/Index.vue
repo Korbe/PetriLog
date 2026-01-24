@@ -2,6 +2,11 @@
     <PageWrapper :title="'Hallo Admin ' + $page.props.auth.user.name" backTo="/dashboard">
         <div class="space-y-5">
 
+                <Link :href="route('admin.send-new-user-mail')" method="post" as="button"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Mail senden
+                </Link>
+
             <!-- Grid für die Kacheln -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
 
@@ -59,7 +64,7 @@ const cards = [
         desc: 'Hier können alle Flüsse verwaltet werden.',
         href: '/admin/river',
     },
-        {
+    {
         title: 'User Verwaltung',
         desc: 'Hier können alle User angesehen werden.',
         href: '/admin/user',
