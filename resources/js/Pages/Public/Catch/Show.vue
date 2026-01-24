@@ -112,7 +112,7 @@
         <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="fishName" />
       </div>
 
-      <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente" buttonText="Registrieren"
+      <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente" buttonText="kostenlos Registrieren"
         buttonLink="/register" />
     </div>
   </Layout>

@@ -71,7 +71,7 @@ const submit = () => {
             <div class="flex items-center justify-end mt-4">
                 <VButton type="submit" class="w-full" :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
-                    Registrieren
+                    kostenlos Registrieren
                 </VButton>
             </div>
 

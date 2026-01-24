@@ -12,7 +12,7 @@ import { Head } from '@inertiajs/vue3';
     
     <PricingPlan />
     <Faqs />
-    <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente" buttonText="Registrieren"
+    <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente" buttonText="kostenlos Registrieren"
       buttonLink="/register" />
   </Layout>
 </template>

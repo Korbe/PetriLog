@@ -19,7 +19,7 @@
           <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
             <Link href="/register" class="btn text-white bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] hover:bg-[length:100%_150%] bg-[bottom] shadow-sm w-full mb-4 sm:w-auto sm:mb-0 group">
               <span class="relative inline-flex items-center">
-                Registrieren<span
+                kostenlos Registrieren<span
                   class="tracking-normal text-blue-300 group-hover:translate-x-0.5 transition-transform ml-1"></span>
               </span>
             </Link>
