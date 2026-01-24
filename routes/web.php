@@ -13,7 +13,6 @@ use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\SendTestMailController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
 use App\Http\Controllers\Admin\FishAdminController;
@@ -105,6 +104,3 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 
     Route::get('user', [UserController::class, 'index'])->name('admin.users.index');
 });
-
-Route::post('/admin/send-new-user-mail', SendTestMailController::class)
-    ->name('admin.send-new-user-mail');

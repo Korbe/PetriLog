@@ -2,15 +2,8 @@
     <PageWrapper :title="'Hallo Admin ' + $page.props.auth.user.name" backTo="/dashboard">
         <div class="space-y-5">
 
-                <Link :href="route('admin.send-new-user-mail')" method="post" as="button"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Mail senden
-                </Link>
-
-            <!-- Grid für die Kacheln -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
 
-                <!-- Kacheln -->
                 <div v-for="card in cards" :key="card.title"
                     class="bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
                     <h1 class="text-xl font-medium">{{ card.title }}</h1>
