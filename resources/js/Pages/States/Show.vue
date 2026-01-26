@@ -7,7 +7,7 @@
 
                 <h1 class="text-center font-bold text-4xl mb-2">{{ state.name }}</h1>
 
-                <p class="pt-5">{{ state.desc }}</p>
+                <p class="pt-5" v-html="state.desc"></p>
 
                 <!-- Vereine -->
                 <div v-if="state.associations && state.associations.length > 0">

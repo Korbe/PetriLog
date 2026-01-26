@@ -15,7 +15,6 @@
                     <VInput class="mt-5" label="Name" v-model="form.name" :error="form.errors.name" />
 
                     <VEditor label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
-                    <VEditor label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
                     <div class="flex items-center justify-between mt-6">
                         <VButton type="submit" :disabled="form.processing">
@@ -51,7 +50,6 @@ const props = defineProps({
 const form = useForm({
     name: props.fish.name,
     desc: props.fish.desc,
-    hint: props.fish.hint,
     photo: null,
 })
 

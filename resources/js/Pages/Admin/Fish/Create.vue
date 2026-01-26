@@ -15,7 +15,6 @@
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
                     
                     <VEditor label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
-                    <VEditor label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
                     <VButton type="submit" :disabled="form.processing">
                         Speichern

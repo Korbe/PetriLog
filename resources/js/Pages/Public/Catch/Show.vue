@@ -102,7 +102,7 @@
       <!-- Bemerkungen -->
       <div class="mx-2 mt-5">
         <div v-if="catched.remark" class="w-full border-1 rounded-lg p-5">
-          <p>{{ catched.remark }}</p>
+          <p v-html="catched.remark"></p>
         </div>
       </div>
 
