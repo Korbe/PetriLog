@@ -13,6 +13,7 @@ use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AssociationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermsOfServiceController;
 use App\Http\Controllers\Admin\FishAdminController;
@@ -66,6 +67,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
 
         // Einzelner Fluss
         Route::get('{state}/rivers/{river}', [RiverController::class, 'show'])->name('rivers.show');
+
+        // Einzelner Verein
+        Route::get('{state}/associations/{association}', [AssociationController::class, 'show'])->name('associations.show');
     });
 
     Route::get('/fish', [FishController::class, 'index'])->name('fish.index');

@@ -16,14 +16,13 @@
                         <li v-for="assoc in state.associations" :key="assoc.id"
                             class="hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
 
-                            <a :href="assoc.link" target="_blank"
+                            <Link :href="`/states/${state.id}/associations/${assoc.id}`"
                                 class="flex items-center justify-between gap-2 p-2 text-blue-500 hover:text-blue-700 rounded">
                                 <span>{{ assoc.name }}</span>
-                                <ArrowTopRightOnSquareIcon class="w-5 h-5" />
-                            </a>
-
+                                <ArrowRightIcon class="w-5 h-5" />
+                            </Link>
                             <!-- Beschreibung darunter -->
-                            <p v-if="assoc.desc" class="pl-2 pt-1 text-gray-700 dark:text-gray-300 mb-5" >{{ assoc.desc }}</p>
+                            <p v-if="assoc.desc" class="pl-2 pt-1 text-gray-700 dark:text-gray-300 mb-5" v-text="truncateDesc(assoc.desc)"></p>
                         </li>
                     </ul>
                 </div>
@@ -71,4 +70,10 @@ import { ArrowRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/sol
 defineProps({
     state: Object
 });
+
+const truncateDesc = (desc) => {
+  if (!desc) return '';
+  const plainText = desc.replace(/<[^>]*>/g, ''); // Entferne HTML-Tags für sichere Kürzung
+  return plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText;
+};
 </script>
