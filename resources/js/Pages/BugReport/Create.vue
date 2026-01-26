@@ -4,8 +4,7 @@
 
             <VInput label="Titel" v-model="form.title" placeholder="Kurze Fehlerbeschreibung" :error="errors.title" />
 
-            <VTextarea label="Beschreibung" v-model="form.description" placeholder="Detaillierte Fehlerbeschreibung"
-                :rows=5 />
+            <VEditor label="Beschreibung" v-model="form.description" :error="errors.description" />
 
             <VSelect label="Kategorie" v-model="form.category" :options="[
                 { label: 'UI', value: 'ui' },
@@ -14,8 +13,7 @@
                 { label: 'Sonstiges', value: 'other' }
             ]" />
 
-            <VTextarea label="Schritte zur Reproduktion (optional)" v-model="form.steps" :rows=4
-                placeholder="Schritt-für-Schritt-Anleitung" />
+            <VEditor label="Schritte zur Reproduktion (optional)" v-model="form.steps" :error="errors.steps" />
 
             <VInput label="Betroffene Seite / URL (optional)" v-model="form.url" placeholder="/dashboard" />
 
@@ -27,10 +25,10 @@
 <script setup>
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
 import VSelect from '@/components/VSelect.vue';
 import VButton from '@/components/VButton.vue';
 import { useForm } from '@inertiajs/vue3';
+import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     errors: Object,

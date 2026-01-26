@@ -20,7 +20,7 @@
                         </p>
                     </div>
                     <VInput label="Link" v-model="form.link" :error="form.errors.link" />
-                    <VTextarea class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
 
                     <VButton type="submit" :disabled="form.processing">
                         Speichern
@@ -33,11 +33,11 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import Multiselect from 'vue-multiselect'
 
 import { useForm } from '@inertiajs/vue3'
+import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     states: Array,

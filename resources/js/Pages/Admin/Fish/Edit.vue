@@ -14,7 +14,8 @@
 
                     <VInput class="mt-5" label="Name" v-model="form.name" :error="form.errors.name" />
 
-                    <VTextarea class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
                     <div class="flex items-center justify-between mt-6">
                         <VButton type="submit" :disabled="form.processing">
@@ -37,11 +38,11 @@ import { useForm, router } from '@inertiajs/vue3'
 import { Inertia } from '@inertiajs/inertia'
 import VButton from '@/components/VButton.vue'
 import VInput from '@/components/VInput.vue'
-import VTextarea from '@/components/VTextarea.vue'
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 import VFileInput from '@/components/VFileInput.vue'
 import ImagePreview from '@/components/ImagePreview.vue'
 import { computed } from 'vue'
+import VEditor from '@/components/VEditor.vue'
 
 const props = defineProps({
     fish: Object,
@@ -50,6 +51,7 @@ const props = defineProps({
 const form = useForm({
     name: props.fish.name,
     desc: props.fish.desc,
+    hint: props.fish.hint,
     photo: null,
 })
 

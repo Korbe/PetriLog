@@ -14,7 +14,8 @@
 
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
                     
-                    <VTextarea class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    
                     <VButton type="submit" :disabled="form.processing">
                         Speichern
                     </VButton>
@@ -26,9 +27,9 @@
 <script setup>
 import ImagePreview from '@/components/ImagePreview.vue';
 import VButton from '@/components/VButton.vue';
+import VEditor from '@/components/VEditor.vue';
 import VFileInput from '@/components/VFileInput.vue';
 import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 
 import { useForm } from '@inertiajs/vue3'

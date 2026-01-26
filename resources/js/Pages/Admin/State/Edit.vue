@@ -13,7 +13,7 @@
                         @remove="removeImage" />
 
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
-                    <VTextarea class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
 
                     <div class="flex items-center justify-between">
                         <VButton type="submit" :disabled="form.processing">
@@ -34,12 +34,12 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { useForm, router } from '@inertiajs/vue3';
 import VFileInput from '@/components/VFileInput.vue';
 import ImagePreview from '@/components/ImagePreview.vue';
 import { computed } from 'vue'
+import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     state: Object,

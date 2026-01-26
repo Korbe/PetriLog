@@ -20,7 +20,8 @@
                         </p>
                     </div>
                     <VInput label="Link" v-model="form.link" :error="form.errors.link" />
-                    <VTextarea class="mt-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                
+                    <VEditor label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
 
                     <div class="flex items-center justify-between">
                         <VButton type="submit" :disabled="form.processing">
@@ -41,16 +42,23 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 import Multiselect from 'vue-multiselect'
+import Quill from 'quill'
+import 'quill/dist/quill.snow.css'
+import { onMounted, ref } from 'vue';
+import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     association: Object,
     states: Array,
 });
+
+const editor = ref(null);
+const stateOptions = props.states || [];
+let quill = null;
 
 // Form initialisieren mit bestehenden Daten
 const form = useForm({
@@ -61,7 +69,29 @@ const form = useForm({
     state_id: props.association.state ? props.association.state.id : null,
 });
 
-const stateOptions = props.states || []
+onMounted(() => {
+    quill = new Quill(editor.value, {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['link'],
+                ['clean']
+            ]
+        }
+    })
+
+    // Initialwert setzen (Edit-Form!)
+    if (form.desc) {
+        quill.root.innerHTML = form.desc
+    }
+
+    // Änderungen ins Inertia-Formular schreiben
+    quill.on('text-change', () => {
+        form.desc = quill.root.innerHTML
+    })
+})
 
 function submit() {
     if (!form.state) {

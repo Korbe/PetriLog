@@ -33,8 +33,9 @@
                             {{ form.errors.state_ids }}
                         </p>
                     </div>
-                    <VTextarea class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
-                    <VTextarea class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.desc" />
+
+                    <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
                     <VButton type="submit" :disabled="form.processing">
                         Speichern
@@ -47,12 +48,12 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
-import VTextarea from '@/components/VTextarea.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import Multiselect from 'vue-multiselect'
 
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
+import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     states: Array,  // State-Objekte aus DB

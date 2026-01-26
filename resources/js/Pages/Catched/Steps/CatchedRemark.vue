@@ -1,12 +1,11 @@
 <template>
-    <VTextarea v-model="props.modelValue.remark" label="Bemerkungen"></VTextarea>
+    <VEditor class="my-4" label="Bemerkungen" v-model="props.modelValue.remark"/>
 </template>
 <script setup>
-import VTextarea from '@/components/VTextarea.vue';
+import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     modelValue: Object,
-    errors: Object
 })
 
 const emit = defineEmits(['update:modelValue'])

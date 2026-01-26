@@ -3,7 +3,6 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 import VFileInput from '@/components/VFileInput.vue'
 import VButton from '@/components/VButton.vue'
 import VInput from '@/components/VInput.vue'
-import VTextarea from '@/components/VTextarea.vue'
 import VDateTimePicker from '@/components/VDateTimePicker.vue'
 import { useForm, router, usePage } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
@@ -11,6 +10,7 @@ import ImagePreview from '@/components/ImagePreview.vue'
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
 import FullLoadingScreen from '@/components/FullLoadingScreen.vue'
 import Multiselect from 'vue-multiselect'
+import VEditor from '@/components/VEditor.vue'
 
 const props = defineProps({
   catched: Object,
@@ -157,7 +157,7 @@ const removeImage = item => {
         <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" :error="errors?.temperature" />
         <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure" :error="errors?.air_pressure" />
         <VInput label="Köder" type="text" v-model="form.bait" :error="errors?.bait" />
-        <VTextarea v-model="form.remark" label="Bemerkungen" />
+        <VEditor label="Bemerkungen" v-model="form.remark"/>
 
         <GoogleMapPicker label="Position auswählen" :initialLat="form.latitude" :initialLng="form.longitude"
           @locationSelected="updateLocation" />

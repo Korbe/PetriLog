@@ -35,8 +35,8 @@
                         </p>
                     </div>
 
-                    <VTextarea class="mt-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
-                    <VTextarea class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
+                    <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
+                    <VEditor class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
                     <div class="flex items-center justify-between">
                         <VButton type="submit" :disabled="form.processing">Speichern</VButton>
@@ -53,12 +53,12 @@
 import Multiselect from 'vue-multiselect'
 import VButton from '@/components/VButton.vue'
 import VInput from '@/components/VInput.vue'
-import VTextarea from '@/components/VTextarea.vue'
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 
 import { useForm } from '@inertiajs/vue3'
 import { Inertia } from '@inertiajs/inertia'
 import { ref } from 'vue'
+import VEditor from '@/components/VEditor.vue'
 
 const props = defineProps({
     river: Object,
