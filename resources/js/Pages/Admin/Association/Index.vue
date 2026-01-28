@@ -29,20 +29,29 @@
                                             <th scope="col"
                                                 class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
                                                 Bundesland</th>
+                                            <th scope="col"
+                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
+                                                Anzeigen</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
                                         <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                            v-for="assoc in filteredAssociation" :key="assoc.id" @click="goToEdit(assoc.id)">
-                                            <td
+                                            v-for="assoc in filteredAssociation" :key="assoc.id"
+                                            >
+                                            <td @click="goToEdit(assoc.id)"
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
                                                 {{ assoc.name }}
                                             </td>
-                                            <td
+                                            <td @click="goToEdit(assoc.id)"
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
-                                                <span class="inline-block mr-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">
+                                                <span
+                                                    class="inline-block mr-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">
                                                     {{ assoc.state.name }}
                                                 </span>
+                                            </td>
+                                            <td
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
+                                                <VButton :href="`/states/${assoc.state.id}/associations/${assoc.id}`">anzeigen</VButton>
                                             </td>
                                         </tr>
                                     </tbody>
