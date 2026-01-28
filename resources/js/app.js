@@ -12,15 +12,20 @@ import { InertiaProgress } from '@inertiajs/progress';
 
 const appName = import.meta.env.VITE_APP_NAME || 'PetriLog';
 
+window.pwa = {
+    deferredPrompt: null,
+    installable: false
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
-    pwa.deferredPrompt = e;
-    pwa.installable = true;
+    window.pwa.deferredPrompt = e
+    window.pwa.installable = true
 });
 
 window.addEventListener('appinstalled', () => {
-    pwa.deferredPrompt = null;
-    pwa.installable = false;
+    window.pwa.deferredPrompt = null;
+    window.pwa.installable = false;
 });
 
 createInertiaApp({
@@ -47,8 +52,8 @@ createInertiaApp({
 });
 
 InertiaProgress.init({
-  color: '#118DF0',
-  
-  showSpinner: true,
-  delay: 250,
+    color: '#118DF0',
+
+    showSpinner: true,
+    delay: 250,
 });

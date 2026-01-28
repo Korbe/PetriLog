@@ -34,14 +34,12 @@ function handleInstallClick() {
         return;
     }
 
-    if (pwa.deferredPrompt) {
-        pwa.deferredPrompt.prompt();
-        pwa.deferredPrompt.userChoice.then(({ outcome }) => {
-            pwa.deferredPrompt = null;
-            pwa.installable = false;
-            if (outcome === 'accepted') console.log('PWA installiert!');
-            showInstallButton.value = false;
-        });
+    if (window.pwa && window.pwa.installable) {
+        window.pwa.deferredPrompt.prompt()
+        window.pwa.deferredPrompt.userChoice.then(({ outcome }) => {
+            window.pwa.deferredPrompt = null
+            window.pwa.installable = false
+        })
     } else {
         alert('Im Browser-Menü bitte „Zum Startbildschirm hinzufügen“ auswählen.');
     }
