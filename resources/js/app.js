@@ -13,14 +13,14 @@ import { InertiaProgress } from '@inertiajs/progress';
 const appName = import.meta.env.VITE_APP_NAME || 'PetriLog';
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    alert("beforeinstallprompt fired");
+    alert("1 beforeinstallprompt fired");
     e.preventDefault();
     pwa.deferredPrompt = e;
     pwa.installable = true;
 });
 
 window.addEventListener('appinstalled', () => {
-    alert("appinstalled fired");
+    alert("1 appinstalled fired");
     pwa.deferredPrompt = null;
     pwa.installable = false;
 });
