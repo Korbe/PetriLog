@@ -23,6 +23,8 @@ const canShowBanner = computed(() => {
     // iOS: immer erlauben
     if (isiOS) return true;
 
+    alert('PWA installable: ' + pwa.installable);
+
     // Android / Chrome: nur wenn installierbar
     return pwa.installable;
 });
@@ -72,6 +74,7 @@ onMounted(() => {
 
     // Falls App installiert wird
     window.addEventListener('appinstalled', () => {
+        alert('PWA installiert hide banner');
         dismissBanner();
     });
 });
