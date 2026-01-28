@@ -30,7 +30,7 @@ const canShowBanner = computed(() => {
 });
 
 function dismissBanner() {
-    Cookies.set(COOKIE_NAME, '1', { expires: COOKIE_HOURS / 24 });
+    Cookies.set(COOKIE_NAME, '1', { expires: 10 / 86400 });//{ expires: COOKIE_HOURS / 24 });
     showBanner.value = false;
 }
 
