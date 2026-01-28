@@ -1,25 +1,5 @@
-<template>
-    <div v-if="showBanner"
-        class="bg-white dark:bg-gray-800 rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
-        <p class="text-sm font-medium pr-2">
-            Zum Startbildschirm hinzufügen
-        </p>
-
-        <div class="flex items-center space-x-2">
-            <button @click="handleInstallClick"
-                class="px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded text-white text-sm">
-                Installieren
-            </button>
-
-            <button @click="dismissBanner" class="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
-                aria-label="Schließen">
-                ✕
-            </button>
-        </div>
-    </div>
-</template>
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import Cookies from 'js-cookie';
 import { pwa } from '@/pwa';
 
@@ -61,24 +41,64 @@ function handleInstallClick() {
     }
 }
 
-// Reaktives Watcher – zeigt Banner sobald pwa.installable true wird
-watch(
-    () => pwa.installable,
-    (installable) => {
-        if (installable && !Cookies.get(COOKIE_NAME) && !isStandalone) {
-            showBanner.value = true;
-        }
-    }
-);
+let intervalId = null;
 
 onMounted(() => {
+    // iOS Banner direkt anzeigen
     if (isiOS && !Cookies.get(COOKIE_NAME) && !isStandalone) {
-        showBanner.value = true; // iOS Banner direkt anzeigen
+        showBanner.value = true;
     }
+
+    // Polling alle 10 ms auf pwa.installable
+    intervalId = setInterval(() => {
+        if (pwa.installable && !Cookies.get(COOKIE_NAME) && !isStandalone) {
+            showBanner.value = true;
+            clearInterval(intervalId); // nur einmal Banner anzeigen
+        }
+    }, 200);
 
     window.addEventListener('appinstalled', () => {
         dismissBanner();
-        console.log('PWA erfolgreich installiert!');
+        console.log('PWA erfolgreich installiert');
     });
 });
+
+onBeforeUnmount(() => {
+    if (intervalId) clearInterval(intervalId);
+});
+
+// Cookie löschen & Banner neu zeigen
+function resetCookie() {
+    alert('resetCookie called');
+    Cookies.remove(COOKIE_NAME);
+    // iOS Banner direkt anzeigen, Android Banner nur, wenn installable
+    if (isiOS || pwa.installable) {
+        showBanner.value = true;
+    }
+}
 </script>
+
+<template>
+    <button @click="resetCookie"
+        class="px-3 py-1 border border-gray-400 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
+        Cookie löschen
+    </button>
+    <div v-if="showBanner"
+        class="bg-white dark:bg-gray-800 rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
+        <p class="text-sm font-medium pr-2">
+            Zum Startbildschirm hinzufügen
+        </p>
+
+        <div class="flex items-center space-x-2">
+            <button @click="handleInstallClick"
+                class="px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded text-white text-sm">
+                Installieren
+            </button>
+
+            <button @click="dismissBanner" class="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                aria-label="Schließen">
+                ✕
+            </button>
+        </div>
+    </div>
+</template>
