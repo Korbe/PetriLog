@@ -51,11 +51,12 @@ onMounted(() => {
     })
 
     // Initialwert
-    quill.root.innerHTML = props.modelValue || ''
+    quill.root.innerHTML = props.modelValue ?? ''
 
     // Änderungen nach außen geben
     quill.on('text-change', () => {
-        emit('update:modelValue', quill.root.innerHTML)
+        const html = quill.root.innerHTML
+        emit('update:modelValue', normalizeContent(html))
     })
 })
 
@@ -68,4 +69,18 @@ watch(
         }
     }
 )
+
+function normalizeContent(html) {
+    if (!html) return null
+
+    // HTML von Quill säubern
+    const cleaned = html
+        .replace(/<p><br><\/p>/gi, '')
+        .replace(/<p>\s*<\/p>/gi, '')
+        .replace(/<br>/gi, '')
+        .replace(/&nbsp;/gi, '')
+        .trim()
+
+    return cleaned === '' ? null : html
+}
 </script>
