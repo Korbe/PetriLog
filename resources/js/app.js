@@ -10,7 +10,20 @@ import { Link } from '@inertiajs/vue3';
 import Layout from './Layouts/Dashboard/Layout.vue';
 import { InertiaProgress } from '@inertiajs/progress';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'PetriLog';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    alert("beforeinstallprompt fired");
+    e.preventDefault();
+    pwa.deferredPrompt = e;
+    pwa.installable = true;
+});
+
+window.addEventListener('appinstalled', () => {
+    alert("appinstalled fired");
+    pwa.deferredPrompt = null;
+    pwa.installable = false;
+});
 
 createInertiaApp({
     title: title => `${title} - ${appName}`,

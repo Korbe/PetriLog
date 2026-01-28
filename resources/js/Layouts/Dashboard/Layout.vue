@@ -13,23 +13,6 @@ function closeSidebarOnNavigate() {
 
 onMounted(() => {
   router.on('navigate', closeSidebarOnNavigate);
-
-  if (typeof window === undefined) {
-    return;
-  }
-
-  if (!window.deferredPrompt) {
-    window.deferredPrompt = null;
-
-    // Listener nur einmal hinzufügen
-    const handleBeforeInstall = (e) => {
-      e.preventDefault();
-      window.deferredPrompt = e;
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
-  }
 });
 
 </script>

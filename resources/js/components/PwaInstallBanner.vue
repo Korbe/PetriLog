@@ -1,60 +1,78 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Cookies from 'js-cookie';
+import { pwa } from '@/pwa';
 
 const showBanner = ref(false);
-const cookieName = 'petriPwaBannerDismissed';
-const cookieDurationHours = 24;
+
+const COOKIE_NAME = 'petriPwaBannerDismissed';
+const COOKIE_HOURS = 24;
 
 // Plattform-Erkennung
-const userAgent = window.navigator.userAgent.toLowerCase();
-const isiOS = /iphone|ipad|ipod/.test(userAgent);
-const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-const isInstalledIOS = isiOS && window.navigator.standalone;
+const ua = window.navigator.userAgent.toLowerCase();
+const isiOS = /iphone|ipad|ipod/.test(ua);
+const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
 
-function setDismissCookie() {
-    Cookies.set(cookieName, '1', { expires: cookieDurationHours / 24 });
-}
+// Banner darf angezeigt werden?
+const canShowBanner = computed(() => {
+    if (Cookies.get(COOKIE_NAME)) return false;
+    if (isStandalone) return false;
 
-function handleInstallClick() {
-    if (isiOS) {
-        alert('Bitte das Teilen-Symbol nutzen und "Zum Startbildschirm" auswählen.');
-        showBanner.value = false;
-        return;
-    }
+    // iOS: immer erlauben
+    if (isiOS) return true;
 
-    if (window.deferredPrompt) {
-        window.deferredPrompt.prompt();
-        window.deferredPrompt.userChoice.then(choiceResult => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('PWA installiert!');
-            } else {
-                alert('In Chrome bitte im Menü "Zum Startbildschirm hinzufügen" auswählen.');
-            }
-            showBanner.value = false;
-        });
-    } else {
-        alert('In Chrome bitte im Menü "Zum Startbildschirm hinzufügen" auswählen.');
-    }
-}
+    // Android / Chrome: nur wenn installierbar
+    return pwa.installable;
+});
 
-function handleDismissClick() {
-    setDismissCookie();
+function dismissBanner() {
+    Cookies.set(COOKIE_NAME, '1', { expires: COOKIE_HOURS / 24 });
     showBanner.value = false;
 }
 
-onMounted(() => {
-    if (Cookies.get(cookieName) || isStandalone || isInstalledIOS) return;
+function handleInstallClick() {
+    // iOS hat kein Install-Prompt
+    if (isiOS) {
+        alert(
+            'Tippe auf das Teilen-Symbol und wähle „Zum Home-Bildschirm hinzufügen“.'
+        );
+        dismissBanner();
+        return;
+    }
 
-    // Banner nur auf kleinen Bildschirmen anzeigen
+    // Android / Chrome
+    if (!pwa.deferredPrompt) {
+        alert(
+            'Bitte im Browser-Menü „Zum Startbildschirm hinzufügen“ auswählen.'
+        );
+        return;
+    }
+
+    pwa.deferredPrompt.prompt();
+
+    pwa.deferredPrompt.userChoice.then(({ outcome }) => {
+        if (outcome === 'accepted') {
+            alert('PWA installiert');
+        }
+        pwa.deferredPrompt = null;
+        pwa.installable = false;
+        dismissBanner();
+    });
+}
+
+onMounted(() => {
+    if (!canShowBanner.value) return;
+
+    // Optional: nur mobil anzeigen
     if (window.innerWidth < 640) {
         showBanner.value = true;
     }
 
+    // Falls App installiert wird
     window.addEventListener('appinstalled', () => {
-        console.log('PWA erfolgreich installiert');
-        setDismissCookie();
-        showBanner.value = false;
+        dismissBanner();
     });
 });
 </script>
@@ -62,20 +80,19 @@ onMounted(() => {
 <template>
     <div v-if="showBanner"
         class="bg-white dark:bg-gray-800 rounded-lg p-4 flex items-center shadow-xs justify-between sm:hidden">
-        <p class="text-sm font-medium pr-1">
+        <p class="text-sm font-medium pr-2">
             Zum Startbildschirm hinzufügen
         </p>
+
         <div class="flex items-center space-x-2">
             <button @click="handleInstallClick"
-                class="px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded text-white">
+                class="px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded text-white text-sm">
                 Installieren
             </button>
-            <button @click="handleDismissClick" class="p-2 hover:bg-gray-700 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 9.293l3.646-3.647a.5.5 0 11.708.708L10.707 10l3.647 3.646a.5.5 0 11-.708.708L10 10.707l-3.646 3.647a.5.5 0 11-.708-.708L9.293 10 5.646 6.354a.5.5 0 11.708-.708L10 9.293z"
-                        clip-rule="evenodd" />
-                </svg>
+
+            <button @click="dismissBanner" class="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                aria-label="Schließen">
+                ✕
             </button>
         </div>
     </div>
