@@ -19,29 +19,37 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
+import Cookies from 'js-cookie'
 
-const openBanner = ref(false);
+const openBanner = ref(false)
+const COOKIE_NAME = 'petriPwaBannerDismissed'
+const COOKIE_DURATION_HOURS = 24
 
 function closeBanner() {
-    openBanner.value = false;
+    // Cookie setzen für 24 Stunden
+    Cookies.set(COOKIE_NAME, '1', { expires: COOKIE_DURATION_HOURS / 24 })
+    openBanner.value = false
 }
 
 // Mobile-Erkennung über User-Agent
 function isMobileDevice() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    return /android|iphone|ipad|ipod|mobile/i.test(ua);
+    const ua = navigator.userAgent || navigator.vendor || window.opera
+    return /android|iphone|ipad|ipod|mobile/i.test(ua)
 }
 
 onMounted(() => {
+    // Prüfen, ob Cookie gesetzt ist
+    if (Cookies.get(COOKIE_NAME)) return
+
     // Prüfen, ob App bereits installiert ist
     const isStandalone =
         window.matchMedia('(display-mode: standalone)').matches ||
-        window.navigator.standalone === true;
+        window.navigator.standalone === true
 
     // Banner nur öffnen auf echten mobilen Geräten, die die App noch nicht installiert haben
     if (!isStandalone && isMobileDevice()) {
-        openBanner.value = true;
+        openBanner.value = true
     }
-});
+})
 </script>
