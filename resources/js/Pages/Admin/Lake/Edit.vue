@@ -37,6 +37,9 @@
                     <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
                     <VEditor class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
+                    <VEditor class="my-4" label="Fischereirechte" v-model="form.fishing_rights" :error="form.errors.fishing_rights" />
+                    <VEditor class="my-4" label="Ticketverkäufe" v-model="form.ticket_sales" :error="form.errors.ticket_sales" />
+
                     <div class="flex items-center justify-between">
                         <VButton type="submit" :disabled="form.processing">
                             Speichern
@@ -74,6 +77,8 @@ const form = useForm({
     name: props.lake.name,
     desc: props.lake.desc,
     hint: props.lake.hint,
+    fishing_rights: props.lake.fishing_rights,
+    ticket_sales: props.lake.ticket_sales,
     states: [],
     fish: [] 
 });

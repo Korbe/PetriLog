@@ -25,6 +25,8 @@ class LakeController extends Controller
                 'name' => $lake->name,
                 'desc' => $lake->desc,
                 'hint' => $lake->hint,
+                'fishing_rights' => $lake->fishing_rights,
+                'ticket_sales' => $lake->ticket_sales,
                 'fish' => $lake->fish->map(fn($fish) => [
                     'id' => $fish->id,
                     'name' => $fish->name,

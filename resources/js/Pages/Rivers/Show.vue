@@ -9,8 +9,14 @@
 
                 <p class="pt-5" v-html="river.desc"></p>
 
-                <h2 class="font-bold pt-5">Tipp:</h2>
-                <p v-html="river.hint"></p>
+                <h2 class="font-bold pt-5" v-if="lake.hint">Tipp:</h2>
+                <p v-html="lake.hint"></p>
+
+                <h2 class="font-bold pt-5" v-if="lake.fishing_rights">Fischereirechte:</h2>
+                <p class="pt-5" v-html="lake.fishing_rights"></p>
+
+                <h2 class="font-bold pt-5" v-if="lake.ticket_sales">Kartenverkauf:</h2>
+                <p class="pt-5" v-html="lake.ticket_sales"></p>
 
                 <div v-if="river.fish && river.fish.length > 0">
                     <p class="font-bold text-lg pt-5 pb-2">Diese Fische sind hier heimisch</p>

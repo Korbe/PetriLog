@@ -19,6 +19,8 @@ class Lake extends Model implements HasMedia
         'name',
         'desc',
         'hint',
+        'fishing_rights',
+        'ticket_sales',
     ];
 
     public function states()

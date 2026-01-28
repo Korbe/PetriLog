@@ -14,10 +14,12 @@ class River extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
+        'state_id',
         'name',
         'desc',
         'hint',
-        'state_id',
+        'fishing_rights',
+        'ticket_sales',
     ];
 
     /**

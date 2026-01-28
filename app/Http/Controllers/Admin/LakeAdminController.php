@@ -40,6 +40,8 @@ class LakeAdminController extends Controller
             'name'     => 'required|string',
             'desc'     => 'nullable|string',
             'hint'     => 'nullable|string',
+            'fishing_rights' => 'nullable|string',
+            'ticket_sales'   => 'nullable|string',
             'states'    => 'required|array',
             'states.*'  => 'exists:states,id',
             'fish'      => 'array',
@@ -64,7 +66,7 @@ class LakeAdminController extends Controller
     public function edit(Lake $lake)
     {
         return Inertia::render('Admin/Lake/Edit', [
-            'lake'   => $lake->load('states','fish'),
+            'lake'   => $lake->load('states', 'fish'),
             'states' => State::all(),
             'fish'   => Fish::all(),
         ]);
@@ -76,6 +78,8 @@ class LakeAdminController extends Controller
             'name'     => 'required|string',
             'desc'     => 'nullable|string',
             'hint'     => 'nullable|string',
+            'fishing_rights' => 'nullable|string',
+            'ticket_sales'   => 'nullable|string',
             'states'    => 'required|array',
             'states.*'  => 'exists:states,id',
             'fish'      => 'array',
@@ -86,6 +90,8 @@ class LakeAdminController extends Controller
             'name' => $data['name'],
             'desc' => $data['desc'] ?? null,
             'hint' => $data['hint'] ?? null,
+            'fishing_rights' => $data['fishing_rights'] ?? null,
+            'ticket_sales' => $data['ticket_sales'] ?? null,
         ]);
 
         $lake->states()->sync($data['states'] ?? []);

@@ -37,6 +37,9 @@
                     <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
                     <VEditor class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
+                    <VEditor class="my-4" label="Fischereirechte" v-model="form.fishing_rights" :error="form.errors.fishing_rights" />
+                    <VEditor class="my-4" label="Ticketverkäufe" v-model="form.ticket_sales" :error="form.errors.ticket_sales" />
+
                     <VButton type="submit" :disabled="form.processing">
                         Speichern
                     </VButton>
@@ -64,6 +67,8 @@ const form = useForm({
     name: '',
     desc: '',
     hint: '',
+    fishing_rights: '',
+    ticket_sales: '',
     states: [],
     fish: [],
 });

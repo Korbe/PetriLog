@@ -24,6 +24,8 @@ class RiverController extends Controller
                 'name' => $river->name,
                 'desc' => $river->desc,
                 'hint' => $river->hint,
+                'fishing_rights' => $river->fishing_rights,
+                'ticket_sales' => $river->ticket_sales,
                 'fish' => $river->fish->map(fn($fish) => [
                     'id' => $fish->id,
                     'name' => $fish->name,

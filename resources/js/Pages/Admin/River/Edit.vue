@@ -38,6 +38,9 @@
                     <VEditor class="my-4" label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
                     <VEditor class="my-4" label="Tipps" v-model="form.hint" :error="form.errors.hint" />
 
+                    <VEditor class="my-4" label="Fischereirechte" v-model="form.fishing_rights" :error="form.errors.fishing_rights" />
+                    <VEditor class="my-4" label="Ticketverkäufe" v-model="form.ticket_sales" :error="form.errors.ticket_sales" />
+
                     <div class="flex items-center justify-between">
                         <VButton type="submit" :disabled="form.processing">Speichern</VButton>
                         <VButton type="button" variant="danger" @click="destroy">Löschen</VButton>
@@ -71,6 +74,8 @@ const form = useForm({
     name: props.river.name,
     desc: props.river.desc,
     hint: props.river.hint,
+    fishing_rights: props.river.fishing_rights,
+    ticket_sales: props.river.ticket_sales,
     states: props.river.states.map(s => s.id),
     fish: props.river.fish.map(s => s.id),
 })
@@ -94,108 +99,3 @@ function destroy() {
     }
 }
 </script>
-<style scoped>
-    /* =========================
-   Vue Multiselect - Global Override
-   Farbe: #118bf0
-   Dark Mode kompatibel
-   ========================= */
-
-/* Grundstil */
-.multiselect {
-  border: 1px solid #118bf0;
-  border-radius: 0.375rem; /* optional: abgerundete Ecken */
-  color: #111; /* Standard Textfarbe */
-  background-color: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-/* Fokuszustand */
-.multiselect--active {
-  border-color: #118bf0;
-  box-shadow: 0 0 0 2px rgba(17, 139, 240, 0.2);
-}
-
-/* Input & Single Value */
-.multiselect__input,
-.multiselect__single {
-  color: inherit;
-}
-
-/* Placeholder */
-.multiselect__placeholder {
-  color: #118bf0;
-  opacity: 0.7;
-}
-
-/* Dropdown Pfeil */
-.multiselect__select:before {
-  border-color: #118bf0 transparent transparent;
-}
-
-/* Optionen */
-.multiselect__option--highlight {
-  background-color: #118bf0;
-  color: #fff;
-}
-
-.multiselect__option--selected {
-  background-color: rgba(17, 139, 240, 0.15);
-  color: #118bf0;
-  font-weight: 600;
-}
-
-/* Tags (Multiple Select) */
-.multiselect__tag {
-  background-color: #118bf0;
-  color: #fff;
-}
-
-.multiselect__tag-icon:after {
-  color: #fff;
-}
-
-.multiselect__tag-icon:hover {
-  background-color: rgba(0,0,0,0.1);
-}
-
-/* =========================
-   Dark Mode
-   ========================= */
-.dark .multiselect {
-  background-color: #1f2937; /* dunkles Grau */
-  border-color: #118bf0;
-  color: #e5e7eb; /* helles Grau */
-}
-
-.dark .multiselect__input,
-.dark .multiselect__single {
-  color: #e5e7eb;
-}
-
-.dark .multiselect__placeholder {
-  color: #118bf0;
-  opacity: 0.6;
-}
-
-.dark .multiselect__content-wrapper {
-  background-color: #1f2937;
-  color: #e5e7eb;
-}
-
-.dark .multiselect__option--highlight {
-  background-color: #118bf0;
-  color: #fff;
-}
-
-.dark .multiselect__option--selected {
-  background-color: rgba(17, 139, 240, 0.25);
-  color: #118bf0;
-}
-
-.dark .multiselect__tag {
-  background-color: #118bf0;
-  color: #fff;
-}
-
-</style>

@@ -25,7 +25,7 @@ class RiverAdminController extends Controller
             'rivers' => $rivers,
         ]);
     }
-    
+
     public function create()
     {
         return Inertia::render('Admin/River/Create', [
@@ -40,6 +40,8 @@ class RiverAdminController extends Controller
             'name'      => 'required|string',
             'desc'      => 'nullable|string',
             'hint'      => 'nullable|string',
+            'fishing_rights' => 'nullable|string',
+            'ticket_sales'   => 'nullable|string',
             'states'    => 'required|array',
             'states.*'  => 'exists:states,id',
             'fish'      => 'array',
@@ -75,6 +77,8 @@ class RiverAdminController extends Controller
             'name'      => 'required|string',
             'desc'      => 'nullable|string',
             'hint'      => 'nullable|string',
+            'fishing_rights' => 'nullable|string',
+            'ticket_sales'   => 'nullable|string',
             'states'    => 'required|array',
             'states.*'  => 'exists:states,id',
             'fish'      => 'array',
@@ -85,6 +89,8 @@ class RiverAdminController extends Controller
             'name' => $data['name'],
             'desc' => $data['desc'] ?? null,
             'hint' => $data['hint'] ?? null,
+            'fishing_rights' => $data['fishing_rights'] ?? null,
+            'ticket_sales' => $data['ticket_sales'] ?? null,
         ]);
 
         $river->states()->sync($data['states'] ?? []);
