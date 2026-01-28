@@ -9,35 +9,23 @@
 
                 <p class="pt-5" v-html="river.desc"></p>
 
-                <h2 class="font-bold pt-5" v-if="lake.hint">Tipp:</h2>
-                <p v-html="lake.hint"></p>
+                <h2 class="font-bold pt-5" v-if="river.hint">Tipp:</h2>
+                <p v-html="river.hint"></p>
 
-                <h2 class="font-bold pt-5" v-if="lake.fishing_rights">Fischereirechte:</h2>
-                <p class="pt-5" v-html="lake.fishing_rights"></p>
+                <h2 class="font-bold pt-5" v-if="river.fishing_rights">Fischereirechte:</h2>
+                <p class="pt-5" v-html="river.fishing_rights"></p>
+                <h2 class="font-bold pt-5" v-if="river.ticket_sales">Kartenverkauf:</h2>
+                <p class="pt-5" v-html="river.ticket_sales"></p>
 
-                <h2 class="font-bold pt-5" v-if="lake.ticket_sales">Kartenverkauf:</h2>
-                <p class="pt-5" v-html="lake.ticket_sales"></p>
-
-                <div v-if="river.fish && river.fish.length > 0">
-                    <p class="font-bold text-lg pt-5 pb-2">Diese Fische sind hier heimisch</p>
-                    <ul>
-                        <li v-for="fish in river.fish" :key="fish.id"
-                            class="hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
-                            <Link :href="`/fish/${fish.id}`"
-                                class="flex items-center justify-between gap-2 p-2 text-blue-500 hover:text-blue-700">
-                            <span>{{ fish.name }}</span>
-                            <ArrowRightIcon class="w-5 h-5" />
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-
+                <ExpandableList :items="river.fish" title="Diese Fische sind hier heimisch" base-url="/fish" />
+                
             </div>
         </div>
 
     </PageWrapper>
 </template>
 <script setup>
+import ExpandableList from '@/components/ExpandableList.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/solid';
 import { onMounted } from 'vue';
