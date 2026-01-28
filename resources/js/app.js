@@ -16,13 +16,11 @@ window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     pwa.deferredPrompt = e;
     pwa.installable = true;
-    alert("1 beforeinstallprompt fired");
 });
 
 window.addEventListener('appinstalled', () => {
     pwa.deferredPrompt = null;
     pwa.installable = false;
-    alert("1 appinstalled fired");
 });
 
 createInertiaApp({

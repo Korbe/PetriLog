@@ -4,7 +4,7 @@
 
             <EmailVerificationBanner />
 
-            <PwaInstallBanner />
+            <PwaBanner />
 
             <div class="flex space-x-5 w-full">
 
@@ -61,12 +61,12 @@ import CatchedStatsMonthlyCard from './partials/CatchedStatsMonthlyCard.vue';
 import CatchedStatsYearlyCard from './partials/CatchedStatsYearlyCard.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { computed, onMounted } from 'vue';
-import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
 import { usePage } from '@inertiajs/vue3';
 import EmailVerificationBanner from '@/components/EmailVerificationBanner.vue';
 import LongestCatchCard from './partials/LongestCatchCard.vue';
 import HeaviestCatchCard from './partials/HeaviestCatchCard.vue';
-import { ArrowUpTrayIcon, DocumentPlusIcon, PlusCircleIcon } from '@heroicons/vue/24/solid';
+import { DocumentPlusIcon } from '@heroicons/vue/24/solid';
+import PwaBanner from './partials/PwaBanner.vue';
 
 const props = defineProps({
     catchedStatsMonthly: {

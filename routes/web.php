@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\RiverAdminController;
 use App\Http\Controllers\Admin\StateAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\AssociationAdminController;
+use App\Http\Controllers\PwaController;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
@@ -47,6 +48,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/pwa', [PwaController::class, 'index'])->name('pwa.index');
 
     Route::resource('catched', CatchedController::class)->except(['update']);
     Route::post('catched/{catched}/update', [CatchedController::class, 'update'])->name('catched.update');
