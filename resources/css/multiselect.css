@@ -6,7 +6,7 @@
 
 /* Container */
 .multiselect {
-  border: 1px solid #118bf0 !important;
+  border: 1px solid var(--color-gray-200) !important;
   border-radius: 0.375rem !important;
   background-color: #fff !important;
   color: #111 !important;
@@ -26,7 +26,7 @@
 
 /* Placeholder */
 .multiselect__placeholder {
-  color: #118bf0 !important;
+  color: #363636 !important;
   opacity: 0.7 !important;
 }
 
