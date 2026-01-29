@@ -29,8 +29,8 @@ class LakeAdminController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Lake/Create', [
-            'states' => State::all(),
-            'fish'   => Fish::all(),
+            'states' => State::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -67,8 +67,8 @@ class LakeAdminController extends Controller
     {
         return Inertia::render('Admin/Lake/Edit', [
             'lake'   => $lake->load('states', 'fish'),
-            'states' => State::all(),
-            'fish'   => Fish::all(),
+            'states' => State::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::orderBy('name', 'asc')->get(),
         ]);
     }
 

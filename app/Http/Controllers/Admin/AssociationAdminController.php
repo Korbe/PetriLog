@@ -23,10 +23,8 @@ class AssociationAdminController extends Controller
 
     public function create()
     {
-        $states = State::orderBy('name')->get();
-
         return Inertia::render('Admin/Association/Create', [
-            'states' => $states
+            'states' => State::orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -46,11 +44,9 @@ class AssociationAdminController extends Controller
 
     public function edit(Association $association)
     {
-        $states = State::orderBy('name')->get();
-
         return Inertia::render('Admin/Association/Edit', [
             'association' => $association->load('state'),
-            'states' => $states
+            'states' => State::orderBy('name', 'asc')->get(),
         ]);
     }
 

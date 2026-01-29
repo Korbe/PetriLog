@@ -29,8 +29,8 @@ class RiverAdminController extends Controller
     public function create()
     {
         return Inertia::render('Admin/River/Create', [
-            'states' => State::all(),
-            'fish'   => Fish::all(),
+            'states' => State::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -66,8 +66,8 @@ class RiverAdminController extends Controller
     {
         return Inertia::render('Admin/River/Edit', [
             'river'  => $river->load(['states', 'fish']),
-            'states' => State::all(),
-            'fish'   => Fish::all(),
+            'states' => State::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::orderBy('name', 'asc')->get(),
         ]);
     }
 
