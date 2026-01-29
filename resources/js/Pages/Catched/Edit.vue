@@ -22,7 +22,6 @@ const props = defineProps({
 })
 
 const page = usePage()
-const user = computed(() => page.props.auth.user)
 
 // Form-Setup
 const form = useForm({
@@ -168,8 +167,7 @@ const removeImage = item => {
 
         <div class="flex justify-end">
           <VButton type="submit">Aktualisieren</VButton>
-          <VButton v-if="!user.subscribed" href="/billing" variant="danger" class="ml-3">Löschen</VButton>
-          <VButton v-else :disabled="!user.subscribed" type="button" @click="deleteCatched" variant="danger"
+          <VButton type="button" @click="deleteCatched" variant="danger"
             class="ml-3">Löschen</VButton>
         </div>
 
