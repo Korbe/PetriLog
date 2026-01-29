@@ -11,7 +11,7 @@
                             Bundesland
                         </label>
 
-                        <Multiselect v-model="form.state_id" :options="stateOptions" label="name" track-by="id"
+                        <VMultiselect v-model="form.state_id" :options="stateOptions" label="name" track-by="id"
                             :multiple="false" placeholder="Bundesland auswählen" :close-on-select="true"
                             :clear-on-select="false" :preserve-search="true" />
 
@@ -34,10 +34,9 @@
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import Multiselect from 'vue-multiselect'
-
 import { useForm } from '@inertiajs/vue3'
 import VEditor from '@/components/VEditor.vue';
+import VMultiselect from '@/components/VMultiselect.vue';
 
 const props = defineProps({
     states: Array,

@@ -11,7 +11,7 @@
                         </label>
 
                         <!-- States -->
-                        <Multiselect v-model="form.state" :options="stateOptions" label="name" track-by="id"
+                        <VMultiselect v-model="form.state" :options="stateOptions" label="name" track-by="id"
                             :multiple="false" placeholder="Bundesland auswählen" :close-on-select="true"
                             :clear-on-select="false" :preserve-search="true" />
 
@@ -45,11 +45,11 @@ import VInput from '@/components/VInput.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
-import Multiselect from 'vue-multiselect'
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
 import { onMounted, ref } from 'vue';
 import VEditor from '@/components/VEditor.vue';
+import VMultiselect from '@/components/VMultiselect.vue';
 
 const props = defineProps({
     association: Object,

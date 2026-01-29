@@ -11,6 +11,7 @@ import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
 import FullLoadingScreen from '@/components/FullLoadingScreen.vue'
 import Multiselect from 'vue-multiselect'
 import VEditor from '@/components/VEditor.vue'
+import VMultiselect from '@/components/VMultiselect.vue'
 
 const props = defineProps({
   catched: Object,
@@ -130,20 +131,20 @@ const removeImage = item => {
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
           Fischart <span class="text-red-500">*</span>
         </label>
-        <Multiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
+        <VMultiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
         <div v-if="errors?.fish_id" class="text-xs mt-1 text-red-500">{{ errors.fish_id }}</div>
 
         <!-- Gewässer -->
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
           See auswählen
         </label>
-        <Multiselect v-model="selectedLake" :options="lakes" label="name" track-by="id" placeholder="See auswählen" />
+        <VMultiselect v-model="selectedLake" :options="lakes" label="name" track-by="id" placeholder="See auswählen" />
         <div v-if="errors?.lake_id" class="text-xs mt-1 text-red-500">{{ errors.lake_id }}</div>
 
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
           Fluss auswählen
         </label>
-        <Multiselect v-model="selectedRiver" :options="rivers" label="name" track-by="id"
+        <VMultiselect v-model="selectedRiver" :options="rivers" label="name" track-by="id"
           placeholder="Fluss auswählen" />
         <div v-if="errors?.river_id" class="text-xs mt-1 text-red-500">{{ errors.river_id }}</div>
 

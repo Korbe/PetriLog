@@ -12,7 +12,7 @@
                         </label>
 
                         <!-- States -->
-                        <Multiselect v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
+                        <VMultiselect v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
                             :multiple="true" placeholder="Bundesländer auswählen" :close-on-select="false"
                             :clear-on-select="false" :preserve-search="true" />
 
@@ -26,7 +26,7 @@
                         </label>
 
                         <!-- Fish -->
-                        <Multiselect v-model="selectedFish" :options="fishOptions" label="name" track-by="id"
+                        <VMultiselect v-model="selectedFish" :options="fishOptions" label="name" track-by="id"
                             :multiple="true" placeholder="Fische auswählen" :close-on-select="false"
                             :clear-on-select="false" :preserve-search="true" />
 
@@ -53,7 +53,6 @@
 </template>
 
 <script setup>
-import Multiselect from 'vue-multiselect'
 import VButton from '@/components/VButton.vue'
 import VInput from '@/components/VInput.vue'
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
@@ -62,6 +61,7 @@ import { useForm } from '@inertiajs/vue3'
 import { Inertia } from '@inertiajs/inertia'
 import { ref } from 'vue'
 import VEditor from '@/components/VEditor.vue'
+import VMultiselect from '@/components/VMultiselect.vue'
 
 const props = defineProps({
     river: Object,
