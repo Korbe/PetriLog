@@ -7,6 +7,12 @@
 
                 <h1 class="text-center font-bold text-4xl mb-2">{{ state.name }}</h1>
 
+                <div v-if="isAdmin" class="flex justify-center mb-6">
+                    <VButton :href="`/admin/state/${state.id}/edit`" size="sm">
+                        Bundesland bearbeiten
+                    </VButton>
+                </div>
+
                 <p class="pt-5" v-html="state.desc"></p>
 
                 <!-- Vereine -->
@@ -28,7 +34,7 @@
                 <ExpandableList :items="state.lakes" title="Seen" :base-url="`/states/${state.id}/lakes`" />
 
                 <!-- Flüsse -->
-                 <ExpandableList :items="state.rivers" title="Flüsse" :base-url="`/states/${state.id}/rivers`" />
+                <ExpandableList :items="state.rivers" title="Flüsse" :base-url="`/states/${state.id}/rivers`" />
             </div>
         </div>
 
@@ -38,11 +44,20 @@
 <script setup>
 import ExpandableList from '@/components/ExpandableList.vue';
 import ExpandableSlotList from '@/components/ExpandableSlotList.vue';
+import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { ArrowRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/solid';
+import { ArrowRightIcon } from '@heroicons/vue/24/solid';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted } from 'vue';
 
 defineProps({
     state: Object
+});
+
+const page = usePage();
+
+const isAdmin = computed(() => {
+    return page.props.auth?.user?.isAdmin === true;
 });
 
 const truncateDesc = (desc) => {
@@ -50,4 +65,8 @@ const truncateDesc = (desc) => {
     const plainText = desc.replace(/<[^>]*>/g, ''); // Entferne HTML-Tags für sichere Kürzung
     return plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText;
 };
+
+onMounted(() => {
+    sessionStorage.setItem('lastOrigin', window.location.href);
+});
 </script>

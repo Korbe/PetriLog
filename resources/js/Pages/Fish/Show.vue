@@ -7,6 +7,13 @@
 
             <div class="bg-white dark:bg-gray-800 p-3 md:p-10 rounded-b-lg">
                 <h1 class="text-center font-bold text-4xl mb-2">{{ fish.name }}</h1>
+
+                <div v-if="isAdmin" class="flex justify-center mb-6">
+                    <VButton :href="`/admin/fish/${fish.id}/edit`" size="sm">
+                        Fisch bearbeiten
+                    </VButton>
+                </div>
+
                 <p class="pt-5" v-html="fish.desc"></p>
             </div>
         </div>
@@ -15,9 +22,22 @@
 </template>
 
 <script setup>
+import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted } from 'vue';
 
 defineProps({
     fish: Object
+});
+
+const page = usePage();
+
+const isAdmin = computed(() => {
+    return page.props.auth?.user?.isAdmin === true;
+});
+
+onMounted(() => {
+    sessionStorage.setItem('lastOrigin', window.location.href);
 });
 </script>

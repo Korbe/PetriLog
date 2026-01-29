@@ -6,10 +6,17 @@
 
                 <h1 class="text-center font-bold text-4xl mb-2">Verein {{ association.name }}</h1>
 
-             <a v-if="association.link" :href="association.link" target="_blank"
-                                class="mt-5 flex items-center gap-2 p-2 text-blue-500 hover:text-blue-700 rounded">
-                                {{ shortenLink(association.link) }}<ArrowTopRightOnSquareIcon class="w-5 h-5" />
-                            </a>
+                <div v-if="isAdmin" class="flex justify-center mb-6">
+                    <VButton :href="`/admin/association/${association.id}/edit`" size="sm">
+                        Verein bearbeiten
+                    </VButton>
+                </div>
+
+                <a v-if="association.link" :href="association.link" target="_blank"
+                    class="mt-5 flex items-center gap-2 p-2 text-blue-500 hover:text-blue-700 rounded">
+                    {{ shortenLink(association.link) }}
+                    <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+                </a>
 
                 <p class="pt-5" v-html="association.desc"></p>
 
@@ -19,13 +26,21 @@
     </PageWrapper>
 </template>
 <script setup>
+import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/solid';
-import { onMounted } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted } from 'vue';
 
 defineProps({
     state_id: String,
     association: Object
+});
+
+const page = usePage();
+
+const isAdmin = computed(() => {
+    return page.props.auth?.user?.isAdmin === true;
 });
 
 onMounted(() => {
@@ -33,10 +48,10 @@ onMounted(() => {
 });
 
 const shortenLink = (link) => {
-  if (!link) return '';
-  let short = link.replace(/^https?:\/\//, ''); // Entferne http:// oder https://
-  short = short.replace(/\/$/, ''); // Entferne / am Ende
-  return short;
+    if (!link) return '';
+    let short = link.replace(/^https?:\/\//, ''); // Entferne http:// oder https://
+    short = short.replace(/\/$/, ''); // Entferne / am Ende
+    return short;
 };
 
 </script>

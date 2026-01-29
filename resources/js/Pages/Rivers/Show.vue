@@ -7,6 +7,12 @@
 
                 <h1 class="text-center font-bold text-4xl mb-2">{{ river.name }}</h1>
 
+                <div v-if="isAdmin" class="flex justify-center mb-6">
+                    <VButton :href="`/admin/river/${river.id}/edit`" size="sm">
+                        Fluss bearbeiten
+                    </VButton>
+                </div>
+
                 <p class="pt-5" v-html="river.desc"></p>
 
                 <h2 class="font-bold pt-5" v-if="river.hint">Tipp:</h2>
@@ -18,7 +24,7 @@
                 <p class="pt-5" v-html="river.ticket_sales"></p>
 
                 <ExpandableList :items="river.fish" title="Diese Fische sind hier heimisch" base-url="/fish" />
-                
+
             </div>
         </div>
 
@@ -26,11 +32,20 @@
 </template>
 <script setup>
 import ExpandableList from '@/components/ExpandableList.vue';
+import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { onMounted } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted } from 'vue';
+
 defineProps({
     state_id: String,
     river: Object
+});
+
+const page = usePage();
+
+const isAdmin = computed(() => {
+    return page.props.auth?.user?.isAdmin === true;
 });
 
 onMounted(() => {

@@ -7,6 +7,12 @@
 
                 <h1 class="text-center font-bold text-4xl mb-2">{{ lake.name }}</h1>
 
+                <div v-if="isAdmin" class="flex justify-center mb-6">
+                    <VButton :href="`/admin/lake/${lake.id}/edit`" size="sm">
+                        See bearbeiten
+                    </VButton>
+                </div>
+
                 <p class="pt-5" v-html="lake.desc"></p>
 
                 <h2 class="font-bold pt-5" v-if="lake.hint">Tipp:</h2>
@@ -27,12 +33,20 @@
 </template>
 <script setup>
 import ExpandableList from '@/components/ExpandableList.vue';
+import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { ArrowRightIcon } from '@heroicons/vue/24/solid';
-import { onMounted } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted } from 'vue';
+
 defineProps({
     state_id: String,
     lake: Object
+});
+
+const page = usePage();
+
+const isAdmin = computed(() => {
+    return page.props.auth?.user?.isAdmin === true;
 });
 
 onMounted(() => {
