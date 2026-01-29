@@ -48,7 +48,7 @@ const sendAgain = () => {
         </p>
 
         <VButton @click="sendAgain" :disabled="form.processing" :loading="form.processing" class="mr-5">
-            E-Mail erneut senden
+            Erneut senden
         </VButton>
 
         <button @click="dismissBanner" class="absolute right-2 top-1/2 -translate-y-1/2">

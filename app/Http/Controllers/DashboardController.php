@@ -28,7 +28,8 @@ class DashboardController extends Controller
         $routeHeaviest = $heaviestCatch ? route("catched.show", $heaviestCatch->id) : "";
         $routeLongest = $longestCatch ? route("catched.show", $longestCatch->id) : "";
 
-        return Inertia::render('Dashboard/Dashboard', [
+        return Inertia::render('Dashboard/Index', [
+            'catchedCount' => Catched::where('user_id', Auth::id())->count(),
             'catchedStatsMonthly' => $catchedStatsMonthly,
             'catchedStatsYearly' => $catchedStatsYearly,
             'heaviestCatch' => $heaviestCatch,
