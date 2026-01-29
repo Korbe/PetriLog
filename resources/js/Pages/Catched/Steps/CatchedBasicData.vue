@@ -6,7 +6,8 @@
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
             Fischart <span class="text-red-500">*</span>
         </label>
-        <Multiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
+        <Multiselect ref="ms" @open="onOpen" v-model="selectedFish" :options="fish" label="name" track-by="id"
+            placeholder="Fisch auswählen" />
         <div v-if="errors?.fish_id" class="text-xs mt-1 text-red-500">{{ errors.fish_id }}</div>
 
         <!-- Lake & River -->
@@ -23,7 +24,8 @@
             placeholder="Fluss auswählen" />
         <div v-if="errors?.river_id" class="text-xs mt-1 text-red-500">{{ errors.river_id }}</div>
 
-        <p>Ihr Gewässer ist nicht dabei? Schreiben Sie uns eine Mail an <a class="underline" href="mailto:info@petrilog.com">info@petrilog.com</a></p>
+        <p>Ihr Gewässer ist nicht dabei? Schreiben Sie uns eine Mail an <a class="underline"
+                href="mailto:info@petrilog.com">info@petrilog.com</a></p>
 
         <!-- Basisdaten -->
         <VInput label="Länge (cm)" type="number" mandatory v-model="props.modelValue.length" :error="errors?.length" />
@@ -36,7 +38,35 @@ import { ref, computed } from 'vue'
 import VDateTimePicker from '@/components/VDateTimePicker.vue'
 import VInput from '@/components/VInput.vue'
 import Multiselect from 'vue-multiselect'
-import Contact from '@/Pages/Public/Contact/Contact.vue'
+
+const ms = ref(null)
+const searchLocked = ref(true)
+
+const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent)
+
+function onOpen() {
+    if (!isMobile) return
+
+    searchLocked.value = true
+
+    requestAnimationFrame(() => {
+        const input = ms.value?.$el.querySelector('input')
+        if (!input) return
+
+        // Suche initial blockieren
+        input.setAttribute('readonly', 'true')
+
+        // Erst bei echtem User-Tap freigeben
+        input.addEventListener(
+            'touchstart',
+            () => {
+                input.removeAttribute('readonly')
+                input.focus()
+            },
+            { once: true }
+        )
+    })
+}
 
 const props = defineProps({
     modelValue: Object,
