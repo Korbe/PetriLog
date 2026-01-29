@@ -4,6 +4,8 @@
         <VInput label="Temperatur (°C)" type="number" v-model="props.modelValue.temperature" :error="errors?.temperature" />
         <VInput label="Luftdruck (hPa)" type="number" v-model="props.modelValue.air_pressure" :error="errors?.air_pressure" />
         <VInput label="Köder" type="text" v-model="props.modelValue.bait" :error="errors?.bait" />
+        <p>Fehlt noch was? Schreiben Sie uns eine Mail an <a class="underline"
+                href="mailto:info@petrilog.com">info@petrilog.com</a></p>
     </div>
 </template>
 <script setup>
