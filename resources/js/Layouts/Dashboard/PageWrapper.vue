@@ -3,11 +3,11 @@
     <Head :title="title" />
 
     <!-- Actions -->
-    <div class="sm:flex sm:justify-between sm:items-center mb-5">
+    <div class="sm:flex sm:justify-between sm:items-center">
 
         <!-- Left: Title -->
-        <div class="mb-4 sm:mb-0 flex items-center">
-            <Link v-if="!hideBackButton" :href="backUrl" class="flex items-center gap-2">
+        <div v-if="!hideBackButton" class="mb-4 sm:mb-0 flex items-center md:mb-5">
+            <Link  :href="backUrl" class="flex items-center gap-2">
             <ChevronLeftIcon class="w-6 h-6 text-gray-800 dark:text-gray-100" />
             <span class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}
