@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('states', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique(); // Kärnten
-            // $table->string('link')->nullable(); // Wappen
-            // $table->string('wallpaper')->nullable();
             $table->text('desc')->nullable();
             $table->timestamps();
         });
