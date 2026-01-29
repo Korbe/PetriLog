@@ -2,7 +2,7 @@
     <PageWrapper :title="fish.name">
 
         <div class="w-full md:w-1/2 mx-auto">
-            <img :src="fish.media[0]?.url || '/images/fish-default.jpg'" :alt="fish.name"
+            <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
                 class="mb-5 w-full h-40 md:h-80 object-contain rounded-t-lg" />
 
             <div class="bg-white dark:bg-gray-800 p-3 md:p-10 rounded-b-lg">

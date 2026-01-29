@@ -27,7 +27,6 @@
 <script setup>
 import ExpandableList from '@/components/ExpandableList.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { ArrowRightIcon } from '@heroicons/vue/24/solid';
 import { onMounted } from 'vue';
 defineProps({
     state_id: String,

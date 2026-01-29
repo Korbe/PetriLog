@@ -11,7 +11,7 @@
     <div class="w-full sm:w-1/3">
       <img v-if="catched.media?.length > 0" :src="catched.media[0].original_url" alt="Fangbild"
         class="rounded-xl w-full h-auto object-cover" />
-      <img v-else class="rounded-xl w-full h-auto object-cover" src="/images/fish-default.jpg" />
+      <img v-else class="rounded-xl w-full h-auto object-cover" src="/images/fish-default.png" />
     </div>
 
     <!-- Text rechts -->

@@ -20,7 +20,7 @@
         class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden">
         <Link :href="route('fish.show', fish.id)">
         <div class="relative w-full h-44">
-          <img :src="fish.media[0]?.url || '/images/fish-default.jpg'" :alt="fish.name"
+          <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
             class="w-full h-full object-contain hover:scale-105 transition-transform duration-200" />
           <div class="absolute bottom-0 left-0 w-full bg-primary-500 bg-opacity-50 text-white text-center py-1 font-semibold">
             {{ fish.name }}
