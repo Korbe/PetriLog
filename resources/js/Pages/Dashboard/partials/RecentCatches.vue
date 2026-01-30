@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col space-y-2">
+    <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col"">
         <header class="mb-2">
             <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
                 Deine letzten Fänge 🎣
