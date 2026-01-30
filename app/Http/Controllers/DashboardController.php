@@ -163,7 +163,7 @@ class DashboardController extends Controller
             ->orderByDesc('weight')
             ->first();
 
-        if ($catched->weight == null) {
+        if ($catched == null ||$catched->weight == null) {
             return null;
         }
 
@@ -183,6 +183,10 @@ class DashboardController extends Controller
             ->orderByRaw('COUNT(*) DESC')
             ->limit(1)
             ->first();
+
+        if(!$favoriteFish) {
+            return null;
+        }
 
         $fish = Fish::find($favoriteFish->fish_id);
 
