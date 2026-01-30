@@ -7,12 +7,13 @@
             <PwaBanner />
 
             <!-- Empty state and stats cards -->
-            <div v-if="catchedCount == 0">
+            <div v-if="catchedCount == 0" class="mt-20">
                 <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />
 
                 <div
                     class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
-                    <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Petri Heil {{$page.props.auth.user.name}}, dein Fangbuch ist
+                    <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Petri Heil
+                        {{ $page.props.auth.user.name }}, dein Fangbuch ist
                         noch
                         leer!</h1>
                     <p class="text-gray-700 dark:text-gray-300 mb-5">der nächste Biss kommt bestimmt 🎣</p>
@@ -60,18 +61,22 @@
 
                     <div class="flex flex-wrap lg:flex-nowrap w-full gap-5 py-5">
 
-                        <div
-                            class="w-full lg:w-1/2 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col">
-                            <LongestCatchCard :catched="longestCatch" :route="routeLongest" />
-                        </div>
+                        <LongestCatchCard v-if="longestCatch" :catched="longestCatch" :route="routeLongest" />
 
-                        <div
-                            class="w-full lg:w-1/2 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col">
-                            <HeaviestCatchCard :catched="heaviestCatch" :route="routeHeaviest" />
-                        </div>
+                        <HeaviestCatchCard v-if="heaviestCatch" :catched="heaviestCatch" :route="routeHeaviest" />
+
+                        <HighlightCard :favoriteFish="favoriteFish" :favoriteLocation="favoriteLocation" :mostCatchesDay="mostCatchesDay" />
+
+                        <RecentCatches :recentCatches="recentCatches" />
+
                     </div>
 
                 </div>
+
+                <div class="flex justify-center mt-10">
+<p>Im Dashboard fehlt noch was? Schreib uns eine Mail an <a class="underline" href="mailto:info@petrilog.com">info@petrilog.com</a></p>
+                </div>
+                        
 
             </div>
         </div>
@@ -89,6 +94,8 @@ import LongestCatchCard from './partials/LongestCatchCard.vue';
 import HeaviestCatchCard from './partials/HeaviestCatchCard.vue';
 import { DocumentPlusIcon } from '@heroicons/vue/24/solid';
 import PwaBanner from './partials/PwaBanner.vue';
+import HighlightCard from './partials/HighlightCard.vue';
+import RecentCatches from './partials/RecentCatches.vue';
 
 const props = defineProps({
     catchedCount: Number,
@@ -125,7 +132,11 @@ const props = defineProps({
 
     createUrl: String,
     routeHeaviest: String,
-    routeLongest: String
+    routeLongest: String,
+    favoriteFish: String,
+    favoriteLocation: String,
+    mostCatchesDay: Number,
+    recentCatches: Array
 })
 
 
@@ -137,6 +148,8 @@ const user = computed(() => page.props.auth.user)
 onMounted(() => {
     sessionStorage.setItem('lastOrigin', window.location.href);
 });
+
+
 
 
 </script>

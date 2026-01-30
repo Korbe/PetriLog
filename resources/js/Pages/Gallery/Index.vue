@@ -10,9 +10,7 @@
     <div class="w-full m-auto">
 
 
-      <div v-if="catcheds.length === 0" class="text-center p-5 flex flex-col mt-5">
-
-
+      <div v-if="catcheds.length === 0">
         <!-- Empty state and stats cards -->
         <div>
           <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />

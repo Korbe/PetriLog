@@ -40,24 +40,25 @@
           </h1>
           <div class="flex justify-between">
             <p class="text-xl">
-              {{ formatDate(catched.date) }} -
-              {{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }}
+              {{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }} · {{ formatDate(catched.date) }}
             </p>
+          </div>
+
+          <!-- Buttons -->
+          <div class="mx-2 mt-5">
+            <div class="w-full flex justify-around space-x-5">
+              <VButton v-if="catched != null" class="w-full" :href="editUrl">Bearbeiten</VButton>
+              <VButton class="w-full" @click="openShare">
+                <span class="flex">
+                  <ShareIcon class="w-4 mr-2" />Teilen
+                </span>
+              </VButton>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Buttons -->
-      <div class="mx-2 mt-5">
-        <div class="w-full flex justify-around space-x-5">
-          <VButton v-if="catched != null" class="w-full" :href="editUrl">Bearbeiten</VButton>
-          <VButton class="w-full" @click="openShare">
-            <span class="flex">
-              <ShareIcon class="w-4 mr-2" />Teilen
-            </span>
-          </VButton>
-        </div>
-      </div>
+
 
       <!-- Tabelleninfos -->
       <div class="bg-white dark:bg-gray-800 px-4 sm:px-6 lg:px-8 border-1 dark:border-0 mt-5 m-2 rounded-lg">
@@ -93,7 +94,7 @@
                       Temperatur</td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">{{
                       catched.temperature
-                      ? catched.temperature + "°C" : 'n/a ' }}</td>
+                        ? catched.temperature + "°C" : 'n/a ' }}</td>
                   </tr>
                   <tr>
                     <td

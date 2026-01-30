@@ -23,13 +23,13 @@
             </div>
 
             <!-- Empty state and stats cards -->
-            <div v-if="Object.keys(groupedCatcheds).length === 0" class="text-center p-5 flex flex-col mt-5">
+            <div v-if="Object.keys(groupedCatcheds).length === 0" class="">
 
                 <div>
                     <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />
 
                     <div
-                        class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
+                        class="mx-auto w-full lg:w-2/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
                         <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Sieht ganz schön leer hier
                             aus.
                         </h1>
@@ -40,7 +40,6 @@
                         </VButton>
                     </div>
                 </div>
-                
             </div>
 
             <div v-for="(items, date) in groupedCatcheds" :key="date" class="py-2">
