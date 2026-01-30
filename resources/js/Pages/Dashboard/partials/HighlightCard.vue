@@ -10,7 +10,7 @@
         <div>
             <ul class="text-gray-700 dark:text-gray-300 space-y-3">
                 <li>🐟 Häufigste Fischart: {{ favoriteFish }}</li>
-                <li>📍 Meist befischtes Gewässer: {{ favoriteLocation }}</li>
+                <li>📍 Lieblings Spot: {{ favoriteLocation }}</li>
                 <li>📅 Rekord Fänge an einem Tag: {{ mostCatchesDay }}</li>
             </ul>
         </div>
