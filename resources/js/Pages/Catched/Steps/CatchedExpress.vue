@@ -24,7 +24,7 @@
             placeholder="Fluss auswählen" />
         <div v-if="errors?.river_id" class="text-xs mt-1 text-red-500">{{ errors.river_id }}</div>
 
-        <p>Ihr Gewässer ist nicht dabei? Schreiben Sie uns eine Mail an <a class="underline"
+        <p>Dein Gewässer ist nicht dabei? Schreib uns eine Mail an <a class="underline"
                 href="mailto:info@petrilog.com">info@petrilog.com</a></p>
     </div>
 </template>
