@@ -90,3 +90,29 @@
   background-color: #118bf0 !important;
   color: #fff !important;
 }
+
+/* =======================
+   Vue Multiselect – Dark Mode Fix
+======================= */
+
+.dark .multiselect,
+.dark .multiselect__tags {
+  background-color: color-mix(in oklab, var(--color-gray-900) 20%, transparent) !important; /* slate-800 */
+  border-color: color-mix(in oklab, var(--color-gray-900) 30%, transparent) !important;
+}
+/* Input */
+.dark .multiselect__input,
+.dark .multiselect__single {
+  background-color: transparent !important;
+  color: #e5e7eb !important;
+}
+
+/* Placeholder */
+.dark .multiselect__placeholder {
+  color: #9ca3af !important; /* gray-400 */
+}
+
+/* Dropdown Arrow */
+.dark .multiselect__select::before {
+  border-color: #e5e7eb transparent transparent !important;
+}
