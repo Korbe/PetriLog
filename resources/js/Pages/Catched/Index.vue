@@ -46,7 +46,7 @@
                 <div>
                     <button @click="toggleOpen(date)"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5 flex w-full items-start justify-between text-left text-brand-headline sm:text-3xl dark:text-brand-headline-dark">
-                        <span class="cursor-pointer text-base/7 font-semibold">{{ date }} ({{ items.length }})</span>
+                        <span class="cursor-pointer text-base/7 font-semibold">🎣 {{ date }} ({{ items.length }})</span>
                         <span class="ml-6 flex h-7 items-center">
                             <PlusIcon v-if="!isOpen(date)" class="cursor-pointer size-6" />
                             <MinusIcon v-else class="cursor-pointer size-6" />

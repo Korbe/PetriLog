@@ -141,35 +141,46 @@ watch(
         <!-- =========================
              Wizard Auswahl
         ========================== -->
-        <div v-if="wizardType === null" class="space-y-6">
+        <div v-if="wizardType === null" class="flex flex-col gap-6 lg:flex-row lg:gap-6 max-w-5xl mx-auto mt-10 lg:mt-30">
 
             <!-- Express -->
-            <div
-                class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex flex-col items-center text-center transition hover:scale-105">
+            <div class="w-full bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8
+               flex flex-col items-center text-center transition hover:scale-105 flex-1">
                 <ForwardIcon class="h-12 w-12 text-blue-500 mb-4" />
-                <h2 class="text-2xl font-bold mb-2">Express Eintrag</h2>
+
+                <h2 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">
+                    Express Eintrag
+                </h2>
+
                 <p class="mb-5 text-gray-600 dark:text-gray-400">
                     Nur die nötigsten Daten
                 </p>
+
                 <VButton @click="selectWizard('express')">
                     Express starten
                 </VButton>
             </div>
 
             <!-- Normal -->
-            <div
-                class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex flex-col items-center text-center transition hover:scale-105">
+            <div class="w-full bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8
+               flex flex-col items-center text-center transition hover:scale-105 flex-1">
                 <AdjustmentsHorizontalIcon class="h-12 w-12 text-blue-500 mb-4" />
-                <h2 class="text-2xl font-bold mb-2">Normaler Eintrag</h2>
+
+                <h2 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">
+                    Normaler Eintrag
+                </h2>
+
                 <p class="mb-5 text-gray-600 dark:text-gray-400">
                     Alle Details erfassen
                 </p>
+
                 <VButton @click="selectWizard('normal')">
                     Normal starten
                 </VButton>
             </div>
 
         </div>
+
 
         <!-- =========================
              Wizard
