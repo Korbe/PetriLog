@@ -48,7 +48,8 @@ class HandleInertiaRequests extends Middleware
                     'name' => Auth::user()->name,
                     'isAdmin' => Auth::user()->isAdmin(),
                     'subscribed' => Auth::user()->subscribed(),
-                    'verified' => Auth::user()->hasVerifiedEmail()
+                    'verified' => Auth::user()->hasVerifiedEmail(),
+                    'newsletter_opt_out' => Auth::user()->newsletter_opt_out,
                 ] : null,
             ],
             'isImpersonated' => function () {

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PwaController;
 use App\Http\Controllers\FishController;
 use App\Http\Controllers\LakeController;
 use App\Http\Controllers\RiverController;
@@ -21,8 +22,8 @@ use App\Http\Controllers\Admin\LakeAdminController;
 use App\Http\Controllers\Admin\RiverAdminController;
 use App\Http\Controllers\Admin\StateAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
-use App\Http\Controllers\PwaController;
 
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
@@ -36,7 +37,7 @@ Route::get('/coupon/{coupon}', function ($coupon) {
 });
 
 Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('public.catched.show');
-
+Route::get('/newsletter/unsubscribe/{user}', [NewsletterAdminController::class,'unsubscribe'])->name('newsletter.unsubscribe')->middleware('signed');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -80,8 +81,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
     Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
     Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 
-
     Route::post('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+    Route::patch('/user/newsletter-preferences', [NewsletterAdminController::class, 'update'])->name('user-newsletter-preferences.update');
+
+    
 });
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
@@ -109,4 +113,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::delete('fish/photo/{mediaId}', [FishAdminController::class, 'deletePhoto'])->name('fish.photo.delete');
 
     Route::get('user', [UserController::class, 'index'])->name('admin.users.index');
+
+    Route::get('/newsletter', [NewsletterAdminController::class, 'index'])->name('newsletter.index');
+    Route::post('/newsletter/send', [NewsletterAdminController::class, 'send'])->name('newsletter.send');
+    Route::post('/newsletter/test', [NewsletterAdminController::class, 'sendTest'])->name('newsletter.test');
+
 });

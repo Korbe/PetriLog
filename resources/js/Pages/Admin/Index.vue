@@ -62,5 +62,10 @@ const cards = [
         desc: 'Hier können alle User angesehen werden.',
         href: '/admin/user',
     },
+    {
+        title: 'Newsletter Verwaltung',
+        desc: 'Hier können Newsletter erstellt und versendet werden.',
+        href: '/admin/newsletter',
+    },
 ];
 </script>
