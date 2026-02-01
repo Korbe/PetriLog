@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.korbitsch.petrilog",
+      "sha256_cert_fingerprints": [
+        "SHA256: E4:1C:2E:6F:82:41:18:84:3E:59:C3:F4:A9:79:57:98:74:56:F1:ED:A9:AD:82:ED:C6:25:6F:F9:5C:61:4E:17"
+      ]
+    }
+  }
+]
