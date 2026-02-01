@@ -1,5 +1,7 @@
 <?php
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PwaController;
 use App\Http\Controllers\FishController;
@@ -25,6 +27,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
 
+
+Route::get('/app', [DashboardController::class, 'index'])->middleware('auth');
+
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
@@ -37,7 +42,7 @@ Route::get('/coupon/{coupon}', function ($coupon) {
 });
 
 Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('public.catched.show');
-Route::get('/newsletter/unsubscribe/{user}', [NewsletterAdminController::class,'unsubscribe'])->name('newsletter.unsubscribe')->middleware('signed');
+Route::get('/newsletter/unsubscribe/{user}', [NewsletterAdminController::class, 'unsubscribe'])->name('newsletter.unsubscribe')->middleware('signed');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -84,8 +89,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
     Route::post('/admin', [AdminController::class, 'index'])->name('admin.index');
 
     Route::patch('/user/newsletter-preferences', [NewsletterAdminController::class, 'update'])->name('user-newsletter-preferences.update');
-
-    
 });
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
@@ -117,5 +120,4 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/newsletter', [NewsletterAdminController::class, 'index'])->name('newsletter.index');
     Route::post('/newsletter/send', [NewsletterAdminController::class, 'send'])->name('newsletter.send');
     Route::post('/newsletter/test', [NewsletterAdminController::class, 'sendTest'])->name('newsletter.test');
-
 });
