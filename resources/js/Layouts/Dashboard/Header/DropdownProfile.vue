@@ -22,13 +22,13 @@
           <li>
             <Link :href="route('profile.show')"
               class="text-md text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 flex items-center py-1 px-3"
-              @click="dropdownOpen = false">Profile</Link>
+              @click="dropdownOpen = false">Profil</Link>
           </li>
           <li>
             <form @submit.prevent="logout">
               <button type="submit"
                 class="cursor-pointer text-md text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 flex items-center py-1 px-3"
-                @click="dropdownOpen = false">Log Out</button>
+                @click="dropdownOpen = false">Abmelden</button>
             </form>
 
           </li>

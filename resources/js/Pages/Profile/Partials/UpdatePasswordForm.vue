@@ -41,7 +41,7 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #header>
-            <h1 class="text-lg font-medium text-gray-900 dark:text-gray-100">Password aktualisieren</h1>
+            <h1 class="text-lg font-medium text-gray-900 dark:text-gray-100">Passwort aktualisieren</h1>
             <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Stellen Sie sicher, dass Ihr Konto zur Sicherheit ein langes, zufälliges Passwort verwendet.</p>
         </template>
 

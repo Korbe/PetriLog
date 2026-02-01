@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="Gallerie" :backTo="route('dashboard')">
+  <PageWrapper title="Galerie" :backTo="route('dashboard')">
     <template v-slot:actions>
       <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
       <VDateRangePicker align="right" v-model="dateRange" />
