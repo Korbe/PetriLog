@@ -65,8 +65,8 @@
 
                         <HeaviestCatchCard v-if="heaviestCatch" :catched="heaviestCatch" :route="routeHeaviest" />
 
-                        <!-- <HighlightCard :favoriteFish="favoriteFish" :favoriteLocation="favoriteLocation"
-                            :mostCatchesDay="mostCatchesDay" />-->
+                        <HighlightCard :favoriteFish="favoriteFish" :favoriteLocation="favoriteLocation"
+                            :mostCatchesDay="mostCatchesDay" />
 
                         <RecentCatches :recentCatches="recentCatches" /> 
 
