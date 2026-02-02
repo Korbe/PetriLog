@@ -66,9 +66,9 @@
                         <HeaviestCatchCard v-if="heaviestCatch" :catched="heaviestCatch" :route="routeHeaviest" />
 
                         <!-- <HighlightCard :favoriteFish="favoriteFish" :favoriteLocation="favoriteLocation"
-                            :mostCatchesDay="mostCatchesDay" />
+                            :mostCatchesDay="mostCatchesDay" />-->
 
-                        <RecentCatches :recentCatches="recentCatches" /> -->
+                        <RecentCatches :recentCatches="recentCatches" /> 
 
                     </div>
 
@@ -140,12 +140,6 @@ const props = defineProps({
     mostCatchesDay: Number,
     recentCatches: Array
 })
-
-
-const page = usePage()
-
-// User aus den Inertia-Props
-const user = computed(() => page.props.auth.user)
 
 onMounted(() => {
     sessionStorage.setItem('lastOrigin', window.location.href);
