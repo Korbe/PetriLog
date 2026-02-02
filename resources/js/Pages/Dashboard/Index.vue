@@ -65,18 +65,20 @@
 
                         <HeaviestCatchCard v-if="heaviestCatch" :catched="heaviestCatch" :route="routeHeaviest" />
 
-                        <HighlightCard :favoriteFish="favoriteFish" :favoriteLocation="favoriteLocation" :mostCatchesDay="mostCatchesDay" />
+                        <!-- <HighlightCard :favoriteFish="favoriteFish" :favoriteLocation="favoriteLocation"
+                            :mostCatchesDay="mostCatchesDay" />
 
-                        <RecentCatches :recentCatches="recentCatches" />
+                        <RecentCatches :recentCatches="recentCatches" /> -->
 
                     </div>
 
                 </div>
 
                 <div class="flex justify-center mt-10">
-<p>Im Dashboard fehlt noch was? Schreib uns eine Mail an <a class="underline" href="mailto:info@petrilog.com">info@petrilog.com</a></p>
+                    <p>Im Dashboard fehlt noch was? Schreib uns eine Mail an <a class="underline"
+                            href="mailto:info@petrilog.com">info@petrilog.com</a></p>
                 </div>
-                        
+
 
             </div>
         </div>
