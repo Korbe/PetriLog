@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PwaController;
 use App\Http\Controllers\FishController;
 use App\Http\Controllers\LakeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\RiverController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\PublicController;
@@ -26,6 +27,8 @@ use App\Http\Controllers\Admin\StateAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
+
+Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
 
 Route::get('/app', [DashboardController::class, 'index'])->middleware('auth');
