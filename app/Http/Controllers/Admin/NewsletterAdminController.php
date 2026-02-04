@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Mail\NewsletterMail;
 use Illuminate\Http\Request;
 use App\Jobs\SendNewsletterMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class NewsletterAdminController extends Controller
 {
@@ -44,6 +46,14 @@ class NewsletterAdminController extends Controller
                     $sentCount++;
                 }
             });
+
+        Mail::to('info@petrilog.com')->send(
+            new NewsletterMail(
+                $validated['subject'],
+                $validated['content'],
+                null // System-Mail
+            )
+        );
 
         return redirect()
             ->route('admin.newsletter.index')

@@ -15,14 +15,14 @@ class NewsletterMail extends Mailable
     public function __construct(
         public string $subjectText,
         public string $content,
-        public User $user
+        public ?User $user = null
     ) {}
 
     public function build()
     {
         return $this
             ->subject($this->subjectText)
-            ->markdown('emails.newsletter')
+            ->view('emails.newsletter')
             ->with([
                 'user' => $this->user,
                 'content' => new HtmlString($this->content),
