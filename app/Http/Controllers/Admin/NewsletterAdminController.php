@@ -69,10 +69,12 @@ class NewsletterAdminController extends Controller
 
         $user = Auth::user();
 
-        SendNewsletterMail::dispatch(
-            $user,
-            $data['subject'],
-            $data['content']
+        Mail::to($user->email)->send(
+            new NewsletterMail(
+                $data['subject'],
+                $data['content'],
+                $user
+            )
         );
 
         return redirect()
