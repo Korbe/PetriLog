@@ -6,8 +6,7 @@
         :multiple="multiple"
         class="hidden"
         type="file"
-        @change="change" 
-        capture="environment"
+        @change="change"
       />
   
       <button

@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <input ref="fileRef" :accept="accept" :multiple="multiple" class="hidden" type="file" @change="change" capture="environment" />
+  <input ref="fileRef" :accept="accept" :multiple="multiple" class="hidden" type="file" @change="change" />
 </template>
 
 <script setup>
