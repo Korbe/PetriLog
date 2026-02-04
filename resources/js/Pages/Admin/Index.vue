@@ -2,9 +2,9 @@
     <PageWrapper :title="'Hallo Admin ' + $page.props.auth.user.name" backTo="/dashboard">
         <div class="space-y-5">
 
-            <VButton @click="sendMail">
+            <!-- <VButton @click="sendMail">
                 Mail senden
-            </VButton>
+            </VButton> -->
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
 
@@ -26,9 +26,9 @@ import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { Inertia } from '@inertiajs/inertia';
 
-const sendMail = () => {
-    Inertia.post('/send-mail');
-};
+// const sendMail = () => {
+//     Inertia.post('/send-mail');
+// };
 
 const cards = [
     {

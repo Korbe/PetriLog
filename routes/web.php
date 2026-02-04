@@ -28,7 +28,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
 
-Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
+// Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
 
 Route::get('/app', [DashboardController::class, 'index'])->middleware('auth');
