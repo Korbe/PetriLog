@@ -7,12 +7,14 @@
 
     {!! $content !!}
 
-    <p>Danke & Petri Heil 🎣<br>{{ config('app.name') }}</p>
-
     @if ($user)
-        <p style="font-size:12px; color:#999;">
-            Du möchtest keine Newsletter mehr erhalten?<br>
-            <a href="{{ URL::signedRoute('newsletter.unsubscribe', $user) }}">Newsletter abbestellen</a>
-        </p>
+        @slot('subcopy')
+            <p style="font-size:12px; color:#999;">
+                Du möchtest keine Newsletter mehr erhalten?<br>
+                <a href="{{ URL::signedRoute('newsletter.unsubscribe', $user) }}">
+                    Newsletter abbestellen
+                </a>
+            </p>
+        @endslot
     @endif
 </x-mail.wrapper>
