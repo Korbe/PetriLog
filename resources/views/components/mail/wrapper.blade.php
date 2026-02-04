@@ -68,7 +68,7 @@
                                         {{ $slot }}
 
                                         <!-- Standard Footer innerhalb des Mails -->
-                                        <p style="margin-top: 32px; font-size: 16px; line-height:1.5;">
+                                        <p style="margin-top: 32px; line-height:1.5;">
                                             Danke & Petri Heil 🎣<br>
                                             {{ config('app.name') }}
                                         </p>
