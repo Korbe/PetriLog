@@ -2,9 +2,13 @@
 import { useForm } from '@inertiajs/vue3'
 import ActionMessage from '@/JetstreamComponents/ActionMessage.vue'
 import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue'
-import VCheckbox from '@/components/VCheckbox.vue'
+import VMultiselect from '@/components/VMultiselect.vue'
 
 const props = defineProps({
+    states: {
+        type: Array,
+        required: true,
+    },
     user: {
         type: Object,
         required: true,
@@ -12,11 +16,13 @@ const props = defineProps({
 })
 
 const form = useForm({
-    newsletter_opt_out: props.user.newsletter_opt_out,
+    state: props.user.state ? props.user.state : null,
+    state_id: props.user.state ? props.user.state.id : null,
 })
 
 const submit = () => {
-    form.patch(route('profile.newsletter-preferences.update'), {
+    form.state_id = form.state.id;
+    form.patch(route('profile.state.update'), {
         preserveScroll: true,
     })
 }
@@ -31,18 +37,25 @@ const submit = () => {
 
                     <!-- HEADER -->
                     <h1 class="text-lg font-medium text-gray-800 dark:text-gray-100">
-                        Newsletter
+                        Bundesland
                     </h1>
                     <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">
-                        Verwalte deine Newsletter-Einstellung.
+                        Verwalte deine Bundesland-Einstellung.
                     </p>
 
                     <!-- FORM -->
                     <div class="mt-4">
-                        <div class="col-span-6">
-                            <VCheckbox label="Ich möchte keine Newsletter-Mails mehr erhalten"
-                                v-model="form.newsletter_opt_out" :error="form.errors.newsletter_opt_out" />
-                        </div>
+                        <label class="block text-sm font-medium mb-1">
+                            Bundesland
+                        </label>
+
+                        <VMultiselect v-model="form.state" :options="states" label="name" track-by="id"
+                            :multiple="false" placeholder="Bundesland auswählen" :close-on-select="true"
+                            :clear-on-select="true" :preserve-search="true" />
+
+                        <p v-if="form.errors.state_id" class="text-red-500 text-sm mt-1">
+                            {{ form.errors.state_id }}
+                        </p>
                     </div>
                 </div>
 

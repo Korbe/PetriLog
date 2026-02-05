@@ -39,14 +39,14 @@ const closeModal = () => {
 
         <template #header>
             <h1 class="text-lg font-medium text-gray-900 dark:text-gray-100">Konto löschen</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Löschen Sie Ihr Konto dauerhaft.</p>
+            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Lösche dein Konto dauerhaft.</p>
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-300">
-                Sobald Ihr Konto gelöscht ist, werden alle darin enthaltenen Ressourcen und Daten dauerhaft gelöscht.
-                Laden Sie vor dem Löschen Ihres Kontos bitte alle Daten und Informationen herunter, die Sie behalten
-                möchten.
+                Sobald dein Konto gelöscht ist, werden alle darin enthaltenen Ressourcen und Daten dauerhaft gelöscht.
+                Lade vor dem Löschen deines Kontos bitte alle Daten und Informationen herunter, die du behalten
+                möchtest.
             </div>
 
             <div class="mt-5">

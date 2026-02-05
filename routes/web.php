@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\StateAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
+use App\Http\Controllers\ProfileController;
 
 // Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
@@ -91,7 +92,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
 
     Route::post('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-    Route::patch('/user/newsletter-preferences', [NewsletterAdminController::class, 'update'])->name('user-newsletter-preferences.update');
+    Route::get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/user/newsletter-preferences', [ProfileController::class, 'updateNewsletterPreference'])->name('profile.newsletter-preferences.update');
+    Route::patch('/user/state', [ProfileController::class, 'updateState'])->name('profile.state.update');
 });
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {

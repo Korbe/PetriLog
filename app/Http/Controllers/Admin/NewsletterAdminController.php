@@ -92,19 +92,4 @@ class NewsletterAdminController extends Controller
             'email' => $user->email,
         ]);
     }
-
-    public function update(Request $request)
-    {
-        $validated = $request->validate([
-            'newsletter_opt_out' => 'required|boolean',
-        ]);
-
-        $user = Auth::user();
-        $user->newsletter_opt_out = $validated['newsletter_opt_out'];
-        $user->save();
-
-        return redirect()
-            ->back()
-            ->with('success', 'Deine Newsletter-Einstellungen wurden aktualisiert.');
-    }
 }

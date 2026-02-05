@@ -37,25 +37,33 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = Auth::user();
+
         return array_merge(parent::share($request), [
             'flash' => [
                 'success' => Session::get('success'),
                 'error' => Session::get('error'),
             ],
             'auth' => [
-                'user' => fn() => Auth::user() ? [
-                    'id' => Auth::id(),
-                    'name' => Auth::user()->name,
-                    'isAdmin' => Auth::user()->isAdmin(),
-                    'subscribed' => Auth::user()->subscribed(),
-                    'verified' => Auth::user()->hasVerifiedEmail(),
-                    'newsletter_opt_out' => Auth::user()->newsletter_opt_out,
-                ] : null,
+                'user' => fn() => $user
+                    ? [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'isAdmin' => $user->isAdmin(),
+                        'subscribed' => $user->subscribed(),
+                        'verified' => $user->hasVerifiedEmail(),
+                        'newsletter_opt_out' => $user->newsletter_opt_out,
+                        'state' => $user->relationLoaded('state') || $user->state
+                            ? [
+                                'id' => $user->state->id,
+                                'name' => $user->state->name,
+                            ]
+                            : null,
+                    ]
+                    : null,
             ],
-            'isImpersonated' => function () {
-                $user = Auth::user();
-                return $user ? $user->isImpersonated() : false;
-            },
+            'isImpersonated' => fn() => ($user = Auth::user()) ? $user->isImpersonated() : false,
         ]);
     }
 }

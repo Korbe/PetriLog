@@ -42,7 +42,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'newsletter_opt_out'
+        'newsletter_opt_out',
+        'state_id',
     ];
 
     /**
@@ -84,6 +85,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function catched()
     {
         return $this->hasMany(Catched::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
     }
 
     public function isAdmin(): bool

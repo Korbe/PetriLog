@@ -46,15 +46,14 @@ const closeModal = () => {
 
         <template #header>
             <h1 class="text-lg font-medium text-gray-900 dark:text-gray-100">Browsersitzungen</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Verwalten und melden Sie sich von Ihren
-                aktiven Sitzungen auf anderen Browsern und Geräten ab.</p>
+            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Verwalte und melde dich von deinen aktiven Sitzungen auf anderen Browsern und Geräten ab.</p>
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-300">
-                Bei Bedarf können Sie sich von allen anderen Browsersitzungen auf allen Ihren Geräten abmelden. Einige
-                Ihrer letzten Sitzungen sind unten aufgeführt; diese Liste ist jedoch möglicherweise nicht vollständig.
-                Wenn Sie glauben, dass Ihr Konto kompromittiert wurde, sollten Sie auch Ihr Passwort aktualisieren.
+                Bei Bedarf kannst du dich von allen anderen Browsersitzungen auf allen deinen Geräten abmelden. Einige
+                deiner letzten Sitzungen sind unten aufgeführt; diese Liste ist jedoch möglicherweise nicht vollständig.
+                Wenn du glaubst, dass dein Konto kompromittiert wurde, solltest du auch dein Passwort aktualisieren.
             </div>
 
             <!-- Other Browser Sessions -->

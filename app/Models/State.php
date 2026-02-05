@@ -32,6 +32,11 @@ class State extends Model implements HasMedia
         return $this->hasMany(Association::class);
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this

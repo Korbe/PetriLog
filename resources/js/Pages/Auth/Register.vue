@@ -8,6 +8,11 @@ import InputLabel from '@/JetstreamComponents/InputLabel.vue';
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 import VPassword from '@/components/VPassword.vue';
+import VMultiselect from '@/components/VMultiselect.vue';
+
+defineProps({
+    states: Array,
+})
 
 const form = useForm({
     name: '',
@@ -15,6 +20,7 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    state_id: '',
 });
 
 const submit = () => {
@@ -35,22 +41,37 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <VInput label="Name" id="name" v-model="form.name" type="text" class="mt-1 block w-full" required autofocus
-                    autocomplete="name" :error="form.errors.name"/>
+                <VInput label="Name" id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
+                    autofocus autocomplete="name" :error="form.errors.name" />
             </div>
             <div class="mt-4">
                 <VInput label="Email" id="email" v-model="form.email" type="email" class="mt-1 block w-full" required
-                    autocomplete="username" :error="form.errors.email"/>
+                    autocomplete="username" :error="form.errors.email" />
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium mb-1">
+                    Bundesland (optional)
+                </label>
+
+                <VMultiselect v-model="form.state_id" :options="states" label="name" track-by="id" :multiple="false"
+                    placeholder="Bundesland auswählen" :close-on-select="true" :clear-on-select="true"
+                    :preserve-search="true" />
+
+                <p v-if="form.errors.state_id" class="text-red-500 text-sm mt-1">
+                    {{ form.errors.state_id }}
+                </p>
             </div>
 
             <div class="mt-4">
                 <VPassword label="Passwort" id="password" v-model="form.password" class="mt-1 block w-full" required
-                    autocomplete="new-password" :error="form.errors.password" :show-forgot="false"/>
+                    autocomplete="new-password" :error="form.errors.password" :show-forgot="false" />
             </div>
 
             <div class="mt-4">
                 <VPassword label="Passwort bestätigen" id="password_confirmation" v-model="form.password_confirmation"
-                    class="mt-1 block w-full" required autocomplete="new-password" :error="form.errors.password_confirmation" :show-forgot="false"/>
+                    class="mt-1 block w-full" required autocomplete="new-password"
+                    :error="form.errors.password_confirmation" :show-forgot="false" />
             </div>
 
             <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
@@ -60,8 +81,10 @@ const submit = () => {
 
                         <div class="ms-2 dark:text-gray-400">
                             Ich stimme den <a target="_blank" href="/terms-of-service"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a> und <a target="_blank" href="/privacy-policy"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Datenschutzerklärung</a> zu.
+                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Nutzungsbedingungen</a>
+                            und <a target="_blank" href="/privacy-policy"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Datenschutzerklärung</a>
+                            zu.
                         </div>
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />

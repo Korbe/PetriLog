@@ -8,6 +8,7 @@ import InputLabel from '@/JetstreamComponents/InputLabel.vue';
 import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
 import SecondaryButton from '@/JetstreamComponents/SecondaryButton.vue';
 import VInput from '@/components/VInput.vue';
+import VButton from '@/components/VButton.vue';
 
 const props = defineProps({
     user: Object,
@@ -125,13 +126,12 @@ const clearPhotoFileInput = () => {
 
                 <VInput id="email" label="Email" v-model="form.email" mandatory :error="form.errors.email" />
                 <div v-if="$page.props.jetstream.hasEmailVerification && !user.verified">
-                    <p class="text-sm mt-2">
-                        Ihre E-Mail-Adresse ist nicht bestätigt.
+                    <p class="text-sm mt-5">
+                        Deine E-Mail-Adresse ist nicht bestätigt.
 
-                        <Link href="/email/verification-notification" method="post" as="button"
-                            class="cursor-pointer underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                        Klicken Sie hier, um die Bestätigungs-E-Mail erneut zu senden.
-                        </Link>
+                        <VButton href="/email/verification-notification" class="mt-2" method="post" as="button">
+                            Klicke hier, um die Bestätigungs-E-Mail erneut zu senden.
+                        </VButton>
                     </p>
 
                     <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">

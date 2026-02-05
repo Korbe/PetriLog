@@ -7,10 +7,12 @@ import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue'
 import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import NewsletterForm from './Partials/NewsletterForm.vue';
+import StateForm from './Partials/StateForm.vue';
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
     sessions: Array,
+    states: Array,
 });
 </script>
 
@@ -29,7 +31,13 @@ defineProps({
                 <SectionBorder />
             </div>
 
-            <div v-if="$page.props.jetstream.canUpdateProfileInformation">
+            <div>
+                <StateForm :user="$page.props.auth.user" :states="states" />
+
+                <SectionBorder />
+            </div>
+
+            <div>
                 <NewsletterForm :user="$page.props.auth.user" />
 
                 <SectionBorder />
