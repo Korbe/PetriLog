@@ -13,6 +13,8 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\CatchedController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImprintController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
@@ -27,7 +29,6 @@ use App\Http\Controllers\Admin\StateAdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
-use App\Http\Controllers\ProfileController;
 
 // Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
@@ -57,6 +58,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(function () {
 
+    Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/pwa', [PwaController::class, 'index'])->name('pwa.index');
 
