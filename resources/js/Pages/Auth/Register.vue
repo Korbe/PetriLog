@@ -20,10 +20,12 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
-    state_id: '',
+    state_id: null,
+    state: null,
 });
 
 const submit = () => {
+    form.state_id = form.state ? form.state.id : null;
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -32,7 +34,7 @@ const submit = () => {
 
 <template>
 
-    <Head title="Register" />
+    <Head title="Registrieren" />
 
     <AuthenticationCard>
         <template #logo>
@@ -54,7 +56,7 @@ const submit = () => {
                     Bundesland (optional)
                 </label>
 
-                <VMultiselect v-model="form.state_id" :options="states" label="name" track-by="id" :multiple="false"
+                <VMultiselect v-model="form.state" :options="states" label="name" track-by="id" :multiple="false"
                     placeholder="Bundesland auswählen" :close-on-select="true" :clear-on-select="true"
                     :preserve-search="true" />
 
