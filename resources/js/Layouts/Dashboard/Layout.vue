@@ -4,6 +4,7 @@ import Sidebar from './Sidebar/Sidebar.vue';
 import Header from './Header/Header.vue';
 import Banner from '@/components/Banner.vue';
 import { router } from '@inertiajs/vue3';
+import BottomActionBar from './BottomActionBar.vue'
 
 const sidebarOpen = ref(false);
 
@@ -44,11 +45,13 @@ onMounted(() => {
         </Link>
       </div>
 
-      <div class="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-[96rem] mx-auto">
+      <div class="px-4 sm:px-6 lg:px-8 py-4 pb-20 w-full max-w-[96rem] mx-auto">
         <slot />
       </div>
 
     </div>
+
+    <BottomActionBar />
 
   </div>
 </template>
