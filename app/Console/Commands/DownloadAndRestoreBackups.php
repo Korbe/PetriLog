@@ -3,112 +3,132 @@
 namespace App\Console\Commands;
 
 use ZipArchive;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class DownloadAndRestoreBackups extends Command
 {
-    //php artisan backup:restore
-
+    // php artisan backup:restore
     protected $signature = 'backup:restore';
-    protected $description = 'Download the latest backup files and restore them to local DB and media folder';
+    protected $description = 'Download latest Petrilog backup from Server A and restore DB and media locally';
 
-    protected $localBackupPath = 'backups';
-    protected $localMediaPath = 'app/public'; // relative to storage_path
+    protected string $localBackupPath = 'backup'; // storage/backup
+    protected string $localMediaPath = 'app/public'; // storage/app/public
 
     public function handle()
     {
-        $this->info('Connecting to SFTP server...');
+        $this->info('🔌 Verbinde mit Petrilog SFTP (Server A)...');
 
         $sftp = Storage::disk('sftp');
-        $files = $sftp->files('');
 
-        if (empty($files)) {
-            $this->warn('No files found on SFTP server.');
-            return 0;
+        /**
+         * 1️⃣ Letzten Datumsordner finden (YYYY-MM-DD)
+         */
+        $directories = collect($sftp->directories())
+            ->filter(fn($dir) => preg_match('/\d{4}-\d{2}-\d{2}$/', $dir))
+            ->sortDesc()
+            ->values();
+
+        if ($directories->isEmpty()) {
+            $this->error('❌ Keine Backup-Ordner auf dem Server gefunden.');
+            return Command::FAILURE;
         }
 
-        // --- SQL Backups ---
-        $backupFiles = collect($files)->filter(
-            fn($file) => Str::endsWith($file, '.sql') &&
-                (Str::startsWith($file, 'data_') || Str::startsWith($file, 'structure_'))
-        );
+        $latestDir = $directories->first();
+        $this->info("📦 Letztes Backup gefunden: {$latestDir}");
 
-        $backupFiles = $backupFiles->sortByDesc(fn($file) => $sftp->lastModified($file));
+        /**
+         * 2️⃣ Dateien prüfen
+         */
+        $requiredFiles = ['structure.sql', 'data.sql', 'media.zip'];
 
-        $latestData = $backupFiles->first(fn($f) => Str::startsWith($f, 'data_'));
-        $latestStructure = $backupFiles->first(fn($f) => Str::startsWith($f, 'structure_'));
-
-        $filesToDownload = collect([$latestStructure, $latestData])->filter();
-
-        if (!file_exists(storage_path($this->localBackupPath))) {
-            mkdir(storage_path($this->localBackupPath), 0755, true);
-        }
-
-        foreach ($filesToDownload as $file) {
-            $this->info("Downloading {$file}...");
-            $contents = $sftp->get($file);
-            $localPath = storage_path("{$this->localBackupPath}/{$file}");
-            file_put_contents($localPath, $contents);
-            $this->info("Saved locally: {$localPath}");
-        }
-
-        $this->info('Download complete. Now restoring database...');
-
-        // --- Restore SQL ---
-        foreach ($filesToDownload as $file) {
-            $localPath = storage_path("{$this->localBackupPath}/{$file}");
-            $this->info("Restoring {$file}...");
-
-            $dbName = env('DB_DATABASE');
-            $dbUser = env('DB_USERNAME');
-            $dbPass = env('DB_PASSWORD');
-
-            $command = "C:\\laragon\\bin\\mysql\\mysql-8.4.3-winx64\\bin\\mysql.exe -u {$dbUser} -p{$dbPass} {$dbName} < {$localPath}";
-            exec($command, $output, $returnVar);
-
-            if ($returnVar === 0) {
-                $this->info("Successfully restored {$file}");
-            } else {
-                $this->error("Error restoring {$file}");
+        foreach ($requiredFiles as $file) {
+            if (! $sftp->exists("$latestDir/$file")) {
+                $this->error("❌ Datei fehlt: {$latestDir}/{$file}");
+                return Command::FAILURE;
             }
         }
 
-        // --- Media Backup ---
-        $mediaFile = collect($files)->first(fn($f) => $f === 'media.zip');
-        if ($mediaFile) {
-            $this->info("Downloading {$mediaFile}...");
-            $contents = $sftp->get($mediaFile);
-            $localMediaZip = storage_path("{$this->localBackupPath}/{$mediaFile}");
-            file_put_contents($localMediaZip, $contents);
-            $this->info("Saved locally: {$localMediaZip}");
+        /**
+         * 3️⃣ Lokales Backup-Verzeichnis erstellen
+         */
+        $localBasePath = storage_path($this->localBackupPath);
 
-            $this->info('Restoring media folder...');
+        if (! is_dir($localBasePath)) {
+            mkdir($localBasePath, 0755, true);
+        }
 
-            $mediaPath = storage_path($this->localMediaPath);
+        /**
+         * 4️⃣ Dateien herunterladen
+         */
+        foreach ($requiredFiles as $file) {
+            $this->info("⬇️ Lade {$file} herunter...");
+            $content = $sftp->get("$latestDir/$file");
+            file_put_contents("{$localBasePath}/{$file}", $content);
+        }
 
-            // Vorher bestehenden Media-Ordner löschen
-            if (is_dir($mediaPath)) {
-                File::deleteDirectory($mediaPath);
+        /**
+         * 5️⃣ Datenbank wiederherstellen
+         */
+        $this->info('🗄️ Stelle Datenbank wieder her...');
+
+        $dbName = config('database.connections.mysql.database');
+        $dbUser = config('database.connections.mysql.username');
+        $dbPass = config('database.connections.mysql.password');
+
+        // Pfad zum MySQL-Client aus .env
+        $mysqlPath = env('MYSQL_PATH', 'mysql'); // Fallback auf "mysql" falls nicht gesetzt
+
+        foreach (['structure.sql', 'data.sql'] as $sqlFile) {
+            $path = "{$localBasePath}/{$sqlFile}";
+            $this->info("▶ Importiere {$sqlFile}...");
+
+            $command = sprintf(
+                '"%s" -u%s -p%s %s < "%s"',
+                $mysqlPath,
+                escapeshellarg($dbUser),
+                escapeshellarg($dbPass),
+                escapeshellarg($dbName),
+                $path
+            );
+
+            exec($command, $output, $returnCode);
+
+            if ($returnCode !== 0) {
+                $this->error("❌ Fehler beim Import von {$sqlFile}");
+                return Command::FAILURE;
             }
+        }
 
-            mkdir($mediaPath, 0755, true);
+        /**
+         * 6️⃣ Media wiederherstellen
+         */
+        $this->info('🖼️ Stelle Media-Dateien wieder her...');
 
-            $zip = new ZipArchive();
-            if ($zip->open($localMediaZip) === true) {
-                $zip->extractTo($mediaPath);
-                $zip->close();
-                $this->info("Media restored to {$mediaPath}");
-            } else {
-                $this->error("Failed to open {$localMediaZip}");
-            }
+        $mediaZip = "{$localBasePath}/media.zip";
+        $mediaTarget = storage_path($this->localMediaPath);
+
+        if (is_dir($mediaTarget)) {
+            File::deleteDirectory($mediaTarget);
+        }
+
+        mkdir($mediaTarget, 0755, true);
+
+        $zip = new ZipArchive();
+
+        if ($zip->open($mediaZip) === true) {
+            $zip->extractTo($mediaTarget);
+            $zip->close();
         } else {
-            $this->warn('No media.zip file found on SFTP server.');
+            $this->error('❌ media.zip konnte nicht geöffnet werden');
+            return Command::FAILURE;
         }
 
-        $this->info('Database and media restore complete.');
-        return 0;
+        $this->info('✅ Restore abgeschlossen!');
+        $this->line("📁 Quelle: {$latestDir}");
+        $this->line("📁 Lokal: storage/{$this->localBackupPath}");
+
+        return Command::SUCCESS;
     }
 }
