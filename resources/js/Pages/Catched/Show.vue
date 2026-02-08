@@ -128,6 +128,18 @@
       <!-- Karte -->
       <div class="bg-white dark:bg-gray-800 rounded-lg mx-2 mt-5 mb-20 border-1 dark:border-0 p-5">
         <p class="mb-5"><b>Hier gefangen</b><br> {{ catched.address }}</p>
+        
+        <div class="flex gap-2">
+          <a :href="mapsLink" target="_blank"
+            class="mb-5 btn cursor-pointer bg-primary-500 text-gray-100 hover:bg-primary-600 active:bg-primary-600 transition-all duration-150 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-600">
+            Auf Google Maps anzeigen
+          </a>
+          <a :href="appleMapsLink" target="_blank"
+            class="mb-5 btn cursor-pointer bg-primary-500 text-gray-100 hover:bg-primary-600 active:bg-primary-600 transition-all duration-150 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-600">
+            Auf Apple Maps anzeigen
+          </a>
+        </div>
+
         <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.fish?.name ?? 'Fang'" />
       </div>
     </div>
@@ -150,6 +162,9 @@ const props = defineProps({
   shareUrl: String,
   editUrl: String,
 });
+
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${props.catched.latitude},${props.catched.longitude}`;
+const appleMapsLink = `https://maps.apple.com/?ll=${props.catched.latitude},${props.catched.longitude}&q=${encodeURIComponent(props.catched.fish?.name ?? 'Fang')}`;
 
 const isLightboxOpen = ref(false);
 const currentImageIndex = ref(0);
