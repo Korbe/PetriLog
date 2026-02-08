@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Models\Association;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAssociationRequest;
+use App\Http\Requests\UpdateAssociationRequest;
 
 class AssociationAdminController extends Controller
 {
@@ -28,16 +29,9 @@ class AssociationAdminController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreAssociationRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|unique:associations,name',
-            'desc' => 'nullable|string',
-            'link' => 'nullable|string',
-            'state_id' => 'required|exists:states,id',
-        ]);
-
-        Association::create($data);
+        Association::create($request->validated());
 
         return redirect()->route('admin.association.index')->with('success', 'Verein erstellt!');
     }
@@ -50,16 +44,9 @@ class AssociationAdminController extends Controller
         ]);
     }
 
-    public function update(Request $request, Association $association)
+    public function update(UpdateAssociationRequest $request, Association $association)
     {
-        $data = $request->validate([
-            'name' => 'required|string|unique:associations,name,' . $association->id,
-            'desc' => 'nullable|string',
-            'link' => 'nullable|string',
-            'state_id' => 'required|exists:states,id',
-        ]);
-
-        $association->update($data);
+        $association->update($request->validated());
 
         return redirect()->route('admin.association.index')->with('success', 'Verein aktualisiert!');
     }

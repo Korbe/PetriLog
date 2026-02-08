@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Fish;
+use Inertia\Inertia;
 use App\Models\River;
 use App\Models\State;
-use App\Models\Fish;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Requests\RiverRequest;
+use App\Http\Controllers\Controller;
 
 class RiverAdminController extends Controller
 {
@@ -34,32 +34,15 @@ class RiverAdminController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(RiverRequest $request)
     {
-        $data = $request->validate([
-            'name'      => 'required|string',
-            'desc'      => 'nullable|string',
-            'hint'      => 'nullable|string',
-            'fishing_rights' => 'nullable|string',
-            'ticket_sales'   => 'nullable|string',
-            'states'    => 'required|array',
-            'states.*'  => 'exists:states,id',
-            'fish'      => 'array',
-            'fish.*'    => 'exists:fish,id',
-        ]);
-
+        $data = $request->validated();
         $river = River::create($data);
+
         $river->states()->sync($data['states'] ?? []);
         $river->fish()->sync($data['fish'] ?? []);
 
         return redirect()->route('admin.river.index')->with('success', 'Fluss erstellt!');
-    }
-
-    public function show(River $river)
-    {
-        return Inertia::render('Admin/River/Show', [
-            'river' => $river->load(['states', 'fish']),
-        ]);
     }
 
     public function edit(River $river)
@@ -71,27 +54,10 @@ class RiverAdminController extends Controller
         ]);
     }
 
-    public function update(Request $request, River $river)
+    public function update(RiverRequest $request, River $river)
     {
-        $data = $request->validate([
-            'name'      => 'required|string',
-            'desc'      => 'nullable|string',
-            'hint'      => 'nullable|string',
-            'fishing_rights' => 'nullable|string',
-            'ticket_sales'   => 'nullable|string',
-            'states'    => 'required|array',
-            'states.*'  => 'exists:states,id',
-            'fish'      => 'array',
-            'fish.*'    => 'exists:fish,id',
-        ]);
-
-        $river->update([
-            'name' => $data['name'],
-            'desc' => $data['desc'] ?? null,
-            'hint' => $data['hint'] ?? null,
-            'fishing_rights' => $data['fishing_rights'] ?? null,
-            'ticket_sales' => $data['ticket_sales'] ?? null,
-        ]);
+        $data = $request->validated();
+        $river->update($data);
 
         $river->states()->sync($data['states'] ?? []);
         $river->fish()->sync($data['fish'] ?? []);

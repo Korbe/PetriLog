@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use App\Models\State;
 use Illuminate\Http\Request;
+use App\Http\Requests\StateRequest;
 use App\Http\Controllers\Controller;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -22,23 +23,19 @@ class StateAdminController extends Controller
         return Inertia::render('Admin/State/Create');
     }
 
-    public function store(Request $request)
+    public function store(StateRequest $request)
     {
-        $data = $request->validate([
-            'name'      => 'required|string|unique:states,name',
-            'desc'      => 'nullable|string',
-            'photo'     => 'nullable|image|max:102400',
-        ]);
+        $data = $request->validated();
 
         $state = State::create($data);
 
         if ($request->hasFile('photo')) {
-            $state
-                ->addMedia($request->file('photo'))
-                ->toMediaCollection('state');
+            $state->addMedia($request->file('photo'))->toMediaCollection('state');
         }
 
-        return redirect()->route('admin.state.index')->with('success', 'Fluss erstellt!');;
+        return redirect()
+            ->route('admin.state.index')
+            ->with('success', 'Bundesland erstellt!');
     }
 
     public function show(State $state)
@@ -57,13 +54,9 @@ class StateAdminController extends Controller
         ]);
     }
 
-    public function update(Request $request, State $state)
+    public function update(StateRequest $request, State $state)
     {
-        $data = $request->validate([
-            'name'      => 'required|string|unique:states,name,' . $state->id,
-            'desc'      => 'nullable|string',
-            'photo'     => 'nullable|image|max:102400',
-        ]);
+        $data = $request->validated();
 
         $state->update([
             'name' => $data['name'],
@@ -71,16 +64,13 @@ class StateAdminController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            // altes Bild löschen
             $state->clearMediaCollection('state');
-
-            // neues Bild speichern
-            $state
-                ->addMedia($request->file('photo'))
-                ->toMediaCollection('state');
+            $state->addMedia($request->file('photo'))->toMediaCollection('state');
         }
 
-        return redirect()->route('admin.state.index')->with('success', 'Bundesland aktualisiert!');;
+        return redirect()
+            ->route('admin.state.index')
+            ->with('success', 'Bundesland aktualisiert!');
     }
 
     public function destroy(State $state)
@@ -90,10 +80,8 @@ class StateAdminController extends Controller
         return redirect()->route('admin.state.index');
     }
 
-    public function deletePhoto(Request $request, $mediaId)
+    public function deletePhoto(Media $media)
     {
-        $media = Media::findOrFail($mediaId);
-
         $media->delete();
 
         return redirect()->back()->with('success', 'Bild gelöscht.');

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Lake;
-use App\Models\State;
 use App\Models\Fish;
-use Illuminate\Http\Request;
+use App\Models\Lake;
 use Inertia\Inertia;
+use App\Models\State;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\LakeRequest;
 
 class LakeAdminController extends Controller
 {
@@ -34,33 +34,15 @@ class LakeAdminController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(LakeRequest $request)
     {
-        $data = $request->validate([
-            'name'     => 'required|string',
-            'desc'     => 'nullable|string',
-            'hint'     => 'nullable|string',
-            'fishing_rights' => 'nullable|string',
-            'ticket_sales'   => 'nullable|string',
-            'states'    => 'required|array',
-            'states.*'  => 'exists:states,id',
-            'fish'      => 'array',
-            'fish.*'    => 'exists:fish,id',
-        ]);
+        $data = $request->validated();
 
         $lake = Lake::create($data);
         $lake->states()->sync($data['states'] ?? []);
         $lake->fish()->sync($data['fish'] ?? []);
 
-
         return redirect()->route('admin.lake.index')->with('success', 'See erstellt!');
-    }
-
-    public function show(Lake $lake)
-    {
-        return Inertia::render('Admin/Lake/Show', [
-            'lake' => $lake->load(['state', 'fish']),
-        ]);
     }
 
     public function edit(Lake $lake)
@@ -72,27 +54,11 @@ class LakeAdminController extends Controller
         ]);
     }
 
-    public function update(Request $request, Lake $lake)
+    public function update(LakeRequest $request, Lake $lake)
     {
-        $data = $request->validate([
-            'name'     => 'required|string',
-            'desc'     => 'nullable|string',
-            'hint'     => 'nullable|string',
-            'fishing_rights' => 'nullable|string',
-            'ticket_sales'   => 'nullable|string',
-            'states'    => 'required|array',
-            'states.*'  => 'exists:states,id',
-            'fish'      => 'array',
-            'fish.*'    => 'exists:fish,id',
-        ]);
+        $data = $request->validated();
 
-        $lake->update([
-            'name' => $data['name'],
-            'desc' => $data['desc'] ?? null,
-            'hint' => $data['hint'] ?? null,
-            'fishing_rights' => $data['fishing_rights'] ?? null,
-            'ticket_sales' => $data['ticket_sales'] ?? null,
-        ]);
+        $lake->update($data);
 
         $lake->states()->sync($data['states'] ?? []);
         $lake->fish()->sync($data['fish'] ?? []);
