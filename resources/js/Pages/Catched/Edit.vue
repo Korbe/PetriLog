@@ -80,14 +80,14 @@ const selectedRiver = computed({
 // Submit & Delete
 const submit = () => {
   loading.value = true
-  form.post(route('catched.update', props.catched.id), {
+  form.post(route('app.catched.update', props.catched.id), {
     onFinish: () => (loading.value = false),
   })
 }
 
 const deleteCatched = () => {
   if (confirm('Fang wirklich löschen?')) {
-    form.delete(route('catched.destroy', props.catched.id))
+    form.delete(route('app.catched.destroy', props.catched.id))
   }
 }
 
@@ -103,7 +103,7 @@ const removeImage = item => {
     return
   }
   if (item.readonly && confirm('Bild wirklich löschen?')) {
-    router.delete(route('catched.photo.delete', item.id), {
+    router.delete(route('app.catched.photo.delete', item.id), {
       onSuccess: () => { form.media = form.media.filter(m => m.id !== item.id) },
     })
   }

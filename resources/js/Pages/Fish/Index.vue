@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="Fische" :backTo="route('dashboard')">
+  <PageWrapper title="Fische" :backTo="route('app.dashboard')">
 
     <template v-slot:actions>
       <VInput placeholder="Suche" v-model="search" />
@@ -8,7 +8,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-5">
       <div v-for="fish in filteredFish" :key="fish.id"
         class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden">
-        <Link :href="route('fish.show', fish.id)">
+        <Link :href="route('app.fish.show', fish.id)">
         <div class="relative w-full h-44">
           <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
             class="w-full h-full object-contain hover:scale-105 transition-transform duration-200" />

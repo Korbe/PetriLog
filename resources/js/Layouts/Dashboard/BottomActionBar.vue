@@ -16,7 +16,7 @@ import {
     <div class="flex justify-around items-center h-14">
 
       <Link
-        :href="route('dashboard')"
+        :href="route('app.dashboard')"
         class="flex flex-col items-center text-xs"
       >
         <HomeIcon class="h-6 w-6 mb-0.5" />
@@ -24,7 +24,7 @@ import {
       </Link>
 
       <Link
-        :href="route('catched.create')"
+        :href="route('app.catched.create')"
         class="flex flex-col items-center text-xs text-primary-600"
       >
         <PlusIcon class="h-7 w-7 mb-0.5" />
@@ -32,7 +32,7 @@ import {
       </Link>
 
       <Link
-        :href="route('profile.show')"
+        :href="route('app.profile.show')"
         class="flex flex-col items-center text-xs"
       >
         <UserIcon class="h-6 w-6 mb-0.5" />

@@ -7,7 +7,7 @@
 
         <!-- Left: Title -->
         <div v-if="!hideBackButton" class="mb-4 sm:mb-0 flex items-center md:mb-5">
-            <Link  :href="backUrl" class="flex items-center gap-2">
+            <Link :href="backUrl" class="flex items-center gap-2">
             <ChevronLeftIcon class="w-6 h-6 text-gray-800 dark:text-gray-100" />
             <span class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}
@@ -32,7 +32,7 @@ import { onMounted, ref } from 'vue';
 const backUrl = ref("");
 
 onMounted(() => {
-    backUrl.value = props.backTo ?? sessionStorage.getItem('lastOrigin')
+    backUrl.value = props.backTo ?? sessionStorage.getItem('lastOrigin') ?? route('app.dashboard');
 })
 
 const props = defineProps({

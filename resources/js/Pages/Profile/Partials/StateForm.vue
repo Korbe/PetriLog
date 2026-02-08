@@ -22,7 +22,7 @@ const form = useForm({
 
 const submit = () => {
     form.state_id = form.state.id;
-    form.patch(route('profile.state.update'), {
+    form.patch(route('app.profile.state.update'), {
         preserveScroll: true,
     })
 }

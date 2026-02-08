@@ -30,8 +30,8 @@ class DashboardController extends Controller
         $heaviestCatch = $this->heaviestCatch();
         $longestCatch = $this->longestCatch();
 
-        $routeHeaviest = $heaviestCatch ? route("catched.show", $heaviestCatch->id) : "";
-        $routeLongest = $longestCatch ? route("catched.show", $longestCatch->id) : "";
+        $routeHeaviest = $heaviestCatch ? route('app.catched.show', $heaviestCatch->id) : "";
+        $routeLongest = $longestCatch ? route('app.catched.show', $longestCatch->id) : "";
 
         $favoriteFish = $this->favoriteFish();
         $favoriteLocation = $this->favoriteLocations();
@@ -45,7 +45,7 @@ class DashboardController extends Controller
             'heaviestCatch' => $heaviestCatch,
             'longestCatch' => $longestCatch,
 
-            'createUrl' => route('catched.create'),
+            'createUrl' => route('app.catched.create'),
             'routeHeaviest' => $routeHeaviest,
             'routeLongest' => $routeLongest,
 
@@ -266,7 +266,7 @@ public function recentCatches()
                 'fish' => $catched->fish,
                 'lake' => $catched->lake,
                 'river' => $catched->river,
-                'show_url' => route('catched.show', $catched->id),
+                'show_url' => route('app.catched.show', $catched->id),
             ];
         });
 }

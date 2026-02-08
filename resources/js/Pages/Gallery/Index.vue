@@ -1,10 +1,10 @@
 <template>
-  <PageWrapper title="Galerie" :backTo="route('dashboard')">
+  <PageWrapper title="Galerie" :backTo="route('app.dashboard')">
     <template v-slot:actions>
       <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
       <VDateRangePicker align="right" v-model="dateRange" />
       <ResetButton @click="resetDateRange" />
-      <VButton :href="route('catched.create')">Eintragen</VButton>
+      <VButton :href="route('app.catched.create')">Eintragen</VButton>
     </template>
 
     <div class="w-full m-auto">
@@ -21,7 +21,7 @@
             </h1>
             <p class="text-gray-700 dark:text-gray-300 mb-5">Lade deine ersten Bilder hoch!</p>
 
-            <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="route('catched.create')">
+            <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="route('app.catched.create')">
               Ersten Fang eintragen
             </VButton>
           </div>
@@ -32,7 +32,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div v-for="item in catcheds" :key="item.id"
             class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-            <Link :href="route('catched.show', item.id)">
+            <Link :href="route('app.catched.show', item.id)">
             <img v-if="item.images.length" :src="item.images[0].url" alt="Bild" class="w-full h-48 object-cover" />
             <div class="p-4">
               <h2 class="text-lg font-semibold">{{ item.name }}</h2>
@@ -139,7 +139,7 @@ const search = () => {
   };
 
   router.get(
-    route('gallery.index'), request,
+    route('app.gallery.index'), request,
     {
       preserveState: true,
       preserveScroll: true,

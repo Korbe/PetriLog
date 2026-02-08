@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="Fang">
+  <PageWrapper title="Fang" :backTo="route('app.catched.index')">
     <template v-slot:actions></template>
 
     <div class="max-w-6xl mx-auto">
@@ -26,7 +26,7 @@
               :src="media.original_url" :alt="'user-image' + index" />
           </li>
 
-          <vue-easy-lightbox v-if="isLightboxOpen" :visible="isLightboxOpen"
+          <vue-easy-lightbox v-if="isLightboxOpen && props.catched?.media?.length" :visible="isLightboxOpen"
             :imgs="props.catched.media.map(item => item.original_url)" :index="currentImageIndex"
             @hide="closeLightbox" />
         </ul>

@@ -20,7 +20,7 @@
         :class="align === 'right' ? 'right-0' : 'left-0'">
         <ul ref="dropdown" @focusin="dropdownOpen = true" @focusout="dropdownOpen = false">
           <li>
-            <Link :href="route('profile.show')"
+            <Link :href="route('app.profile.show')"
               class="text-md text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 flex items-center py-1 px-3"
               @click="dropdownOpen = false">Profil</Link>
           </li>

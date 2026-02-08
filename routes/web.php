@@ -1,12 +1,9 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PwaController;
 use App\Http\Controllers\FishController;
 use App\Http\Controllers\LakeController;
-use App\Http\Controllers\MailController;
 use App\Http\Controllers\RiverController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\PublicController;
@@ -26,43 +23,48 @@ use App\Http\Controllers\Admin\FishAdminController;
 use App\Http\Controllers\Admin\LakeAdminController;
 use App\Http\Controllers\Admin\RiverAdminController;
 use App\Http\Controllers\Admin\StateAdminController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
 
 // Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
-
-Route::get('/app', [DashboardController::class, 'index'])->middleware('auth');
-
-Route::get('/', [PublicController::class, 'index'])->name('public.index');
-Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
-Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
-Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint.show');
-Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
-Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
-
-Route::get('/coupon/{coupon}', function ($coupon) {
-    return redirect('/?coupon=' . $coupon);
+Route::name('public.')->group(function () {
+    Route::get('/', [PublicController::class, 'index'])->name('index');
+    Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms');
+    Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy');
+    Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint');
+    Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+    Route::get('/pricing', [PublicController::class, 'pricing'])->name('pricing');
+    Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('catched.show');
 });
 
-Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('public.catched.show');
-Route::get('/newsletter/unsubscribe/{user}', [NewsletterAdminController::class, 'unsubscribe'])->name('newsletter.unsubscribe')->middleware('signed');
+Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return redirect('/dashboard')->with('success', 'Deine E-Mail wurde erfolgreich bestätigt!');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+Route::middleware(['signed'])->name('public.')->group(function () {
+    Route::get('/newsletter/unsubscribe/{user}', [NewsletterAdminController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+});
 
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(function () {
+Route::middleware(['auth'])->name('app.')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/app', [DashboardController::class, 'index'])->name('pwa.dashboard'); //PWA entry point
 
     Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/pwa', [PwaController::class, 'index'])->name('pwa.index');
 
-    Route::resource('catched', CatchedController::class)->except(['update']);
+    Route::resource('catched', CatchedController::class)
+        ->except(['update'])
+        ->names([
+            'index' => 'catched.index',
+            'create' => 'catched.create',
+            'store' => 'catched.store',
+            'show' => 'catched.show',
+            'edit' => 'catched.edit',
+            'destroy' => 'catched.destroy',
+        ]);
     Route::post('catched/{catched}/update', [CatchedController::class, 'update'])->name('catched.update');
     Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->name('catched.photo.delete');
 
@@ -92,6 +94,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(fun
     Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
     Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 
+    /*!!!!!!!!!!!!!!!*/
     Route::post('/admin', [AdminController::class, 'index'])->name('admin.index');
 
     Route::get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');

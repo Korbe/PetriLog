@@ -16,7 +16,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.patch(route('profile.newsletter-preferences.update'), {
+    form.patch(route('app.profile.newsletter-preferences.update'), {
         preserveScroll: true,
     })
 }

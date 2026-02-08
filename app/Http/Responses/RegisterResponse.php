@@ -7,6 +7,6 @@ class RegisterResponse implements RegisterResponseContract
 {
     public function toResponse($request)
     {
-        return redirect()->route('welcome'); 
+        return redirect()->route('app.welcome'); 
     }
 }

@@ -60,8 +60,8 @@ class CatchedController extends Controller
                 'endDate' => $endDate
             ],
             'totalCatchedCount' => $totalCatchedCount,
-            'createUrl' => route('catched.create'),
-            'currentUrl' => route('catched.index'),
+            'createUrl' => route('app.catched.create'),
+            'currentUrl' => route('app.catched.index'),
         ]);
     }
 
@@ -73,7 +73,7 @@ class CatchedController extends Controller
         $totalCatchedCount = $user->catched()->count();
 
         if (!$user->subscribed() && $totalCatchedCount >= 5) {
-            return redirect()->route('catched.index')
+            return redirect()->route('app.catched.index')
                 ->with('error', 'Du hast das Limit an Einträgen erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
         }
 
@@ -96,8 +96,8 @@ class CatchedController extends Controller
             'fish' => $fish,
             'lakes' => $lakes,
             'rivers' => $rivers,
-            'backToUrl' => route('catched.index'),
-            'storeUrl' => route('catched.store'),
+            'backToUrl' => route('app.catched.index'),
+            'storeUrl' => route('app.catched.store'),
         ]);
     }
 
@@ -136,7 +136,7 @@ class CatchedController extends Controller
         }
 
         return redirect()
-            ->route('catched.show', $catch->id)
+            ->route('app.catched.show', $catch->id)
             ->with('success', 'Fang erfolgreich eingetragen.');
     }
 
@@ -145,10 +145,13 @@ class CatchedController extends Controller
         session()->forget('meta');
         $this->authorize('view', $catched);
 
+        $shareurl = route('public.catched.show', $catched->id);
+        $editurl = route('app.catched.edit', $catched->id);
+
         return Inertia::render('Catched/Show', [
             'catched' => $catched->load(['media', 'fish', 'lake', 'river']),
-            'shareUrl' => route('public.catched.show', $catched->id),
-            'editUrl' => route('catched.edit', $catched->id),
+            'shareUrl' => $shareurl,
+            'editUrl' => $editurl,
         ]);
     }
 
@@ -215,7 +218,7 @@ class CatchedController extends Controller
         }
 
         return redirect()
-            ->route('catched.show', $catched->id)
+            ->route('app.catched.show', $catched->id)
             ->with('success', 'Fang erfolgreich aktualisiert.');
     }
 
@@ -224,7 +227,7 @@ class CatchedController extends Controller
         $this->authorize('delete', $catched);
         $catched->delete();
 
-        return redirect()->route('catched.index')->with('success', 'Fang gelöscht.');
+        return redirect()->route('app.catched.index')->with('success', 'Fang gelöscht.');
     }
 
     public function deletePhoto(Request $request, $mediaId)

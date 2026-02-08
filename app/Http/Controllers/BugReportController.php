@@ -75,7 +75,7 @@ class BugReportController extends Controller
             'user' => $user,
         ]));
 
-        return redirect()->route('bug-report.create')->with('success', 'Fehlerbericht erfolgreich eingetragen.');
+        return redirect()->route('app.bug-report.create')->with('success', 'Fehlerbericht erfolgreich eingetragen.');
     }
 
     public function destroy(BugReport $report)
