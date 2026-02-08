@@ -45,7 +45,7 @@ defineProps({
 const page = usePage();
 
 const isAdmin = computed(() => {
-    return page.props.auth?.user?.isAdmin === true;
+    return page.props.auth?.user?.is_admin === true;
 });
 
 onMounted(() => {

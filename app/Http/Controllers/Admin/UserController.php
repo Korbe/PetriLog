@@ -11,7 +11,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('state')
-            ->select('id', 'name', 'email', 'created_at', 'isAdmin', 'state_id')
+            ->select('id', 'name', 'email', 'created_at', 'is_admin', 'state_id')
             ->get()
             ->map(fn($user) => [
                 'id' => $user->id,
@@ -24,7 +24,7 @@ class UserController extends Controller
                 'canceled' => $user->subscription('default')?->canceled() ?? false,
                 'state' => $user->state?->name,
                 'created_at' => $user->created_at,
-                'isAdmin' => (bool) $user->isAdmin,
+                'is_admin' => $user->isAdmin(),
             ]);
 
         return Inertia::render('Admin/User/Index', [

@@ -94,9 +94,6 @@ Route::middleware(['auth'])->name('app.')->group(function () {
     Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
     Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
 
-    /*!!!!!!!!!!!!!!!*/
-    Route::post('/admin', [AdminController::class, 'index'])->name('admin.index');
-
     Route::get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/user/newsletter-preferences', [ProfileController::class, 'updateNewsletterPreference'])->name('profile.newsletter-preferences.update');
     Route::patch('/user/state', [ProfileController::class, 'updateState'])->name('profile.state.update');

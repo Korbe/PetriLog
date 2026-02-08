@@ -82,7 +82,7 @@
                                 </td>
 
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
-                                    <CheckIcon v-if="user.isAdmin" class="h-5 w-5 text-green-600" />
+                                    <CheckIcon v-if="user.is_admin" class="h-5 w-5 text-green-600" />
                                     <XMarkIcon v-else class="h-5 w-5 text-red-500" />
                                 </td>
                                 <!-- Aktionen -->
@@ -116,7 +116,7 @@ interface User {
     name: string
     email: string
     created_at: string
-    isAdmin: boolean
+    is_admin: boolean
 
     // Subscription (Laravel Spark / Cashier)
     subscribed: boolean

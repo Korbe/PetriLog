@@ -149,7 +149,7 @@
               </Link>
             </li>
 
-            <li v-if="$page.props.auth.user.isAdmin" class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r"
+            <li v-if="$page.props.auth.user.is_admin" class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r"
               :class="isActive('/admin') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
               <Link href="/admin" class="block text-gray-800 dark:text-gray-100 truncate transition"
                 :class="isActive('/admin') ? '' : 'hover:text-gray-900 dark:hover:text-white'">

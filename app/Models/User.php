@@ -44,6 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'newsletter_opt_out',
         'state_id',
+        'is_admin',
     ];
 
     /**
@@ -53,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $hidden = [
         'password',
-        'isAdmin',
+        'is_admin',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
@@ -78,7 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'isAdmin' => 'boolean'
+            'is_admin' => 'boolean'
         ];
     }
 
@@ -94,7 +95,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->isAdmin === true;
+        return $this->is_admin === true;
     }
 
     public function canImpersonate(): bool
