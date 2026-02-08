@@ -7,11 +7,13 @@ use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class River extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    use HasFactory;
 
     protected $fillable = [
         'state_id',

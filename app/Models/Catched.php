@@ -10,7 +10,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Catched extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use InteractsWithMedia;
+    use HasFactory;
 
     protected $fillable = [
         'fish_id',
