@@ -49,7 +49,7 @@ const initChart = () => {
   chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: props.data.timestamps,
+      labels: props.data.timestamps.map(ts => new Date(ts)),
       datasets: [
         {
           label: 'Anzahl',
@@ -85,6 +85,7 @@ const initChart = () => {
         x: {
           type: 'time',
           time: {
+            parser: 'YYYY-MM-DD',
             unit: 'day',
             stepSize: 3,
             tooltipFormat: 'DD-MM-YYYY',

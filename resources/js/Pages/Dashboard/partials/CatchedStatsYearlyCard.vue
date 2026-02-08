@@ -49,7 +49,7 @@ const initChart = () => {
   chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: props.data.timestamps, // z.B. ["2025-01", "2025-02", ..., "2025-12"]
+      labels: props.data.timestamps.map(ts => new Date(ts)),
       datasets: [
         {
           label: 'Anzahl',
@@ -85,6 +85,7 @@ const initChart = () => {
         x: {
           type: 'time',
           time: {
+            parser: 'YYYY-MM-DD',
             unit: 'month',            // WICHTIG: Einheit auf Monat setzen
             tooltipFormat: 'MMM', // Tooltip-Format Monat + Jahr (z.B. Jan 2025)
             displayFormats: {
