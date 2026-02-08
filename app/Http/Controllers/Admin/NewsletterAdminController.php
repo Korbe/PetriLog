@@ -9,6 +9,7 @@ use App\Jobs\SendNewsletterMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\NewsletterRequest;
 
 class NewsletterAdminController extends Controller
 {
@@ -17,17 +18,9 @@ class NewsletterAdminController extends Controller
         return inertia('Admin/Newsletter/Index');
     }
 
-    protected function validateNewsletter(Request $request): array
+    public function send(NewsletterRequest $request)
     {
-        return $request->validate([
-            'subject' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
-    }
-
-    public function send(Request $request)
-    {
-        $validated = $this->validateNewsletter($request);
+        $validated = $request->validated();
 
         $sentCount = 0;
 
@@ -63,18 +56,16 @@ class NewsletterAdminController extends Controller
             );
     }
 
-    public function sendTest(Request $request)
+    public function sendTest(NewsletterRequest $request)
     {
-        $data = $this->validateNewsletter($request);
+        $data = $request->validated();
 
         $user = Auth::user();
 
-        Mail::to($user->email)->send(
-            new NewsletterMail(
-                $data['subject'],
-                $data['content'],
-                $user
-            )
+        SendNewsletterMail::dispatch(
+            $user,
+            $data['subject'],
+            $data['content']
         );
 
         return redirect()

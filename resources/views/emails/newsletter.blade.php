@@ -11,7 +11,7 @@
         @slot('subcopy')
             <p style="font-size:12px; color:#999;">
                 Du möchtest keine Newsletter mehr erhalten?<br>
-                <a href="{{ URL::signedRoute('newsletter.unsubscribe', $user) }}">
+                <a href="{{ URL::signedRoute('public.newsletter.unsubscribe', $user) }}">
                     Newsletter abbestellen
                 </a>
             </p>
