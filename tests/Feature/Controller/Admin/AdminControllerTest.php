@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controller\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
@@ -15,6 +15,17 @@ class AdminControllerTest extends TestCase
     {
         $response = $this->get('/admin');
         $response->assertRedirect('/login');
+    }
+
+    public function test_guest_cannot_access_association_admin_routes(): void
+    {
+        $this->get(route('admin.index'))->assertRedirect('/login');
+    }
+
+    public function test_user_cannot_access_association_admin_routes(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+        $this->actingAs($user)->get(route('admin.index'))->assertRedirect('/dashboard');
     }
 
     public function test_admin_index_shows_page_for_admin()

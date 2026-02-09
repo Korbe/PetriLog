@@ -17,7 +17,6 @@ class Lake extends Model implements HasMedia
     use HasFactory;
 
     protected $fillable = [
-        'state_id',
         'name',
         'desc',
         'hint',

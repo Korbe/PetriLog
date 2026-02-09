@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Fish;
+use App\Models\Lake;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,22 +15,10 @@ class CatchedFactory extends Factory
 {
     public function definition(): array
     {
-        $fishSpeciesAustria = [
-            'Aal', 'Aalrutte', 'Adriastör', 'Äsche', 'Aitel', 'Amur', 'Atlantischer Stör', 'Bachforelle', 'Bachneunauge',
-            'Bachsaibling', 'Bachschmerle', 'Barbe', 'Bitterling', 'Blaubandbärbling', 'Brachse', 'Donaukaulbarsch',
-            'Dreistachliger Stichling', 'Elritze', 'Flussbarsch', 'Frauennerfling', 'Giebel', 'Glattdick', 'Goldsteinbeißer',
-            'Gründling', 'Güster', 'Hasel', 'Hausen', 'Hecht', 'Huchen', 'Karausche', 'Karpfen', 'Kaulbarsch',
-            'Kesslergründling', 'Koppe', 'Laube', 'Malermuschel', 'Moderlieschen', 'Nackthalsgrundel', 'Nase', 'Nerfling',
-            'Perlfisch', 'Rapfen', 'Regenbogenforelle', 'Reinanke', 'Rotauge', 'Rotfeder', 'Rußnase', 'Schleie',
-            'Schlammpeitzger', 'Schneider', 'Schrätzer', 'Schwarzmundgrundel', 'Seeforelle', 'Seelaube', 'Seesaibling',
-            'Semling', 'Sichling', 'Sonnenbarsch', 'Steingreßling', 'Steinbeißer', 'Sterlet', 'Sternhausen', 'Streber',
-            'Tolstolob', 'Ukrainisches Bachneunauge', 'Waxdick', 'Weißflossengründling', 'Weißer Stör', 'Wels',
-            'Wolgazander', 'Zander', 'Zingel', 'Zobel', 'Zope', 'Zwergwels'
-        ];
-
         return [
-            'user_id' => User::find(1)->id,
-            'name' => Arr::random($fishSpeciesAustria),
+            'user_id' => User::factory(),
+            'fish_id' => Fish::factory(),
+            'lake_id' => Lake::factory(),
             'length' => $this->faker->numberBetween(10, 100),
             'weight' => $this->faker->numberBetween(100, 10000),
             'depth' => $this->faker->numberBetween(1, 50),

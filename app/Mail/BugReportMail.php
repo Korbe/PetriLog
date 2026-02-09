@@ -10,14 +10,13 @@ class BugReportMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $data;
+    public $bug;
+    public $user;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct($data)
     {
-        $this->data = $data;
+        $this->bug = $data['bug'];
+        $this->user = $data['user'];
     }
 
     public function build()
@@ -25,8 +24,8 @@ class BugReportMail extends Mailable
         return $this->subject('Neuer Bug-Report')
             ->markdown('emails.bug-report')
             ->with([
-                'user' => $this->data['user'],
-                'bug'  => $this->data['bug'],
+                'bug'  => $this->bug,
+                'user' => $this->user,
             ]);
     }
 }

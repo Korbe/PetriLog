@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CatchedController extends Controller
@@ -230,7 +229,7 @@ class CatchedController extends Controller
         return redirect()->route('app.catched.index')->with('success', 'Fang gelöscht.');
     }
 
-    public function deletePhoto(Request $request, $mediaId)
+    public function deletePhoto($mediaId)
     {
         $user = Auth::user();
         $media = Media::findOrFail($mediaId);

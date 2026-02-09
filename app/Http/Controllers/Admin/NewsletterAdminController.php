@@ -73,14 +73,12 @@ class NewsletterAdminController extends Controller
             ->with('success', 'Test-Mail wurde an dich gesendet.');
     }
 
-    public function unsubscribe(Request $request, User $user)
+    public function unsubscribe(User $user)
     {
         $user->update([
             'newsletter_opt_out' => true,
         ]);
 
-        return inertia('Public/Newsletter/Unsubscribed', [
-            'email' => $user->email,
-        ]);
+        return inertia('Public/Newsletter/Unsubscribed');
     }
 }

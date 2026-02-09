@@ -9,7 +9,6 @@
                         <label class="block text-sm font-medium mb-1">
                             Bundesländer
                         </label>
-
                         <!-- States -->
                         <VMultiselect v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
                             :multiple="true" placeholder="Bundesländer auswählen" :close-on-select="false"

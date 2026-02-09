@@ -28,7 +28,7 @@ class PublicController extends Controller
             ],
         ]);
 
-        return Inertia::render('Public/Home/Home');
+        return Inertia::render('Public/Home/Index');
     }
 
     public function pricing()
@@ -52,7 +52,7 @@ class PublicController extends Controller
             ]
         ]);
 
-        return Inertia::render('Public/Pricing/Pricing');
+        return Inertia::render('Public/Pricing/Index');
     }
 
     public function contact()
@@ -76,7 +76,7 @@ class PublicController extends Controller
             ]
         ]);
 
-        return Inertia::render('Public/Contact/Contact');
+        return Inertia::render('Public/Contact/Index');
     }
 
 

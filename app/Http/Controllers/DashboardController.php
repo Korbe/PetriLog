@@ -22,24 +22,25 @@ class DashboardController extends Controller
 
         $catchedStatsMonthly = $this->getCatchedStatisticsForPeriod(
             Carbon::now()->startOfMonth(),
-            Carbon::now()->endOfMonth()
+            Carbon::now()->endOfMonth(),
+            $userId
         );
 
-        $catchedStatsYearly = $this->getCatchedStatisticsForCurrentYear();
+        $catchedStatsYearly = $this->getCatchedStatisticsForCurrentYear($userId);
 
-        $heaviestCatch = $this->heaviestCatch();
-        $longestCatch = $this->longestCatch();
+        $heaviestCatch = $this->heaviestCatch($userId);
+        $longestCatch = $this->longestCatch($userId);
 
         $routeHeaviest = $heaviestCatch ? route('app.catched.show', $heaviestCatch->id) : "";
         $routeLongest = $longestCatch ? route('app.catched.show', $longestCatch->id) : "";
 
-        $favoriteFish = $this->favoriteFish();
-        $favoriteLocation = $this->favoriteLocations();
-        $mostCatchesDay = $this->recordCatchesPerDay();
-        $recentCatches = $this->recentCatches();
+        $favoriteFish = $this->favoriteFish($userId);
+        $favoriteLocation = $this->favoriteLocations($userId);
+        $mostCatchesDay = $this->recordCatchesPerDay($userId);
+        $recentCatches = $this->recentCatches($userId);
 
         return Inertia::render('Dashboard/Index', [
-            'catchedCount' => Catched::where('user_id', Auth::id())->count(),
+            'catchedCount' => Catched::where('user_id', $userId)->count(),
             'catchedStatsMonthly' => $catchedStatsMonthly,
             'catchedStatsYearly' => $catchedStatsYearly,
             'heaviestCatch' => $heaviestCatch,
@@ -58,10 +59,8 @@ class DashboardController extends Controller
 
 
 
-    public function getCatchedStatisticsForPeriod(Carbon $startDate, Carbon $endDate)
+    public function getCatchedStatisticsForPeriod(Carbon $startDate, Carbon $endDate, $userId)
     {
-        $userId = Auth::id();
-
         // Hole alle Datumswerte und deren Anzahl gruppiert nach Tag aus der Tabelle
         $results = Catched::select(
             DB::raw('DATE(date) as day'),
@@ -97,20 +96,18 @@ class DashboardController extends Controller
         ];
     }
 
-    public function getCatchedStatisticsForCurrentYear()
+    public function getCatchedStatisticsForCurrentYear($userId)
     {
-        $userId = Auth::id();
-
         // Jahresanfang und -ende festlegen
         $startDate = now()->startOfYear();
         $endDate = now()->endOfYear();
 
         // Hole alle Datumswerte und deren Anzahl gruppiert nach Monat aus der Tabelle
         $results = Catched::select(
-            DB::raw('MONTH(date) as month'),
+            DB::raw("CAST(strftime('%m', date) AS INTEGER) as month"),
             DB::raw('COUNT(*) as count')
         )
-            ->where('user_id', $userId) // nur eigene Einträge
+            ->where('user_id', $userId)
             ->whereBetween('date', [$startDate, $endDate])
             ->groupBy('month')
             ->orderBy('month')
@@ -141,10 +138,8 @@ class DashboardController extends Controller
         ];
     }
 
-    public function longestCatch()
+    public function longestCatch($userId)
     {
-        $userId = Auth::id();
-
         $catched = Catched::where('user_id', $userId)
             ->orderByDesc('length')
             ->first();
@@ -155,15 +150,13 @@ class DashboardController extends Controller
         return $catched;
     }
 
-    public function heaviestCatch()
+    public function heaviestCatch($userId)
     {
-        $userId = Auth::id();
-
         $catched = Catched::where('user_id', $userId)
             ->orderByDesc('weight')
             ->first();
 
-        if ($catched == null ||$catched->weight == null) {
+        if ($catched == null || $catched->weight == null) {
             return null;
         }
 
@@ -173,10 +166,8 @@ class DashboardController extends Controller
         return $catched;
     }
 
-    public function favoriteFish()
+    public function favoriteFish($userId)
     {
-        $userId = Auth::id();
-
         $favoriteFish = Catched::select('fish_id')
             ->where('user_id', $userId)
             ->groupBy('fish_id')
@@ -184,7 +175,7 @@ class DashboardController extends Controller
             ->limit(1)
             ->first();
 
-        if(!$favoriteFish) {
+        if (!$favoriteFish) {
             return null;
         }
 
@@ -193,10 +184,8 @@ class DashboardController extends Controller
         return $fish->name;
     }
 
-    public function favoriteLocations()
+    public function favoriteLocations($userId)
     {
-        $userId = Auth::id();
-
         // ===== Top Lake =====
         $topLake = Catched::selectRaw('lake_id, COUNT(*) as total')
             ->where('user_id', $userId)
@@ -219,21 +208,18 @@ class DashboardController extends Controller
         }
 
         // ===== Vergleich =====
-        if ($topLake && (!$topRiver || $topLake->total >= $topRiver->total)) {
-            $lake = Lake::find($topLake->lake_id);
-
-            return $lake->name;
+        // Fluss gewinnt bei Gleichstand
+        if ($topRiver && (!$topLake || $topRiver->total >= $topLake->total)) {
+            $river = River::find($topRiver->river_id);
+            return $river->name;
         }
 
-        $river = River::find($topRiver->river_id);
-
-        return $river->name;
+        $lake = Lake::find($topLake->lake_id);
+        return $lake->name;
     }
 
-    public function recordCatchesPerDay()
+    public function recordCatchesPerDay($userId)
     {
-        $userId = Auth::id();
-
         $record = Catched::select(
             DB::raw('DATE(date) as catch_date'),
             DB::raw('COUNT(*) as total')
@@ -250,24 +236,22 @@ class DashboardController extends Controller
         return $record->total;
     }
 
-public function recentCatches()
-{
-    $userId = Auth::id();
-
-    return Catched::with(['fish', 'lake', 'river'])
-        ->where('user_id', $userId)
-        ->orderByDesc('created_at')
-        ->limit(2)
-        ->get()
-        ->map(function ($catched) {
-            return [
-                'id' => $catched->id,
-                'created_at' => $catched->created_at,
-                'fish' => $catched->fish,
-                'lake' => $catched->lake,
-                'river' => $catched->river,
-                'show_url' => route('app.catched.show', $catched->id),
-            ];
-        });
-}
+    public function recentCatches($userId)
+    {
+        return Catched::with(['fish', 'lake', 'river'])
+            ->where('user_id', $userId)
+            ->orderByDesc('created_at')
+            ->limit(2)
+            ->get()
+            ->map(function ($catched) {
+                return [
+                    'id' => $catched->id,
+                    'created_at' => $catched->created_at,
+                    'fish' => $catched->fish,
+                    'lake' => $catched->lake,
+                    'river' => $catched->river,
+                    'show_url' => route('app.catched.show', $catched->id),
+                ];
+            });
+    }
 }

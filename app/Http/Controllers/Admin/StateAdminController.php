@@ -38,13 +38,6 @@ class StateAdminController extends Controller
             ->with('success', 'Bundesland erstellt!');
     }
 
-    public function show(State $state)
-    {
-        return Inertia::render('Admin/State/Show', [
-            'state' => $state->load(['lakes.fish', 'rivers']),
-        ]);
-    }
-
     public function edit(State $state)
     {
         $state->load('media');
@@ -80,8 +73,9 @@ class StateAdminController extends Controller
         return redirect()->route('admin.state.index');
     }
 
-    public function deletePhoto(Media $media)
+    public function deletePhoto(int $media)
     {
+        $media = Media::findOrFail($media);
         $media->delete();
 
         return redirect()->back()->with('success', 'Bild gelöscht.');

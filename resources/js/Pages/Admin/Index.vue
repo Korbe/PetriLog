@@ -47,7 +47,7 @@ const cards = [
         href: '/admin/association',
     },
     {
-        title: 'Fish Verwaltung',
+        title: 'Fisch Verwaltung',
         desc: 'Hier können alle Fische verwaltet werden.',
         href: '/admin/fish',
     },

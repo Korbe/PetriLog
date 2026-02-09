@@ -17,7 +17,7 @@ class IsAdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::user() || !Auth::user()->isAdmin() && ! session('impersonated_by')) {
-            abort(403, 'Unauthorized');
+            return redirect('/dashboard')->with('error', 'Du hast keinen Zugriff.');
         }
 
         return $next($request);

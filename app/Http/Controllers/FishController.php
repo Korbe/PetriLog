@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Fish;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Config;
 
 class FishController extends Controller
 {

@@ -6,7 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class UserAdminController extends Controller
 {
     public function index()
     {

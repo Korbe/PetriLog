@@ -14,7 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AssociationController;
 use App\Http\Controllers\PrivacyPolicyController;
@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\LakeAdminController;
 use App\Http\Controllers\Admin\RiverAdminController;
 use App\Http\Controllers\Admin\StateAdminController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\BugReportAdminController;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
 
@@ -103,10 +104,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 
     Route::impersonate();
 
-    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/bugreports', [BugReportController::class, 'index'])->name('bugreports.index');
-    Route::get('/bugreports/{bugreport}', [BugReportController::class, 'show'])->name('bugreports.show');
-    Route::delete('/bugreports/{report}', [BugReportController::class, 'destroy'])->name('bugreports.destroy');
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::get('/bugreports', [BugReportAdminController::class, 'index'])->name('bugreports.index');
+    Route::get('/bugreports/{bugreport}', [BugReportAdminController::class, 'show'])->name('bugreports.show');
+    Route::delete('/bugreports/{report}', [BugReportAdminController::class, 'destroy'])->name('bugreports.destroy');
 
 
     Route::resource('lake', LakeAdminController::class)->except(['show']);
@@ -123,7 +124,7 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::post('fish/{fish}/update', [FishAdminController::class, 'update'])->name('fish.update');
     Route::delete('fish/photo/{mediaId}', [FishAdminController::class, 'deletePhoto'])->name('fish.photo.delete');
 
-    Route::get('user', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('user', [UserAdminController::class, 'index'])->name('user.index');
 
     Route::get('/newsletter', [NewsletterAdminController::class, 'index'])->name('newsletter.index');
     Route::post('/newsletter/send', [NewsletterAdminController::class, 'send'])->name('newsletter.send');

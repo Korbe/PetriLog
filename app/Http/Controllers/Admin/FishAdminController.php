@@ -68,8 +68,9 @@ class FishAdminController extends Controller
         return redirect()->route('admin.fish.index')->with('success', 'Fisch gelöscht!');
     }
 
-    public function deletePhoto(Media $media)
+    public function deletePhoto(int $media)
     {
+        $media = Media::findOrFail($media);
         $media->delete();
 
         return redirect()->back()->with('success', 'Bild gelöscht.');
