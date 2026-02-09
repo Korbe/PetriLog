@@ -96,47 +96,50 @@ class DashboardController extends Controller
         ];
     }
 
-    public function getCatchedStatisticsForCurrentYear($userId)
-    {
-        // Jahresanfang und -ende festlegen
-        $startDate = now()->startOfYear();
-        $endDate = now()->endOfYear();
+public function getCatchedStatisticsForCurrentYear($userId)
+{
+    $startDate = now()->startOfYear();
+    $endDate = now()->endOfYear();
 
-        // Hole alle Datumswerte und deren Anzahl gruppiert nach Monat aus der Tabelle
-        $results = Catched::select(
-            DB::raw("CAST(strftime('%m', date) AS INTEGER) as month"),
-            DB::raw('COUNT(*) as count')
-        )
-            ->where('user_id', $userId)
-            ->whereBetween('date', [$startDate, $endDate])
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+    // DB-Treiber ermitteln
+    $driver = DB::getDriverName(); // z.B. sqlite, mysql, pgsql
 
-        $months = [];
-        $counts = [];
-
-        // Für jeden Monat von 1 bis 12
-        for ($month = 1; $month <= 12; $month++) {
-            // Monat als zweistellige Zahl z.B. "01", "02", ..., "12"
-            $monthString = str_pad($month, 2, '0', STR_PAD_LEFT);
-            // Optional: Monatsname (deutsch oder englisch)
-            $months[] = $monthString;
-
-            // Suche ob der Monat in den Ergebnissen ist
-            $found = $results->firstWhere('month', $month);
-            $counts[] = $found ? $found->count : 0;
-        }
-
-        // Gesamtanzahl der Catched Einträge im Jahr
-        $total = $results->sum('count');
-
-        return [
-            'timestamps' => $months,
-            'scores' => $counts,
-            'total' => $total,
-        ];
+    if ($driver === 'sqlite') {
+        // SQLite: strftime('%m', date) liefert Monat als String, casten zu Integer
+        $monthSelect = "CAST(strftime('%m', date) AS INTEGER)";
+    } else {
+        // MySQL / andere DBs: MONTH(date) liefert Monat als Integer
+        $monthSelect = "MONTH(date)";
     }
+
+    $results = Catched::select(
+        DB::raw("$monthSelect as month"),
+        DB::raw('COUNT(*) as count')
+    )
+    ->where('user_id', $userId)
+    ->whereBetween('date', [$startDate, $endDate])
+    ->groupBy('month')
+    ->orderBy('month')
+    ->get();
+
+    $months = [];
+    $counts = [];
+
+    for ($month = 1; $month <= 12; $month++) {
+        $monthString = str_pad($month, 2, '0', STR_PAD_LEFT);
+        $months[] = $monthString;
+
+        $found = $results->firstWhere('month', $month);
+        $counts[] = $found ? $found->count : 0;
+    }
+
+    return [
+        'timestamps' => $months,
+        'scores' => $counts,
+        'total' => $results->sum('count'),
+    ];
+}
+
 
     public function longestCatch($userId)
     {
