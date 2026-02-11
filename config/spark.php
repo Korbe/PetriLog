@@ -5,6 +5,8 @@ use Spark\Features;
 
 return [
 
+    'dashboard_url' => '/dashboard',
+
     'terms_url' => '/terms-of-service',
 
     /*
