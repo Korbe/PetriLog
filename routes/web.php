@@ -1,5 +1,6 @@
 <?php
 
+use Spark\Spark;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PwaController;
 use App\Http\Controllers\FishController;
@@ -14,13 +15,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AssociationController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Middleware\EnsureVerifiedForBilling;
 use App\Http\Controllers\TermsOfServiceController;
 use App\Http\Controllers\Admin\FishAdminController;
 use App\Http\Controllers\Admin\LakeAdminController;
+use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\RiverAdminController;
 use App\Http\Controllers\Admin\StateAdminController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -99,6 +101,8 @@ Route::middleware(['auth'])->name('app.')->group(function () {
     Route::patch('/user/newsletter-preferences', [ProfileController::class, 'updateNewsletterPreference'])->name('profile.newsletter-preferences.update');
     Route::patch('/user/state', [ProfileController::class, 'updateState'])->name('profile.state.update');
 });
+
+Route::middleware(['auth', EnsureVerifiedForBilling::class])->get('/billing-portal', function () { return redirect('/billing'); })->name('billing.portal');
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
 

@@ -122,12 +122,12 @@
             </li>
 
             <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r"
-              :class="isActive('/billing') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
-              <Link href="/billing" class="block text-gray-800 dark:text-gray-100 truncate transition"
-                :class="isActive('/billing') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
+              :class="isActive('/billing-portal') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
+              <Link href="/billing-portal" class="block text-gray-800 dark:text-gray-100 truncate transition"
+                :class="isActive('/billing-portal') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
               <div class="flex items-center">
                 <StarIcon class="shrink-0 w-5 h-5"
-                  :class="isActive('/billing') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
+                  :class="isActive('/billing-portal') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
                 <span
                   class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">PetriLog
                   Abo</span>

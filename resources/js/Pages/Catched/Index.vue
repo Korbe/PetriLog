@@ -8,19 +8,7 @@
 
         <div class="md:w-1/2 m-auto">
 
-            <div v-if="!canAddNewEntry()" class="bg-white text-center border border-red-300 text-red-900 
-              dark:bg-red-900 dark:border-red-700 dark:text-red-100 
-              px-4 py-3 mb-5 rounded-lg shadow-md">
-                <p class="text-sm mt-1">
-                    Du hast das Gratis Limit erreicht. <br />Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
-                </p>
-                <div class="mt-3">
-                    <Link href="/billing" class="inline-block bg-primary-500 hover:bg-primary-600 
-                text-white font-medium px-4 py-2 rounded-lg shadow">
-                    Jetzt Abo abschließen
-                    </Link>
-                </div>
-            </div>
+            <MaxEntriesReachedBanner v-if="!canAddNewEntry()" />
 
             <!-- Empty state and stats cards -->
             <div v-if="Object.keys(groupedCatcheds).length === 0" class="">
@@ -85,6 +73,7 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
+import MaxEntriesReachedBanner from '@/components/MaxEntriesReachedBanner.vue';
 
 interface Fish { id: number; name: string }
 interface Lake { id: number; name: string }
