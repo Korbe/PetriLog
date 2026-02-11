@@ -20,9 +20,9 @@ class SubscriptionCreatedMail extends Mailable
     {
         return $this
             ->subject("🎉 Dein Abo ist aktiv!")
-            ->view('emails.subscriptionCreated')
+            ->view('emails.default')
             ->with([
-                'user' => $this->user,
+                'name' => $this->user->name,
                 'content' => new HtmlString('<p>🎉 <strong>Vielen Dank für das Abonnieren von PetriLog!</strong> Wir freuen uns sehr, dich an Bord zu haben.</p>
 <p>Mit deinem Abonnement erhältst du Zugriff auf <strong>alle Funktionen von PetriLog</strong> und kannst so viel loggen und hochladen, wie du willst. 📝✨</p>
 <p>Wenn du Fragen oder Anregungen hast, zögere bitte nicht, uns zu kontaktieren. 💬 Schreibe einfach eine E-Mail an <a href="mailto:info@petrilog.com">info@petrilog.com</a>. Wir sind immer hier, um dir zu helfen!</p>
