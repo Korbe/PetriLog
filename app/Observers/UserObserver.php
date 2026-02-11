@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
+use Laravel\Cashier\Cashier;
 
 class UserObserver
 {
@@ -13,7 +14,7 @@ class UserObserver
             $user->subscriptions->each(fn($sub) => $sub->cancelNow());
             
             // Stripe Customer komplett löschen
-            $user->deleteStripeCustomer();
+            Cashier::stripe()->customers->delete($user->stripe_id);
 
         }
     }

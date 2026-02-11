@@ -840,7 +840,7 @@
     "You may not leave a team that you created.": "Sie können ein von Ihnen erstelltes Team nicht verlassen.",
     "You will receive an invoice and payment link via email for each billing period.": "Sie erhalten für jeden Abrechnungszeitraum eine Rechnung und einen Zahlungslink per E-Mail.",
     "You're logged in!": "Sie sind eingeloggt!",
-    "Your :invoiceName invoice is now available!": "Ihre :invoiceName Rechnung ist jetzt verfügbar!",
+    "Your :invoiceName invoice is now available!": "Deine :invoiceName Rechnung ist jetzt verfügbar!",
     "Your billing address is :address :address2 :postal_code :city :state :country": "Ihre Rechnungsadresse lautet :address :address2 :postal_code :city :state :country",
     "Your card was declined. Please contact your card issuer for more information.": "Ihre Karte wurde abgelehnt. Bitte kontaktieren Sie Ihren Kartenaussteller für weitere Informationen.",
     "Your current payment method is a credit card ending in :lastFour that expires on :expiration.": "Ihre aktuelle Zahlungsmethode ist eine Kreditkarte mit der Endung :lastFour, die am :expiration ausläuft.",
