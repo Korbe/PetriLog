@@ -11,11 +11,14 @@ class FishController extends Controller
     {
         session()->forget('meta');
 
-        $fish = Fish::where('name', '!=', 'Anderes / nicht gelistet')->get()->map(fn($f) => [
-            'id' => $f->id,
-            'name' => $f->name,
-            'media' => $f->getMedia('fish')->map(fn($m) => ['url' => $m->getUrl()]),
-        ]);
+        $fish = Fish::where('name', '!=', 'Anderes / nicht gelistet')
+            ->orderBy('name') // <-- hier nach Namen sortieren
+            ->get()
+            ->map(fn($f) => [
+                'id' => $f->id,
+                'name' => $f->name,
+                'media' => $f->getMedia('fish')->map(fn($m) => ['url' => $m->getUrl()]),
+            ]);
 
         return Inertia::render('Fish/Index', [
             'fish' => $fish
