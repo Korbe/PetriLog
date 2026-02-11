@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Models\User;
+use App\Mail\UserDeletedMail;
+use Illuminate\Support\Facades\Mail;
 
 class UserObserver
 {
@@ -11,5 +13,10 @@ class UserObserver
         if ($user->subscribed()) {
             $user->subscriptions->each(fn($sub) => $sub->cancelNow());
         }
+    }
+
+    public function deleted(User $user) : void
+    {
+        Mail::to($user->email)->queue(new UserDeletedMail($user->name));
     }
 }
