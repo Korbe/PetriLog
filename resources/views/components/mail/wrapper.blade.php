@@ -15,6 +15,37 @@
             line-height: 1.4;
         }
 
+        /* Typography */
+
+        h1 {
+            color: #3d4852;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.5em;
+            margin-top: 0;
+            text-align: left;
+        }
+
         @media only screen and (max-width: 600px) {
             .inner-body {
                 width: 100% !important;
