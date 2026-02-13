@@ -34,7 +34,7 @@ class BugReportController extends Controller
 
         $bugReport = BugReport::create($data);
 
-        Mail::to('info@petrilog.com')->send(new BugReportMail([
+        Mail::to('info@petrilog.com')->queue(new BugReportMail([
             'bug' => $bugReport,
             'user' => $user,
         ]));

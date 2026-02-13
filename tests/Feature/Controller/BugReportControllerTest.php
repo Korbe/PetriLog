@@ -62,13 +62,11 @@ class BugReportControllerTest extends TestCase
         ]);
 
         // Prüft, dass eine Mail gesendet wurde
-        Mail::assertSent(
-            BugReportMail::class,
-            fn($mail) =>
-            $mail->hasTo('info@petrilog.com') &&
+        Mail::assertQueued(BugReportMail::class, function ($mail) use ($user) {
+            return $mail->hasTo('info@petrilog.com') &&
                 $mail->bug->title === 'Fehler A' &&
-                $mail->user->id === $user->id
-        );
+                $mail->user->id === $user->id;
+        });
     }
 
     public function test_store_requires_title(): void
