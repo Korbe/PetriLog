@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lake;
 use Inertia\Inertia;
 use App\Models\State;
+use App\Http\Controllers\Controller;
 
 class LakeController extends Controller
 {

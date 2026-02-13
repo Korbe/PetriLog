@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\State;
+use App\Http\Controllers\Controller;
 
 class StateController extends Controller
 {

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
+use App\Mail\BugReportMail;
 use App\Models\BugReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\BugReportMail;
+use Inertia\Inertia;
 
 
 class BugReportController extends Controller

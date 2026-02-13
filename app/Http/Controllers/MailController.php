@@ -6,6 +6,7 @@ use App\Mail\NewUserMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Controller;
 
 class MailController extends Controller
 {

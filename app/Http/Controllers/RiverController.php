@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\River;
 use App\Models\State;
+use App\Http\Controllers\Controller;
 
 class RiverController extends Controller
 {

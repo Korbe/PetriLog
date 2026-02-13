@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Models\Association;
+use App\Http\Controllers\Controller;
 
 class AssociationController extends Controller
 {

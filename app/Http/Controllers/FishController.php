@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fish;
 use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 class FishController extends Controller
 {

@@ -10,6 +10,7 @@ use Laravel\Jetstream\Agent;
 use Laravel\Fortify\Features;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {

@@ -7,6 +7,7 @@ use App\Models\Catched;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class GalleryController extends Controller
 {

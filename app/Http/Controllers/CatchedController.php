@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use App\Http\Requests\FilterRequest;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Http\Controllers\Controller;
 
 class CatchedController extends Controller
 {
