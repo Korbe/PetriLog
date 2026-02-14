@@ -28,11 +28,6 @@ onMounted(() => {
     <!-- Content area -->
     <div scroll-region class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
-      <!-- Site header -->
-      <Header :sidebarOpen="sidebarOpen" @toggle-sidebar="sidebarOpen = !sidebarOpen" />
-
-      <Banner />
-
       <!-- Impersonation Banner -->
       <div v-if="$page.props.isImpersonated" class="bg-red-500 text-white p-4 flex items-center justify-between">
         <span class="font-medium">
@@ -44,6 +39,15 @@ onMounted(() => {
         Zurück
         </Link>
       </div>
+
+
+
+      <!-- Site header -->
+      <Header :sidebarOpen="sidebarOpen" @toggle-sidebar="sidebarOpen = !sidebarOpen" />
+
+      <Banner />
+
+      
 
       <div class="px-4 sm:px-6 lg:px-8 py-4 pb-20 w-full max-w-[96rem] mx-auto">
         <slot />
