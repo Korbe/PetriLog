@@ -37,9 +37,9 @@ const cards = [
         href: '/pulse',
     },
     {
-        title: 'Fehlerberichte',
-        desc: 'Hier kannst du alle gemeldeten Fehler einsehen und prüfen, welche Probleme aufgetreten sind.',
-        href: '/admin/bugreports',
+        title: 'Tickets',
+        desc: 'Hier kannst du alle gemeldeten Tickets einsehen und prüfen, welche Probleme aufgetreten sind.',
+        href: '/admin/tickets',
     },
     {
         title: 'Verein Verwaltung',

@@ -1,20 +1,20 @@
 @component('mail::message')
 
-# Neuer Bug-Report
+# Neues Ticket
 
 Von: **{{ $user->name }} ({{ $user->email }})**
 
-**Titel:** {{ $bug->title }}  
-**Kategorie:** {{ $bug->category }}  
+**Titel:** {{ $ticket->title }}  
+**Kategorie:** {{ $ticket->category }}  
 
 **Beschreibung:**  
-{{ $bug->description ?? 'Keine Beschreibung' }}
+{{ $ticket->description ?? 'Keine Beschreibung' }}
 
 **Schritte zur Reproduktion:**  
-{{ $bug->steps }}
+{{ $ticket->steps }}
 
 **URL:**  
-{{ $bug->url }}
+{{ $ticket->url }}
 
 
 Danke,<br>

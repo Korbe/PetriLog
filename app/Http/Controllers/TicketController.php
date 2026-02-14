@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Mail\BugReportMail;
-use App\Models\BugReport;
+use App\Mail\TicketAdminMail;
+use App\Mail\TicketUserMail;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 
-class BugReportController extends Controller
+class TicketController extends Controller
 {
     public function create()
     {
-        return Inertia::render('BugReport/Create');
+        return Inertia::render('Ticket/Create');
     }
 
     public function store(Request $request)
@@ -25,20 +26,24 @@ class BugReportController extends Controller
             'description' => 'nullable|string',
             'steps' => 'nullable|string',
             'url' => 'nullable|string',
-            'category' => 'nullable|string|in:ui,performance,data_issue,other',
+            'category' => 'nullable|string|in:ui,functionality,performance,error,auth,abo,data_issue,feature_request,other',
         ]);
 
         $user = Auth::user();
-
         $data['user_id'] = $user->id;
 
-        $bugReport = BugReport::create($data);
+        $ticket = Ticket::create($data);
 
-        Mail::to('info@petrilog.com')->queue(new BugReportMail([
-            'bug' => $bugReport,
+        Mail::to('info@petrilog.com')->queue(new TicketAdminMail([
+            'ticket' => $ticket,
             'user' => $user,
         ]));
 
-        return redirect()->route('app.bug-report.create')->with('success', 'Fehlerbericht erfolgreich eingetragen.');
+
+        Mail::to($user->email)->queue(new TicketUserMail([
+            'user' => $user,
+        ]));
+
+        return redirect()->route('app.dashboard')->with('success', 'Ticket erfolgreich erstellt.');
     }
 }

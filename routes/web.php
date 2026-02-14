@@ -13,7 +13,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImprintController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\BugReportController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AssociationController;
@@ -26,7 +26,7 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\RiverAdminController;
 use App\Http\Controllers\Admin\StateAdminController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Admin\BugReportAdminController;
+use App\Http\Controllers\Admin\TicketAdminController;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
 
@@ -94,8 +94,8 @@ Route::middleware(['auth'])->name('app.')->group(function () {
     Route::get('/fish', [FishController::class, 'index'])->name('fish.index');
     Route::get('/fish/{fish}', [FishController::class, 'show'])->name('fish.show');
 
-    Route::get('/bug-report', [BugReportController::class, 'create'])->name('bug-report.create');
-    Route::post('/bug-report', [BugReportController::class, 'store'])->name('bug-report.store');
+    Route::get('/ticket', [TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/ticket', [TicketController::class, 'store'])->name('ticket.store');
 
     Route::get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/user/newsletter-preferences', [ProfileController::class, 'updateNewsletterPreference'])->name('profile.newsletter-preferences.update');
@@ -109,9 +109,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::impersonate();
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
-    Route::get('/bugreports', [BugReportAdminController::class, 'index'])->name('bugreports.index');
-    Route::get('/bugreports/{bugreport}', [BugReportAdminController::class, 'show'])->name('bugreports.show');
-    Route::delete('/bugreports/{report}', [BugReportAdminController::class, 'destroy'])->name('bugreports.destroy');
+    Route::get('/tickets', [TicketAdminController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/{ticket}', [TicketAdminController::class, 'show'])->name('tickets.show');
+    Route::delete('/tickets/{ticket}', [TicketAdminController::class, 'destroy'])->name('tickets.destroy');
 
 
     Route::resource('lake', LakeAdminController::class)->except(['show']);

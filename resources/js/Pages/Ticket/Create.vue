@@ -1,15 +1,20 @@
 <template>
-    <PageWrapper title="Fehler melden" backTo="/dashboard">
+    <PageWrapper title="Ticket erstellen" backTo="/dashboard">
         <div class="md:w-1/2 m-auto space-y-4 bg-white dark:bg-gray-800 rounded-lg p-5">
 
-            <VInput label="Titel" v-model="form.title" placeholder="Kurze Fehlerbeschreibung" :error="errors.title" />
+            <VInput label="Titel" v-model="form.title" :error="errors.title" />
 
             <VEditor label="Beschreibung" v-model="form.description" :error="errors.description" />
 
             <VSelect label="Kategorie" v-model="form.category" :options="[
-                { label: 'UI', value: 'ui' },
+                { label: 'UI / Design', value: 'ui' },
+                { label: 'Funktion', value: 'functionality' },
                 { label: 'Performance', value: 'performance' },
+                { label: 'Fehlermeldung', value: 'error' },
+                { label: 'Login / Zugriff', value: 'auth' },
+                { label: 'Abo / Abrechnung', value: 'abo' },
                 { label: 'Datenproblem', value: 'data_issue' },
+                { label: 'Feature-Wunsch', value: 'feature_request' },
                 { label: 'Sonstiges', value: 'other' }
             ]" />
 
@@ -17,7 +22,7 @@
 
             <VInput label="Betroffene Seite / URL (optional)" v-model="form.url" placeholder="/dashboard" />
 
-            <VButton @click="submitReport" class="w-full">Fehler melden</VButton>
+            <VButton @click="submitReport" class="w-full">Ticket erstellen</VButton>
         </div>
     </PageWrapper>
 </template>
@@ -43,14 +48,6 @@ const form = useForm({
 });
 
 const submitReport = () => {
-    form.post("/bug-report", {
-        onSuccess: () => {
-            console.log("onSuccess");
-            form.reset(); // setzt automatisch alle Felder auf den initialen Wert zurück
-        },
-        onError: (errors) => {
-            console.log("Fehler:", errors);
-        }
-    });
+    form.post(route('app.ticket.store'));
 }
 </script>

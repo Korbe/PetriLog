@@ -6,25 +6,25 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BugReportMail extends Mailable
+class TicketAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $bug;
+    public $ticket;
     public $user;
 
     public function __construct($data)
     {
-        $this->bug = $data['bug'];
+        $this->ticket = $data['ticket'];
         $this->user = $data['user'];
     }
 
     public function build()
     {
-        return $this->subject('Neuer Bug-Report')
-            ->markdown('emails.bug-report')
+        return $this->subject('Neues Ticket')
+            ->markdown('emails.admin-ticket')
             ->with([
-                'bug'  => $this->bug,
+                'ticket'  => $this->ticket,
                 'user' => $this->user,
             ]);
     }

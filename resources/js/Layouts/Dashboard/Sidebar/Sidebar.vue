@@ -136,15 +136,14 @@
             </li>
 
             <li class="pl-4 pr-3 py-2 mt-5 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r"
-              :class="isActive('/bug-report') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
-              <Link href="/bug-report" class="block text-gray-800 dark:text-gray-100 truncate transition"
-                :class="isActive('/bug-report') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
+              :class="isActive('/ticket') && 'from-primary-500/[0.12] dark:from-primary-500/[0.24] to-primary-500/[0.04]'">
+              <Link href="/ticket" class="block text-gray-800 dark:text-gray-100 truncate transition"
+                :class="isActive('/ticket') ? '' : 'hover:text-gray-900 dark:hover:text-white'">
               <div class="flex items-center">
-                <BugAntIcon class="shrink-0 w-5 h-5"
-                  :class="isActive('/bug-report') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
+                <TicketIcon class="shrink-0 w-5 h-5"
+                  :class="isActive('/ticket') ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'" />
                 <span
-                  class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Fehler
-                  melden</span>
+                  class="text-lg lg:text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Ticket erstellen</span>
               </div>
               </Link>
             </li>
@@ -188,7 +187,7 @@
 
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
-import { HomeIcon, BookmarkSquareIcon, PhotoIcon, WalletIcon, EyeIcon, StarIcon, BugAntIcon, AdjustmentsHorizontalIcon, InboxArrowDownIcon } from '@heroicons/vue/24/solid'
+import { HomeIcon, BookmarkSquareIcon, PhotoIcon, WalletIcon, EyeIcon, StarIcon, AdjustmentsHorizontalIcon, InboxArrowDownIcon, TicketIcon } from '@heroicons/vue/24/solid'
 
 // Props & Emits
 const props = defineProps({

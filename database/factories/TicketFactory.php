@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\BugReport;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BugReportFactory extends Factory
+class TicketFactory extends Factory
 {
-    protected $model = BugReport::class;
+    protected $model = Ticket::class;
 
     public function definition(): array
     {

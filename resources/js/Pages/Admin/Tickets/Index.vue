@@ -1,5 +1,5 @@
 <template>
-    <PageWrapper title="Fehlerberichte" backTo="/admin">
+    <PageWrapper title="Tickets" backTo="/admin">
         <div class="space-y-5">
 
             <div class="mt-8 mx-5 overflow-x-auto bg-white dark:bg-gray-800 rounded-lg">
@@ -31,25 +31,26 @@
                         <tbody class="divide-y divide-gray-200">
 
                             <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                @click="$inertia.get(report.url)" v-for="report in reports" :key="report.id">
+                                @click="$inertia.get(ticket.url)" v-for="ticket in tickets" :key="ticket.id">
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    {{ report.id }}</td>
+                                    {{ ticket.id }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500  dark:text-gray-400">
                                     {{
-                                        report.title }}
+                                        ticket.title }}
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500  dark:text-gray-400">
                                     {{
-                                        report.category }}
+                                        ticket.category }}
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500  dark:text-gray-400">
-                                    {{ report.user
+                                    {{ ticket.user
                                     }}
+                                    ({{ ticket.email }})
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500  dark:text-gray-400">
                                     {{
-                                        report.created_at }}
+                                        ticket.created_at }}
                                 </td>
 
                             </tr>
@@ -63,16 +64,17 @@
 <script setup lang="ts">
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 
-interface BugReport {
+interface Ticket {
     id: number;
     title: string;
     category: string;
     user: string;
+    email: string;
     created_at: string;
     url: string;
 }
 
 const props = defineProps<{
-    reports: BugReport[];
+    tickets: Ticket[];
 }>()
 </script>
