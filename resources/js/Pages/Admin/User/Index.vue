@@ -24,6 +24,9 @@
                                 <th
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">
                                     E-Mail</th>
+                                <th
+                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">
+                                    Tel</th>
 
                                 <th
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">
@@ -60,6 +63,8 @@
                                     {{ user.name }}</td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">{{
                                     user.email }}</td>
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">{{
+                                    user.tel }}</td>
 
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
                                     {{ new Date(user.created_at).toLocaleDateString() }}
@@ -74,7 +79,12 @@
                                 </td>
 
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
-                                    {{ new Date(user.subscription_expires_at).toLocaleDateString() }}
+                                    <span v-if="user.subscription_expires_at">
+                                        {{ new Date(user.subscription_expires_at).toLocaleDateString() }}
+                                    </span>
+                                    <span v-else class="italic text-gray-400">
+                                        —
+                                    </span>
                                 </td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
                                     <CheckIcon v-if="user.canceled" class="h-5 w-5 text-green-600" />
@@ -115,6 +125,7 @@ interface User {
     id: number
     name: string
     email: string
+    tel: string
     created_at: string
     is_admin: boolean
 

@@ -11,12 +11,13 @@ class UserAdminController extends Controller
     public function index()
     {
         $users = User::with('state')
-            ->select('id', 'name', 'email', 'created_at', 'is_admin', 'state_id')
+            ->select('id', 'name', 'email', 'tel', 'created_at', 'is_admin', 'state_id')
             ->get()
             ->map(fn($user) => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'tel' => $user->tel,
                 'subscribed' => $user->subscribed(),
                 'subscription_expires_at' => optional(
                     $user->subscription('default')
