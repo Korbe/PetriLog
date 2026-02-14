@@ -18,6 +18,7 @@ const form = useForm({
     _method: 'PUT',
     name: props.user.name,
     email: props.user.email,
+    tel: props.user.tel,
     photo: null,
 });
 
@@ -80,8 +81,8 @@ const clearPhotoFileInput = () => {
     <FormSection @submitted="updateProfileInformation">
         <template #header>
             <h1 class="text-lg font-medium text-gray-800 dark:text-gray-100">Profil Information</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Aktualisieren Sie die Profilinformationen und
-                E-Mail-Adresse Ihres Kontos.</p>
+            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Aktualisiere die Profilinformationen deines
+                Kontos.</p>
         </template>
 
         <template #form>
@@ -121,6 +122,10 @@ const clearPhotoFileInput = () => {
                 <VInput id="name" label="Name" v-model="form.name" mandatory :error="form.errors.name" />
             </div>
 
+            <div class="col-span-6 sm:col-span-4">
+                <VInput id="tel" label="Telefonnummer" v-model="form.tel" :error="form.errors.tel" />
+            </div>
+
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
 
@@ -139,6 +144,8 @@ const clearPhotoFileInput = () => {
                     </div>
                 </div>
             </div>
+
+
         </template>
 
         <template #actions>

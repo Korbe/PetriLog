@@ -17,6 +17,7 @@ defineProps({
 const form = useForm({
     name: '',
     email: '',
+    tel: '',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -43,17 +44,21 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <VInput label="Name" id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
+                <VInput label="Name" id="name" v-model="form.name" type="text" class="mt-1 block w-full" mandatory
                     autofocus autocomplete="name" :error="form.errors.name" />
             </div>
             <div class="mt-4">
-                <VInput label="Email" id="email" v-model="form.email" type="email" class="mt-1 block w-full" required
-                    autocomplete="username" :error="form.errors.email" />
+                <VInput label="Email" id="email" v-model="form.email" type="email" class="mt-1 block w-full" mandatory
+                    autocomplete="email" :error="form.errors.email" />
+            </div>
+            <div class="mt-4">
+                <VInput label="Telefonnummer" id="tel" v-model="form.tel" type="tel" class="mt-1 block w-full"
+                   autocomplete="tel" :error="form.errors.tel" />
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium mb-1">
-                    Bundesland (optional)
+                    Bundesland
                 </label>
 
                 <VMultiselect v-model="form.state" :options="states" label="name" track-by="id" :multiple="false"
@@ -66,12 +71,12 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <VPassword label="Passwort" id="password" v-model="form.password" class="mt-1 block w-full" required
+                <VPassword label="Passwort" id="password" v-model="form.password" class="mt-1 block w-full" mandatory
                     autocomplete="new-password" :error="form.errors.password" :show-forgot="false" />
             </div>
 
             <div class="mt-4">
-                <VPassword label="Passwort bestätigen" id="password_confirmation" v-model="form.password_confirmation"
+                <VPassword label="Passwort bestätigen" id="password_confirmation" mandatory v-model="form.password_confirmation"
                     class="mt-1 block w-full" required autocomplete="new-password"
                     :error="form.errors.password_confirmation" :show-forgot="false" />
             </div>

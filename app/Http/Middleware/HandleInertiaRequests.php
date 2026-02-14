@@ -50,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                         'id' => $user->id,
                         'name' => $user->name,
                         'email' => $user->email,
+                        'tel' => $user->tel,
                         'is_admin' => $user->isAdmin(),
                         'subscribed' => $user->subscribed(),
                         'verified' => $user->hasVerifiedEmail(),
