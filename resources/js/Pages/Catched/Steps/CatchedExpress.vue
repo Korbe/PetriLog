@@ -2,6 +2,7 @@
     <div class="space-y-5">
         <VDateTimePicker v-model="props.modelValue.date" label="Datum" mandatory />
         <VInput label="Länge (cm)" type="number" mandatory v-model="props.modelValue.length" :error="errors?.length" />
+        <VInput label="Gewicht (g)" type="number" v-model="props.modelValue.weight" :error="errors?.weight" />
         <!-- Fisch -->
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
             Fischart <span class="text-red-500">*</span>
