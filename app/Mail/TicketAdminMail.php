@@ -25,13 +25,13 @@ class TicketAdminMail extends Mailable
         return $this->subject('Neues Ticket')
             ->view('emails.default')
             ->with([
-                'name' => $this->user->name,
+                'name' => 'Team',
                 'content' => new HtmlString('
                 <h1>Neues Ticket</h1>
 
                 <p>
                     <strong>Von:</strong>
-                    ' . $this->user->name . ' (' . $this->user->email . ')
+                    ' . $this->user->name . ' (' . $this->user->email . ') (' . $this->user->tel . ')
                 </p>
 
                 <p>
