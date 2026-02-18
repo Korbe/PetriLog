@@ -20,7 +20,7 @@
                         </p>
                     </div>
                     <VInput label="Link" v-model="form.link" :error="form.errors.link" />
-                
+
                     <VEditor label="Beschreibung" v-model="form.desc" :error="form.errors.desc" />
 
                     <div class="flex items-center justify-between">
@@ -45,9 +45,6 @@ import VInput from '@/components/VInput.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
-import Quill from 'quill'
-import 'quill/dist/quill.snow.css'
-import { onMounted, ref } from 'vue';
 import VEditor from '@/components/VEditor.vue';
 import VMultiselect from '@/components/VMultiselect.vue';
 
@@ -56,9 +53,7 @@ const props = defineProps({
     states: Array,
 });
 
-const editor = ref(null);
 const stateOptions = props.states || [];
-let quill = null;
 
 // Form initialisieren mit bestehenden Daten
 const form = useForm({
@@ -68,30 +63,6 @@ const form = useForm({
     state: props.association.state || null,
     state_id: props.association.state ? props.association.state.id : null,
 });
-
-onMounted(() => {
-    quill = new Quill(editor.value, {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline'],
-                [{ list: 'ordered' }, { list: 'bullet' }],
-                ['link'],
-                ['clean']
-            ]
-        }
-    })
-
-    // Initialwert setzen (Edit-Form!)
-    if (form.desc) {
-        quill.root.innerHTML = form.desc
-    }
-
-    // Änderungen ins Inertia-Formular schreiben
-    quill.on('text-change', () => {
-        form.desc = quill.root.innerHTML
-    })
-})
 
 function submit() {
     if (!form.state) {
