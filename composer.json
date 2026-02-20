@@ -20,7 +20,6 @@
         "laravel/spark-stripe": "6.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-sftp-v3": "^3.31",
-        "silviolleite/laravelpwa": "^2.0",
         "spatie/image": "^3.8",
         "spatie/image-optimizer": "^1.8",
         "spatie/laravel-image-optimizer": "^1.8",

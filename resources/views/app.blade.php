@@ -8,7 +8,7 @@
     <link rel="canonical" href="{{ url()->current() }}">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-
+    <link rel="manifest" href="{{ url('/manifest.json') }}">
 
 
 
@@ -71,9 +71,6 @@
     <script type="application/ld+json">
         {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT) !!}
     </script>
-
-
-    @laravelPWA
 
     @routes
     @vite('resources/js/app.js')

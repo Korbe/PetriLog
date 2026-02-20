@@ -29,11 +29,14 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\TicketAdminController;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
+use App\Http\Controllers\ManifestController;
 
 // Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
 Route::name('public.')->group(function () {
     Route::get('/', [PublicController::class, 'index'])->name('index');
+    Route::get('/manifest.json', [ManifestController::class, 'index'])->name('manifest');
+    
     Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms');
     Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy');
     Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint');
