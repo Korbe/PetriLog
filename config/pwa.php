@@ -87,7 +87,13 @@ return [
             'form_factor' => 'narrow',
         ],
         [
-            'src' => '/images/icons/screenshots/Screenshot_5.png.png',
+            'src' => '/images/icons/screenshots/Screenshot_5.png',
+            'sizes' => '1008x2244',
+            'type' => 'image/png',
+            'form_factor' => 'wide',
+        ],
+        [
+            'src' => '/images/icons/screenshots/Screenshot_6.png',
             'sizes' => '1713x869',
             'type' => 'image/png',
             'form_factor' => 'wide',

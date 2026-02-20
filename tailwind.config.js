@@ -16,7 +16,7 @@ export default {
         extend: {
             colors: {
                 primary: {
-                    50:  '#E7F3FD',
+                    50: '#E7F3FD',
                     100: '#CFE8FC',
                     200: '#9FD0F9',
                     300: '#6FB9F6',
@@ -52,6 +52,17 @@ export default {
             },
             screens: {
                 xs: "480px",
+            },
+            extend: {
+                keyframes: {
+                    scroll: {
+                        '0%': { transform: 'translateX(0)' },
+                        '100%': { transform: 'translateX(-50%)' },
+                    },
+                },
+                animation: {
+                    scroll: 'scroll 40s linear infinite',
+                },
             },
         },
     },
