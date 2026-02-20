@@ -72,6 +72,16 @@
         {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT) !!}
     </script>
 
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('Service Worker registered!', reg))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+
     @routes
     @vite('resources/js/app.js')
     @inertiaHead
