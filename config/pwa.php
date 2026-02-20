@@ -11,7 +11,7 @@ return [
     'background_color' => '#ffffff',
     'theme_color' => '#118DF0',
     'orientation' => 'any',
-    'prefer_related_applications' => 'false',
+    'prefer_related_applications' => false,
     "related_applications" => [],
     'scope' => '/',
     "display_override" => [
@@ -22,6 +22,7 @@ return [
     "launch_handler" => [
         "client_mode" => ["focus-existing", "auto"]
     ],
+    "scope_extensions" => [],
     'icons' => [
         [
             'src' => '/images/icons/logo-72.png',
@@ -65,31 +66,31 @@ return [
             'src' => '/images/icons/screenshots/Screenshot_1.png',
             'sizes' => '1008x2244',
             'type' => 'image/png',
-            'platform' => 'narrow',
+            "form_factor" => "wide",
         ],
         [
             'src' => '/images/icons/screenshots/Screenshot_2.png',
             'sizes' => '1008x2244',
             'type' => 'image/png',
-            'platform' => 'narrow',
+            'form_factor' => 'narrow',
         ],
         [
             'src' => '/images/icons/screenshots/Screenshot_3.png',
             'sizes' => '1008x2244',
             'type' => 'image/png',
-            'platform' => 'narrow',
+            'form_factor' => 'narrow',
         ],
         [
             'src' => '/images/icons/screenshots/Screenshot_4.png',
             'sizes' => '1008x2244',
             'type' => 'image/png',
-            'platform' => 'narrow',
+            'form_factor' => 'narrow',
         ],
         [
             'src' => '/images/icons/screenshots/Screenshot_5.png.png',
             'sizes' => '1713x869',
             'type' => 'image/png',
-            'platform' => 'wide',
+            'form_factor' => 'wide',
         ]
     ],
     'description' => 'PetriLog ist eine moderne Anwendung für Angler mit der du deine Fänge dokumentieren kannst, inklusive Gewicht, Länge, Fangdatum, Ort und Fotos. Es gibt ein Gewässer Wiki indem alle Information zu Flüssen und Seen in Österreich aufgelistet sind inklusive Vereine.',
