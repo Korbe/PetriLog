@@ -38,6 +38,32 @@ return [
                 'purpose' => 'any maskable'
             ]
         ],
+        'screenshots' => [
+            [
+                'src' => '/images/icons/screenshots/Screenshot_1.png',
+                'sizes' => '1008x2244',
+                'type' => 'image/png',
+                'form_factor' => 'narrow'
+            ],
+            [
+                'src' => '/images/icons/screenshots/Screenshot_2.png',
+                'sizes' => '1008x2244',
+                'type' => 'image/png',
+                'form_factor' => 'narrow'
+            ],
+            [
+                'src' => '/images/icons/screenshots/Screenshot_3.png',
+                'sizes' => '1008x2244',
+                'type' => 'image/png',
+                'form_factor' => 'narrow'
+            ],
+            [
+                'src' => '/images/icons/screenshots/Screenshot_4.png',
+                'sizes' => '1008x2244',
+                'type' => 'image/png',
+                'form_factor' => 'narrow'
+            ],
+        ],
         'splash' => [
             '640x1136' => '',
             '750x1334' => '',
