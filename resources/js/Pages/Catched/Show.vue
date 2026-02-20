@@ -4,33 +4,31 @@
 
     <div class="max-w-6xl mx-auto">
 
-      <!-- Bildergalerie Mobile -->
-      <div class="md:hidden grid grid-cols-2 gap-2 mx-2">
-        <div class="col-span-2">
-          <img v-if="props.catched.media?.length" @click="openLightbox(0)" :src="props.catched.media[0].original_url"
-            class="w-full h-64 object-cover rounded-lg cursor-pointer" alt="user-image-1" />
-        </div>
-
-        <div v-for="(media, index) in props.catched.media.slice(1)" :key="media.id" class="col-span-1">
-          <img @click="openLightbox(index + 1)" :src="media.original_url"
-            class="w-full h-32 object-cover rounded-lg cursor-pointer" :alt="'user-image-' + index" />
-        </div>
+      <!-- 📱 Mobile: horizontale Scroll-Slideshow -->
+      <div v-if="media.length" class="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 px-4">
+        <img v-for="(m, i) in media" :key="`mobile-${i}`" :src="m.original_url"
+          class="snap-center shrink-0 w-[85vw] h-64 object-cover rounded-lg cursor-pointer" @click="openLightbox(i)" />
       </div>
 
-      <!-- Bildergalerie Desktop -->
-      <div class="hidden md:block">
-        <ul role="list"
-          class="px-3 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
-          <li v-for="(media, index) in props.catched.media" :key="media.name">
-            <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
-              :src="media.original_url" :alt="'user-image' + index" />
-          </li>
-
-          <vue-easy-lightbox v-if="isLightboxOpen && props.catched?.media?.length" :visible="isLightboxOpen"
-            :imgs="props.catched.media.map(item => item.original_url)" :index="currentImageIndex"
-            @hide="closeLightbox" />
-        </ul>
+      <!-- 🖥 Desktop: Grid -->
+      <div v-if="media.length" class="hidden md:grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] 
+           gap-4 px-3 my-6">
+        <img v-for="(m, i) in media" :key="`desktop-${i}`" :src="m.original_url"
+          class="aspect-[3/2] w-full object-cover rounded-lg cursor-pointer" @click="openLightbox(i)" />
       </div>
+
+      <!-- 🔍 Lightbox -->
+      <transition name="fade">
+        <div v-if="activeIndex !== null" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          @click.self="closeLightbox">
+          <img :src="media[activeIndex].original_url" class="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl" />
+
+          <!-- ❌ Close Button -->
+          <button class="absolute top-5 right-5 text-white text-3xl" @click="closeLightbox">
+            ×
+          </button>
+        </div>
+      </transition>
 
       <!-- Fang Info -->
       <div class="mx-2 mt-5">
@@ -57,8 +55,6 @@
           </div>
         </div>
       </div>
-
-
 
       <!-- Tabelleninfos -->
       <div class="bg-white dark:bg-gray-800 px-4 sm:px-6 lg:px-8 border-1 dark:border-0 mt-5 m-2 rounded-lg">
@@ -128,7 +124,7 @@
       <!-- Karte -->
       <div class="bg-white dark:bg-gray-800 rounded-lg mx-2 mt-5 mb-20 border-1 dark:border-0 p-5">
         <p class="mb-5"><b>Hier gefangen</b><br> {{ catched.address }}</p>
-        
+
         <div class="flex gap-2">
           <a :href="mapsLink" target="_blank"
             class="mb-5 btn cursor-pointer bg-primary-500 text-gray-100 hover:bg-primary-600 active:bg-primary-600 transition-all duration-150 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-600">
@@ -149,13 +145,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import ShareDialog from "@/components/ShareDialog.vue";
 import GoogleMap from '@/components/GoogleMap.vue';
 import { ShareIcon } from '@heroicons/vue/24/solid';
-import VueEasyLightbox from 'vue-easy-lightbox';
 
 const props = defineProps({
   catched: Object,
@@ -166,8 +161,6 @@ const props = defineProps({
 const mapsLink = `https://www.google.com/maps/search/?api=1&query=${props.catched.latitude},${props.catched.longitude}`;
 const appleMapsLink = `https://maps.apple.com/?ll=${props.catched.latitude},${props.catched.longitude}&q=${encodeURIComponent(props.catched.fish?.name ?? 'Fang')}`;
 
-const isLightboxOpen = ref(false);
-const currentImageIndex = ref(0);
 const isShareOpen = ref(false);
 
 const openShare = () => { isShareOpen.value = true; };
@@ -177,14 +170,26 @@ const formatDate = (dateString) => {
   return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 };
 
-const openLightbox = (index) => {
-  currentImageIndex.value = index;
-  isLightboxOpen.value = true;
-};
+const media = computed(() => props.catched?.media ?? [])
+
+const activeIndex = ref(null)
+
+const openLightbox = index => {
+  activeIndex.value = index
+  document.body.style.overflow = 'hidden'
+}
 
 const closeLightbox = () => {
-  isLightboxOpen.value = false;
-};
+  activeIndex.value = null
+  document.body.style.overflow = ''
+}
+
+const onKey = e => {
+  if (e.key === 'Escape') closeLightbox()
+}
+
+onMounted(() => window.addEventListener('keydown', onKey))
+onUnmounted(() => window.removeEventListener('keydown', onKey))
 
 const catched = props.catched;
 </script>
