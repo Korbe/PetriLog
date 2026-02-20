@@ -15,10 +15,7 @@ class RiverAdminController extends Controller
     {
         $rivers = River::with(['fish', 'states'])
             ->get()
-            ->sortBy(function ($river) {
-                // Sortiere nach dem ersten State alphabetisch (falls mehrere)
-                return optional($river->states->first())->name;
-            })
+            ->sortBy('name')
             ->values(); // Index neu setzen, weil sortBy Collection zurückgibt
 
         return Inertia::render('Admin/River/Index', [

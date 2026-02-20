@@ -15,10 +15,7 @@ class LakeAdminController extends Controller
     {
         $lake = Lake::with(['fish', 'states'])
             ->get()
-            ->sortBy(function ($lake) {
-                // Sortiere nach dem ersten State alphabetisch (falls mehrere)
-                return optional($lake->states->first())->name;
-            })
+            ->sortBy('name')
             ->values(); // Index neu setzen, weil sortBy Collection zurückgibt
 
         return Inertia::render('Admin/Lake/Index', [
