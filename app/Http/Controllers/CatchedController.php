@@ -18,50 +18,74 @@ class CatchedController extends Controller
 {
     public function index(FilterRequest $request)
     {
+        // Session-Zustand zurücksetzen (falls nötig)
         session()->forget('meta');
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
+        // Gesamtanzahl aller Fänge
         $totalCatchedCount = $user->catched()->count();
 
-        $dateRange = $user->catched()
-            ->selectRaw('MIN(date) as earliest, MAX(date) as latest')
-            ->first();
+        // Frühestes und spätestes Fangdatum
+        $earliestDate = $user->catched()->min('date');
+        $latestDate   = $user->catched()->max('date');
 
+        // Wenn noch keine Fänge vorhanden
+        if (!$earliestDate || !$latestDate) {
+            return Inertia::render('Catched/Index', [
+                'groupedCatcheds' => [],
+                'dateRange'       => null,
+                'totalCatchedCount' => 0,
+                'createUrl'       => route('app.catched.create'),
+                'currentUrl'      => route('app.catched.index'),
+            ]);
+        }
+
+        // Validierte Filter aus Request
         $validated = $request->validated();
 
+        // Start- & Enddatum für Filter
         $startDate = isset($validated['startDate'])
             ? Carbon::parse($validated['startDate'])->startOfDay()
-            : Carbon::parse($dateRange->earliest)->startOfDay();
+            : Carbon::parse($earliestDate)->startOfDay();
 
         $endDate = isset($validated['endDate'])
             ? Carbon::parse($validated['endDate'])->endOfDay()
-            : Carbon::parse($dateRange->latest)->endOfDay();
+            : Carbon::parse($latestDate)->endOfDay();
 
+        // Grundabfrage mit Beziehungen
         $query = $user->catched()
             ->with(['fish', 'lake', 'river'])
             ->whereBetween('date', [$startDate, $endDate]);
 
-        if (!empty($validated['onlyWithDescription']) && filter_var($validated['onlyWithDescription'], FILTER_VALIDATE_BOOLEAN)) {
+        // Optional: nur Fänge mit Beschreibung
+        if (!empty($validated['onlyWithDescription'] ?? false)) {
             $query->whereNotNull('remark')->where('remark', '!=', '');
         }
 
-        $catchedItems = $query
-            ->orderBy('date', 'desc')
-            ->get();
+        // Daten laden und nach Datum absteigend sortieren
+        $catchedItems = $query->orderBy('date', 'desc')->paginate(15)->withQueryString();
 
-        $grouped = $catchedItems->groupBy(fn($item) => $item->date->format('d.m.Y'));
+        // Gruppierung nach Tag
+        $grouped = $catchedItems->getCollection()
+            ->groupBy(fn($item) => $item->date->format('d.m.Y'));
 
+        // Inertia Response
         return Inertia::render('Catched/Index', [
-            'groupedCatcheds' => $grouped,
-            'dateRange' => [
+            'groupedCatcheds'  => $grouped,
+            'dateRange'        => [
                 'startDate' => $startDate,
-                'endDate' => $endDate
+                'endDate'   => $endDate,
             ],
             'totalCatchedCount' => $totalCatchedCount,
-            'createUrl' => route('app.catched.create'),
-            'currentUrl' => route('app.catched.index'),
+            'createUrl'        => route('app.catched.create'),
+            'currentUrl'       => route('app.catched.index'),
+            'pagination' => [
+                'current_page' => $catchedItems->currentPage(),
+                'last_page' => $catchedItems->lastPage(),
+                'next_page_url' => $catchedItems->nextPageUrl(),
+            ],
         ]);
     }
 

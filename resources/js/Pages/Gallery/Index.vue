@@ -1,7 +1,7 @@
 <template>
   <PageWrapper title="Galerie" :backTo="route('app.dashboard')">
     <template v-slot:actions>
-      <!-- <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" /> -->
+      <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" />
       <VDateRangePicker align="right" v-model="dateRange" />
       <ResetButton @click="resetDateRange" />
       <VButton :href="route('app.catched.create')">Eintragen</VButton>
@@ -9,25 +9,20 @@
 
     <div class="w-full m-auto">
 
-
-      <div v-if="catcheds.length === 0">
-        <!-- Empty state and stats cards -->
-        <div>
-          <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />
-
-          <div
-            class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
-            <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Noch keine Schnappschüsse vorhanden
-            </h1>
-            <p class="text-gray-700 dark:text-gray-300 mb-5">Lade deine ersten Bilder hoch!</p>
-
-            <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="route('app.catched.create')">
-              Ersten Fang eintragen
-            </VButton>
-          </div>
+      <!-- Empty State -->
+      <div v-if="catcheds.length === 0" class="text-center">
+        <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />
+        <div
+          class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
+          <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Noch keine Schnappschüsse vorhanden</h1>
+          <p class="text-gray-700 dark:text-gray-300 mb-5">Lade deine ersten Bilder hoch!</p>
+          <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="route('app.catched.create')">
+            Ersten Fang eintragen
+          </VButton>
         </div>
       </div>
 
+      <!-- Galerie -->
       <div class="p-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div v-for="item in catcheds" :key="item.id"
@@ -37,7 +32,7 @@
             <div class="p-4">
               <h2 class="text-lg font-semibold">{{ item.name }}</h2>
               <p class="text-sm text-gray-500">{{ item.date }} - <span class="text-primary-500">{{ item.water.name
-                  }}</span>
+              }}</span>
               </p>
             </div>
             </Link>
@@ -45,111 +40,116 @@
         </div>
       </div>
 
+      <!-- Load More Button -->
+      <div class="text-center my-6">
+        <VButton v-if="nextPageUrl" @click="loadMore" :disabled="isLoadingMore" class="px-6 py-2">
+          {{ isLoadingMore ? 'Lade...' : 'Weitere Fänge laden' }}
+        </VButton>
+        <span v-else class="text-gray-500">Keine weiteren Fänge</span>
+      </div>
     </div>
   </PageWrapper>
 </template>
 
 <script setup lang="ts">
-import VButton from '@/components/VButton.vue';
-import VDateRangePicker from '@/components/VDateRangePicker.vue';
-import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { router } from '@inertiajs/vue3';
+import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
+import VDateRangePicker from '@/components/VDateRangePicker.vue';
+import VButton from '@/components/VButton.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
+import DropdownFilter from '@/components/DropdownFilter.vue';
 
 interface Props {
-  catcheds: Array<Object>,
-  dateRange: {
-    startDate: string;
-    endDate: string;
-  };
+  catcheds: Array<any>,
+  dateRange: { startDate: string; endDate: string },
+  pagination: { next_page_url: string | null }
 }
 
 const props = defineProps<Props>();
 
+// Data
+const catcheds = ref([...props.catcheds]);
+const nextPageUrl = ref(props.pagination.next_page_url);
+const isLoadingMore = ref(false);
+
+const originalDateRange = ref({ ...props.dateRange });
+const dateRange = ref({ ...props.dateRange });
+
 const filters = ref([
   { label: 'Beschreibung', value: 'onlyWithDescription', selected: false },
-])
+]);
 
 let isUpdating = false;
 
-const originalDateRange = ref({
-  startDate: new Date(props.dateRange?.startDate),
-  endDate: new Date(props.dateRange?.endDate)
-});
-
-const dateRange = ref({
-  startDate: new Date(props.dateRange?.startDate || new Date().setDate(new Date().getDate() - 7)),
-  endDate: new Date(props.dateRange?.endDate || new Date())
-});
-
-watch(dateRange, (newRange) => {
-  handleDateRangeUpdate(newRange);
+// Watcher für Datum
+watch(dateRange, (newRange, oldRange) => {
+  if (newRange.startDate !== oldRange.startDate || newRange.endDate !== oldRange.endDate) {
+    search();
+  }
 }, { deep: true });
 
-const getFilterParams = () => {
-  return filters.value
-    .filter(filter => filter.selected)
-    .map(filter => ({ [filter.value]: 1 }))
-    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
-};
-
-const handleDateRangeUpdate = (newRange) => {
-  // Check if both dates are present and valid
-  if (!newRange?.startDate || !newRange?.endDate) {
-    dateRange.value = newRange; // Update local state but don't trigger search
-    return;
-  }
-
-  // Validate dates are actual Date objects
-  if (!(newRange.startDate instanceof Date) || !(newRange.endDate instanceof Date))
-    return;
-
-  // Check if dates are valid (not NaN)
-  if (isNaN(newRange.startDate.getTime()) || isNaN(newRange.endDate.getTime()))
-    return;
-
-  dateRange.value = newRange;
-
-  search();
-};
-
+// Filter Änderungen
 const handleFiltersChanged = (newFilters) => {
   filters.value = newFilters;
-
   search();
 };
 
+// Reset Date Range
 const resetDateRange = () => {
-  dateRange.value = originalDateRange.value;
+  dateRange.value = { ...originalDateRange.value };
   search();
-}
+};
 
+// Filter Param Helper
+const getFilterParams = () => filters.value
+  .filter(f => f.selected)
+  .reduce((acc, f) => ({ ...acc, [f.value]: 1 }), {});
+
+// Search / Filter
 const search = () => {
   if (isUpdating) return;
-
   isUpdating = true;
 
-  const filterParams = getFilterParams();
-
-  const request = {
-    startDate: dateRange.value.startDate.toLocaleString(),
-    endDate: dateRange.value.endDate.toLocaleString(),
-    ...filterParams
-  };
-
   router.get(
-    route('app.gallery.index'), request,
+    route('app.gallery.index'),
+    {
+      startDate: dateRange.value.startDate,
+      endDate: dateRange.value.endDate,
+      ...getFilterParams()
+    },
     {
       preserveState: true,
       preserveScroll: true,
-      onFinish: () => {
-        setTimeout(() => {
-          isUpdating = false;
-        }, 0);
-      }
+      only: ['catcheds', 'pagination'],
+      onSuccess: (page) => {
+        // Neue Items überschreiben
+        catcheds.value = [...page.props.catcheds];
+        nextPageUrl.value = page.props.pagination.next_page_url || null;
+      },
+      onFinish: () => { isUpdating = false; }
     }
   );
+};
+
+// Load More Button
+const loadMore = async () => {
+  if (!nextPageUrl.value || isLoadingMore.value) return;
+
+  isLoadingMore.value = true;
+
+  await router.get(nextPageUrl.value, {}, {
+    preserveState: true,
+    preserveScroll: true,
+    replace: false,
+    only: ['catcheds', 'pagination'],
+    onSuccess: (page) => {
+      // Neue Items anhängen
+      catcheds.value.push(...page.props.catcheds);
+      nextPageUrl.value = page.props.pagination.next_page_url || null;
+    },
+    onFinish: () => { isLoadingMore.value = false; }
+  });
 };
 
 onMounted(() => {

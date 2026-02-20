@@ -10,19 +10,16 @@
 
             <MaxEntriesReachedBanner v-if="!canAddNewEntry()" />
 
-            <!-- Empty state and stats cards -->
-            <div v-if="Object.keys(groupedCatcheds).length === 0" class="">
-
-                <div>
+            <!-- Empty State -->
+            <div v-if="Object.keys(groupedCatcheds).length === 0">
+                <div class="text-center">
                     <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />
-
                     <div
-                        class="mx-auto w-full lg:w-2/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
+                        class="mx-auto w-full lg:w-2/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex flex-col items-center text-center transition-all duration-200 transform hover:scale-105">
                         <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Sieht ganz schön leer hier
                             aus.
                         </h1>
                         <p class="text-gray-700 dark:text-gray-300 mb-5">Trag am Besten deinen ersten Fang ein!</p>
-
                         <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="createUrl">
                             Ersten Fang eintragen
                         </VButton>
@@ -30,6 +27,7 @@
                 </div>
             </div>
 
+            <!-- Fänge gruppiert nach Datum -->
             <div v-for="(items, date) in groupedCatcheds" :key="date" class="py-2">
                 <div>
                     <button @click="toggleOpen(date)"
@@ -50,9 +48,7 @@
                             <span>
                                 <span class="text-primary-500"><b>{{ catched.fish?.name ?? 'Unbekannt' }}</b></span>
                                 -
-                                <span>
-                                    {{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }}
-                                </span>
+                                <span>{{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }}</span>
                             </span>
                             <ChevronRightIcon class="h-6" />
                             </Link>
@@ -60,6 +56,15 @@
                     </div>
                 </transition>
             </div>
+
+            <!-- Load More Button -->
+            <div class="text-center my-6">
+                <VButton v-if="nextPageUrl" @click="loadMore" :disabled="isLoadingMore" class="px-6 py-2">
+                    {{ isLoadingMore ? 'Lade...' : 'Weitere Fänge laden' }}
+                </VButton>
+                <span v-else class="text-gray-500">Keine weiteren Fänge</span>
+            </div>
+
         </div>
     </PageWrapper>
 </template>
@@ -67,124 +72,63 @@
 <script setup lang="ts">
 import { MinusIcon, PlusIcon } from '@heroicons/vue/24/outline'
 import { router, usePage } from '@inertiajs/vue3';
-import VButton from "@/components/VButton.vue";
-import { ChevronRightIcon } from '@heroicons/vue/24/solid';
+import { ref, watch, onMounted } from 'vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { computed, onMounted, ref, watch } from 'vue';
 import VDateRangePicker from '@/components/VDateRangePicker.vue';
+import VButton from "@/components/VButton.vue";
 import ResetButton from '@/components/pagination/ResetButton.vue';
 import MaxEntriesReachedBanner from '@/components/MaxEntriesReachedBanner.vue';
-
-interface Fish { id: number; name: string }
-interface Lake { id: number; name: string }
-interface River { id: number; name: string }
-
-interface CatchedData {
-    id: number;
-    user_id: number;
-    fish?: Fish;
-    lake?: Lake;
-    river?: River;
-    length: number;
-    weight: number;
-    depth: number;
-    temperature: number;
-    date: string;
-    latitude: number;
-    longitude: number;
-    address: string;
-    remark: string;
-    created_at: string;
-    updated_at: string;
-}
+import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 
 interface Props {
     totalCatchedCount: number,
-    groupedCatcheds: Record<string, CatchedData[]>;
-    dateRange: { startDate: string; endDate: string; };
+    groupedCatcheds: Record<string, any[]>,
+    dateRange: { startDate: string; endDate: string },
     createUrl: string,
     currentUrl: string,
+    pagination: { next_page_url: string | null }
 }
 
 const page = usePage()
 const props = defineProps<Props>();
 
+// Date Range & Filters
+const originalDateRange = ref({ ...props.dateRange });
+const dateRange = ref({ ...props.dateRange });
+
+const groupedCatcheds = ref({ ...props.groupedCatcheds });
+const nextPageUrl = ref(props.pagination.next_page_url);
+const isLoadingMore = ref(false);
+
+// Watcher für DateRange
+watch(
+    dateRange,
+    (newRange, oldRange) => {
+        // Prüfen, ob wirklich neue Werte gesetzt wurden
+        if (
+            newRange.startDate !== oldRange.startDate ||
+            newRange.endDate !== oldRange.endDate
+        ) {
+            search();
+        }
+    },
+    { deep: true } // wichtig, weil dateRange ein Objekt ist
+);
+
 const canAddNewEntry = () => {
     if (page.props.auth.user.subscribed) return true;
     return props.totalCatchedCount < 5;
-}
-
-let isUpdating = false;
-
-const originalDateRange = ref({
-    startDate: new Date(props.dateRange?.startDate),
-    endDate: new Date(props.dateRange?.endDate)
-});
-
-const dateRange = ref({
-    startDate: new Date(props.dateRange?.startDate || new Date().setDate(new Date().getDate() - 7)),
-    endDate: new Date(props.dateRange?.endDate || new Date())
-});
-
-const filters = ref([
-    { label: 'Beschreibung', value: 'onlyWithDescription', selected: false },
-])
-
-watch(dateRange, (newRange) => handleDateRangeUpdate(newRange), { deep: true });
-
-const getFilterParams = () => {
-    return filters.value
-        .filter(filter => filter.selected)
-        .map(filter => ({ [filter.value]: 1 }))
-        .reduce((acc, curr) => ({ ...acc, ...curr }), {});
-};
-
-const handleDateRangeUpdate = (newRange) => {
-    if (!newRange?.startDate || !newRange?.endDate) return;
-    if (!(newRange.startDate instanceof Date) || !(newRange.endDate instanceof Date)) return;
-    if (isNaN(newRange.startDate.getTime()) || isNaN(newRange.endDate.getTime())) return;
-
-    dateRange.value = newRange;
-    search();
-};
-
-const resetDateRange = () => {
-    dateRange.value = originalDateRange.value;
-    search();
-}
-
-const search = () => {
-    if (isUpdating) return;
-
-    isUpdating = true;
-
-    const filterParams = getFilterParams();
-
-    router.get(
-        props.currentUrl,
-        {
-            startDate: dateRange.value.startDate.toLocaleString(),
-            endDate: dateRange.value.endDate.toLocaleString(),
-            ...filterParams
-        },
-        {
-            preserveState: true,
-            preserveScroll: true,
-            onFinish: () => { isUpdating = false; }
-        }
-    );
 };
 
 // Accordion state
 const openKeys = ref<string[]>([]);
-
 const isOpen = (date: string) => openKeys.value.includes(date);
-const toggleOpen = (key: string) => {
-    if (openKeys.value.includes(key))
-        openKeys.value = openKeys.value.filter(k => k !== key);
-    else
-        openKeys.value.push(key);
-
+const toggleOpen = (date: string) => {
+    if (openKeys.value.includes(date)) {
+        openKeys.value = openKeys.value.filter(k => k !== date);
+    } else {
+        openKeys.value.push(date);
+    }
     sessionStorage.setItem('catched-open', JSON.stringify(openKeys.value));
 };
 
@@ -194,4 +138,68 @@ onMounted(() => {
         try { openKeys.value = JSON.parse(stored); } catch (_) { openKeys.value = []; }
     }
 });
+
+// Search / Filter
+let isUpdating = false;
+const search = () => {
+    if (isUpdating) return;
+    isUpdating = true;
+
+    router.get(
+        props.currentUrl,
+        {
+            startDate: dateRange.value.startDate,
+            endDate: dateRange.value.endDate,
+            // ggf. Filter-Params
+        },
+        {
+            preserveState: true,
+            preserveScroll: true,
+            only: ['groupedCatcheds', 'pagination'],
+            onSuccess: (page) => {
+                // Neue Daten setzen
+                groupedCatcheds.value = page.props.groupedCatcheds;
+                nextPageUrl.value = page.props.pagination?.next_page_url || null;
+
+                openKeys.value = [];
+                sessionStorage.removeItem('catched-open');
+            },
+            onFinish: () => {
+                isUpdating = false;
+            }
+        }
+    );
+};
+
+
+const resetDateRange = () => {
+    dateRange.value = { ...originalDateRange.value };
+    search();
+};
+
+// Load more
+const loadMore = async () => {
+    if (!nextPageUrl.value || isLoadingMore.value) return;
+
+    isLoadingMore.value = true;
+
+    await router.get(nextPageUrl.value, {}, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: false,
+        only: ['groupedCatcheds', 'pagination'],
+        onSuccess: (page) => {
+            // Neue Items anhängen
+            Object.entries(page.props.groupedCatcheds).forEach(([date, items]) => {
+                if (!groupedCatcheds.value[date]) {
+                    groupedCatcheds.value[date] = items;
+                } else {
+                    groupedCatcheds.value[date].push(...items);
+                }
+            });
+            nextPageUrl.value = page.props.pagination.next_page_url;
+        },
+        onFinish: () => { isLoadingMore.value = false; }
+    });
+};
 </script>

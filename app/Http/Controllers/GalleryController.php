@@ -18,67 +18,59 @@ class GalleryController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Bestimme den frühesten und spätesten Fang
-        $dateRange = $user->catched()
-            ->selectRaw('MIN(date) as earliest, MAX(date) as latest')
-            ->first();
-
         $validated = $request->validated();
+
+        // Filter auf Catched mit Bildern
+        $baseQuery = $user->catched()
+            ->whereHas('media', fn($q) => $q->where('collection_name', 'photos'));
+
+        // earliest / latest nur auf Catched mit Bildern
+        $earliestDate = $user->catched()->min('date');
+        $latestDate   = $user->catched()->max('date');
 
         $startDate = isset($validated['startDate'])
             ? Carbon::parse($validated['startDate'])->startOfDay()
-            : Carbon::parse($dateRange->earliest)->startOfDay();
+            : Carbon::parse($earliestDate)->startOfDay();
 
         $endDate = isset($validated['endDate'])
             ? Carbon::parse($validated['endDate'])->endOfDay()
-            : Carbon::parse($dateRange->latest)->endOfDay();
+            : Carbon::parse($latestDate)->endOfDay();
 
-        // Baue Query für alle Fänge inkl. Gewässer und Media
-        $query = $user->catched()
-            ->with(['media', 'lake', 'river']) // Lade Beziehungen eager
+        $query = $baseQuery
+            ->with(['media', 'lake', 'river'])
             ->whereBetween('date', [$startDate, $endDate]);
 
         if (!empty($validated['onlyWithDescription']) && filter_var($validated['onlyWithDescription'], FILTER_VALIDATE_BOOLEAN)) {
             $query->whereNotNull('remark')->where('remark', '!=', '');
         }
 
-        $catcheds = $query->get()
-            ->filter(fn($catched) => $catched->hasMedia('photos'))
-            ->map(function ($catched) {
-                // Bestimme Gewässer
-                $water = null;
-                if ($catched->lake) {
-                    $water = [
-                        'type' => 'lake',
-                        'id' => $catched->lake->id,
-                        'name' => $catched->lake->name,
-                    ];
-                } elseif ($catched->river) {
-                    $water = [
-                        'type' => 'river',
-                        'id' => $catched->river->id,
-                        'name' => $catched->river->name,
-                    ];
-                }
+        $perPage = 8;
+        $paginated = $query->orderBy('date', 'desc')->paginate($perPage)->withQueryString();
 
-                return [
-                    'id' => $catched->id,
-                    'name' => $catched->name,
-                    'date' => $catched->date->format('d.m.Y'),
-                    'images' => $catched->getMedia('photos')->map(fn($media) => [
-                        'url' => $media->getFullUrl(),
-                    ]),
-                    'water' => $water, // Lake oder River
-                ];
-            })
-            ->values();
+        $catcheds = $paginated->getCollection()
+            ->map(fn($catched) => [
+                'id' => $catched->id,
+                'name' => $catched->name,
+                'date' => $catched->date->format('d.m.Y'),
+                'images' => $catched->getMedia('photos')->map(fn($media) => ['url' => $media->getFullUrl()]),
+                'water' => $catched->lake
+                    ? ['type' => 'lake', 'id' => $catched->lake->id, 'name' => $catched->lake->name]
+                    : ($catched->river ? ['type' => 'river', 'id' => $catched->river->id, 'name' => $catched->river->name] : null)
+            ]);
+
+        $pagination = [
+            'current_page' => $paginated->currentPage(),
+            'last_page' => $paginated->lastPage(),
+            'next_page_url' => $paginated->nextPageUrl(),
+        ];
 
         return Inertia::render('Gallery/Index', [
             'catcheds' => $catcheds,
             'dateRange' => [
                 'startDate' => $startDate,
                 'endDate' => $endDate
-            ]
+            ],
+            'pagination' => $pagination
         ]);
     }
 }
