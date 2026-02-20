@@ -51,7 +51,7 @@ return [
             '2048x2732' => '',
         ],
         'custom' => [
-            'description' => 'PetriLog ist eine moderne Anwendung für Angler mit der du deine Fänge dokumentieren kannst, inklusive Gewicht, Länge, Fangdatum, Ort und Fotos.',
+            'description' => 'PetriLog ist eine moderne Anwendung für Angler mit der du deine Fänge dokumentieren kannst, inklusive Gewicht, Länge, Fangdatum, Ort und Fotos. Es gibt ein Gewässer Wiki indem alle Information zu Flüssen und Seen in Österreich aufgelistet sind inklusive Vereine.',
             "categories" => [
                 "sports",
                 "lifestyle"
