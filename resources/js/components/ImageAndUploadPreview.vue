@@ -1,15 +1,19 @@
 <template>
   <div class="flex gap-2 flex-wrap">
-    <draggable v-model="localList" item-key="key" class="flex gap-2 flex-wrap" @end="onDragEnd">
+    <draggable v-model="localList" item-key="key" class="flex gap-2 flex-wrap" handle=".handle" @end="onDragEnd">
       <template #item="{ element }">
-        <div class="w-28 flex flex-col items-center border p-1 rounded-md cursor-move bg-white dark:bg-gray-800">
-          <img :src="element.url || element.original_url" class="w-20 h-20 object-cover rounded-md border mb-2" />
+        <div class="w-28 flex flex-col items-center border p-1 rounded-md bg-white dark:bg-gray-800">
+          <div class="cursor-move mb-2 handle">
+            <img :src="element.url || element.original_url" class="w-20 h-20 object-cover rounded-md border" />
+          </div>
+
           <div v-if="element.name" class="text-center font-medium truncate w-full text-xs mb-1">
             {{ element.name }}
           </div>
           <div v-if="element.size" class="text-center text-[10px] text-gray-500 mb-2 w-full">
             {{ formatSize(element.size) }}
           </div>
+
           <button type="button"
             class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md font-semibold text-xs text-white uppercase w-full"
             @click="remove(element)">
