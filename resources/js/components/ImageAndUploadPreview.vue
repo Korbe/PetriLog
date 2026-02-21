@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap-2">
-    <draggable v-model="localList" item-key="key" class="flex gap-2">
+  <div class="flex gap-2 flex-wrap">
+    <draggable v-model="localList" item-key="key" class="flex gap-2 flex-wrap" @end="onDragEnd">
       <template #item="{ element }">
         <div class="w-28 flex flex-col items-center border p-1 rounded-md cursor-move bg-white dark:bg-gray-800">
           <img :src="element.url || element.original_url" class="w-20 h-20 object-cover rounded-md border mb-2" />
@@ -30,7 +30,6 @@
       <div class="text-xs text-gray-500 mt-1">Upload</div>
     </div>
 
-    <!-- Unsichtbarer File Input -->
     <input ref="fileInput" type="file" multiple accept="image/*" class="hidden" @change="onFileChange" />
   </div>
 </template>
@@ -43,17 +42,19 @@ import { v4 as uuidv4 } from 'uuid'
 const props = defineProps({
   modelValue: { type: Array, default: () => [] }
 })
-
 const emit = defineEmits(['update:modelValue', 'remove'])
 
 const localList = ref([...props.modelValue])
 const fileInput = ref(null)
 
-watch(() => props.modelValue, val => localList.value = [...val])
-
-watch(localList, val => emit('update:modelValue', val), { deep: true })
+// Synchronisiere nur **wenn Parent sich wirklich ändert**, nicht bei jedem Render
+watch(() => props.modelValue, val => {
+  localList.value = [...val]
+})
 
 function remove(element) {
+  localList.value = localList.value.filter(e => e.key !== element.key)
+  emit('update:modelValue', [...localList.value])
   emit('remove', element)
 }
 
@@ -75,6 +76,7 @@ function onFileChange(event) {
     }
   })
   localList.value.push(...files)
+  emit('update:modelValue', [...localList.value])
   event.target.value = ''
 }
 
@@ -83,5 +85,9 @@ function formatSize(size) {
   if (size < 1024) return size + ' B'
   if (size < 1024 * 1024) return (size / 1024).toFixed(1) + ' KB'
   return (size / (1024 * 1024)).toFixed(1) + ' MB'
+}
+
+function onDragEnd() {
+  emit('update:modelValue', [...localList.value])
 }
 </script>
