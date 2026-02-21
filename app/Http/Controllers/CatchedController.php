@@ -142,8 +142,8 @@ class CatchedController extends Controller
             'air_pressure' => 'nullable|integer',
             'bait' => 'nullable|string',
             'remark' => 'nullable|string',
-            'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:102400',
+            'photos' => 'nullable|array|max:3',
+            'photos.*' => 'image|max:102400',
         ], [
             'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
             'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
@@ -151,16 +151,27 @@ class CatchedController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        $catch = Catched::create($validated);
+        $catched = Catched::create($validated);
 
+        /**
+         * Upload + Reihenfolge speichern
+         */
         if ($request->hasFile('photos')) {
             collect($request->file('photos'))
+                ->values() // Index sauber 0,1,2
                 ->take(3)
-                ->each(fn($photo) => $catch->addMedia($photo)->toMediaCollection('photos'));
+                ->each(function ($photo, $index) use ($catched) {
+                    $catched
+                        ->addMedia($photo)
+                        ->toMediaCollection('photos')
+                        ->update([
+                            'order_column' => $index,
+                        ]);
+                });
         }
 
         return redirect()
-            ->route('app.catched.show', $catch->id)
+            ->route('app.catched.show', $catched->id)
             ->with('success', 'Fang erfolgreich eingetragen.');
     }
 
@@ -172,8 +183,15 @@ class CatchedController extends Controller
         $shareurl = route('public.catched.show', $catched->id);
         $editurl = route('app.catched.edit', $catched->id);
 
+        // Medien sortieren nach order_column
+        $catched->load(['fish', 'lake', 'river']); // lade Relationen
+        $catched->media = collect($catched->getMedia('photos'))
+            ->sortBy(fn($media) => (int) $media->order_column) 
+            ->values()                                         
+            ->map(fn($media) => $media->toArray());
+
         return Inertia::render('Catched/Show', [
-            'catched' => $catched->load(['media', 'fish', 'lake', 'river']),
+            'catched' => $catched,
             'shareUrl' => $shareurl,
             'editUrl' => $editurl,
         ]);
@@ -184,13 +202,16 @@ class CatchedController extends Controller
         session()->forget('meta');
         $this->authorize('update', $catched);
 
+        // Lade Relationen
         $catched->load(['media', 'fish', 'lake', 'river']);
 
+        // Listen für Multiselects
         $rivers = River::orderByDesc('is_default')->orderBy('name')->get();
         $fish = Fish::orderByDesc('is_default')->orderBy('name')->get();
         $lakes  = Lake::orderByDesc('is_default')->orderBy('name')->get();
 
         return Inertia::render('Catched/Edit', [
+            'asdf' => 'asdf',
             'catched' => $catched,
             'fish' => $fish,
             'lakes' => $lakes,
@@ -218,31 +239,47 @@ class CatchedController extends Controller
             'bait' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:102400',
-        ], [
-            'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
-            'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
+            'photos.*' => 'image|max:102400',
+            'photo_order' => 'nullable|array',
         ]);
 
-        $existingCount = $catched->getMedia('photos')->count();
-        $newPhotos = $request->file('photos', []);
-        $remainingSlots = 3 - $existingCount;
-
-        if (count($newPhotos) > $remainingSlots) {
-            return back()->with(
-                'error',
-                "Du kannst maximal 3 Bilder hochladen. Bereits vorhanden: {$existingCount}"
-            );
-        }
-
+        // Basisdaten speichern
         $catched->update($validated);
 
-        foreach ($newPhotos as $photo) {
-            $catched->addMedia($photo)->toMediaCollection('photos');
+        $existingMedia = $catched->getMedia('photos')->keyBy('id');
+        $newFiles = collect($request->file('photos', []));
+
+        $order = $request->input('photo_order', []);
+        $orderedIds = [];
+
+        foreach ($order as $key) {
+            if (str_starts_with($key, 'media-')) {
+                $id = (int) str_replace('media-', '', $key);
+                if ($existingMedia->has($id)) {
+                    $orderedIds[] = $id;
+                }
+            }
+
+            if (str_starts_with($key, 'file-')) {
+                $file = $newFiles->shift();
+                if ($file) {
+                    $media = $catched->addMedia($file)->toMediaCollection('photos');
+                    $orderedIds[] = $media->id;
+                }
+            }
         }
 
-        return redirect()
-            ->route('app.catched.show', $catched->id)
+        // Reihenfolge offiziell speichern
+        Media::setNewOrder($orderedIds);
+
+        // Max 3 Bilder erzwingen
+        $catched->getMedia('photos')
+            ->sortBy('order_column')
+            ->slice(3)
+            ->each
+            ->delete();
+
+        return redirect()->route('app.catched.show', $catched->id)
             ->with('success', 'Fang erfolgreich aktualisiert.');
     }
 

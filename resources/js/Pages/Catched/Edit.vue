@@ -1,18 +1,67 @@
+<template>
+  <PageWrapper title="Fang bearbeiten" :backTo="`/catched/${catched.id}`">
+    <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
+      <FullLoadingScreen v-if="loading" />
+
+      <form @submit.prevent="submit" class="space-y-5">
+
+        <!-- Vorschau + Sortierung -->
+        <ImageAndUploadPreview v-model="images" @remove="removeImage" />
+
+        <VDateTimePicker v-model="form.date" label="Datum" mandatory />
+
+        <!-- Fisch -->
+        <VMultiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
+
+        <!-- Gewässer -->
+        <VMultiselect v-model="selectedLake" :options="lakes" label="name" track-by="id" placeholder="See auswählen" />
+
+        <VMultiselect v-model="selectedRiver" :options="rivers" label="name" track-by="id"
+          placeholder="Fluss auswählen" />
+
+        <!-- Felder -->
+        <VInput label="Länge (cm)" type="number" mandatory v-model="form.length" />
+        <VInput label="Gewicht (g)" type="number" v-model="form.weight" />
+        <VInput label="Tiefe (cm)" type="number" v-model="form.depth" />
+        <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" />
+        <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure" />
+        <VInput label="Köder" v-model="form.bait" />
+        <VEditor label="Bemerkungen" v-model="form.remark" />
+
+        <GoogleMapPicker label="Position auswählen" :initialLat="form.latitude" :initialLng="form.longitude"
+          @locationSelected="updateLocation" />
+
+        <VInput label="Adresse" v-model="form.address" />
+        <VInput label="Latitude" v-model="form.latitude" />
+        <VInput label="Longitude" v-model="form.longitude" />
+
+        <div class="flex justify-end gap-3">
+          <VButton type="submit">Aktualisieren</VButton>
+          <VButton type="button" variant="danger" @click="deleteCatched">
+            Löschen
+          </VButton>
+        </div>
+
+      </form>
+    </div>
+  </PageWrapper>
+</template>
 <script setup>
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
-import VFileInput from '@/components/VFileInput.vue'
 import VButton from '@/components/VButton.vue'
 import VInput from '@/components/VInput.vue'
 import VDateTimePicker from '@/components/VDateTimePicker.vue'
 import { useForm, router, usePage } from '@inertiajs/vue3'
-import { computed, ref, watch } from 'vue'
-import ImagePreview from '@/components/ImagePreview.vue'
+import { computed, onMounted, ref } from 'vue'
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
 import FullLoadingScreen from '@/components/FullLoadingScreen.vue'
-import Multiselect from 'vue-multiselect'
 import VEditor from '@/components/VEditor.vue'
 import VMultiselect from '@/components/VMultiselect.vue'
+import ImageAndUploadPreview from '@/components/ImageAndUploadPreview.vue'
 
+/* ------------------------------------------------------------------ */
+/* Props */
+/* ------------------------------------------------------------------ */
 const props = defineProps({
   catched: Object,
   errors: Object,
@@ -22,8 +71,9 @@ const props = defineProps({
 })
 
 const page = usePage()
-
-// Form-Setup
+/* ------------------------------------------------------------------ */
+/* Form */
+/* ------------------------------------------------------------------ */
 const form = useForm({
   fish_id: props.catched?.fish_id ?? null,
   lake_id: props.catched?.lake_id ?? null,
@@ -32,146 +82,130 @@ const form = useForm({
   weight: props.catched?.weight ?? null,
   depth: props.catched?.depth ?? null,
   temperature: props.catched?.temperature ?? null,
+  air_pressure: props.catched?.air_pressure ?? null,
+  bait: props.catched?.bait ?? null,
+  remark: props.catched?.remark ?? null,
   date: props.catched?.date ? new Date(props.catched.date) : new Date(),
   latitude: props.catched?.latitude ?? null,
   longitude: props.catched?.longitude ?? null,
   address: props.catched?.address ?? null,
-  remark: props.catched?.remark ?? null,
-  air_pressure: props.catched?.air_pressure ?? null,
-  bait: props.catched?.bait ?? null,
-  photos: [],
-  media: props.catched?.media ?? [],
 })
 
-// Upload-Limit
-watch(() => form.photos, newPhotos => {
-  const allowed = 3 - (form.media?.length ?? 0)
-  if (newPhotos.length > allowed) {
-    form.photos = newPhotos.slice(0, allowed)
-  }
-})
+/* ------------------------------------------------------------------ */
+/* Bilder – SINGLE SOURCE OF TRUTH */
+/* ------------------------------------------------------------------ */
+const images = ref([
+  ...(props.catched?.media ?? []),
+])
 
-const canUploadMore = computed(() => (form.media?.length ?? 0) < 3)
-const allImages = computed(() => [...form.media, ...form.photos])
-const loading = ref(false)
+const existingMedia = computed(() =>
+  (props.catched?.media ?? [])
+    .slice()
+    .sort((a, b) => a.order_column - b.order_column)
+    .map(m => ({
+      id: m.id,
+      file_name: m.file_name,
+      size: m.size,
+      url: m.original_url,
+      key: `media-${m.id}`,
+    }))
+)
 
-// Multiselect Computed Properties
+const newUploads = ref([]) // nur neue Files
+
+/* ------------------------------------------------------------------ */
+/* Multiselects */
+/* ------------------------------------------------------------------ */
 const selectedFish = computed({
-  get() { return props.fish.find(f => f.id === form.fish_id) ?? null },
-  set(value) { form.fish_id = value?.id ?? null },
+  get: () => props.fish.find(f => f.id === form.fish_id) ?? null,
+  set: v => (form.fish_id = v?.id ?? null),
 })
 
 const selectedLake = computed({
-  get() { return props.lakes.find(l => l.id === form.lake_id) ?? null },
-  set(value) {
-    form.lake_id = value?.id ?? null
-    if (value) form.river_id = null // Nur Lake oder River erlaubt
+  get: () => props.lakes.find(l => l.id === form.lake_id) ?? null,
+  set: v => {
+    form.lake_id = v?.id ?? null
+    if (v) form.river_id = null
   },
 })
 
 const selectedRiver = computed({
-  get() { return props.rivers.find(r => r.id === form.river_id) ?? null },
-  set(value) {
-    form.river_id = value?.id ?? null
-    if (value) form.lake_id = null // Nur River oder Lake erlaubt
+  get: () => props.rivers.find(r => r.id === form.river_id) ?? null,
+  set: v => {
+    form.river_id = v?.id ?? null
+    if (v) form.lake_id = null
   },
 })
 
-// Submit & Delete
-const submit = () => {
-  loading.value = true
-  form.post(route('app.catched.update', props.catched.id), {
-    onFinish: () => (loading.value = false),
-  })
-}
-
-const deleteCatched = () => {
-  if (confirm('Fang wirklich löschen?')) {
-    form.delete(route('app.catched.destroy', props.catched.id))
+/* ------------------------------------------------------------------ */
+/* Image entfernen */
+/* ------------------------------------------------------------------ */
+const removeImage = (item) => {
+  images.value = images.value.filter(i => i !== item)
+  if (item.id) {
+    router.delete(route('app.catched.photo.delete', item.id))
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Submit */
+/* ------------------------------------------------------------------ */
+const loading = ref(false)
+
+const submit = () => {
+  loading.value = true
+
+  form.transform(data => ({
+    ...data,
+    photos: images.value.filter(i => i.type === 'new').map(f => f.file),
+    photo_order: images.value.map(i => i.key) // jetzt korrekt Reihenfolge
+  })).post(route('app.catched.update', props.catched.id), {
+    onFinish: () => loading.value = false
+  })
+}
+
+/* ------------------------------------------------------------------ */
+/* Delete */
+/* ------------------------------------------------------------------ */
+const deleteCatched = () => {
+  if (!confirm('Fang wirklich löschen?')) return
+  form.delete(route('app.catched.destroy', props.catched.id))
+}
+
+/* ------------------------------------------------------------------ */
+/* Location */
+/* ------------------------------------------------------------------ */
 const updateLocation = ({ lat, lng, address }) => {
   form.latitude = lat
   form.longitude = lng
   form.address = address
 }
 
-const removeImage = item => {
-  if (item.file instanceof File) {
-    form.photos = form.photos.filter(file => file !== item.file)
-    return
-  }
-  if (item.readonly && confirm('Bild wirklich löschen?')) {
-    router.delete(route('app.catched.photo.delete', item.id), {
-      onSuccess: () => { form.media = form.media.filter(m => m.id !== item.id) },
-    })
-  }
-}
+onMounted(() => {
+  // 1️⃣ Bestehende Medien sauber sortieren nach order_column
+  const sortedExisting = (props.catched.media ?? [])
+    .slice() // Kopie, Prop nicht mutieren
+    .sort((a, b) => a.order_column - b.order_column)
+    .map(m => ({
+      ...m,
+      type: 'existing',
+      key: `media-${m.id}`,
+      url: m.original_url,
+      name: m.name,
+      size: m.size,
+    }));
 
+  // 2️⃣ Neue Uploads hinzufügen (noch leer am Anfang)
+  const sortedNewUploads = newUploads.value.map(f => ({
+    file: f,
+    type: 'new',
+    name: f.name,
+    size: f.size,
+    url: URL.createObjectURL(f),
+    key: f._uuid || (f._uuid = crypto.randomUUID()),
+  }));
+
+  // 3️⃣ Single source of truth
+  images.value = [...sortedExisting, ...sortedNewUploads];
+});
 </script>
-
-<template>
-  <PageWrapper title="Fang bearbeiten" :backTo="`/catched/${catched.id}`">
-
-    <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
-      <FullLoadingScreen v-if="loading" />
-
-      <form @submit.prevent="submit" class="space-y-5">
-
-        <!-- File Upload -->
-        <VFileInput v-if="canUploadMore" type="file" v-model="form.photos" :multiple="true" :max="3" accept="image/*"
-          class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
-        <ImagePreview :modelValue="allImages" @remove="removeImage" />
-
-        <VDateTimePicker v-model="form.date" label="Datum" mandatory />
-
-        <!-- Fisch -->
-        <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-          Fischart <span class="text-red-500">*</span>
-        </label>
-        <VMultiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
-        <div v-if="errors?.fish_id" class="text-xs mt-1 text-red-500">{{ errors.fish_id }}</div>
-
-        <!-- Gewässer -->
-        <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-          See auswählen
-        </label>
-        <VMultiselect v-model="selectedLake" :options="lakes" label="name" track-by="id" placeholder="See auswählen" />
-        <div v-if="errors?.lake_id" class="text-xs mt-1 text-red-500">{{ errors.lake_id }}</div>
-
-        <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
-          Fluss auswählen
-        </label>
-        <VMultiselect v-model="selectedRiver" :options="rivers" label="name" track-by="id"
-          placeholder="Fluss auswählen" />
-        <div v-if="errors?.river_id" class="text-xs mt-1 text-red-500">{{ errors.river_id }}</div>
-
-        <p>Dein Gewässer ist nicht dabei? Schreib uns eine Mail an <a class="underline"
-            href="mailto:info@petrilog.com">info@petrilog.com</a></p>
-
-        <!-- Weitere Felder -->
-        <VInput label="Länge (cm)" type="number" mandatory v-model="form.length" :error="errors?.length" />
-        <VInput label="Gewicht (g)" type="number" v-model="form.weight" :error="errors?.weight" />
-        <VInput label="Tiefe (cm)" type="number" v-model="form.depth" :error="errors?.depth" />
-        <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" :error="errors?.temperature" />
-        <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure" :error="errors?.air_pressure" />
-        <VInput label="Köder" type="text" v-model="form.bait" :error="errors?.bait" />
-        <VEditor label="Bemerkungen" v-model="form.remark"/>
-
-        <GoogleMapPicker label="Position auswählen" :initialLat="form.latitude" :initialLng="form.longitude"
-          @locationSelected="updateLocation" />
-        <VInput label="Adresse" v-model="form.address" :error="errors?.address" />
-        <VInput label="Latitude" v-model="form.latitude" :error="errors?.latitude" />
-        <VInput label="Longitude" v-model="form.longitude" :error="errors?.longitude" />
-
-        <div class="flex justify-end">
-          <VButton type="submit">Aktualisieren</VButton>
-          <VButton type="button" @click="deleteCatched" variant="danger"
-            class="ml-3">Löschen</VButton>
-        </div>
-
-      </form>
-    </div>
-  </PageWrapper>
-</template>

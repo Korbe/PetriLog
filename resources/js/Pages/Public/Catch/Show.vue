@@ -4,54 +4,58 @@
     <Head :title="fishName" />
     <PageIllustration />
 
-    <div class="max-w-6xl mt-20 md:mt-10 mx-auto ">
+    <div class="max-w-6xl mt-20 md:mt-10 mx-auto">
 
-      <!-- Mobile Bildergalerie -->
-      <div class="md:hidden grid grid-cols-2 gap-2 mx-2">
-        <div class="col-span-2">
-          <img v-if="props.catched.media?.[0]" @click="openLightbox(0)" :src="props.catched.media[0].original_url"
-            class="w-full h-64 object-cover rounded-lg cursor-pointer" alt="user-image-1" />
-        </div>
-
-        <div v-for="(media, index) in props.catched.media?.slice(1) ?? []" :key="media.id" class="col-span-1">
-          <img @click="openLightbox(index + 1)" :src="media.original_url"
-            class="w-full h-32 object-cover rounded-lg cursor-pointer" :alt="'user-image-' + (index + 2)" />
-        </div>
+      <!-- 📱 Mobile: horizontale Scroll-Slideshow -->
+      <div v-if="media.length" class="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 px-4">
+        <img v-for="(m, i) in media" :key="`mobile-${i}`" :src="m.original_url"
+          class="snap-center shrink-0 w-[85vw] h-64 object-cover rounded-lg cursor-pointer" @click="openLightbox(i)" />
       </div>
 
-      <!-- Fang Info -->
+      <!-- 🖥 Desktop: Grid -->
+      <div v-if="media.length" class="hidden md:grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4 px-3 my-6">
+        <img v-for="(m, i) in media" :key="`desktop-${i}`" :src="m.original_url"
+          class="aspect-[3/2] w-full object-cover rounded-lg cursor-pointer" @click="openLightbox(i)" />
+      </div>
+
+      <!-- 🔍 Lightbox -->
+      <transition name="fade">
+        <div v-if="activeIndex !== null" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          @click.self="closeLightbox">
+          <img :src="media[activeIndex].original_url" class="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl" />
+
+          <!-- ❌ Close Button -->
+          <button class="absolute top-5 right-5 text-white text-3xl" @click="closeLightbox">
+            ×
+          </button>
+
+          <!-- ◀️▶️ Navigation -->
+          <button v-if="media.length > 1" class="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-4xl"
+            @click.stop="prevImage">
+            ‹
+          </button>
+          <button v-if="media.length > 1"
+            class="absolute right-5 top-1/2 transform -translate-y-1/2 text-white text-4xl" @click.stop="nextImage">
+            ›
+          </button>
+        </div>
+      </transition>
+
+      <!-- Restliche Fanginfos wie bisher -->
       <div class="mx-2 mt-5">
         <div class="p-3 border-1 rounded-lg w-full">
           <h1 class="text-5xl text-primary-500">{{ fishName }}</h1>
           <div class="flex justify-between">
             <p class="text-xl">
-              {{ formatDate(catched.date) }} -
-              {{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }}
+              {{ formatDate(catched.date) }} - {{ catched.lake?.name ?? catched.river?.name ?? 'Unbekanntes Gewässer' }}
             </p>
-
-            <VButton v-if="props.catched != null && $page.props?.auth?.user?.id === props.catched.user_id"
+            <VButton v-if="props.catched && $page.props?.auth?.user?.id === props.catched.user_id"
               :href="`/catched/${catched.id}/edit`">
               Bearbeiten
             </VButton>
           </div>
-
           <p>Gefangen von <span class="text-xl"><b>{{ user }}</b></span></p>
         </div>
-      </div>
-
-      <!-- Desktop Bildergalerie -->
-      <div class="hidden md:block">
-        <ul role="list"
-          class="px-5 md:mx-auto my-5 grid w-full grid-cols-3 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
-          <li v-for="(media, index) in props.catched.media ?? []" :key="media.name">
-            <img @click="openLightbox(index)" class="aspect-square sm:aspect-[3/2] w-full rounded-lg object-cover"
-              :src="media.original_url" :alt="'user-image-' + index" />
-          </li>
-
-          <vue-easy-lightbox v-if="isLightboxOpen" :visible="isLightboxOpen"
-            :imgs="props.catched.media?.map(item => item.original_url) ?? []" :index="currentImageIndex"
-            @hide="closeLightbox" />
-        </ul>
       </div>
 
       <!-- Tabelleninfos -->
@@ -126,45 +130,84 @@
 
       <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente"
         buttonText="kostenlos Registrieren" buttonLink="/register" />
+
     </div>
   </Layout>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import VueEasyLightbox from 'vue-easy-lightbox';
-import Layout from '@/Layouts/Public/Layout.vue';
-import PageIllustration from '../PageIllustration.vue';
-import CtaAlternative from '../CtaAlternative.vue';
-import VButton from '@/components/VButton.vue';
-import { Head } from '@inertiajs/vue3';
-import GoogleMap from '@/components/GoogleMap.vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import Layout from '@/Layouts/Public/Layout.vue'
+import PageIllustration from '../PageIllustration.vue'
+import VButton from '@/components/VButton.vue'
+import { Head } from '@inertiajs/vue3'
+import GoogleMap from '@/components/GoogleMap.vue'
+import CtaAlternative from '../CtaAlternative.vue'
 
 const props = defineProps({
   catched: Object,
   user: String,
-});
+})
 
-const mapsLink = `https://www.google.com/maps/search/?api=1&query=${props.catched.latitude},${props.catched.longitude}`;
-const appleMapsLink = `https://maps.apple.com/?ll=${props.catched.latitude},${props.catched.longitude}&q=${encodeURIComponent(props.catched.fish?.name ?? 'Fang')}`;
+const catched = props.catched
 
-const isLightboxOpen = ref(false);
-const currentImageIndex = ref(0);
+// Media-Sortierung nach order_column
+const media = computed(() => {
+  return (catched.media ?? []).slice().sort((a, b) => a.order_column - b.order_column)
+})
+
+const fishName = computed(() => catched.fish?.name ?? 'Unbekannter Fisch')
+
+// Lightbox
+const activeIndex = ref(null)
 
 const openLightbox = (index) => {
-  currentImageIndex.value = index;
-  isLightboxOpen.value = true;
-};
+  activeIndex.value = index
+  document.body.style.overflow = 'hidden'
+}
 
 const closeLightbox = () => {
-  isLightboxOpen.value = false;
-};
+  activeIndex.value = null
+  document.body.style.overflow = ''
+}
 
+const prevImage = () => {
+  if (activeIndex.value === null) return
+  activeIndex.value = (activeIndex.value - 1 + media.value.length) % media.value.length
+}
+
+const nextImage = () => {
+  if (activeIndex.value === null) return
+  activeIndex.value = (activeIndex.value + 1) % media.value.length
+}
+
+// ESC zum Schließen
+const onKey = (e) => {
+  if (e.key === 'Escape') closeLightbox()
+}
+
+onMounted(() => window.addEventListener('keydown', onKey))
+onUnmounted(() => window.removeEventListener('keydown', onKey))
+
+// Maps Links
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${catched.latitude},${catched.longitude}`
+const appleMapsLink = `https://maps.apple.com/?ll=${catched.latitude},${catched.longitude}&q=${encodeURIComponent(catched.fish?.name ?? 'Fang')}`
+
+// Datum formatieren
 const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-};
-
-const fishName = computed(() => props.catched.fish?.name ?? 'Unbekannter Fisch');
-const catched = props.catched;
+  const date = new Date(dateString)
+  return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+}
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

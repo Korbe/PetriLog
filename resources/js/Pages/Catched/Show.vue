@@ -27,6 +27,16 @@
           <button class="absolute top-5 right-5 text-white text-3xl" @click="closeLightbox">
             ×
           </button>
+
+          <!-- ◀️▶️ Navigation -->
+          <button v-if="media.length > 1" class="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-4xl"
+            @click.stop="prevImage">
+            ‹
+          </button>
+          <button v-if="media.length > 1"
+            class="absolute right-5 top-1/2 transform -translate-y-1/2 text-white text-4xl" @click.stop="nextImage">
+            ›
+          </button>
         </div>
       </transition>
 
@@ -170,7 +180,10 @@ const formatDate = (dateString) => {
   return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 };
 
-const media = computed(() => props.catched?.media ?? [])
+const media = computed(() => {
+  return (props.catched?.media ?? []).slice() // Kopie, damit wir das Original nicht mutieren
+    .sort((a, b) => a.order_column - b.order_column)
+})
 
 const activeIndex = ref(null)
 
@@ -182,6 +195,16 @@ const openLightbox = index => {
 const closeLightbox = () => {
   activeIndex.value = null
   document.body.style.overflow = ''
+}
+
+const prevImage = () => {
+  if (activeIndex.value === null) return
+  activeIndex.value = (activeIndex.value - 1 + media.value.length) % media.value.length
+}
+
+const nextImage = () => {
+  if (activeIndex.value === null) return
+  activeIndex.value = (activeIndex.value + 1) % media.value.length
 }
 
 const onKey = e => {

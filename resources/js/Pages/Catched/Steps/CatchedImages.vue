@@ -1,32 +1,150 @@
 <template>
-  <p class="text-center block text-md font-medium text-gray-700 dark:text-gray-400 mb-5">Lade maximal drei Bilder hoch</p>
-    <VPrettyFileInput v-if="canUploadMore" type="file" v-model="props.modelValue.photos" :multiple="true" :max="3" accept="image/*"
-        class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
+  <div>
+    <!-- Info -->
+    <p class="text-center block text-md font-medium text-gray-700 dark:text-gray-400 mb-5">
+      Lade maximal drei Bilder hoch
+    </p>
 
-    <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
-    <div v-if="errors?.['photos.1']" class="text-xs mt-1 text-red-500">{{ errors['photos.1'] }}</div>
-    <div v-if="errors?.['photos.2']" class="text-xs mt-1 text-red-500">{{ errors['photos.2'] }}</div>
+    <!-- Vorschau + Drag & Drop -->
+    <div class="flex flex-wrap justify-center gap-2 min-h-[80px]">
+      <draggable v-model="localItems" item-key="uid" :animation="150" ghost-class="ghost-preview" @end="onDragEnd"
+        class="flex flex-wrap justify-center gap-2">
+        <template #item="{ element }">
+          <div class="w-28 flex flex-col items-center border p-1 rounded-md cursor-move bg-white dark:bg-gray-800">
+            <img :src="element.url" class="w-20 h-20 object-cover rounded-md border mb-2" alt="Preview" />
+            <div v-if="element.name" class="text-center font-medium truncate w-full text-xs mb-1">
+              {{ element.name }}
+            </div>
+            <div v-if="element.size" class="text-center text-[10px] text-gray-500 mb-2 w-full">
+              {{ formatSize(element.size) }}
+            </div>
+            <button type="button"
+              class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md font-semibold text-xs text-white uppercase w-full"
+              @click="removeItem(element)">
+              Entfernen
+            </button>
+          </div>
+        </template>
+      </draggable>
 
+      <!-- Plus-Karte zum Upload -->
+      <div v-if="localItems.length < 3"
+        class="w-28 h-28 flex flex-col items-center justify-center border-dashed border-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+        @click="triggerFileInput">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        <div class="text-xs text-gray-500 mt-1">Upload</div>
+      </div>
 
-    <ImagePreview :modelValue="props.modelValue.photos" @remove="removeImage" />
+      <!-- Unsichtbares File Input -->
+      <input type="file" ref="fileInput" class="hidden" multiple @change="onFileChange" accept="image/*" />
+    </div>
+
+    <!-- Fehleranzeige -->
+    <div v-for="(err, idx) in photoErrors" :key="idx" v-if="err" class="text-xs mt-1 text-red-500">
+      {{ err }}
+    </div>
+  </div>
 </template>
+
 <script setup>
-import ImagePreview from '../../../components/ImagePreview.vue';
-import { computed } from 'vue';
-import VPrettyFileInput from '@/components/VPrettyFileInput.vue';
+import { ref, onBeforeUnmount, watch, computed } from 'vue'
+import draggable from 'vuedraggable'
 
 const props = defineProps({
-    modelValue: Object,
-    errors: Object
+  modelValue: Object, // { photos: [] }
+  errors: Object
 })
 
-const emit = defineEmits(['update:modelValue'])
+const photoErrors = computed(() => {
+  return Array.from({ length: 3 }, (_, i) => props.errors?.[`photos.${i}`] ?? null)
+})
 
-const canUploadMore = computed(() => {
-  return (props.modelValue.photos?.length ?? 0) < 3;
-});
+const emit = defineEmits(['update:modelValue', 'reorder', 'remove'])
 
-const removeImage = (item) => {
-  props.modelValue.photos = props.modelValue.photos.filter(file => file !== item.file)
+const localItems = ref([])
+const previews = ref([])
+
+// Init aus props.modelValue.photos
+watch(
+  () => props.modelValue.photos,
+  (files) => {
+    if (!files) {
+      localItems.value = []
+      return
+    }
+    localItems.value = files.map(f => ({
+      ...f,
+      uid: f.uid || `file-${Math.random().toString(36).substr(2, 9)}`,
+      url: f.url || (f.file ? URL.createObjectURL(f.file) : '')
+    }))
+  },
+  { immediate: true, deep: true }
+)
+
+// Neues File bauen
+const buildItem = (file) => {
+  const url = URL.createObjectURL(file)
+  previews.value.push(url)
+  return {
+    file,
+    uid: `file-${Math.random().toString(36).substr(2, 9)}`,
+    name: file.name,
+    size: file.size,
+    url,
+  }
 }
+
+// File Input Trigger
+const fileInput = ref(null)
+const triggerFileInput = () => fileInput.value?.click()
+
+// Dateien auswählen / hinzufügen
+const onFileChange = (e) => {
+  const files = Array.from(e.target.files)
+  const availableSlots = 3 - localItems.value.length
+  if (availableSlots <= 0) { e.target.value = ''; return }
+
+  const filesToAdd = files.slice(0, availableSlots).map(buildItem)
+  localItems.value.push(...filesToAdd)
+  emit('update:modelValue', { ...props.modelValue, photos: localItems.value })
+  e.target.value = ''
+}
+
+// Drag & Drop Ende
+const onDragEnd = () => emit('reorder', localItems.value)
+
+// Einzelnes Item entfernen
+const removeItem = (item) => {
+  localItems.value = localItems.value.filter(i => i.uid !== item.uid)
+  emit('update:modelValue', { ...props.modelValue, photos: localItems.value })
+}
+
+// Dateigrößen formatieren
+const formatSize = (bytes) => {
+  if (!bytes) return null
+  const i = Math.floor(Math.log(bytes) / Math.log(1024))
+  return (bytes / Math.pow(1024, i)).toFixed(2) + [' B', ' kB', ' MB'][i]
+}
+
+// ObjectURLs freigeben
+onBeforeUnmount(() => previews.value.forEach(URL.revokeObjectURL))
 </script>
+
+<style scoped>
+.ghost-preview {
+  opacity: 0.5;
+  border: 2px dashed #9ca3af;
+  background-color: white;
+}
+
+.cursor-move {
+  cursor: grab;
+}
+
+.cursor-move:active {
+  cursor: grabbing;
+}
+</style>
