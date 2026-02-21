@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUnmount, watch, computed } from 'vue'
+import { ref, onBeforeUnmount, computed } from 'vue'
 import draggable from 'vuedraggable'
 
 const props = defineProps({
@@ -58,38 +58,22 @@ const props = defineProps({
   errors: Object
 })
 
+const emit = defineEmits(['update:modelValue', 'reorder', 'remove'])
+
+const localItems = ref([])      // { file, uid, name, size, url }
+const previews = ref([])
+
+// Photo-Fehler
 const photoErrors = computed(() => {
   return Array.from({ length: 3 }, (_, i) => props.errors?.[`photos.${i}`] ?? null)
 })
-
-const emit = defineEmits(['update:modelValue', 'reorder', 'remove'])
-
-const localItems = ref([])
-const previews = ref([])
-
-// Init aus props.modelValue.photos
-watch(
-  () => props.modelValue.photos,
-  (files) => {
-    if (!files) {
-      localItems.value = []
-      return
-    }
-    localItems.value = files.map(f => ({
-      ...f,
-      uid: f.uid || `file-${Math.random().toString(36).substr(2, 9)}`,
-      url: f.url || (f.file ? URL.createObjectURL(f.file) : '')
-    }))
-  },
-  { immediate: true, deep: true }
-)
 
 // Neues File bauen
 const buildItem = (file) => {
   const url = URL.createObjectURL(file)
   previews.value.push(url)
   return {
-    file,
+    file, // wichtig: echte File-Objekte behalten
     uid: `file-${Math.random().toString(36).substr(2, 9)}`,
     name: file.name,
     size: file.size,
@@ -109,17 +93,22 @@ const onFileChange = (e) => {
 
   const filesToAdd = files.slice(0, availableSlots).map(buildItem)
   localItems.value.push(...filesToAdd)
-  emit('update:modelValue', { ...props.modelValue, photos: localItems.value })
+
+  // Nur echte File-Objekte an Parent weitergeben
+  emit('update:modelValue', { ...props.modelValue, photos: localItems.value.map(i => i.file) })
+
   e.target.value = ''
 }
 
 // Drag & Drop Ende
-const onDragEnd = () => emit('reorder', localItems.value)
+const onDragEnd = () => {
+  emit('reorder', localItems.value.map(i => i.file)) // nur Files
+}
 
 // Einzelnes Item entfernen
 const removeItem = (item) => {
   localItems.value = localItems.value.filter(i => i.uid !== item.uid)
-  emit('update:modelValue', { ...props.modelValue, photos: localItems.value })
+  emit('update:modelValue', { ...props.modelValue, photos: localItems.value.map(i => i.file) })
 }
 
 // Dateigrößen formatieren
