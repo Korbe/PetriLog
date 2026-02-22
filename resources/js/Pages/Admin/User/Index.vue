@@ -140,7 +140,6 @@ interface User {
 
 const props = defineProps<{
     users: User[]
-    currentUserId: number
 }>()
 
 const search = ref('')

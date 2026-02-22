@@ -45,6 +45,7 @@ import VEditor from '@/components/VEditor.vue'
 
 const props = defineProps({
     fish: Object,
+    errors: Object,
 })
 
 const form = useForm({
