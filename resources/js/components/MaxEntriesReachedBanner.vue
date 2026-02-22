@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-red-50 dark:bg-red-900 border-l-4 border-red-400 dark:border-red-700 p-4 rounded-lg shadow-md text-center mb-5">
+        class="my-5 bg-red-50 dark:bg-red-900 border-l-4 border-red-400 dark:border-red-700 p-4 rounded-lg shadow-md text-center mb-5">
         <p class="text-red-800 dark:text-red-100 text-sm font-medium">
             Du hast das Gratis-Limit von 5 Einträgen erreicht. <br />
             Mit einem Abo kannst du alle Funktionen ohne Limit nutzen!
