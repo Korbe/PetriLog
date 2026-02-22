@@ -7,22 +7,30 @@
 
     <!-- Vorschau + Drag & Drop -->
     <div class="flex flex-wrap justify-center gap-2 min-h-[80px]">
-      <draggable v-model="localItems" item-key="uid" :animation="150" ghost-class="ghost-preview" @end="onDragEnd"
-        class="flex flex-wrap justify-center gap-2">
+      <draggable v-model="localItems" item-key="uid" :animation="150" ghost-class="ghost-preview" handle=".drag-handle"
+        @end="onDragEnd" class="flex flex-wrap justify-center gap-2">
         <template #item="{ element }">
-          <div class="w-28 flex flex-col items-center border p-1 rounded-md cursor-move bg-white dark:bg-gray-800">
-            <img :src="element.url" class="w-20 h-20 object-cover rounded-md border mb-2" alt="Preview" />
+          <div class="w-28 flex flex-col items-center border p-1 rounded-md bg-white dark:bg-gray-800">
+
+            <!-- Drag Handle (nur dieser Bereich ist ziehbar) -->
+            <div class="drag-handle cursor-move mb-2">
+              <img :src="element.url" class="w-20 h-20 object-cover rounded-md border" alt="Preview" />
+            </div>
+
             <div v-if="element.name" class="text-center font-medium truncate w-full text-xs mb-1">
               {{ element.name }}
             </div>
+
             <div v-if="element.size" class="text-center text-[10px] text-gray-500 mb-2 w-full">
               {{ formatSize(element.size) }}
             </div>
+
             <button type="button"
               class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md font-semibold text-xs text-white uppercase w-full"
               @click="removeItem(element)">
               Entfernen
             </button>
+
           </div>
         </template>
       </draggable>
