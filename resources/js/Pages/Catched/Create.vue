@@ -133,6 +133,20 @@ watch(
         }
     }
 );
+
+const stepProps = computed(() => {
+  const step = activeSteps.value[currentStep.value].component
+
+  if (step === CatchedBasicData || step === CatchedExpress) {
+    return {
+      fish: props.fish,
+      lakes: props.lakes,
+      rivers: props.rivers,
+    }
+  }
+
+  return {}
+})
 </script>
 
 <template>
@@ -218,7 +232,7 @@ watch(
             <!-- Step Content -->
             <div class="max-w-xl mx-auto">
                 <component v-if="!loading" :is="activeSteps[currentStep].component" v-model="form" :errors="errors"
-                    :fish="props.fish" :lakes="props.lakes" :rivers="props.rivers" />
+                    v-bind="stepProps"/>
 
                 <FullLoadingScreen v-if="loading" />
 

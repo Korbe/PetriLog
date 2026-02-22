@@ -51,9 +51,11 @@
     </div>
 
     <!-- Fehleranzeige -->
-    <div v-for="(err, idx) in photoErrors" :key="idx" v-if="err" class="text-xs mt-1 text-red-500">
-      {{ err }}
-    </div>
+    <template v-for="(err, idx) in photoErrors" :key="idx">
+      <div v-if="err" class="text-xs mt-1 text-red-500">
+        {{ err }}
+      </div>
+    </template>
   </div>
 </template>
 

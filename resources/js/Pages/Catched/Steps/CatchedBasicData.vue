@@ -4,7 +4,7 @@
         <label class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
             Fischart <span class="text-red-500">*</span>
         </label>
-        <VMultiselect ref="ms" @open="onOpen" v-model="selectedFish" :options="fish" label="name" track-by="id"
+        <VMultiselect ref="ms" v-model="selectedFish" :options="fish" label="name" track-by="id"
             placeholder="Fisch auswählen" />
         <div v-if="errors?.fish_id" class="text-xs mt-1 text-red-500">{{ errors.fish_id }}</div>
 
