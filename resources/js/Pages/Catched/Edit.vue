@@ -6,7 +6,7 @@
       <form @submit.prevent="submit" class="space-y-5">
 
         <!-- Vorschau + Sortierung -->
-        <ImageAndUploadPreview v-model="images" @remove="removeImage" />
+        <ImageAndUploadPreview v-model="images" />
 
         <VDateTimePicker v-model="form.date" label="Datum" mandatory />
 
@@ -37,12 +37,38 @@
 
         <div class="flex justify-end gap-3">
           <VButton type="submit">Aktualisieren</VButton>
-          <VButton type="button" variant="danger" @click="deleteCatched">
+          <VButton type="button" variant="danger" @click="showDeleteDialog = true">
             Löschen
           </VButton>
         </div>
 
       </form>
+
+      <transition name="fade">
+        <div v-if="showDeleteDialog" class="fixed inset-0 z-50 flex items-center justify-center">
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-black/50" @click="showDeleteDialog = false" />
+
+          <!-- Dialog -->
+          <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 z-10">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              Fang löschen?
+            </h2>
+
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              Dieser Fang wird <strong>dauerhaft gelöscht</strong>.
+              Dieser Vorgang kann nicht rückgängig gemacht werden.
+            </p>
+
+            <div class="flex justify-end gap-3">
+              <VButton variant="secondary" @click="showDeleteDialog = false">Abbrechen</VButton>
+              <VButton variant="danger" @click="deleteCatched">Ja, löschen</VButton>
+            </div>
+          </div>
+        </div>
+      </transition>
+
+
     </div>
   </PageWrapper>
 </template>
@@ -138,16 +164,6 @@ const selectedRiver = computed({
 })
 
 /* ------------------------------------------------------------------ */
-/* Image entfernen */
-/* ------------------------------------------------------------------ */
-const removeImage = (item) => {
-  images.value = images.value.filter(i => i !== item)
-  if (item.id) {
-    router.delete(route('app.catched.photo.delete', item.id))
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /* Submit */
 /* ------------------------------------------------------------------ */
 const loading = ref(false)
@@ -167,9 +183,14 @@ const submit = () => {
 /* ------------------------------------------------------------------ */
 /* Delete */
 /* ------------------------------------------------------------------ */
+const showDeleteDialog = ref(false)
+
 const deleteCatched = () => {
-  if (!confirm('Fang wirklich löschen?')) return
-  form.delete(route('app.catched.destroy', props.catched.id))
+  form.delete(route('app.catched.destroy', props.catched.id), {
+    onFinish: () => {
+      showDeleteDialog.value = false
+    },
+  })
 }
 
 /* ------------------------------------------------------------------ */
@@ -209,3 +230,14 @@ onMounted(() => {
   images.value = [...sortedExisting, ...sortedNewUploads];
 });
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

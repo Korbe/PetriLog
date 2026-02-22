@@ -238,14 +238,14 @@ const stepProps = computed(() => {
 
                 <!-- Navigation -->
                 <div class="mt-6 flex justify-between">
-                    <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded" :disabled="currentStep === 0"
+                    <VButton variant="secondary" :disabled="currentStep === 0"
                         @click="prevStep">
                         Zurück
-                    </button>
+                    </VButton>
 
-                    <button class="px-4 py-2 bg-primary-500 text-white rounded" @click="nextStep">
+                    <VButton @click="nextStep">
                         {{ currentStep === activeSteps.length - 1 ? 'Fertig' : 'Weiter' }}
-                    </button>
+                    </VButton>
                 </div>
             </div>
         </div>
