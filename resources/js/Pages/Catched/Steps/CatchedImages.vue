@@ -66,7 +66,7 @@ const props = defineProps({
   errors: Object
 })
 
-const emit = defineEmits(['update:modelValue', 'reorder', 'remove'])
+const emit = defineEmits(['update:modelValue', 'remove'])
 
 const localItems = ref([])      // { file, uid, name, size, url }
 const previews = ref([])
@@ -110,7 +110,10 @@ const onFileChange = (e) => {
 
 // Drag & Drop Ende
 const onDragEnd = () => {
-  emit('reorder', localItems.value.map(i => i.file)) // nur Files
+  emit('update:modelValue', {
+    ...props.modelValue,
+    photos: localItems.value.map(i => i.file),
+  })
 }
 
 // Einzelnes Item entfernen
