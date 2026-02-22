@@ -9,10 +9,9 @@
 
             <!-- Suchfeld -->
             <div class="px-5 mt-4">
-                <input type="text" v-model="search" placeholder="Suche nach Seen..."
+                <input type="text" v-model="search" placeholder="Suche nach Vereinen..."
                     class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200" />
             </div>
-
 
             <div class="mt-8 mx-5 overflow-x-auto bg-white dark:bg-gray-800 rounded-lg">
                 <div class="p-4">
@@ -21,29 +20,42 @@
                             <tr>
                                 <th scope="col"
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    Name</th>
+                                    Name
+                                </th>
                                 <th scope="col"
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    Bundesland</th>
+                                    Bundesland
+                                </th>
                                 <th scope="col"
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    Anzeigen</th>
+                                    Anzeigen
+                                </th>
                             </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-200">
-                            <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                v-for="assoc in filteredAssociation" :key="assoc.id">
-                                <td @click="goToEdit(assoc.id)"
+                            <tr v-for="assoc in filteredAssociation" :key="assoc.id"
+                                class="hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                                <!-- Name -->
+                                <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    {{ assoc.name }}
+                                    <Link :href="route('admin.association.edit', assoc.id)">
+                                        {{ assoc.name }}
+                                    </Link>
                                 </td>
-                                <td @click="goToEdit(assoc.id)"
-                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
-                                    <span
-                                        class="inline-block mr-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">
-                                        {{ assoc.state.name }}
-                                    </span>
+
+                                <!-- Bundesland -->
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
+                                    <Link :href="route('admin.association.edit', assoc.id)">
+                                        <span
+                                            class="inline-block mr-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">
+                                            {{ assoc.state.name }}
+                                        </span>
+                                    </Link>
                                 </td>
+
+                                <!-- Anzeigen Button -->
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
                                     <VButton :href="`/states/${assoc.state.id}/associations/${assoc.id}`">anzeigen
@@ -51,6 +63,7 @@
                                 </td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -61,7 +74,7 @@
 <script setup lang="ts">
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 
 interface State {
@@ -73,27 +86,19 @@ interface Association {
     id: number;
     name: string;
     desc: string;
-    state: State
+    state: State;
 }
 
 const props = defineProps<{
     associations: Association[];
 }>();
 
-const search = ref(''); // Suchbegriff
+const search = ref('');
 
-// Computed für gefilterte Seen
 const filteredAssociation = computed(() => {
     if (!search.value) return props.associations;
-    return props.associations.filter(association =>
-        association.name.toLowerCase().includes(search.value.toLowerCase())
+    return props.associations.filter(a =>
+        a.name.toLowerCase().includes(search.value.toLowerCase())
     );
 });
-
-function goToEdit(associationId: number) {
-    Inertia.visit(route('admin.association.edit', associationId), {
-        preserveScroll: true,
-        preserveState: true,
-    });
-}
 </script>

@@ -6,7 +6,6 @@
         </template>
 
         <div class="space-y-5">
-
             <!-- Suchfeld -->
             <div class="px-5 mt-4">
                 <input type="text" v-model="search" placeholder="Suche nach Seen..."
@@ -27,19 +26,23 @@
                                 <th scope="col"
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
                                     Anzeigen</th>
-
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                v-for="lake in filteredLakes" :key="lake.id">
-                                <td @click="goToEdit(lake.id)"
+                            <tr v-for="lake in filteredLakes" :key="lake.id"
+                                class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <!-- Hier Inertia Link nutzen -->
+                                <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    {{ lake.name }}
+                                    <Link :href="route('admin.lake.edit', lake.id)">
+                                        {{ lake.name }}
+                                    </Link>
                                 </td>
+
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300">
                                     {{ lake.fish.length }}
                                 </td>
+
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300 space-x-2">
                                     <VButton v-for="state in lake.states" :key="state.id"
@@ -57,7 +60,7 @@
 <script setup lang="ts">
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 
 interface State {
@@ -78,18 +81,10 @@ const props = defineProps<{
 
 const search = ref(''); // Suchbegriff
 
-// Computed für gefilterte Seen
 const filteredLakes = computed(() => {
     if (!search.value) return props.lakes;
     return props.lakes.filter(lake =>
         lake.name.toLowerCase().includes(search.value.toLowerCase())
     );
 });
-
-function goToEdit(lakeId: number) {
-    Inertia.visit(route('admin.lake.edit', lakeId), {
-        preserveScroll: true,
-        preserveState: true,
-    });
-}
 </script>

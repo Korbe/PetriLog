@@ -29,12 +29,16 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                v-for="river in filteredRivers" :key="river.id">
-                                <td @click="goToEdit(river.id)"
+                            <tr v-for="river in filteredRivers" :key="river.id"
+                                class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <!-- Inertia Link statt @click -->
+                                <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    {{ river.name }}
+                                    <Link :href="route('admin.river.edit', river.id)">
+                                        {{ river.name }}
+                                    </Link>
                                 </td>
+
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-700 dark:text-gray-300 space-x-2">
                                     <VButton v-for="state in river.states" :key="state.id"
@@ -52,7 +56,7 @@
 <script setup lang="ts">
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 
 interface State {
@@ -72,18 +76,10 @@ const props = defineProps<{
 
 const search = ref(''); // Suchbegriff
 
-// Computed für gefilterte Flüsse
 const filteredRivers = computed(() => {
     if (!search.value) return props.rivers;
     return props.rivers.filter(river =>
         river.name.toLowerCase().includes(search.value.toLowerCase())
     );
 });
-
-function goToEdit(riverId: number) {
-    Inertia.visit(route('admin.river.edit', riverId), {
-        preserveScroll: true,
-        preserveState: true,
-    });
-}
 </script>

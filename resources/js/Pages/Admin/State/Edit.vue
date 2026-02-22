@@ -43,6 +43,7 @@ import VEditor from '@/components/VEditor.vue';
 
 const props = defineProps({
     state: Object,
+    errors: Object,
 });
 
 // Form initialisieren mit bestehenden Daten

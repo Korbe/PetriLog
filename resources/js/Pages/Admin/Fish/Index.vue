@@ -20,7 +20,8 @@
                             <tr>
                                 <th scope="col"
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    Name</th>
+                                    Name
+                                </th>
                                 <th scope="col"
                                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">
                                     Verwendet in Fluss
@@ -35,27 +36,41 @@
                                 </th>
                             </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-200">
-                            <tr class="cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700"
-                                v-for="fish in filteredFish" :key="fish.id">
-                                <td @click="goToEdit(fish.id)"
+                            <tr v-for="fish in filteredFish" :key="fish.id"
+                                class="hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                                <!-- Name, klickbar über Inertia Link -->
+                                <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
-                                    {{ fish.name }}
+                                    <Link :href="route('admin.fish.edit', fish.id)">
+                                        {{ fish.name }}
+                                    </Link>
                                 </td>
-                                <td @click="goToEdit(fish.id)"
-                                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ fish.rivers_count }}
+
+                                <!-- Rivers Count -->
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                    <Link :href="route('admin.fish.edit', fish.id)">
+                                        {{ fish.rivers_count }}
+                                    </Link>
                                 </td>
-                                <td @click="goToEdit(fish.id)"
-                                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ fish.lakes_count }}
+
+                                <!-- Lakes Count -->
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                    <Link :href="route('admin.fish.edit', fish.id)">
+                                        {{ fish.lakes_count }}
+                                    </Link>
                                 </td>
+
+                                <!-- Anzeigen Button -->
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-400 sm:pl-0">
                                     <VButton :href="`/fish/${fish.id}`">anzeigen</VButton>
                                 </td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -66,7 +81,7 @@
 <script setup lang="ts">
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 
 interface Fish {
@@ -81,20 +96,12 @@ const props = defineProps<{
     fishs: Fish[];
 }>();
 
-const search = ref(''); // Suchbegriff
+const search = ref('');
 
-// Computed für gefilterte Fische
 const filteredFish = computed(() => {
     if (!search.value) return props.fishs;
     return props.fishs.filter(f =>
         f.name.toLowerCase().includes(search.value.toLowerCase())
     );
 });
-
-function goToEdit(fishId: number) {
-    Inertia.visit(route('admin.fish.edit', fishId), {
-        preserveScroll: true,
-        preserveState: true,
-    });
-}
 </script>
