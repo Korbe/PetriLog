@@ -74,10 +74,26 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(reg => console.log('Service Worker registered!', reg))
-                    .catch(err => console.log('Service Worker registration failed:', err));
+            window.addEventListener('load', async function() {
+                try {
+                    // 1️⃣ Alle alten Service Worker holen
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+
+                    // 2️⃣ Alle alten SW de-registrieren
+                    for (const reg of registrations) {
+                        console.log('Unregistering old SW:', reg.scope);
+                        await reg.unregister();
+                    }
+
+                    // 3️⃣ Neuen Service Worker registrieren
+                    const reg = await navigator.serviceWorker.register('/service-worker.js', {
+                        scope: '/'
+                    });
+                    console.log('Service Worker registered!', reg.scope);
+
+                } catch (err) {
+                    console.error('Service Worker registration failed:', err);
+                }
             });
         }
     </script>
