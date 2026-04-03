@@ -57,8 +57,7 @@ class Catched extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('photos')
-             ->useFallbackUrl('/logo.png')
+        $this->addMediaCollection('photos')->useFallbackUrl('/logo.png');
     }
 
     public function registerMediaConversions(?Media $media = null): void
