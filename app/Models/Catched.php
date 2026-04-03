@@ -59,7 +59,6 @@ class Catched extends Model implements HasMedia
     {
         $this->addMediaCollection('photos')
              ->useFallbackUrl('/logo.png')
-             ->maxFileSize(20 * 1024 * 1024);
     }
 
     public function registerMediaConversions(?Media $media = null): void

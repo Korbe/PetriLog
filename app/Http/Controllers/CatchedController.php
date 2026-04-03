@@ -164,7 +164,6 @@ class CatchedController extends Controller
                 ->each(function ($photo, $index) use ($catched) {
                     $catched
                         ->addMedia($photo)
-                        ->maxFileSize(20 * 1024 * 1024)
                         ->toMediaCollection('photos')
                         ->update([
                             'order_column' => $index,
@@ -274,7 +273,6 @@ class CatchedController extends Controller
                 if ($file) {
                     $media = $catched
                         ->addMedia($file)
-                        ->maxFileSize(20 * 1024 * 1024) // 20MB
                         ->toMediaCollection('photos');
 
                     $orderedIds[] = $media->id;
