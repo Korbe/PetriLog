@@ -147,6 +147,7 @@ class CatchedController extends Controller
         ], [
             'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
             'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
+            'photos.*.max' => 'Ein Foto darf maximal 20 MB groß sein.',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -241,6 +242,10 @@ class CatchedController extends Controller
             'photos' => 'nullable|array',
             'photos.*' => 'image|max:20480', // 20MB
             'photo_order' => 'nullable|array',
+        ], [
+            'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
+            'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
+            'photos.*.max' => 'Ein Foto darf maximal 20 MB groß sein.',
         ]);
 
         // Basisdaten speichern
