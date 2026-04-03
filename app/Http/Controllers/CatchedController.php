@@ -143,7 +143,7 @@ class CatchedController extends Controller
             'bait' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array|max:3',
-            'photos.*' => 'image|max:102400',
+            'photos.*' => 'image|max:20480', // 20MB
         ], [
             'lake_id.required_without' => 'Bitte wähle entweder einen See oder einen Fluss aus.',
             'river_id.required_without' => 'Bitte wähle entweder einen Fluss oder einen See aus.',
@@ -239,7 +239,7 @@ class CatchedController extends Controller
             'bait' => 'nullable|string',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
-            'photos.*' => 'image|max:102400',
+            'photos.*' => 'image|max:20480', // 20MB
             'photo_order' => 'nullable|array',
         ]);
 
