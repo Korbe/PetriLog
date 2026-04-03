@@ -164,6 +164,7 @@ class CatchedController extends Controller
                 ->each(function ($photo, $index) use ($catched) {
                     $catched
                         ->addMedia($photo)
+                        ->maxFileSize(20 * 1024 * 1024)
                         ->toMediaCollection('photos')
                         ->update([
                             'order_column' => $index,
@@ -187,8 +188,8 @@ class CatchedController extends Controller
         // Medien sortieren nach order_column
         $catched->load(['fish', 'lake', 'river']); // lade Relationen
         $catched->media = collect($catched->getMedia('photos'))
-            ->sortBy(fn($media) => (int) $media->order_column) 
-            ->values()                                         
+            ->sortBy(fn($media) => (int) $media->order_column)
+            ->values()
             ->map(fn($media) => $media->toArray());
 
         return Inertia::render('Catched/Show', [
@@ -224,6 +225,7 @@ class CatchedController extends Controller
     {
         $this->authorize('update', $catched);
 
+        // Validierung
         $validated = $request->validate([
             'date' => 'required|date',
             'fish_id' => 'required|exists:fish,id',
@@ -253,11 +255,12 @@ class CatchedController extends Controller
 
         $existingMedia = $catched->getMedia('photos')->keyBy('id');
         $newFiles = collect($request->file('photos', []));
-
         $order = $request->input('photo_order', []);
         $orderedIds = [];
 
+        // Upload + Reihenfolge
         foreach ($order as $key) {
+            // Vorhandene Medien übernehmen
             if (str_starts_with($key, 'media-')) {
                 $id = (int) str_replace('media-', '', $key);
                 if ($existingMedia->has($id)) {
@@ -265,10 +268,15 @@ class CatchedController extends Controller
                 }
             }
 
+            // Neue Dateien hochladen
             if (str_starts_with($key, 'file-')) {
                 $file = $newFiles->shift();
                 if ($file) {
-                    $media = $catched->addMedia($file)->toMediaCollection('photos');
+                    $media = $catched
+                        ->addMedia($file)
+                        ->maxFileSize(20 * 1024 * 1024) // 20MB
+                        ->toMediaCollection('photos');
+
                     $orderedIds[] = $media->id;
                 }
             }
@@ -277,7 +285,7 @@ class CatchedController extends Controller
         // Reihenfolge offiziell speichern
         Media::setNewOrder($orderedIds);
 
-        // Max 3 Bilder erzwingen
+        // Maximal 3 Bilder behalten
         $catched->getMedia('photos')
             ->sortBy('order_column')
             ->slice(3)
