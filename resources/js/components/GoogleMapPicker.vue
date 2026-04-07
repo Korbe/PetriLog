@@ -150,25 +150,27 @@ onMounted(async () => {
         await waitForGoogleMaps()
 
         setTimeout(() => {
+            // ✅ 1. PRIORITÄT: Vordefinierte Koordinaten
+            if (props.initialLat && props.initialLng) {
+                initMap(props.initialLat, props.initialLng)
+                return
+            }
+
+            // ✅ 2. GPS nur wenn keine Props vorhanden
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (pos) => {
                         initMap(pos.coords.latitude, pos.coords.longitude)
                     },
                     () => {
-                        if (props.initialLat && props.initialLng) {
-                            initMap(props.initialLat, props.initialLng)
-                        } else {
-                            initMap(fallbackCoords.lat, fallbackCoords.lng)
-                        }
+                        initMap(fallbackCoords.lat, fallbackCoords.lng)
                     }
                 )
-            } else if (props.initialLat && props.initialLng) {
-                initMap(props.initialLat, props.initialLng)
             } else {
                 initMap(fallbackCoords.lat, fallbackCoords.lng)
             }
         }, 300)
+
     } catch (err) {
         console.error(err.message)
         initMap(fallbackCoords.lat, fallbackCoords.lng)
