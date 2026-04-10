@@ -63,6 +63,7 @@ class Catched extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('optimized')
+            ->width(2000)
             ->format('webp')
             ->quality(60)
             ->performOnCollections('photos')
