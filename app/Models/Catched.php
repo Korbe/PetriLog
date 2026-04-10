@@ -65,7 +65,6 @@ class Catched extends Model implements HasMedia
         $this->addMediaConversion('optimized')
             ->format('webp')
             ->quality(60)
-            ->optimize()
             ->performOnCollections('photos')
             ->queued();
     }
