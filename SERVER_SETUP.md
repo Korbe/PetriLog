@@ -252,7 +252,7 @@ Inhalt:
 
 	[program:petrilog-queue]
 	process_name=%(program_name)s_%(process_num)02d
-	command=php /var/www/petrilog.com/current/artisan queue:work
+	command=php /var/www/petrilog.com/current/artisan queue:work --timeout=300 --memory=640
 	autostart=true
 	autorestart=true
 	user=deployer
