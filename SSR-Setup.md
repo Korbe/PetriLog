@@ -80,3 +80,56 @@ import { usePage } from '@inertiajs/vue3'
 const page = usePage()
 
 const isHomePage = computed(() => page.url === '/')
+
+# SSR am Server via Supervisor
+
+### 1 Supervisor installieren
+
+	sudo apt-get install supervisor -y
+
+### 2 Supervisor Config anlegen
+
+	sudo nano /etc/supervisor/conf.d/inertia-ssr.conf
+
+	Inhalt:
+	[program:inertia-ssr]
+	directory=/var/www/petrilog.com/current
+	command=php artisan inertia:start-ssr
+	autostart=true
+	autorestart=true
+	user=deployer
+	redirect_stderr=true
+	stdout_logfile=/var/www/petrilog.com/shared/logs/storage/inertia-ssr.log
+
+### 3 Log-Verzeichnis erstellen
+
+	mkdir -p /var/www/petrilog.com/shared/logs
+
+### 4 Supervisor starten
+
+	sudo supervisorctl reread
+	sudo supervisorctl update
+	sudo supervisorctl start inertia-ssr
+
+# Deploy Script anpassen
+
+task('nginx:reload', function () {
+    run('sudo systemctl reload nginx');
+});
+
+task('ssr:restart', function () {
+    run('sudo supervisorctl restart inertia-ssr');
+});
+
+after('deploy:success', 'nginx:reload');
+after('deploy:success', 'ssr:restart');
+
+
+## Deployer user Rechte geben
+
+    sudo visudo
+
+Ganz unten im file folgende Zeilen eingeben
+    
+    deployer ALL=(ALL) NOPASSWD: /bin/systemctl restart php8.3-fpm
+    deployer ALL=NOPASSWD: /bin/systemctl reload nginx
