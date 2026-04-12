@@ -8,8 +8,8 @@
 
         <!-- Section header -->
         <div class="max-w-3xl mx-auto text-center pb-24 md:pb-14">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4">Dein Österreichisches Fischertagebuch – jederzeit griffbereit</h2>
-          <p class="text-lg text-gray-700">Erfolge mit Freunden teilen – alles an einem Ort.</p>
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Dein privates Österreichisches Fischertagebuch</h2>
+          <p class="text-lg text-gray-700">Du alleine siehst deine Erfolge kannst sie aber mit Freunden teilen</p>
         </div>
 
         <div class="max-w-3xl mx-auto" data-aos="zoom-y-out" data-aos-delay="600">
@@ -47,7 +47,7 @@
               </svg>
               <span>Erfolge teilen</span>
             </h3>
-            <p class="text-[15px] text-gray-700">Teile deine Fänge mit Freunden oder der Community – zeig, was du erreicht hast.</p>
+            <p class="text-[15px] text-gray-700">Teile deine Fänge mit Freunden - zeig, was du erreicht hast.</p>
           </article>
         </div>
 
