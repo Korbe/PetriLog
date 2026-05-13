@@ -9,6 +9,7 @@ import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 import VPassword from '@/components/VPassword.vue';
 import VMultiselect from '@/components/VMultiselect.vue';
+import { initAnalytics, initGoogleMaps } from '@/google.js'
 
 defineProps({
     states: Array,
@@ -26,6 +27,12 @@ const form = useForm({
 });
 
 const submit = () => {
+
+    localStorage.setItem('cookie-consent', 'accepted')
+
+    initAnalytics();
+    initGoogleMaps();
+
     form.state_id = form.state ? form.state.id : null;
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
@@ -53,7 +60,7 @@ const submit = () => {
             </div>
             <div class="mt-4">
                 <VInput label="Telefonnummer" id="tel" v-model="form.tel" type="tel" class="mt-1 block w-full"
-                   autocomplete="tel" :error="form.errors.tel" />
+                    autocomplete="tel" :error="form.errors.tel" />
             </div>
 
             <div class="mt-4">
@@ -76,8 +83,8 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <VPassword label="Passwort bestätigen" id="password_confirmation" mandatory v-model="form.password_confirmation"
-                    class="mt-1 block w-full" required autocomplete="new-password"
+                <VPassword label="Passwort bestätigen" id="password_confirmation" mandatory
+                    v-model="form.password_confirmation" class="mt-1 block w-full" required autocomplete="new-password"
                     :error="form.errors.password_confirmation" :show-forgot="false" />
             </div>
 

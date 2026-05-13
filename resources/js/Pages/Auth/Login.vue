@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 import { ref, onMounted } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/solid';
 import InputError from '@/JetstreamComponents/InputError.vue';
+import { initAnalytics, initGoogleMaps } from '@/google.js';
 
 defineProps({
     canResetPassword: Boolean,
@@ -35,6 +36,12 @@ onMounted(() => {
 });
 
 const submit = () => {
+
+    localStorage.setItem('cookie-consent', 'accepted')
+
+    initAnalytics();
+    initGoogleMaps();
+
     form.transform(data => ({
         ...data,
         remember: form.remember ? 'on' : '',

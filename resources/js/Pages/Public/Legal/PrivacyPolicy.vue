@@ -63,7 +63,10 @@
                             <p class="mb-4">
                                 PetriLog verwendet Cookies nur soweit nötig, um die Nutzung der Anwendung zu ermöglichen
                                 und Funktionen wie die Anmeldung zu sichern. Es werden keine Tracking-Dienste für
-                                Werbung verwendet.
+                                Werbung verwendet. Wir verwenden ausschließlich Google Analytics in einer
+                                datenschutzfreundlichen Konfiguration, um die Nutzung der App zu analysieren und zu
+                                verbessern. Alle gesammelten Daten werden anonymisiert und nicht mit personenbezogenen
+                                Informationen verknüpft.
                             </p>
 
                             <h2 class="text-2xl font-semibold mt-8 mb-4">6. Ihre Rechte</h2>
