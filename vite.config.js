@@ -21,6 +21,8 @@ export default defineConfig({
         tailwindcss()
     ],
     ssr: {
-        noExternal: ['vue-flatpickr-component'],
+        // Bundle all deps into ssr.js so it's self-contained at runtime —
+        // the deploy only ships public/build + bootstrap/ssr, no node_modules.
+        noExternal: true,
     },
 });

@@ -11,20 +11,32 @@ add('shared_files', []);
 add('shared_dirs', []);
 add('writable_dirs', []);
 
+// npm install/build can easily run longer than Deployer's 300s default,
+// which then tries to kill the remote process; with ssh_multiplexing off
+// that kill can fail with "kill -9 -" (no PID captured). Give it more room.
+set('default_timeout', 1800);
+
 host('207.154.223.201')
     ->set('ssh_multiplexing', false)
     ->set('remote_user', 'deployer')
     ->set('deploy_path', '/var/www/petrilog.com');
 
 // Hooks
-task('npm:install', function () {
-    cd('{{release_path}}');
-    run('npm install');
+
+// Build assets locally instead of on the (memory-constrained) server and
+// upload the build output. Avoids npm install/build ever running remotely.
+task('assets:build', function () {
+    runLocally('npm install');
+    runLocally('npm run build');
 });
 
-task('npm:build', function () {
-    cd('{{release_path}}');
-    run('npm run build');
+task('assets:upload', function () {
+    // upload() needs rsync, which Windows doesn't ship with. scp is already
+    // proven to work here (same connection ssh/dep itself uses), so use that.
+    $target = currentHost()->connectionString();
+    run('mkdir -p {{release_path}}/public/build {{release_path}}/bootstrap/ssr');
+    runLocally("scp -r public/build/. {$target}:{{release_path}}/public/build/");
+    runLocally("scp -r bootstrap/ssr/. {$target}:{{release_path}}/bootstrap/ssr/");
 });
 
 task('fpm:restart', function () {
@@ -53,9 +65,9 @@ task('queue:restart', function () {
 
 
 
-after('deploy:vendors', 'npm:install');
-after('npm:install', 'npm:build');
-//after('npm:build', 'build:fix-permissions');
+after('deploy:vendors', 'assets:build');
+after('assets:build', 'assets:upload');
+//after('assets:upload', 'build:fix-permissions');
 after('deploy:success', 'fpm:restart');
 after('deploy:success', 'nginx:reload');
 after('deploy:success', 'ssr:restart');
