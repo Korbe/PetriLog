@@ -20,8 +20,18 @@ class RemoteBackupStore
 
     private const REMOTE_LOG_MAX_LINES = 2000;
 
-    public function __construct(private ?Filesystem $disk = null)
+    // Bewusst KEIN Konstruktor-Parameter: Laravel würde einen typisierten Filesystem-Parameter automatisch mit
+    // dem lokalen Standard-Speicher befüllen – die „Übertragung“ landete dann auf demselben Server.
+    private ?Filesystem $disk = null;
+
+    /**
+     * Nur für Tests: anderes Ziel-Dateisystem verwenden.
+     */
+    public function useDisk(Filesystem $disk): static
     {
+        $this->disk = $disk;
+
+        return $this;
     }
 
     public static function enabled(): bool

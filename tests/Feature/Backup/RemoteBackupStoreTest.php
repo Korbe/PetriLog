@@ -61,7 +61,7 @@ class RemoteBackupStoreTest extends TestCase
     public function test_upload_verifies_checksum_and_leaves_no_partial_file(): void
     {
         $archive = $this->fakeBackup('2026-10-17_031500');
-        $store = new RemoteBackupStore($this->remoteDisk());
+        $store = (new RemoteBackupStore())->useDisk($this->remoteDisk());
 
         $result = $store->upload($archive);
 
@@ -89,7 +89,7 @@ class RemoteBackupStoreTest extends TestCase
         };
 
         try {
-            (new RemoteBackupStore($corrupting))->upload($archive);
+            (new RemoteBackupStore())->useDisk($corrupting)->upload($archive);
             $this->fail('Beschädigter Upload wurde nicht erkannt.');
         } catch (BackupException $e) {
             $this->assertSame(BackupException::TRANSFER, $e->getCode());
@@ -101,7 +101,7 @@ class RemoteBackupStoreTest extends TestCase
 
     public function test_remote_retention_deletes_backups_and_checksums(): void
     {
-        $store = new RemoteBackupStore($this->remoteDisk());
+        $store = (new RemoteBackupStore())->useDisk($this->remoteDisk());
         foreach (['2026-10-17_031500', '2026-10-16_031500', '2026-10-15_031500'] as $date) {
             $store->upload($this->fakeBackup($date));
         }
@@ -130,6 +130,44 @@ class RemoteBackupStoreTest extends TestCase
         $this->assertFileExists(BackupFiles::path('petrilog-backup-2026-10-16_031500.zip'), 'nicht übertragen → bleibt');
         $this->assertFileExists(BackupFiles::path('petrilog-backup-2026-10-17_031500.zip'), 'neuestes → bleibt');
         $this->assertFileDoesNotExist(BackupFiles::checksumFile(BackupFiles::path('petrilog-backup-2026-10-15_031500.zip')));
+    }
+
+    /**
+     * Regression: Ein typisierter Konstruktor-Parameter wurde von Laravel mit dem lokalen Standard-Speicher befüllt –
+     * „übertragene“ Backups landeten dadurch in storage/app/private auf demselben Server.
+     */
+    public function test_container_resolved_store_uses_sftp_and_never_the_local_disk(): void
+    {
+        $key = storage_path('framework/testing/backup-test-key');
+        file_put_contents($key, 'dummy');
+        config([
+            'backup.remote.host' => 'backup.example.invalid',
+            'backup.remote.username' => 'backupuser',
+            'backup.remote.private_key' => $key,
+            'backup.remote.root' => '/backups/petrilog',
+        ]);
+
+        try {
+            $disk = app(RemoteBackupStore::class)->disk();
+
+            $this->assertSame('sftp', $disk->getConfig()['driver']);
+            $this->assertSame('backup.example.invalid', $disk->getConfig()['host']);
+            $this->assertNotSame(Storage::disk(config('filesystems.default')), $disk);
+
+            // Auch über den BackupRunner (wie backup:run) darf kein lokales Dateisystem ankommen
+            $runnerStore = (fn() => $this->remote)->call(app(BackupRunner::class));
+            $this->assertSame('sftp', $runnerStore->disk()->getConfig()['driver']);
+        } finally {
+            @unlink($key);
+        }
+    }
+
+    public function test_missing_remote_configuration_fails_loudly(): void
+    {
+        config(['backup.remote.host' => null]);
+
+        $this->expectException(BackupException::class);
+        app(RemoteBackupStore::class)->disk();
     }
 
     public function test_backup_names_are_validated_against_path_traversal(): void
