@@ -1,27 +1,25 @@
 <template>
-  <header class="flex justify-between items-start mb-2">
-    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Dieses Jahr</h2>
-  </header>
-  <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
-    Insgesamt gefangen
-  </div>
-  <div class="flex items-start mb-4">
-    <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{{ data.total }}</div>
-  </div>
-  <div class="grow max-sm:max-h-[128px] xl:max-h-[128px]">
-    <canvas ref="canvas" :width="389" :height="200"></canvas>
+  <div class="flex h-full flex-col">
+    <header class="flex items-start justify-between gap-3">
+      <div>
+        <p class="ui-kicker">Saison {{ year }}</p>
+        <h2 class="mt-1 text-base font-semibold">Fänge pro Monat</h2>
+      </div>
+      <span class="ui-badge ui-badge-accent">{{ data.total }} {{ data.total === 1 ? 'Fang' : 'Fänge' }}</span>
+    </header>
+    <div class="relative mt-4 h-56 grow">
+      <canvas ref="canvas"></canvas>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip } from 'chart.js'
-import 'chartjs-adapter-moment'
+import { Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip } from 'chart.js'
 import { useDark } from '@vueuse/core'
-import { getChartColors, chartAreaGradient } from '@/services/ChartjsConfig'
-import { getCssVariable, adjustColorOpacity } from '@/utils/Utils'
+import { appChartTheme } from '@/services/ChartjsConfig'
 
-Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip)
+Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip)
 
 const props = defineProps({
   data: {
@@ -33,116 +31,72 @@ const props = defineProps({
   },
 })
 
+const MONTHS = ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+const year = new Date().getFullYear()
+
 const canvas = ref(null)
 let chart = null
 const darkMode = useDark()
-const tooltipBodyColor = ref('#000')
-const tooltipBgColor = ref('#fff')
-const tooltipBorderColor = ref('#ccc')
-
-const resolveCssVariable = (variableName) => getCssVariable(`--color-${variableName}`)
 
 const initChart = () => {
-  const primaryColor = resolveCssVariable('primary-500')
-  const ctx = canvas.value
+  const theme = appChartTheme()
+  const peak = Math.max(...props.data.scores, 0)
 
-  chart = new Chart(ctx, {
-    type: 'line',
+  chart = new Chart(canvas.value, {
+    type: 'bar',
     data: {
-      labels: props.data.timestamps.map(ts => new Date(ts)),
+      // timestamps are "01".."12"
+      labels: props.data.timestamps.map(m => MONTHS[Number(m) - 1] ?? m),
       datasets: [
         {
-          label: 'Anzahl',
+          label: 'Fänge',
           data: props.data.scores,
-          fill: true,
-          backgroundColor: (context) => {
-            const { ctx, chartArea } = context.chart
-            return chartAreaGradient(ctx, chartArea, [
-              { stop: 0, color: adjustColorOpacity(primaryColor, 0) },
-              { stop: 1, color: adjustColorOpacity(primaryColor, 0.2) },
-            ])
-          },
-          borderColor: primaryColor,
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 3,
-          pointBackgroundColor: primaryColor,
-          pointHoverBackgroundColor: primaryColor,
-          pointBorderWidth: 0,
-          pointHoverBorderWidth: 0,
-          clip: 20,
-          tension: 0.2,
+          backgroundColor: props.data.scores.map(v => (v > 0 && v === peak ? theme.float : theme.accent)),
+          borderRadius: 6,
+          barPercentage: 0.65,
+          minBarLength: 2,
         },
       ],
     },
     options: {
-      layout: { padding: 20 },
+      layout: { padding: { top: 4 } },
       scales: {
         y: {
-          display: false,
           beginAtZero: true,
+          border: { display: false },
+          grid: { color: theme.grid },
+          ticks: { color: theme.text, precision: 0, maxTicksLimit: 5 },
         },
         x: {
-          type: 'time',
-          time: {
-            parser: 'YYYY-MM-DD',
-            unit: 'month',            // WICHTIG: Einheit auf Monat setzen
-            tooltipFormat: 'MMM', // Tooltip-Format Monat + Jahr (z.B. Jan 2025)
-            displayFormats: {
-              month: 'MMM',           // X-Achsen-Labels: Kürzel des Monats (Jan, Feb, ...)
-            },
-          },
-          ticks: {
-            autoSkip: false,          // Optional: alle Monate anzeigen
-            maxTicksLimit: 12,
-          },
-          grid: {
-            display: false,
-          },
+          border: { display: false },
+          grid: { display: false },
+          ticks: { color: theme.text, maxRotation: 0, autoSkip: true },
         },
       },
       plugins: {
         tooltip: {
+          ...theme.tooltip,
           callbacks: {
-            title: (context) => {
-              // Zeige nur Monat und Jahr im Tooltip-Titel
-              return context[0].label;  // Label ist z.B. "Jan 2025"
-            },
-            label: (context) => {
-              return context.parsed.y;
-            },
+            label: (context) => `${context.parsed.y} ${context.parsed.y === 1 ? 'Fang' : 'Fänge'}`,
           },
-          bodyColor: darkMode.value ? tooltipBodyColor.dark : tooltipBodyColor.light,
-          backgroundColor: darkMode.value ? tooltipBgColor.dark : tooltipBgColor.light,
-          borderColor: darkMode.value ? tooltipBorderColor.dark : tooltipBorderColor.light,
         },
-        legend: {
-          display: false,
-        },
+        legend: { display: false },
       },
-      interaction: {
-        intersect: false,
-        mode: 'nearest',
-      },
+      interaction: { intersect: false, mode: 'index' },
       maintainAspectRatio: false,
       resizeDelay: 200,
     },
   })
 }
 
-
-onMounted(() => {
-  const colors = getChartColors()
-  tooltipBodyColor.value = colors.tooltipBodyColor
-  tooltipBgColor.value = colors.tooltipBgColor
-  tooltipBorderColor.value = colors.tooltipBorderColor
-
-  initChart();
-})
-onUnmounted(() => chart?.destroy())
-watch(() => [props.data, props.color], () => {
+const rebuild = () => {
   chart?.destroy()
   initChart()
-}, { deep: true })
+}
 
+onMounted(initChart)
+onUnmounted(() => chart?.destroy())
+watch(() => props.data, rebuild, { deep: true })
+// wait a frame so the html.dark class (and with it the CSS tokens) is already switched
+watch(darkMode, () => requestAnimationFrame(rebuild))
 </script>

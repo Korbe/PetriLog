@@ -17,8 +17,10 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import {
     AdjustmentsHorizontalIcon,
     CheckIcon,
-    ForwardIcon
-} from '@heroicons/vue/24/solid';
+    BoltIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+} from '@heroicons/vue/24/outline';
 
 /* ---------------------------------
    Props
@@ -30,6 +32,7 @@ const props = defineProps({
     fish: Array,
     lakes: Array,
     rivers: Array,
+    states: Array,
 });
 
 /* ---------------------------------
@@ -88,6 +91,7 @@ const form = ref({
     remark: null,
     air_pressure: null,
     bait: null,
+    released: null,
     photos: [],
     media: [],
 });
@@ -134,6 +138,27 @@ watch(
     }
 );
 
+const wizardOptions = [
+    {
+        type: 'express',
+        title: 'Express-Eintrag',
+        text: 'Schnell direkt am Wasser – nur das Nötigste.',
+        points: ['Datum, Länge & Gewicht', 'Fischart & Gewässer', 'Position & Fotos'],
+        cta: 'Express starten',
+        icon: BoltIcon,
+        tone: 'bg-[color-mix(in_srgb,var(--app-float)_14%,transparent)] text-(--app-float)',
+    },
+    {
+        type: 'normal',
+        title: 'Normaler Eintrag',
+        text: 'Alle Details für dein vollständiges Fangbuch.',
+        points: ['Alles aus dem Express-Eintrag', 'Tiefe, Wassertemperatur & Köder', 'Bemerkungen'],
+        cta: 'Normal starten',
+        icon: AdjustmentsHorizontalIcon,
+        tone: 'bg-(--app-accent-soft) text-(--app-accent-ink)',
+    },
+];
+
 const stepProps = computed(() => {
   const step = activeSteps.value[currentStep.value].component
 
@@ -142,6 +167,7 @@ const stepProps = computed(() => {
       fish: props.fish,
       lakes: props.lakes,
       rivers: props.rivers,
+      states: props.states,
     }
   }
 
@@ -150,48 +176,29 @@ const stepProps = computed(() => {
 </script>
 
 <template>
-    <PageWrapper title="Fang eintragen" :backTo="props.backToUrl">
+    <PageWrapper title="Fang eintragen" :eyebrow="wizardType ? (wizardType === 'express' ? 'Express-Eintrag' : 'Normaler Eintrag') : 'Petri Heil!'" :backTo="props.backToUrl">
 
         <!-- =========================
              Wizard Auswahl
         ========================== -->
-        <div v-if="wizardType === null" class="flex flex-col gap-6 lg:flex-row lg:gap-6 max-w-5xl mx-auto mt-10 lg:mt-30">
+        <div v-if="wizardType === null" class="mx-auto grid max-w-4xl gap-5 md:grid-cols-2 md:gap-6">
 
-            <!-- Express -->
-            <div class="w-full bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8
-               flex flex-col items-center text-center transition hover:scale-105 flex-1">
-                <ForwardIcon class="h-12 w-12 text-blue-500 mb-4" />
-
-                <h2 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">
-                    Express Eintrag
-                </h2>
-
-                <p class="mb-5 text-gray-600 dark:text-gray-400">
-                    Nur die nötigsten Daten
-                </p>
-
-                <VButton @click="selectWizard('express')">
-                    Express starten
-                </VButton>
-            </div>
-
-            <!-- Normal -->
-            <div class="w-full bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8
-               flex flex-col items-center text-center transition hover:scale-105 flex-1">
-                <AdjustmentsHorizontalIcon class="h-12 w-12 text-blue-500 mb-4" />
-
-                <h2 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">
-                    Normaler Eintrag
-                </h2>
-
-                <p class="mb-5 text-gray-600 dark:text-gray-400">
-                    Alle Details erfassen
-                </p>
-
-                <VButton @click="selectWizard('normal')">
-                    Normal starten
-                </VButton>
-            </div>
+            <button v-for="option in wizardOptions" :key="option.type" type="button" @click="selectWizard(option.type)"
+                class="ui-card ui-card-hover group flex flex-col p-6 text-left md:p-8">
+                <span class="flex size-12 items-center justify-center rounded-2xl" :class="option.tone">
+                    <component :is="option.icon" class="size-6" />
+                </span>
+                <span class="font-display mt-5 text-4xl leading-tight">{{ option.title }}</span>
+                <span class="ui-muted mt-2">{{ option.text }}</span>
+                <ul class="mt-5 space-y-1.5 text-sm text-(--app-muted)">
+                    <li v-for="point in option.points" :key="point" class="flex items-center gap-2">
+                        <CheckIcon class="size-4 shrink-0 text-(--app-success)" /> {{ point }}
+                    </li>
+                </ul>
+                <span class="mt-7 inline-flex items-center gap-2 self-start rounded-full bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white transition group-hover:bg-primary-600">
+                    {{ option.cta }} <ArrowRightIcon class="size-4 transition group-hover:translate-x-0.5" />
+                </span>
+            </button>
 
         </div>
 
@@ -199,52 +206,52 @@ const stepProps = computed(() => {
         <!-- =========================
              Wizard
         ========================== -->
-        <div v-else class="bg-white dark:bg-gray-800 p-6 rounded-lg">
+        <div v-else class="mx-auto max-w-3xl">
 
             <!-- Progress -->
-            <nav class="hidden lg:block mb-6">
-                <ol class="md:flex border rounded-md divide-y md:divide-y-0">
-                    <li v-for="(step, index) in activeSteps" :key="step.id" class="flex-1">
-                        <span class="flex items-center px-6 py-4 text-sm font-medium" :class="{
-                            'text-gray-500': index > currentStep,
-                            'text-primary-500': index === currentStep,
-                            'text-gray-900': index < currentStep
-                        }">
-                            <span class="flex h-10 w-10 items-center justify-center rounded-full mr-4" :class="{
-                                'bg-primary-500 text-white': index < currentStep,
-                                'border-2 border-primary-500': index === currentStep,
-                                'border-2 border-gray-300 text-gray-400': index > currentStep
-                            }">
-                                <CheckIcon v-if="index < currentStep" class="h-5 w-5" />
-                                <span v-else>{{ step.id }}</span>
-                            </span>
-                            {{ step.name }}
-                        </span>
+            <div class="mb-5">
+                <div class="flex items-center justify-between gap-3 text-sm">
+                    <span class="font-semibold">{{ activeSteps[currentStep].name }}</span>
+                    <span class="font-log text-xs text-(--app-subtle)">Schritt {{ currentStep + 1 }} von {{ activeSteps.length }}</span>
+                </div>
+                <div class="mt-3 flex gap-1.5" aria-hidden="true">
+                    <span v-for="(step, index) in activeSteps" :key="step.id" class="h-1.5 flex-1 rounded-full transition-colors"
+                        :class="index <= currentStep ? 'bg-primary-500' : 'bg-(--app-border-strong)'"></span>
+                </div>
+                <ol class="mt-3 hidden gap-1.5 md:flex">
+                    <li v-for="(step, index) in activeSteps" :key="step.id" class="flex flex-1 items-center gap-1.5 text-xs"
+                        :class="index === currentStep ? 'font-semibold text-(--app-ink)' : 'text-(--app-subtle)'">
+                        <CheckIcon v-if="index < currentStep" class="size-3.5 text-(--app-success)" />
+                        <span v-else class="font-log">{{ step.id }}</span>
+                        {{ step.name }}
                     </li>
                 </ol>
-            </nav>
-
-            <!-- Error -->
-            <div v-if="alertMessage" class="mb-4 rounded bg-red-100 border border-red-400 px-4 py-3 text-red-700">
-                {{ alertMessage }}
             </div>
 
-            <!-- Step Content -->
-            <div class="max-w-xl mx-auto">
+            <div class="ui-card p-5 md:p-8">
+                <!-- Error -->
+                <div v-if="alertMessage" class="mb-5 rounded-2xl bg-(--app-danger-soft) px-4 py-3 text-sm font-medium text-(--app-danger)" role="alert">
+                    {{ alertMessage }}
+                </div>
+
+                <!-- Step Content -->
                 <component v-if="!loading" :is="activeSteps[currentStep].component" v-model="form" :errors="errors"
                     v-bind="stepProps"/>
 
                 <FullLoadingScreen v-if="loading" />
 
                 <!-- Navigation -->
-                <div class="mt-6 flex justify-between">
-                    <VButton variant="secondary" :disabled="currentStep === 0"
-                        @click="prevStep">
-                        Zurück
+                <div class="mt-8 flex items-center justify-between gap-3 border-t border-(--app-border) pt-5">
+                    <VButton v-if="currentStep > 0" variant="secondary" @click="prevStep">
+                        <ArrowLeftIcon class="size-4" /> Zurück
+                    </VButton>
+                    <VButton v-else variant="ghost" @click="wizardType = null">
+                        <ArrowLeftIcon class="size-4" /> Art wechseln
                     </VButton>
 
-                    <VButton @click="nextStep">
-                        {{ currentStep === activeSteps.length - 1 ? 'Fertig' : 'Weiter' }}
+                    <VButton @click="nextStep" :size="currentStep === activeSteps.length - 1 ? 'lg' : 'md'">
+                        <template v-if="currentStep === activeSteps.length - 1"><CheckIcon class="size-5" /> Fang speichern</template>
+                        <template v-else>Weiter <ArrowRightIcon class="size-4" /></template>
                     </VButton>
                 </div>
             </div>

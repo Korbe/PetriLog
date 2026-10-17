@@ -1,20 +1,22 @@
 <template>
     <div v-if="items && items.length">
-        <p v-if="title" class="font-bold text-lg pt-5 pb-2">
-            {{ title }}
-        </p>
+        <div v-if="title" class="flex items-baseline justify-between gap-3 pb-2 pt-6">
+            <h3 class="text-base font-semibold text-(--app-ink)">{{ title }}</h3>
+            <span class="ui-badge">{{ items.length }}</span>
+        </div>
 
-        <ul>
-            <li v-for="item in visibleItems" :key="item.id" class="hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+        <ul class="-mx-2">
+            <li v-for="item in visibleItems" :key="item.id">
                 <!-- Scoped Slot -->
                 <slot :item="item" />
             </li>
         </ul>
 
-        <p v-if="items.length > limit && !expanded"
-            class="text-sm text-blue-500 hover:text-blue-700 cursor-pointer mt-2" @click="expanded = true">
-            weiterlesen
-        </p>
+        <button v-if="items.length > limit" type="button"
+            class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-(--app-accent-ink) hover:underline"
+            @click="expanded = !expanded">
+            {{ expanded ? 'Weniger anzeigen' : `Alle ${items.length} anzeigen` }}
+        </button>
     </div>
 </template>
 
@@ -41,6 +43,4 @@ const expanded = ref(false)
 const visibleItems = computed(() =>
     expanded.value ? props.items : props.items.slice(0, props.limit)
 )
-
-
 </script>

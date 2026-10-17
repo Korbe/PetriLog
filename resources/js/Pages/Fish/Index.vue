@@ -1,41 +1,47 @@
 <template>
-  <PageWrapper title="Fische" :backTo="route('app.dashboard')">
+  <PageWrapper title="Fisch-Wiki" :eyebrow="`${fish.length} heimische Arten`" :backTo="route('app.dashboard')">
 
     <template v-slot:actions>
-      <VInput placeholder="Suche" v-model="search" />
+      <div class="ui-search w-full md:w-72">
+        <MagnifyingGlassIcon />
+        <input v-model="search" type="search" class="form-input rounded-full!" placeholder="Fischart suchen …"
+          aria-label="Fischart suchen" />
+      </div>
     </template>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-5">
-      <div v-for="fish in filteredFish" :key="fish.id"
-        class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden">
-        <Link :href="route('app.fish.show', fish.id)">
-        <div class="relative w-full h-44">
-          <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
-            class="w-full h-full object-contain hover:scale-105 transition-transform duration-200" />
-          <div
-            class="absolute bottom-0 left-0 w-full bg-primary-500 bg-opacity-50 text-white text-center py-1 font-semibold">
-            {{ fish.name }}
-          </div>
+    <div v-if="filteredFish.length" class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 xl:grid-cols-4">
+      <Link v-for="f in filteredFish" :key="f.id" :href="route('app.fish.show', f.id)"
+        class="ui-card ui-card-hover group flex flex-col overflow-hidden">
+        <!-- illustrations have a white background: keep the frame white in both themes -->
+        <div class="flex h-32 items-center justify-center bg-white p-4 md:h-40">
+          <img :src="f.media[0]?.url || '/images/fish-default.png'" :alt="f.name" loading="lazy"
+            class="max-h-full w-full object-contain transition duration-500 group-hover:-rotate-2 group-hover:scale-105" />
         </div>
-        </Link>
-      </div>
+        <div class="flex items-center justify-between gap-2 border-t border-(--app-border) px-4 py-3">
+          <h2 class="font-display truncate text-2xl leading-tight">{{ f.name }}</h2>
+          <ChevronRightIcon class="size-4 shrink-0 text-(--app-subtle) transition group-hover:translate-x-0.5" />
+        </div>
+      </Link>
     </div>
 
-    <div
-      class="flex items-center gap-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 mt-5 px-4 py-3 text-sm mt-2">
+    <div v-else class="ui-card p-10 text-center">
+      <p class="font-display text-3xl">Kein Fisch gefunden.</p>
+      <p class="ui-muted mt-2 text-sm">Keine Fischart passt zu „{{ search }}“.</p>
+    </div>
+
+    <div class="ui-panel mt-6 flex items-start gap-3 px-4 py-3 text-sm text-(--app-muted) md:mt-8">
+      <InformationCircleIcon class="mt-0.5 size-5 shrink-0 text-(--app-accent-ink)" />
       <span>
-        Diese Liste ist unvollständig und wird laufend ergänzt. Sollten Sie Vorschläge oder Ergänzungen haben schreiben
-        Sie
-        uns gerne per Mail
-        <a href="mailto:info@petrilog.com">info@petrilog.com</a>
+        Diese Liste ist unvollständig und wird laufend ergänzt. Vorschläge oder Ergänzungen gerne per Mail an
+        <a href="mailto:info@petrilog.com" class="ui-link">info@petrilog.com</a>.
       </span>
     </div>
   </PageWrapper>
 </template>
 
 <script setup>
-import VInput from '@/components/VInput.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
+import { MagnifyingGlassIcon, ChevronRightIcon, InformationCircleIcon } from '@heroicons/vue/24/outline';
 import { ref, computed, onMounted } from 'vue';
 
 const props = defineProps({

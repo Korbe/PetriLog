@@ -8,18 +8,23 @@ use App\Models\River;
 use App\Models\State;
 use App\Http\Requests\RiverRequest;
 use App\Http\Controllers\Controller;
+use App\Support\WaterAdminRow;
 
 class RiverAdminController extends Controller
 {
     public function index()
     {
-        $rivers = River::with(['fish', 'states'])
+        $rivers = River::approved()
+            ->with('states:id,name')
+            ->withCount(['fish', 'catched'])
+            ->orderByDesc('is_default')
+            ->orderBy('name')
             ->get()
-            ->sortBy('name')
-            ->values(); // Index neu setzen, weil sortBy Collection zurückgibt
+            ->map(fn(River $river) => WaterAdminRow::from($river));
 
         return Inertia::render('Admin/River/Index', [
             'rivers' => $rivers,
+            'states' => State::orderBy('name')->get(['id', 'name']),
         ]);
     }
 
@@ -27,7 +32,7 @@ class RiverAdminController extends Controller
     {
         return Inertia::render('Admin/River/Create', [
             'states' => State::orderBy('name', 'asc')->get(),
-            'fish'   => Fish::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::approved()->orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -47,7 +52,7 @@ class RiverAdminController extends Controller
         return Inertia::render('Admin/River/Edit', [
             'river'  => $river->load(['states', 'fish']),
             'states' => State::orderBy('name', 'asc')->get(),
-            'fish'   => Fish::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::approved()->orderBy('name', 'asc')->get(),
         ]);
     }
 

@@ -14,7 +14,6 @@ class AssociationController extends Controller
      */
     public function show(State $state, Association $association)
     {
-        session()->forget('meta');
 
         return Inertia::render('Association/Show', [
             'state_id' => $state->id,

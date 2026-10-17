@@ -42,6 +42,7 @@ class TicketController extends Controller
 
         Mail::to($user->email)->queue(new TicketUserMail([
             'user' => $user,
+            'ticket' => $ticket,
         ]));
 
         return redirect()->route('app.dashboard')->with('success', 'Ticket erfolgreich erstellt.');

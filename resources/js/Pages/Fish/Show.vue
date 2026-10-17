@@ -1,21 +1,24 @@
 <template>
-    <PageWrapper :title="fish.name">
+    <PageWrapper :title="fish.name" eyebrow="Fisch-Wiki">
+        <template v-if="isAdmin" v-slot:actions>
+            <VButton variant="secondary" :href="`/admin/fish/${fish.id}/edit`">
+                <PencilSquareIcon class="size-4" /> Fisch bearbeiten
+            </VButton>
+        </template>
 
-        <div class="w-full md:w-1/2 mx-auto">
-            <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
-                class="mb-5 w-full h-40 md:h-80 object-contain rounded-t-lg" />
-
-            <div class="bg-white dark:bg-gray-800 p-3 md:p-10 rounded-b-lg">
-                <h1 class="text-center font-bold text-4xl mb-2">{{ fish.name }}</h1>
-
-                <div v-if="isAdmin" class="flex justify-center mb-6">
-                    <VButton :href="`/admin/fish/${fish.id}/edit`" size="sm">
-                        Fisch bearbeiten
-                    </VButton>
-                </div>
-
-                <p class="pt-5" v-html="fish.desc"></p>
+        <div class="grid gap-5 md:gap-6 lg:grid-cols-12">
+            <!-- illustrations have a white background: keep the frame white in both themes -->
+            <div class="ui-card flex items-center justify-center overflow-hidden bg-white! p-6 md:p-10 lg:col-span-7">
+                <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
+                    class="max-h-80 w-full object-contain" />
             </div>
+
+            <section class="ui-card p-5 md:p-7 lg:col-span-5">
+                <p class="ui-kicker">Steckbrief</p>
+                <h2 class="font-display mt-1 text-4xl">{{ fish.name }}</h2>
+                <div v-if="fish.desc" class="ui-prose mt-4" v-html="fish.desc"></div>
+                <p v-else class="ui-muted mt-4 text-sm">Für diese Fischart gibt es noch keine Beschreibung.</p>
+            </section>
         </div>
 
     </PageWrapper>
@@ -24,6 +27,7 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
+import { PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { usePage } from '@inertiajs/vue3';
 import { computed, onMounted } from 'vue';
 

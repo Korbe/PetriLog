@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
 import Checkbox from '@/JetstreamComponents/Checkbox.vue';
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
@@ -62,12 +61,10 @@ const editEmail = () => {
 
     <Head title="Log in" />
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
+    <AuthenticationCard eyebrow="Anmelden" title="Willkommen zurück.">
+        <template #intro>Petri Heil! Melde dich an und trag deinen nächsten Fang ein.</template>
 
-        <div v-if="status" class="mb-4 text-center font-medium text-sm text-green-600">
+        <div v-if="status" class="mb-6 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
             {{ status }}
         </div>
 
@@ -79,39 +76,42 @@ const editEmail = () => {
                 </template>
 
                 <template v-else>
-                    <div
-                        class="flex items-center justify-center mt-1 p-2 dark:bg-gray-800">
-                        <span class="text-gray-700 dark:text-gray-400 truncate">{{ savedEmail }}</span>
-                        <button type="button" class="ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400" @click="editEmail">
-                            <PencilIcon class="w-5 h-5" />
+                    <div class="flex items-center justify-between gap-3 rounded-2xl border border-(--ink)/10 bg-white px-4 py-3">
+                        <div class="min-w-0">
+                            <p class="font-log text-[10px] uppercase tracking-[0.2em] text-(--ink)/50">Angemeldet als</p>
+                            <p class="truncate font-medium">{{ savedEmail }}</p>
+                        </div>
+                        <button type="button" class="shrink-0 rounded-full p-2 text-(--ink)/50 transition hover:bg-(--paper) hover:text-(--ink)" aria-label="E-Mail ändern" @click="editEmail">
+                            <PencilIcon class="w-4 h-4" />
                         </button>
                     </div>
                     <InputError class="mt-2 text-center" :message="form.errors.email" />
                 </template>
             </div>
 
-            <div class="mt-4">
+            <div class="mt-5">
                 <VPassword label="Passwort" id="password" v-model="form.password" class="mt-1 block w-full" required
                     autocomplete="current-password" :error="form.errors.password" />
             </div>
 
-            <div class="block mt-4">
+            <div class="block mt-5">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Angemeldet bleiben</span>
+                    <span class="ms-2 text-sm text-(--ink)/70">Angemeldet bleiben</span>
                 </label>
             </div>
 
-            <div class="flex w-full justify-center mt-4">
+            <div class="flex w-full justify-center mt-8">
                 <VButton type="submit" class="w-full" :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
                     Anmelden
                 </VButton>
             </div>
 
-            <div class="mx-auto flex justify-center mt-5 dark:text-gray-400">
-                <Link class="" href="/register">Neues Konto anlegen</Link>
-            </div>
+            <p class="mt-8 border-t border-(--ink)/10 pt-6 text-center text-(--ink)/65">
+                Noch kein Fangbuch?
+                <Link class="font-semibold text-(--ink) underline decoration-(--float) decoration-2 underline-offset-4" href="/register">Kostenlos registrieren</Link>
+            </p>
         </form>
     </AuthenticationCard>
 </template>

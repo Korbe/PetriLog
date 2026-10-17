@@ -1,16 +1,17 @@
 <template>
-    
+    <div class="space-y-4">
+        <p class="text-sm text-(--app-muted)">Tippe auf die Stelle in der Karte, an der du gefangen hast.</p>
 
-    <GoogleMapPicker @locationSelected="updateLocation" />
-    <p class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Tippe auf die Positon in der Karte</p>
-    <p v-if="!modelValue.latitude" class="text-center text-md font-medium text-gray-700 dark:text-gray-400 my-5">Noch keine Position eingegeben</p>
+        <GoogleMapPicker @locationSelected="updateLocation" />
 
-    <VInput v-if="modelValue.address" label="Adresse" v-model="modelValue.address" :error="errors?.address" />
-    <div class="flex space-x-1 mt-5">
-    <VInput v-if="modelValue.latitude" label="Latitude" v-model="modelValue.latitude" :error="errors?.latitude" />
-    <VInput v-if="modelValue.longitude" label="Longitude" v-model="modelValue.longitude" :error="errors?.longitude" />    
+        <p v-if="!modelValue.latitude" class="ui-panel px-4 py-3 text-center text-sm text-(--app-muted)">Noch keine Position gewählt.</p>
+
+        <VInput v-if="modelValue.address" label="Adresse" v-model="modelValue.address" :error="errors?.address" />
+        <div v-if="modelValue.latitude" class="grid gap-4 sm:grid-cols-2">
+            <VInput label="Breitengrad" v-model="modelValue.latitude" :error="errors?.latitude" />
+            <VInput v-if="modelValue.longitude" label="Längengrad" v-model="modelValue.longitude" :error="errors?.longitude" />
+        </div>
     </div>
-    
 </template>
 
 <script setup>

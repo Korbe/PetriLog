@@ -1,8 +1,8 @@
 <tr>
-<td>
-<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+<td style="padding: 26px 24px 8px;">
+<table class="footer" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
 <tr>
-<td class="content-cell" align="center">
+<td align="center">
 {{ Illuminate\Mail\Markdown::parse($slot) }}
 </td>
 </tr>

@@ -2,7 +2,7 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-<img src="https://petrilog.com/logo.png" alt="Logo" class="logo" alt="PetriLog">
+{{ config('app.name') }}
 </x-mail::header>
 </x-slot:header>
 
@@ -21,7 +21,8 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-© {{ date('Y') }} {{ config('app.name') }}. {{ __('All rights reserved.') }}
+[petrilog.com]({{ url('/') }}) · [Impressum]({{ route('public.imprint') }}) · [Datenschutz]({{ route('public.policy') }})<br>
+Das digitale Fangbuch für Angler in Österreich · © {{ date('Y') }} {{ config('app.name') }}
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>

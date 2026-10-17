@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Fish;
 use App\Models\Catched;
+use App\Support\Astro;
+use App\Jobs\FetchCatchWeather;
 use App\Models\Lake;
 use App\Models\River;
+use App\Models\State;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,7 +25,6 @@ class CatchedController extends Controller
     public function index(FilterRequest $request)
     {
         // Session-Zustand zurücksetzen (falls nötig)
-        session()->forget('meta');
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -39,6 +44,7 @@ class CatchedController extends Controller
                 'totalCatchedCount' => 0,
                 'createUrl'       => route('app.catched.create'),
                 'currentUrl'      => route('app.catched.index'),
+                'pagination'      => ['next_page_url' => null],
             ]);
         }
 
@@ -56,7 +62,7 @@ class CatchedController extends Controller
 
         // Grundabfrage mit Beziehungen
         $query = $user->catched()
-            ->with(['fish', 'lake', 'river'])
+            ->with(['fish', 'lake', 'river', 'media'])
             ->whereBetween('date', [$startDate, $endDate]);
 
         // Optional: nur Fänge mit Beschreibung
@@ -91,7 +97,6 @@ class CatchedController extends Controller
 
     public function create()
     {
-        session()->forget('meta');
 
         $user = Auth::user();
         $totalCatchedCount = $user->catched()->count();
@@ -101,25 +106,8 @@ class CatchedController extends Controller
                 ->with('error', 'Du hast das Limit an Einträgen erreicht. Mit einem Jahresabo kannst du unbegrenzt Einträge erstellen.');
         }
 
-        $fish = Fish::orderByRaw("
-            name = 'Anderes / nicht gelistet' DESC,
-            name ASC
-        ")->get();
-
-        $lakes = Lake::orderByRaw("
-            name = 'Anderes / nicht gelistet' DESC,
-            name ASC
-        ")->get();
-
-        $rivers = River::orderByRaw("
-                name = 'd' DESC,
-                name ASC
-            ")->get();
-
         return Inertia::render('Catched/Create', [
-            'fish' => $fish,
-            'lakes' => $lakes,
-            'rivers' => $rivers,
+            ...$this->selectOptions($user),
             'backToUrl' => route('app.catched.index'),
             'storeUrl' => route('app.catched.store'),
         ]);
@@ -141,6 +129,7 @@ class CatchedController extends Controller
             'temperature' => 'nullable|integer',
             'air_pressure' => 'nullable|integer',
             'bait' => 'nullable|string',
+            'released' => 'nullable|boolean',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array|max:3',
             'photos.*' => 'image|max:30720', // 30MB
@@ -150,9 +139,13 @@ class CatchedController extends Controller
             'photos.*.max' => 'Ein Foto darf maximal 30 MB groß sein.',
         ]);
 
+        $this->ensureEntriesVisible($validated, $request->user());
+
         $validated['user_id'] = Auth::id();
 
         $catched = Catched::create($validated);
+
+        FetchCatchWeather::dispatchFor($catched);
 
         /**
          * Upload + Reihenfolge speichern
@@ -178,7 +171,6 @@ class CatchedController extends Controller
 
     public function show(Catched $catched)
     {
-        session()->forget('meta');
         $this->authorize('view', $catched);
 
         $shareurl = route('public.catched.show', $catched->id);
@@ -193,6 +185,7 @@ class CatchedController extends Controller
 
         return Inertia::render('Catched/Show', [
             'catched' => $catched,
+            'astro' => Astro::forCatch($catched->date, (float) $catched->latitude, (float) $catched->longitude),
             'shareUrl' => $shareurl,
             'editUrl' => $editurl,
         ]);
@@ -200,23 +193,14 @@ class CatchedController extends Controller
 
     public function edit(Catched $catched)
     {
-        session()->forget('meta');
         $this->authorize('update', $catched);
 
         // Lade Relationen
         $catched->load(['media', 'fish', 'lake', 'river']);
 
-        // Listen für Multiselects
-        $rivers = River::orderByDesc('is_default')->orderBy('name')->get();
-        $fish = Fish::orderByDesc('is_default')->orderBy('name')->get();
-        $lakes  = Lake::orderByDesc('is_default')->orderBy('name')->get();
-
         return Inertia::render('Catched/Edit', [
-            'asdf' => 'asdf',
             'catched' => $catched,
-            'fish' => $fish,
-            'lakes' => $lakes,
-            'rivers' => $rivers,
+            ...$this->selectOptions(Auth::user(), $catched),
         ]);
     }
 
@@ -239,6 +223,7 @@ class CatchedController extends Controller
             'temperature' => 'nullable|integer',
             'air_pressure' => 'nullable|integer',
             'bait' => 'nullable|string',
+            'released' => 'nullable|boolean',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array',
             'photos.*' => 'image|max:30720', // 30MB
@@ -249,8 +234,18 @@ class CatchedController extends Controller
             'photos.*.max' => 'Ein Foto darf maximal 30 MB groß sein.',
         ]);
 
+        $this->ensureEntriesVisible($validated, $catched->user, $catched);
+
         // Basisdaten speichern
-        $catched->update($validated);
+        $catched->fill($validated);
+        $weatherOutdated = $catched->isDirty(['date', 'latitude', 'longitude']);
+        $catched->save();
+
+        // Zeit oder Ort geändert → Wetter neu ermitteln
+        if ($weatherOutdated) {
+            $catched->forceFill(array_fill_keys(Catched::WEATHER_FIELDS, null))->saveQuietly();
+            FetchCatchWeather::dispatchFor($catched);
+        }
 
         $existingMedia = $catched->getMedia('photos')->keyBy('id');
         $newFiles = collect($request->file('photos', []));
@@ -300,6 +295,55 @@ class CatchedController extends Controller
         $catched->delete();
 
         return redirect()->route('app.catched.index')->with('success', 'Fang gelöscht.');
+    }
+
+    /**
+     * Auswahllisten: offizielle Einträge plus eigene Vorschläge, die als „in Prüfung“ markiert sind.
+     */
+    private function selectOptions(User $user, ?Catched $catched = null): array
+    {
+        $options = fn(string $model, ?Model $current) => $model::query()
+            ->visibleTo($catched?->user ?? $user)
+            ->orderByDesc('is_default')
+            ->orderBy('name')
+            ->get()
+            // Bearbeitet ein Admin einen fremden Fang, muss dessen aktueller Eintrag auswählbar bleiben
+            ->when($current && ! $current->is_approved, fn($list) => $list->push($current)->unique('id'))
+            ->map(fn(Model $entry) => [
+                'id' => $entry->id,
+                'name' => $entry->is_approved ? $entry->name : "{$entry->name} (in Prüfung)",
+                'is_default' => (bool) $entry->is_default,
+                'is_approved' => $entry->is_approved,
+            ])
+            ->values();
+
+        return [
+            'fish' => $options(Fish::class, $catched?->fish),
+            'lakes' => $options(Lake::class, $catched?->lake),
+            'rivers' => $options(River::class, $catched?->river),
+            'states' => State::orderBy('name')->get(['id', 'name']),
+        ];
+    }
+
+    /**
+     * Ungeprüfte Vorschläge anderer User dürfen nicht verwendet werden.
+     */
+    private function ensureEntriesVisible(array $validated, User $owner, ?Catched $catched = null): void
+    {
+        $checks = ['fish_id' => Fish::class, 'lake_id' => Lake::class, 'river_id' => River::class];
+
+        foreach ($checks as $field => $model) {
+            $id = $validated[$field] ?? null;
+
+            // Unveränderte Zuordnung bleibt immer erlaubt
+            if (! $id || ($catched && (int) $catched->{$field} === (int) $id)) {
+                continue;
+            }
+
+            if (! $model::query()->visibleTo($owner)->whereKey($id)->exists()) {
+                throw ValidationException::withMessages([$field => 'Dieser Eintrag ist nicht verfügbar.']);
+            }
+        }
     }
 
     public function deletePhoto($mediaId)

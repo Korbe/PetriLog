@@ -1,0 +1,358 @@
+[
+    {
+        "name": "Anderes / nicht gelistet",
+        "is_default": true,
+        "states": [],
+        "desc": null,
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Salza Oberlauf im Halltal",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> Mariazell, Halltal – Landschafts- und Naturschutzgebiet Mariazellerland, Steiermark</p><p><br></p><p><strong>Gewässerdaten:</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Länge: ca. 9 km</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Breite: 8–14 m</li></ol><p><br></p><p><strong>Fischentnahme:</strong></p><p> 1 Bachforelle pro Tag erlaubt</p><p> Äsche ganzjährig geschont</p><p><br></p><p><strong>Lizenzen:</strong></p><p> Jahres- und Tageslizenzen sind limitiert</p><p><br></p><p><strong>Unser Tipp:</strong></p><p>Kristallklares Wasser direkt am Ursprung der Salza – ein echtes Naturjuwel.</p><p>Der Salza Oberlauf im Halltal richtet sich an passionierte Fliegenfischer, die das intensive Naturerlebnis und die Herausforderung beim Fischen mit Trockenfliege und Nymphe schätzen. Das Revier beginnt in Terz und erstreckt sich flussabwärts über rund 9 km durch das Halltal bis zur Einmündung der Walster.</p><p>Die abwechslungsreiche Wiesen- und Waldlandschaft mit Gumpen, Rieselstrecken und tiefen Pools sorgt für bleibende Eindrücke. Während der obere Abschnitt ein klassisches Bachforellenrevier mit Unterständen und ausgewaschenen Ufern darstellt, bietet der breitere untere Bereich ideale Lebensbedingungen für die Salza-Äsche.</p><p>Entlang des Gewässers verläuft eine Straße mit ausreichend Parkmöglichkeiten und guter Erreichbarkeit.</p><p><br></p><p><strong>Was uns besonders am Herzen liegt:</strong></p><p> Die Förderung der heimischen Bachforelle sowie der konsequente, ganzjährige Schutz der Äsche.</p>",
+        "hint": null,
+        "fishing_rights": "<p><strong>Fischentnahme:</strong></p><p> 1 Bachforelle pro Tag erlaubt</p><p> Äsche ganzjährig geschont</p><p><br></p><p><strong>Fischereisaison:</strong></p><p> 16.03. bis 31.12.</p><p>Ein Gewässer der Österreichischen Bundesforste AG, Forstbetrieb Steiermark</p>",
+        "ticket_sales": "<p><strong>Lizenzen:</strong></p><p> Jahres- und Tageslizenzen sind limitiert</p><p> Lizenzausgabe: Fa. Pijawetz</p><p> 📞 +43 (0)676 83388 100</p>",
+        "fish": [
+            "Bachforelle",
+            "Äsche",
+            "Regenbogenforelle"
+        ]
+    },
+    {
+        "name": "Bregenzer Ach",
+        "is_default": false,
+        "states": [
+            "Vorarlberg"
+        ],
+        "desc": "Hauptfluss des Bregenzerwalds; klare, kalte Gebirgsache mit Schotterbänken und tiefen Gumpen.",
+        "hint": "Sommer: Trockenfliegen an Rieselstrecken; Frühjahr/Herbst: Streamer und kleine Wobbler in tiefen Rinnen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Ill",
+        "is_default": false,
+        "states": [
+            "Vorarlberg"
+        ],
+        "desc": "Großer Alpenfluss im Walgau; wechselnde Staustrecken und freie Rauschen.",
+        "hint": "Niedrigwasser: Nymphen tief präsentieren; kalte Monate: Huchen großvolumig, langsam führen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Dornbirner Ach",
+        "is_default": false,
+        "states": [
+            "Vorarlberg"
+        ],
+        "desc": "Kurz, aber abwechslungsreich – von Schluchten bis zum Bodensee-Delta.",
+        "hint": "Kleine Spinner/Streamer in Taschenwasser; vorsichtige Pirsch an klaren Tagen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Leiblach",
+        "is_default": false,
+        "states": [
+            "Vorarlberg"
+        ],
+        "desc": "Grenzbach zu Deutschland; kiesig, strukturreich.",
+        "hint": "Feines Gerät; natürliche Muster bei klarem Wasser.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Inn",
+        "is_default": false,
+        "states": [
+            "Tirol"
+        ],
+        "desc": "Alpen-Hauptfluss; breite Rieselstrecken, Staubereiche und urbane Abschnitte.",
+        "hint": "Sommer: Nymphe & Trockenfliege; Winter: Huchen langsam führen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Lech",
+        "is_default": false,
+        "states": [
+            "Tirol"
+        ],
+        "desc": "Naturnaher Wildfluss mit Schotterinseln; Natura-2000-Gebiet.",
+        "hint": "Große Läufe systematisch abfischen; Waten nur wo erlaubt.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Ötztaler Ache",
+        "is_default": false,
+        "states": [
+            "Tirol"
+        ],
+        "desc": "Gletscherfluss mit kräftiger Strömung und tiefen Gumpen.",
+        "hint": "Schwere Nymphen; Vorsicht bei Schmelzwasser.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Ziller",
+        "is_default": false,
+        "states": [
+            "Tirol"
+        ],
+        "desc": "Seitenfluss des Inn im Zillertal.",
+        "hint": "Nymphen tief; kleine Wobbler an Übergängen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Isel",
+        "is_default": false,
+        "states": [
+            "Tirol"
+        ],
+        "desc": "Letzter frei fließender Gletscherfluss der Ostalpen.",
+        "hint": "Frühe und späte Tageszeiten nutzen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Salzach",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Großer Alpenfluss mit urbanen und natürlichen Abschnitten.",
+        "hint": "Wechsel zwischen Nymphe und Streamer.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Saalach",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Klarer Gebirgsfluss aus Tirol.",
+        "hint": "Trockenfliege an ruhigen Läufen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Lammer",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Glasklarer Gebirgsfluss mit Schluchten.",
+        "hint": "Kleine, natürliche Muster.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Mur",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": null,
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Drau",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "<p><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Die Drau ist die „Lebensader“ Kärntens und für Angler ein Revier der Kontraste. Auf rund </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">150 Kilometern</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> wandelt sie sich vom wilden Gebirgsfluss zum mächtigen, fast stehenden Strom.</span></p><p><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Die drei Gesichter der Drau</span></p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Die Obere Drau (Oberkärnten):</strong></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Charakter:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Schnell fließend, naturnah und sauerstoffreich. Hier findest du eines der besten </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Salmonidenreviere</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Europas.</span></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Fische:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Bachforellen, Regenbogenforellen und die geschützte Äsche. Im Winter ist dies das Revier für den </span><a href=\"https://www.google.com/url?sa=i&amp;source=web&amp;rct=j&amp;url=https://www.hejfish.com/d/15833-fischereirevier-drau-pontiller-wasser-kaernten-familie-gradnitzer&amp;ved=2ahUKEwjShMiiiLGSAxWygP0HHQxJB5gQy_kOegYIAQgDEAM&amp;opi=89978449&amp;cd&amp;psig=AOvVaw3t72HYnlia9GuIWyqx7_4S&amp;ust=1769786944663000\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(26, 13, 171);\">Huchen (Donaulachs)</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">.</span></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Style:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Klassisches Fliegenfischen oder leichtes Spinnfischen.</span></li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Die Mittlere Drau (Raum Villach/Spittal):</strong></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Charakter:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Ein Mix aus freien Fließstrecken und den ersten Rückstauräumen.</span></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Fische:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Hier beginnt das Reich der </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Barben</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> und großen Regenbogenforellen. Auch erste Hechte tauchen in den ruhigeren Buchten auf.</span></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Vereine:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Der Sportfischereiverein Villach bewirtschaftet hier abwechslungsreiche Abschnitte.</span></li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Die Untere Drau (Stauseen im Rosental &amp; Völkermarkt):</strong></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Charakter:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Massive Stauseen (z.B. </span><a href=\"https://www.google.com/url?sa=i&amp;source=web&amp;rct=j&amp;url=https://www.gutshof-sonnegg.at/fischerei-drau&amp;ved=2ahUKEwjShMiiiLGSAxWygP0HHQxJB5gQy_kOegYIAQgDEAs&amp;opi=89978449&amp;cd&amp;psig=AOvVaw3t72HYnlia9GuIWyqx7_4S&amp;ust=1769786944663000\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(26, 13, 171);\">Völkermarkter Stausee</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> oder Ferlacher Stau). Die Strömung ist kaum spürbar, die Tiefe beachtlich.</span></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Fische:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Ein Paradies für </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Friedfischangler</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> (Karpfen über 20 kg, Brachsen) und </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Raubfisch-Profis</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> (Zander, Hecht, Wels).</span></li><li data-list=\"bullet\" class=\"ql-indent-1\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Tipp:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Das „Schleppfischen“ vom Boot aus ist hier besonders im Herbst auf Großhechte erfolgreich.</span></li></ol><p><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Warum die Drau so speziell ist</span></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Artenvielfalt:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Durch die Staustufen entstehen unterschiedliche Lebensräume, was die Drau zu einem der artenreichsten Gewässer Österreichs macht.</span></li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Ganzjährigkeit:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Während kleine Bäche oft gesperrt sind, bieten die großen Draustaus fast das ganze Jahr über Fangchancen (beachte die Schonzeiten der Kärntner Landesfischerei).</span></li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Naturerlebnis:</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> Besonders im Oberen Drautal angelst du vor der Kulisse der Lienzer Dolomiten und der Kreuzeckgruppe.</span></li></ol><p><br></p>",
+        "hint": null,
+        "fishing_rights": "<table><tbody><tr><td data-row=\"1\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Gebiet / Revier Bewirtschafter / VereinBesonderheiten</strong></td></tr><tr><td data-row=\"2\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Villach (Stadt)</strong></td><td data-row=\"2\"><a href=\"https://aesche.at/wp/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(26, 13, 171);\">Fischerverein Äsche</a></td><td data-row=\"2\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Rückstau KW Villach &amp; Fließstrecke bis Gailmündung; Fokus auf </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Salmoniden</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">.</span></td></tr><tr><td data-row=\"3\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Villach (Seebach)</strong></td><td data-row=\"3\"><a href=\"https://www.sportfischerei-villach.at\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(26, 13, 171);\">Sportfischereiverein Villach</a></td><td data-row=\"3\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Stau 1 und Wernberger Schleife.</span></td></tr><tr><td data-row=\"4\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Völkermarkt</strong></td><td data-row=\"4\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Stadtgemeinde Völkermarkt</span></td><td data-row=\"4\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Linkes Ufer des Stausees (ca. 12,4 km); Rabatte für Übernachtungsgäste.</span></td></tr><tr><td data-row=\"5\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Annabrücke</strong></td><td data-row=\"5\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(26, 13, 171);\">Revier Pogoriutschnig</span></td><td data-row=\"5\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Bereich Ebenthal/Klagenfurt; gute Bestände an </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Zander</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\"> und </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Karpfen</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">.</span></td></tr><tr><td data-row=\"6\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Weißenstein</strong></td><td data-row=\"6\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Gemeinde Weißenstein</span></td><td data-row=\"6\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Revier 1 &amp; 2 inkl. Altarm; Lizenzen oft nur als Koppelkarten.</span></td></tr><tr><td data-row=\"7\"><strong style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Oberkärnten</strong></td><td data-row=\"7\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(26, 13, 171);\">Fam. Gradnitzer (Pontiller Wasser)</span></td><td data-row=\"7\"><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Klassisches Salmoniden- und Huchenrev</span></td></tr></tbody></table><p><br></p>",
+        "ticket_sales": "<p><a href=\"https://www.falle.at\" rel=\"noopener noreferrer\" target=\"_blank\"><img src=\"data:image/png;base64,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\"></a></p>",
+        "fish": [
+            "Bachforelle",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Saibling",
+            "Äsche",
+            "Barbe",
+            "Huchen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Gemeiner Sonnenbarsch"
+        ]
+    },
+    {
+        "name": "Gail",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "<p><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">Die </span><strong style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">Gail</strong><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\"> (</span><a href=\"https://de.wikipedia.org/wiki/Furlanische_Sprache\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(51, 102, 204);\">friaulisch</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\"> </span><em style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">Zelia</em><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">, </span><a href=\"https://de.wikipedia.org/wiki/Slowenische_Sprache\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(51, 102, 204);\">slowenisch</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\"> </span><em style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">Zilja</em><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">) ist der größte rechte </span><a href=\"https://de.wikipedia.org/wiki/Nebenfluss\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(51, 102, 204);\">Nebenfluss</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\"> der </span><a href=\"https://de.wikipedia.org/wiki/Drau\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255); color: rgb(51, 102, 204);\">Drau</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">.</span></p><p><br></p><h2><span style=\"background-color: rgb(255, 255, 255); color: inherit;\">Fischregionen:</span></h2><p><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">Historisch reichte die </span><a href=\"https://de.wikipedia.org/wiki/Fischregion\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: initial; color: rgb(51, 102, 204);\">Forellenregion</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\"> bis Kötschach-Mauthen, die Äschenregion bis zur Warmbachmündung. Die Barbenregion nahm die unterste Gail unterhalb der Warmbachmündung ein. Heute reicht die Forellenregion, bedingt durch die Flussregulierungen, bis Hermagor. Von historisch belegten 26 Arten kommen derzeit im Fluss noch 17 Arten vor, als stark gefährdet gilt der </span><a href=\"https://de.wikipedia.org/wiki/Str%C3%B6mer_(Fisch)\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: initial; color: rgb(51, 102, 204);\">Strömer</a><span style=\"background-color: rgb(255, 255, 255); color: rgb(32, 33, 34);\">.</span></p><p><br></p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Möll",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "<p><span style=\"color: rgb(10, 10, 10); background-color: rgb(255, 255, 255);\">Bekannt für ihre wilde Schönheit und klares Wasser. Ideale Bedingungen für Fliegenfischer, besonders im Bereich Heiligenblut bis Stall (Forellen, Äschen, Saiblinge).</span></p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Bachforelle",
+            "Flussbarsch",
+            "Hecht",
+            "Äsche",
+            "Regenbogenforelle"
+        ]
+    },
+    {
+        "name": "Gurk",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "<p><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Ein typischer, abwechslungsreicher Gebirgsfluss, der sich durch Mittelkärnten bis zur Drau schlängelt.</span></p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Bachforelle",
+            "Hecht",
+            "Äsche",
+            "Huchen",
+            "Regenbogenforelle"
+        ]
+    },
+    {
+        "name": "Lieser",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "<p><span style=\"background-color: rgb(255, 255, 255); color: rgb(10, 10, 10);\">Ein rasch fließender Gebirgsfluss, der als \"überschäumend\" gilt und gute Forellenbestände aufweist. </span></p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Bachforelle",
+            "Äsche",
+            "Regenbogenforelle"
+        ]
+    },
+    {
+        "name": "Mürz Kapellen",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> Neuberg an der Mürz – Kapellen im Mürzer Oberland, Steiermark</p><p><br></p><p><strong>Gewässerdaten:</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Länge: 6,9 km</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Breite: ca. 15–25 m</li></ol><p><br></p><p><strong>Reviergrenzen:</strong></p><p> Die obere Reviergrenze befindet sich in Fließrichtung bei der Bahnhofbrücke in Neuberg. Die untere Reviergrenze liegt zwischen Kapellen und Kohleben, bei der Abzweigung Richtung Bärntal.</p><p> Zwischen der Bahnhofbrücke in Neuberg und der Einmündung des Mühlbaches ist ein Fischereischongebiet ausgewiesen. In diesem Bereich ist das Fischen vom <strong>15.10. bis 15.03.</strong> nicht erlaubt.</p><p><br></p><h3>WEITERE INFORMATIONEN</h3><p>Die Mürz Kapellen bietet aufgrund ihrer vielseitigen Gewässerstruktur hervorragende Möglichkeiten für eine abwechslungsreiche Trocken- und Nymphenfischerei. In den breiten Zügen mit teils grobem Gestein, tiefen Gumpen und ausgewaschenen Ufern mit zahlreichen Unterständen findet die Bachforelle ideale Lebensbedingungen.</p><p>Die langen, gleichmäßigen Rieselstrecken eignen sich besonders gut für das Trockenfliegenfischen auf Äschen.</p><p>Der Fischbestand entwickelt sich in diesem Abschnitt seit vielen Jahren auf natürliche und nachhaltige Weise. Durch das vorhandene Geschiebe und das hohe Nährtieraufkommen sind die Fische kräftig, wohlgenährt und schön gezeichnet.</p><p>Die Natur des Mürzer Oberlandes zeigt sich hier von ihrer besonders reizvollen Seite. Auch kulinarisch bietet die Region in unmittelbarer Nähe zahlreiche Möglichkeiten zum Genießen und Verweilen.</p><p><br></p><p><strong>Was uns besonders am Herzen liegt:</strong></p><p>Die gezielte Förderung der heimischen Bachforelle sowie der konsequente, ganzjährige Schutz der Äsche.</p>",
+        "hint": null,
+        "fishing_rights": "<p><strong>Fischentnahme:</strong></p><p> Bis zu 3 Forellen pro Tag</p><p> Äsche ganzjährig geschont</p><p><br></p><p><strong>Fischereisaison:</strong></p><p> 16.03. bis 31.12.</p><p>Ein Gewässer der Österreichischen Bundesforste AG, Forstbetrieb Steiermark</p>",
+        "ticket_sales": "<p><strong>Lizenzen:</strong></p><p> Kombi-, Jahres- und Tageslizenzen sind limitiert</p><p> Lizenzausgabe: Fa. Pijawetz</p><p> 📞 +43 (0)676 83388 100</p>",
+        "fish": [
+            "Bachforelle",
+            "Äsche",
+            "Regenbogenforelle"
+        ]
+    },
+    {
+        "name": "Mürz Scheiterboden 1 und 2",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> Naturpark Mürzer Oberland, Steiermark</p><p><br></p><p><strong>Betreuender Verein:</strong></p><p> VÖAFV – Ortsgruppe Frein</p><p><br></p><p><strong>Gewässercharakter:</strong></p><p> Nahezu unberührter Gebirgsfluss in sensibler Naturlage</p><p><br></p><p><strong>Revierlänge:</strong></p><p> ca. 6,3 km</p><p><br></p><p><strong>Reviergrenzen:</strong></p><p> Vom Naturdenkmal <strong>„Totes Weib“</strong> (Südportal des Freiner Straßentunnels) bis zur <strong>Fellnerbrücke</strong></p><p> (ca. 700 m oberhalb des Ortsendes von Mürzsteg in Fahrtrichtung Frein)</p><p><br></p><h3>WEITERE INFORMATIONEN</h3><p>Die Mürz im Bereich Scheiterboden zählt zu den herausragenden Salmonidenrevieren der Steiermark und richtet sich an erfahrene, passionierte Fliegenfischer. In diesem Abschnitt präsentiert sich der Fluss als nahezu unberührtes Naturidyll mit einem ausgezeichneten Bestand an Äschen und Bachforellen.</p><p>Der Gewässerverlauf ist abwechslungsreich gestaltet: Ruhige Aufweitungen wechseln sich mit tiefen, vielversprechenden Gumpen und frei fließenden Strecken ab. Die Mürz kann sich hier noch weitgehend natürlich entfalten – eine absolute Seltenheit, die dieses Revier besonders wertvoll macht.</p><p>Aufgrund der außergewöhnlichen und sensiblen Lage im Naturpark <strong>Mürzer Oberland</strong> ist die Fischerei streng reglementiert und die Anzahl der verfügbaren Lizenzen stark begrenzt. Diese Maßnahmen gewährleisten den nachhaltigen Erhalt des Fischbestandes und des einzigartigen Naturraums.</p><p><strong>Was uns besonders am Herzen liegt:</strong></p><p> Der Schutz dieses außergewöhnlichen Gewässerabschnitts sowie die Erhaltung eines stabilen, natürlich gewachsenen Äschen- und Bachforellenbestandes durch eine bewusst limitierte Nutzung.</p>",
+        "hint": null,
+        "fishing_rights": "<p><strong>FISCHEREIORDNUNG für Tageskarte MÜRZ-Scheiterboden I und II   2026 </strong></p><p><br></p><p>Bei der Fischereiausübung sind die Tageslizenz sowie die notwendigen behördlichen Dokumente zur Ausübung der Fischerei unbedingt mitzuführen und auf Verlangen einem Kontrollorgan vorzuweisen.</p><p>Die Bestimmungen dieser Fischereiordnung, der Lizenz sowie das steirische Fischereigesetz sind strikt einzuhalten. Für alle Fische gelten die gesetzlichen Schonzeiten, ausgenommen der, die Äschen ganzjährig geschont ist! </p><p><br></p><p>Brittelmaße: Bachforelle 35 cm, Regenbogenforelle 30 cm.</p><p><br></p><p>Die Fischerei ist in der Zeit von 1 Stunde vor Sonnenaufgang bis 1 Stunde nach Sonnenuntergang gestattet (Nachtfischverbot). Das Fischen ist mit 1 Fliegenrute und nur mit Kunstfliege (Trockenfliege, Nymphe, Streamer) gestattet. Es dürfen nur Einfachhaken ohne Widerhaken verwendet werden. Ein geeigneter Hakenlöser und ein Maßband sind mitzuführen. </p><p><br></p><p>NICHT GESTATTET: Verwendung von Filzsohlen an Watschuhen oder –stiefeln. Fischen während der Revierreinigung. Die Verwendung aller natürlicher Köder (Wurm, Maden, Käse, usw.). Fischen von Brücken und erhöhten Standplätzen, von denen aus nicht mehr gekeschert werden kann. Jegliche Verunreinigung des Wassers bzw. des Ufers (auch durch Schuppen und Ausnehmen der Fische). Veränderung des Steinwurfes und der Uferbefestigungen und Beschädigungen von Bäumen, Sträuchern usw.  Verkauf von gefangenen Fischen, Verwendung von Wasserfahrzeugen aller Art (z.B.: Boot,  Belly Boat etc.), Echolot, Fischfinder u.ä. </p><p><br></p><p>FANGZAHLBESCHRÄNKUNG: 2 Stück Forellen. </p><p>AUFZEICHNUNGSPFLICHT: Falls Sie sich einen der obengenannten Fische aneignen, so ist dieser Fang sofort nach der Landung und Versorgung in die auf der Tageskarte aufgedruckten Fangstatistik einzutragen. Pro Zeile darf nur ein Fisch eingetragen werden. </p><p><br></p><p>Bei Nichtaneignung muß der Fisch sofort nach dem Fang wieder schonend rückversetzt werden. Untermaßige oder in der Schonzeit befindliche Fische sind nach dem Fang – mit der nötigen Vorsicht – sofort in das Wasser rückzuversetzen. Nicht lebensfähige Fische sind futtergerecht zu zerstückeln und sofort in das Wasser einzubringen. Bei Fischereiende ist die Tageskarte bei einer der Vorverkaufsstellen abzugeben oder per E-Mail an: office@fischundwasser.at oder per Post an den VÖAFV, Lenaugasse 14, 1080 Wien zu senden.</p><p><br></p><p>Der VÖAFV übernimmt für den Fang bestimmter Arten und Mengen von Fischen keine Gewähr. </p>",
+        "ticket_sales": "<p><strong>Lizenzen:</strong></p><p> Tages- und 2-Tageskarten – streng limitiert</p><p> </p><p><strong>Preise Tageskarten (16.03. – 30.11.):</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Mitglieder: 115,00 €</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Gäste: 135,00 €</li></ol><p><strong>Preise 2-Tageskarten (16.03. – 30.11.):</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Mitglieder: 205,00 €</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Gäste: 235,00 €</li></ol>",
+        "fish": [
+            "Bachforelle",
+            "Äsche"
+        ]
+    },
+    {
+        "name": "Salzaklamm",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> Rasing – Halltal, Steiermark</p><p><br></p><p><strong>Gewässerdaten:</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Länge: ca. 3,7 km</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Breite: 7–12 m</li></ol><p><br></p><p><strong>Reviergrenzen:</strong></p><p> In Fließrichtung von der Einmündung der Walster in die Salza bis zur Brücke in Rasing.</p><p><br></p><p><strong>Fischentnahme:</strong></p><p> 2 Forellen pro Tag</p><p> (davon 1 Bachforelle und 1 Regenbogenforelle)</p><p><br></p><p>Ein Gewässer der Österreichischen Bundesforste AG, Forstbetrieb Steiermark</p><h3><br></h3><h3>WEITERE INFORMATIONEN</h3><p>In diesem Abschnitt durchfließt die Salza eine weitgehend unberührte, romantische Wiesen- und Klamm-Landschaft. Viele Gäste bezeichnen diesen Revierteil als das „steirische Kanada“ der Güteklasse 1.</p><p>Beginnend im Halltal schlängelt sich die Salza zunächst ruhig durch offene Wiesenbereiche, bevor sie gemächlich fließend Mariazell südlich umgeht und in die landschaftlich beeindruckende Salzaklamm eintritt.</p><p>Lange Rieselstrecken wechseln sich mit tiefen Gumpen und ruhigen Pools ab und bieten abwechslungsreiche Fischereimöglichkeiten. Entlang der Klamm führt ein Fußweg, Rastplätze und weitläufige Wiesen laden zum Verweilen ein – Naturgenuss und Erholung pur.</p><p><strong>Was uns besonders am Herzen liegt:</strong></p><p>Die gezielte Förderung der heimischen Bachforelle sowie der konsequente, ganzjährige Schutz der Äsche.</p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": "<p><strong>Lizenzen:</strong></p><p> Kombi-, Jahres- und Tageslizenzen sind limitiert</p><p> Lizenzausgabe: Fa. Pijawetz</p><p> 📞 +43 (0)676 83388 100</p>",
+        "fish": [
+            "Bachforelle",
+            "Äsche",
+            "Regenbogenforelle"
+        ]
+    },
+    {
+        "name": "Enns bei Admont",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> Admont, Steiermark – Nationalpark Gesäuse</p><p><br></p><p><strong>Gewässercharakter:</strong></p><p> Alpiner Fluss mit naturnahen, weitgehend unverbauten Abschnitten</p><p><br></p><p><strong>Fischereimethoden:</strong></p><p> Fliegenfischen (besonders beliebt)</p><p> Spinnfischen in dafür geeigneten Revieren</p><p><br></p><p><br></p><h3>WEITERE INFORMATIONEN</h3><p>Die Enns im Bereich Admont zählt zu den eindrucksvollsten Fischereigewässern der Steiermark. Als sauberer Alpenfluss mit ausgeprägtem Gebirgscharakter bietet sie naturnahe Strukturen, abwechslungsreiche Strömungsverhältnisse und ideale Lebensbedingungen für Salmoniden.</p><p>Vor allem Bach- und Regenbogenforellen sowie Äschen prägen den Fischbestand. In ruhigeren Abschnitten und Randbereichen finden sich zudem weitere Fischarten wie Aitel, Saiblinge, Weißfische oder vereinzelt auch Karpfen.</p><p>Das Fliegenfischen steht hier klar im Vordergrund und wird von vielen Anglern geschätzt. Je nach Revierabschnitt ist auch das Spinnfischen möglich.</p><p>Aufgrund der Lage im <strong>Nationalpark Gesäuse</strong> gelten besondere Bestimmungen. Es wird empfohlen, sich vor dem Angeln bei der Nationalparkverwaltung Gesäuse oder bei den örtlichen Tourismusbüros über genaue Reviergrenzen, Schonzeiten und erlaubte Köder zu informieren.</p><p><br></p><p><strong>Was uns besonders am Herzen liegt:</strong></p><p> Ein verantwortungsvoller Umgang mit diesem sensiblen Naturraum sowie die nachhaltige Bewirtschaftung eines der letzten großen alpinen Flusssysteme Österreichs.</p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": "<p><strong>Lizenzen:</strong></p><p> Erforderlich sind eine Tages- oder Wochenkarte sowie eine gültige Fischergastkarte für die Steiermark</p><p> Lizenzausgabe über lokale Tourismusverbände oder zuständige Fischervereine</p>",
+        "fish": [
+            "Bachforelle",
+            "Hecht",
+            "Saibling",
+            "Äsche",
+            "Huchen",
+            "Regenbogenforelle",
+            "Aitel - Döbel"
+        ]
+    },
+    {
+        "name": "Raab - Abschnitt Pertlstein",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<h3><strong>Lage:</strong></h3><p> Gemeinde Pertlstein, Steiermark</p><p><br></p><p><strong>Gewässertyp:</strong></p><p> Kleiner, naturnaher Fluss mit ausgeprägtem Mäanderverlauf</p><p><br></p><p><strong>Revierlänge:</strong></p><p> ca. 4 km</p><p><br></p><p><strong>Reviergrenzen:</strong></p><p> Obere Reviergrenze ist der zweite Mäander unterhalb der Straßenbrücke Lödersdorf.</p><p> Die untere Reviergrenze befindet sich flussabwärts der Pertlsteinermühle.</p><p><br></p><p><strong>Uferzugang:</strong></p><p> Rechtes Ufer durchgehend befischbar</p><p> Linkes Ufer auf ca. 1 km Länge zugänglich</p><p><br></p><p><strong>Gewässerstruktur:</strong></p><p> Zahlreiche Mäander, naturnahe Flussabschnitte</p><p> Ca. 2 km langer Rückstaubereich mit Tiefen bis zu 3 m</p><p><br></p><h3>WEITERE INFORMATIONEN</h3><p>Dieses naturbelassene Flussstück der Raab besticht durch seinen ursprünglichen Charakter und den abwechslungsreichen Verlauf in zahlreichen Mäandern. Die vielfältige Gewässerstruktur bietet ideale Lebensbedingungen für einen bemerkenswerten Artenreichtum und macht das Revier besonders reizvoll für naturverbundene Angler.</p><p>Der längere Rückstaubereich mit Tiefen von bis zu drei Metern sorgt zusätzlich für unterschiedliche Strömungs- und Standplätze und erweitert die fischereilichen Möglichkeiten innerhalb des Reviers.</p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": "<p><strong>Fischentnahme:</strong></p><p> Maximal 2 Edelfische pro Tag</p><h3><br></h3><p><strong>Lizenzen:</strong></p><p>Info Obmann Günter Hartinger</p><p> 📞 0699 / 88450339</p><p><strong>Saison:</strong></p><p> 01.01. bis 31.12.</p>",
+        "fish": [
+            "Bachforelle",
+            "Zander",
+            "Hecht",
+            "Wels",
+            "Barbe"
+        ]
+    }
+]

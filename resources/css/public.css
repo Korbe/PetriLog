@@ -1,0 +1,190 @@
+/*
+ * Design system of the public site (home, pricing, contact, legal pages).
+ * Everything is scoped to .petri-site, which the public layout sets on its root.
+ */
+
+.petri-site {
+    --lake-950: #03141a;
+    --lake-900: #06212b;
+    --lake-800: #0a3140;
+    --lake-700: #104456;
+    --paper: #f3eee3;
+    --paper-deep: #e9e1cf;
+    --ink: #0f1d22;
+    --float: #ff5a1f;
+
+    font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+
+    /* The public site is always light: pin the app tokens (used by shared form
+       components like VCombobox) to their light values, even if html has .dark. */
+    --app-surface: #ffffff;
+    --app-surface-2: #f9f7f2;
+    --app-border: rgba(15, 29, 34, 0.09);
+    --app-border-strong: rgba(15, 29, 34, 0.17);
+    --app-ink: #0f1d22;
+    --app-muted: rgba(15, 29, 34, 0.64);
+    --app-subtle: rgba(15, 29, 34, 0.44);
+    --app-hover: rgba(15, 29, 34, 0.045);
+    --app-accent-ink: #0c6fc0;
+    --app-accent-soft: rgba(17, 141, 240, 0.11);
+    --app-success: #0f8a5f;
+    --app-danger: #c62828;
+    --app-danger-soft: rgba(198, 40, 40, 0.1);
+    color-scheme: light;
+}
+
+/* .font-display / .font-log are defined globally in app-ui.css */
+
+/* Film grain over dark water surfaces */
+.petri-site .ph-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+}
+
+/* Long-form text (legal pages) */
+.petri-site .ph-prose p,
+.petri-site .ph-prose li {
+    color: color-mix(in srgb, var(--ink) 75%, transparent);
+    line-height: 1.75;
+}
+.petri-site .ph-prose p + p { margin-top: 1rem; }
+.petri-site .ph-prose ul { list-style: none; margin: 1rem 0; padding: 0; }
+.petri-site .ph-prose ul li { position: relative; padding-left: 1.5rem; }
+.petri-site .ph-prose ul li + li { margin-top: 0.4rem; }
+.petri-site .ph-prose ul li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.8em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--float);
+}
+.petri-site .ph-prose a {
+    color: var(--color-primary-700);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in srgb, var(--color-primary-700) 35%, transparent);
+}
+.petri-site .ph-prose strong { color: var(--ink); font-weight: 600; }
+
+/*
+ * Auth pages reuse the app's form components (VInput, VPassword, VButton …).
+ * These rules restyle them only inside .petri-auth; being unlayered they win over the
+ * component/utility layers, so the dashboard keeps its look.
+ */
+.petri-auth label {
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.petri-auth .form-input {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+    border-radius: 0.9rem;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    box-shadow: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.petri-auth .form-input:hover { border-color: color-mix(in srgb, var(--ink) 30%, transparent); }
+.petri-auth .form-input:focus {
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary-500) 18%, transparent);
+    outline: none;
+}
+.petri-auth .form-input.pr-16 { padding-right: 6rem; }
+/* VCombobox (Bundesland bei der Registrierung) im Stil der Auth-Felder */
+.petri-auth .ui-combobox-field {
+    border-radius: 0.9rem;
+    padding: 0.85rem 0.75rem 0.85rem 1rem;
+    font-size: 1rem;
+}
+.petri-auth .ui-combobox-field:not([aria-expanded='true']) { border-color: color-mix(in srgb, var(--ink) 15%, transparent); }
+.petri-auth .ui-combobox-field:not([aria-expanded='true']):hover { border-color: color-mix(in srgb, var(--ink) 30%, transparent); }
+.petri-auth input[type='checkbox'] {
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 0.35rem;
+    border-color: color-mix(in srgb, var(--ink) 30%, transparent);
+}
+.petri-auth .btn {
+    border-radius: 9999px;
+    padding: 0.95rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.petri-auth .text-red-500 { color: #c2330a; }
+
+/* Page-load stagger */
+@keyframes ph-rise {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: none; }
+}
+.petri-site .ph-rise { animation: ph-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* Depth contours drawing themselves in */
+@keyframes ph-draw {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+}
+.petri-site .ph-contour {
+    stroke-dasharray: 1;
+    animation: ph-draw 2.6s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+/* Fishing float bobbing on the water line + ripples */
+@keyframes ph-bob {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50% { transform: translateY(4px) rotate(3deg); }
+}
+.petri-site .ph-bob { animation: ph-bob 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+
+@keyframes ph-ripple {
+    0% { transform: translateX(-50%) scale(0.15); opacity: 0.8; }
+    100% { transform: translateX(-50%) scale(1); opacity: 0; }
+}
+/* Base state = first keyframe, so delayed ripples don't flash at full size. */
+.petri-site .ph-ripple {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.15);
+    animation: ph-ripple 3.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite both;
+}
+
+/* Water surface drifting sideways */
+@keyframes ph-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.petri-site .ph-drift { animation: ph-drift 18s linear infinite; }
+.petri-site .ph-drift-slow { animation: ph-drift 30s linear infinite reverse; }
+
+/* Scroll reveal (classes toggled by the public layout) */
+.petri-site .ph-reveal {
+    transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.petri-site.ph-anim-ready .ph-reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .petri-site *,
+    .petri-site *::before,
+    .petri-site *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    .petri-site.ph-anim-ready .ph-reveal:not(.is-visible) {
+        opacity: 1;
+        transform: none;
+    }
+}

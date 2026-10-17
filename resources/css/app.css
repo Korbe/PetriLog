@@ -3,11 +3,11 @@
 @tailwind utilities;
 @import './additional-styles/flatpickr.css';
 @import './additional-styles/utility-patterns.css' layer(components);
-@import 'vue-multiselect/dist/vue-multiselect.css';
-@import './multiselect.css';
 @custom-variant dark (&:where(.dark, .dark *));
 
 @import './style.css';
+@import './public.css';
+@import './app-ui.css';
 
 [x-cloak] {
     display: none;

@@ -1,7 +1,7 @@
 <template>
     <button @click="$emit('click')"
-        class="cursor-pointer btn px-2.5 bg-white dark:bg-gray-800 border-gray-200 hover:border-gray-300 dark:border-gray-700/60 dark:hover:border-gray-600 text-gray-400 dark:text-gray-500">
-        <span class="sr-only">Reset</span>
+        class="cursor-pointer inline-flex size-[2.75rem] items-center justify-center rounded-full border border-(--app-border-strong) bg-(--app-surface) text-(--app-muted) transition hover:bg-(--app-hover) hover:text-(--app-ink)" title="Zeitraum zurücksetzen">
+        <span class="sr-only">Zeitraum zurücksetzen</span>
         <ArrowUturnLeftIcon class="h-5" />
     </button>
 </template>

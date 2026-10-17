@@ -1,89 +1,55 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de-AT">
 
 <head>
-    <meta http-equiv="content-language" content="de">
+    @php($seo = $seo ?? \App\Support\Seo::defaults())
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="robots" content="index, follow">
+
+    @inertiaHead
+    {{-- SEO: per page via withViewData(['seo' => Seo::page(...)]). With SSR the <Head> title is already part of
+         @inertiaHead ($__inertiaSsrResponse is set by that directive), so only render it here without SSR. --}}
+    @if (empty($__inertiaSsrResponse))
+        <title inertia>{{ $seo['title'] }}</title>
+    @endif
+    <meta name="description" content="{{ $seo['description'] }}">
+    <meta name="robots" content="{{ $seo['robots'] }}">
+    <link rel="canonical" href="{{ $seo['canonical'] }}">
+    @foreach ($seo['og'] as $property => $content)
+        <meta property="og:{{ $property }}" content="{{ $content }}">
+    @endforeach
+    @foreach ($seo['twitter'] as $name => $content)
+        <meta name="twitter:{{ $name }}" content="{{ $content }}">
+    @endforeach
+
+    <script type="application/ld+json">{!! json_encode(\App\Support\Seo::siteJsonLd(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
+    @foreach ($seo['jsonLd'] as $block)
+        <script type="application/ld+json">{!! json_encode($block, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
+    @endforeach
+
+    {{-- App / PWA --}}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="manifest" href="{{ url('/manifest.json') }}">
-
-
-
-    {{-- Dynamische Meta aus Session --}}
-    @if (session('meta'))
-        @foreach (session('meta') as $name => $content)
-            @if (Str::startsWith($name, 'og:'))
-                <meta property="{{ $name }}" content="{{ $content }}">
-            @else
-                <meta name="{{ $name }}" content="{{ $content }}">
-            @endif
-        @endforeach
-    @endif
+    <meta name="theme-color" content="#118DF0">
+    <link rel="apple-touch-icon" href="{{ asset('images/icons/logo-192.png') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="PetriLog">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />   
-
-    @php
-        $structuredData = [
-            '@context' => 'https://schema.org',
-            '@graph' => [
-                [
-                    '@type' => 'Organization',
-                    'name' => config('app.name'),
-                    'url' => url('/'),
-                    'logo' => asset('logo.png'),
-                ],
-                [
-                    '@type' => 'WebSite',
-                    'url' => url()->current(),
-                    'name' => config('app.name'),
-                    'potentialAction' => [
-                        '@type' => 'SearchAction',
-                        'target' => url('/search?q={search_term_string}'),
-                        'query-input' => 'required name=search_term_string',
-                    ],
-                ],
-            ],
-        ];
-    @endphp
-
-    <script type="application/ld+json">
-        {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT) !!}
-    </script>
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
 
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', async function() {
-                try {
-                    // 1️⃣ Alle alten Service Worker holen
-                    const registrations = await navigator.serviceWorker.getRegistrations();
-
-                    // 2️⃣ Alle alten SW de-registrieren
-                    for (const reg of registrations) {
-                        console.log('Unregistering old SW:', reg.scope);
-                        await reg.unregister();
-                    }
-
-                    // 3️⃣ Neuen Service Worker registrieren
-                    const reg = await navigator.serviceWorker.register('/service-worker.js', {
-                        scope: '/'
-                    });
-                    console.log('Service Worker registered!', reg.scope);
-
-                } catch (err) {
-                    console.error('Service Worker registration failed:', err);
-                }
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/service-worker.js', { scope: '/', updateViaCache: 'none' })
+                    .catch(function (err) { console.error('Service Worker registration failed:', err); });
             });
         }
     </script>
 
     @routes
     @vite('resources/js/app.js')
-    @inertiaHead
 </head>
 
 <body class="font-sans antialiased">

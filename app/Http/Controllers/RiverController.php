@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\River;
 use App\Models\State;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class RiverController extends Controller
 {
@@ -14,9 +15,10 @@ class RiverController extends Controller
      */
     public function show(State $state, River $river)
     {
-        session()->forget('meta');
 
-        $river->load('fish');
+        abort_unless($river->isVisibleTo(Auth::user()), 404);
+
+        $river->load(['fish' => fn($q) => $q->approved()]);
 
         return Inertia::render('Rivers/Show', [
             'state_id' => $state->id,

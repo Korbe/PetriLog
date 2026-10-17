@@ -9,6 +9,7 @@ import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
 import SecondaryButton from '@/JetstreamComponents/SecondaryButton.vue';
 import VInput from '@/components/VInput.vue';
 import VButton from '@/components/VButton.vue';
+import { confirmDialog } from '@/composables/useDialog';
 
 const props = defineProps({
     user: Object,
@@ -60,7 +61,15 @@ const updatePhotoPreview = () => {
     reader.readAsDataURL(photo);
 };
 
-const deletePhoto = () => {
+const deletePhoto = async () => {
+    const confirmed = await confirmDialog({
+        title: 'Profilfoto entfernen?',
+        message: 'Dein Profilfoto wird gelöscht. Du kannst jederzeit ein neues hochladen.',
+        confirmText: 'Foto entfernen',
+        tone: 'danger',
+    });
+    if (!confirmed) return;
+
     router.delete(route('current-user-photo.destroy'), {
         preserveScroll: true,
         onSuccess: () => {
@@ -80,8 +89,8 @@ const clearPhotoFileInput = () => {
 <template>
     <FormSection @submitted="updateProfileInformation">
         <template #header>
-            <h1 class="text-lg font-medium text-gray-800 dark:text-gray-100">Profil Information</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Aktualisiere die Profilinformationen deines
+            <h1 class="font-display text-3xl text-(--app-ink)">Profil Information</h1>
+            <p class="mt-1 mb-6 text-sm text-(--app-muted)">Aktualisiere die Profilinformationen deines
                 Kontos.</p>
         </template>
 
@@ -111,7 +120,7 @@ const clearPhotoFileInput = () => {
                 </SecondaryButton>
 
                 <SecondaryButton v-if="user.profile_photo_path" type="button" class="mt-2" @click.prevent="deletePhoto">
-                    Remove Photo
+                    Foto entfernen
                 </SecondaryButton>
 
                 <InputError :message="form.errors.photo" class="mt-2" />

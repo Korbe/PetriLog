@@ -3,9 +3,9 @@
 namespace App\Mail;
 
 use App\Models\User;
+use App\Support\MailHtml;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\HtmlString;
 use Illuminate\Queue\SerializesModels;
 
 class NewsletterMail extends Mailable
@@ -25,7 +25,7 @@ class NewsletterMail extends Mailable
             ->view('emails.newsletter')
             ->with([
                 'user' => $this->user,
-                'content' => new HtmlString($this->content),
+                'body' => MailHtml::format($this->content),
             ]);
     }
 }

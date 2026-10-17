@@ -18,6 +18,12 @@ return [
         'maps_api_key' => env('GOOGLE_MAPS_API_KEY'),
     ],
 
+    // Wetterdaten zum Fang: GeoSphere Austria Data Hub (Open Data, CC BY 4.0, kein API-Key nötig)
+    'geosphere' => [
+        'enabled' => env('WEATHER_ENABLED', true),
+        'url' => env('GEOSPHERE_URL', 'https://dataset.api.hub.geosphere.at/v1/timeseries/historical/inca-v1-1h-1km'),
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

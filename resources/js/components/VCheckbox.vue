@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="flex items-center">
+    <label class="flex items-center cursor-pointer">
       <input 
         type="checkbox" 
         class="form-checkbox" 
@@ -9,7 +9,7 @@
         :disabled="disabled"
         @change="$emit('update:modelValue', $event.target.checked)"
       />
-      <span class="text-md md:text-sm ml-2">{{ label }}</span>
+      <span class="text-sm ml-2.5 text-(--app-ink)">{{ label }}</span>
     </label>
   </div>
 </template>

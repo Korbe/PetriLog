@@ -93,4 +93,42 @@ class TicketControllerTest extends TestCase
 
         $response->assertSessionHasErrors('title');
     }
+
+    public function test_store_sanitizes_description_and_steps_html(): void
+    {
+        Mail::fake();
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->post(route('app.ticket.store'), [
+                'title' => 'XSS',
+                'description' => '<p>Text<script>alert(1)</script><img src="x" onerror="alert(2)"></p>',
+                'steps' => '<p onclick="alert(3)"><a href="javascript:alert(4)">los</a></p>',
+            ]);
+
+        $ticket = Ticket::where('title', 'XSS')->sole();
+
+        $this->assertSame('<p>Text</p>', $ticket->description);
+        $this->assertStringNotContainsString('onclick', $ticket->steps);
+        $this->assertStringNotContainsString('javascript:', $ticket->steps);
+        $this->assertStringContainsString('los</a>', $ticket->steps);
+    }
+
+    public function test_admin_mail_escapes_plain_ticket_fields(): void
+    {
+        $user = User::factory()->create(['name' => '<b>Max</b>']);
+        $ticket = Ticket::create([
+            'title' => '<img src=x onerror=alert(1)>',
+            'url' => 'javascript:alert(1)',
+            'user_id' => $user->id,
+        ]);
+
+        $html = (new TicketAdminMail(['ticket' => $ticket, 'user' => $user]))->render();
+
+        $this->assertStringNotContainsString('<img src=x', $html);
+        $this->assertStringNotContainsString('<b>Max</b>', $html);
+        $this->assertStringNotContainsString('href="javascript:', $html);
+        $this->assertStringContainsString('&lt;img src=x onerror=alert(1)&gt;', $html);
+    }
 }

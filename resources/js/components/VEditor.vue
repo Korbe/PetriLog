@@ -1,12 +1,12 @@
 <template>
     <div>
-        <label v-if="label" class="block text-sm font-medium mb-1">
+        <label v-if="label" class="block text-sm font-medium mb-1.5 text-(--app-ink)">
             {{ label }}
         </label>
 
-        <div ref="editor" class="bg-white"></div>
+        <div ref="editor"></div>
 
-        <p v-if="error" class="text-red-500 text-sm mt-1">
+        <p v-if="error" class="text-xs mt-1.5 font-medium text-(--app-danger)">
             {{ error }}
         </p>
     </div>

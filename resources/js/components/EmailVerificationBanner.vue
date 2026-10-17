@@ -36,23 +36,32 @@ const sendAgain = () => {
 </script>
 
 <template>
-    <div v-if="showBanner" class="bg-white border-1 dark:bg-gray-800 dark:text-gray-100 
-               px-4 py-3 rounded-lg relative flex items-start sm:items-center sm:justify-between shadow-md">
-        <p class="text-sm font-medium">
-            Bitte bestätige deine <strong>E-Mail-Adresse</strong>.
-            <span class="block sm:inline">Überprüfe dein Postfach!</span>
-
-            <span v-if="showSuccessMessage" class="ml-2 text-green-500">
-                Ein neuer Bestätigungslink ist auf dem Weg zu dir.
+    <div v-if="showBanner"
+        class="ui-card relative flex flex-col gap-4 p-5 pr-12 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-start gap-3">
+            <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-(--app-accent-soft) text-(--app-accent-ink)">
+                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                </svg>
             </span>
-        </p>
+            <div class="text-sm">
+                <p class="font-semibold">Bitte bestätige deine E-Mail-Adresse.</p>
+                <p class="ui-muted mt-0.5">Überprüfe dein Postfach – wir haben dir einen Link geschickt.</p>
+                <p v-if="showSuccessMessage" class="mt-1 font-medium text-(--app-success)">
+                    Ein neuer Bestätigungslink ist auf dem Weg zu dir.
+                </p>
+            </div>
+        </div>
 
-        <VButton @click="sendAgain" :disabled="form.processing" :loading="form.processing" class="mr-5">
+        <VButton variant="secondary" size="sm" @click="sendAgain" :disabled="form.processing" :loading="form.processing"
+            class="self-start sm:self-center">
             Erneut senden
         </VButton>
 
-        <button @click="dismissBanner" class="absolute right-2 top-1/2 -translate-y-1/2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <button @click="dismissBanner" class="ui-icon-btn absolute right-2 top-2 size-8!" aria-label="Hinweis ausblenden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                     d="M10 9.293l3.646-3.647a.5.5 0 11.708.708L10.707 10l3.647 3.646a.5.5 0 11-.708.708L10 10.707l-3.646 3.647a.5.5 0 11-.708-.708L9.293 10 5.646 6.354a.5.5 0 11.708-.708L10 9.293z"
                     clip-rule="evenodd" />

@@ -2,27 +2,20 @@
 
     <Head title="Willkommen" />
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
+    <AuthenticationCard eyebrow="Petri Heil!" :title="`Willkommen, ${$page.props.auth.user.name}.`">
+        <template #intro>
+            <p>Danke, dass du dich registriert hast!</p>
+            <p class="mt-3">Du nutzt gerade den Gratis-Plan und kannst bis zu 5 Fänge eintragen. Danach freuen wir uns,
+                wenn du auf ein Abo umsteigst.</p>
         </template>
 
-        <div>
-            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Herzlich Willkommen {{ $page.props.auth.user.name }}</h1>
+        <div class="rounded-2xl border border-(--ink)/10 bg-white p-5">
+            <p class="font-log text-[10px] uppercase tracking-[0.2em] text-(--ink)/50">Dein Start</p>
+            <p class="mt-2 font-medium">Du kannst jetzt loslegen und deinen ersten Fang eintragen.</p>
         </div>
 
-        <div class="space-y-5 mb-4 text-center text-gray-600 dark:text-gray-400">
-            <p>Danke, dass du dich registriert hast!</p>
-            <p>Du nutzt gerade den Gratis-Plan und kannst bis zu 5 Fänge eintragen. Danach freuen wir uns, wenn du auf
-                ein Abo umsteigst.</p>
-        </div>
-
-        <div class="mb-4 font-medium text-center text-sm text-green-600">
-            Du kannst jetzt loslegen und deinen ersten Fang eintragen.
-        </div>
-
-        <div class="flex justify-center mt-5">
-            <VButton href="/dashboard">
+        <div class="mt-8">
+            <VButton href="/dashboard" class="w-full">
                 Weiter zum Dashboard
             </VButton>
         </div>
@@ -31,6 +24,5 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
 import VButton from '@/components/VButton.vue';
 </script>

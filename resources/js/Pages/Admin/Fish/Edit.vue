@@ -1,13 +1,13 @@
 <template>
     <PageWrapper title="Fisch bearbeiten" backTo="/admin/fish">
-        <div class="w-full bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
-            <div class="p-6">
+        <div class="ui-card mx-auto max-w-4xl p-5 md:p-8">
+            <div>
                 <form @submit.prevent="submit">
 
                     <VFileInput v-if="canUploadImage" type="file" v-model="form.photo" accept="image/*"
-                        :multiple="false" class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
+                        :multiple="false" />
 
-                    <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
+                    <div v-if="errors?.['photos.0']" class="text-xs mt-1.5 font-medium text-(--app-danger)">{{ errors['photos.0'] }}</div>
 
                     <ImagePreview class="mt-5" :modelValue="form.photo" :existing="props.fish.media"
                         @remove="removeImage" />
@@ -41,6 +41,7 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 import VFileInput from '@/components/VFileInput.vue'
 import ImagePreview from '@/components/ImagePreview.vue'
 import { computed } from 'vue'
+import { confirmDialog } from '@/composables/useDialog'
 import VEditor from '@/components/VEditor.vue'
 
 const props = defineProps({
@@ -65,20 +66,33 @@ const submit = () => {
     form.post(route('admin.fish.update', props.fish.id))
 }
 
-const destroy = () => {
-    if (confirm(`Möchtest du den Fisch "${props.fish.name}" wirklich löschen?`)) {
+const destroy = async () => {
+    const confirmed = await confirmDialog({
+        title: 'Fischart löschen?',
+        // fish_id ist per cascadeOnDelete verknüpft – die Fänge verschwinden mit
+        message: `„${props.fish.name}“ wird dauerhaft gelöscht.\n\nAchtung: Alle Fänge mit dieser Fischart werden ebenfalls gelöscht – auch die aller anderen User.`,
+        confirmText: 'Fischart & Fänge löschen',
+        tone: 'danger',
+    })
+    if (confirmed) {
         Inertia.delete(route('admin.fish.destroy', props.fish.id))
     }
 }
 
-const removeImage = (item) => {
+const removeImage = async (item) => {
     if (item.file instanceof File) {
         form.photo = null;
         return
     }
 
     if (item.readonly) {
-        if (!confirm('Bild wirklich löschen?')) return
+        const confirmed = await confirmDialog({
+            title: 'Bild löschen?',
+            message: `Das Bild von „${props.fish.name}“ wird dauerhaft entfernt.`,
+            confirmText: 'Bild löschen',
+            tone: 'danger',
+        })
+        if (!confirmed) return
 
         router.delete(route('admin.fish.photo.delete', item.id), {
             onSuccess: () => {

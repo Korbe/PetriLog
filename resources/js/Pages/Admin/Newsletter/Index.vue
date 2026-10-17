@@ -1,8 +1,8 @@
 <template>
     <PageWrapper title="Newsletter" backTo="/admin">
-        <div class="w-full bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
+        <div class="ui-card mx-auto max-w-4xl p-5 md:p-8">
 
-            <div class="p-6">
+            <div>
                 <form @submit.prevent="submit">
 
                     <VInput label="Betreff" v-model="form.subject" :error="form.errors.subject" />

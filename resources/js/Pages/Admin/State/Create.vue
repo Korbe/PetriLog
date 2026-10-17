@@ -1,14 +1,14 @@
 <template>
     <PageWrapper title="Bundesland hinzufügen" backTo="/admin/state">
-        <div class="w-full bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
+        <div class="ui-card mx-auto max-w-4xl p-5 md:p-8">
 
-            <div class="p-6">
+            <div>
                 <form @submit.prevent="submit">
 
                     <VFileInput v-if="!form.photo" type="file" v-model="form.photo" accept="image/*" :multiple="false"
-                        class="block w-full focus:ring-brand-primary focus:border-brand-primary" />
+                        />
 
-                    <div v-if="errors?.['photos.0']" class="text-xs mt-1 text-red-500">{{ errors['photos.0'] }}</div>
+                    <div v-if="errors?.['photos.0']" class="text-xs mt-1.5 font-medium text-(--app-danger)">{{ errors['photos.0'] }}</div>
 
                     <ImagePreview class="mt-5" :modelValue="form.photo" @remove="removeImage" />
 

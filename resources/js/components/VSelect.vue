@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- Label -->
-    <label v-if="label" :for="id" class="block text-md md:text-sm font-medium mb-1">
+    <label v-if="label" :for="id" class="block text-sm font-medium mb-1.5 text-(--app-ink)">
       {{ label }}
-      <span v-if="mandatory" class="text-red-500">*</span>
+      <span v-if="mandatory" class="text-(--app-float)">*</span>
     </label>
 
     <!-- Select Input -->
@@ -16,8 +16,8 @@
     </select>
 
     <!-- Supporting Text / Error / Success Messages -->
-    <div v-if="error" class="text-xs mt-1 text-red-500">{{ error }}</div>
-    <div v-if="success" class="text-xs mt-1 text-green-500">{{ success }}</div>
+    <div v-if="error" class="text-xs mt-1.5 font-medium text-(--app-danger)">{{ error }}</div>
+    <div v-if="success" class="text-xs mt-1.5 font-medium text-(--app-success)">{{ success }}</div>
   </div>
 </template>
 
@@ -37,9 +37,9 @@ export default {
   computed: {
     selectClass() {
       return {
-        'border-red-300': this.error,
-        'border-green-300': this.success,
-        'dark:disabled:bg-gray-800 disabled:bg-gray-100 disabled:cursor-not-allowed': this.disabled
+        'border-(--app-danger)!': this.error,
+        'border-(--app-success)!': this.success,
+        'cursor-not-allowed': this.disabled
       };
     }
   }

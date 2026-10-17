@@ -1,0 +1,480 @@
+/*
+ * Design system of the logged-in app (dashboard, catches, wiki, profile, admin).
+ * Tokens live on :root / .dark so shared components work everywhere; the layout root
+ * carries .petri-app for typography and the scoped form overrides.
+ */
+
+:root {
+    --app-bg: #f4f1ea;
+    --app-surface: #ffffff;
+    --app-surface-2: #f9f7f2;
+    --app-border: rgba(15, 29, 34, 0.09);
+    --app-border-strong: rgba(15, 29, 34, 0.17);
+    --app-ink: #0f1d22;
+    --app-muted: rgba(15, 29, 34, 0.64);
+    --app-subtle: rgba(15, 29, 34, 0.44);
+    --app-hover: rgba(15, 29, 34, 0.045);
+    --app-accent: #118df0;
+    --app-accent-ink: #0c6fc0;
+    --app-accent-soft: rgba(17, 141, 240, 0.11);
+    --app-float: #ff5a1f;
+    --app-success: #0f8a5f;
+    --app-success-soft: rgba(15, 138, 95, 0.12);
+    --app-danger: #c62828;
+    --app-danger-soft: rgba(198, 40, 40, 0.1);
+    --app-shadow: 0 1px 2px rgba(15, 29, 34, 0.04), 0 10px 30px -18px rgba(15, 29, 34, 0.22);
+    --app-shadow-lg: 0 2px 6px rgba(15, 29, 34, 0.05), 0 30px 60px -30px rgba(15, 29, 34, 0.4);
+    --app-sidebar: #06212b;
+    --app-sidebar-2: #0a3140;
+}
+
+.dark {
+    --app-bg: #031419;
+    --app-surface: #062430;
+    --app-surface-2: #082d3b;
+    --app-border: rgba(232, 240, 236, 0.08);
+    --app-border-strong: rgba(232, 240, 236, 0.17);
+    --app-ink: #eef1ec;
+    --app-muted: rgba(238, 241, 236, 0.68);
+    --app-subtle: rgba(238, 241, 236, 0.46);
+    --app-hover: rgba(255, 255, 255, 0.05);
+    --app-accent-ink: #6fb9f6;
+    --app-accent-soft: rgba(17, 141, 240, 0.2);
+    --app-success: #4ccf9a;
+    --app-success-soft: rgba(76, 207, 154, 0.14);
+    --app-danger: #ff8a80;
+    --app-danger-soft: rgba(255, 138, 128, 0.12);
+    --app-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -18px rgba(0, 0, 0, 0.7);
+    --app-shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.35), 0 30px 60px -30px rgba(0, 0, 0, 0.85);
+    --app-sidebar: #021015;
+    --app-sidebar-2: #062430;
+}
+
+.petri-app {
+    font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+    color: var(--app-ink);
+    background: var(--app-bg);
+    color-scheme: light;
+}
+.dark .petri-app { color-scheme: dark; }
+
+@layer components {
+    /* ---------- Surfaces ---------- */
+    .ui-card {
+        background: var(--app-surface);
+        border: 1px solid var(--app-border);
+        border-radius: 1.25rem;
+        box-shadow: var(--app-shadow);
+    }
+    .ui-card-hover {
+        transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.25s, border-color 0.25s;
+    }
+    .ui-card-hover:hover {
+        transform: translateY(-2px);
+        border-color: var(--app-border-strong);
+        box-shadow: var(--app-shadow-lg);
+    }
+    .ui-panel {
+        background: var(--app-surface-2);
+        border: 1px solid var(--app-border);
+        border-radius: 1rem;
+    }
+
+    /* ---------- Text ---------- */
+    .ui-kicker {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 0.6875rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--app-subtle);
+    }
+    .ui-muted { color: var(--app-muted); }
+    .ui-subtle { color: var(--app-subtle); }
+    .ui-link {
+        color: var(--app-accent-ink);
+        font-weight: 500;
+        text-decoration: underline;
+        text-decoration-color: color-mix(in srgb, var(--app-accent-ink) 35%, transparent);
+        text-underline-offset: 4px;
+        transition: text-decoration-color 0.2s;
+    }
+    .ui-link:hover { text-decoration-color: currentColor; }
+
+    /* Rich text coming from the editor (descriptions, remarks) */
+    .ui-prose { color: var(--app-muted); line-height: 1.75; }
+    .ui-prose > * + * { margin-top: 0.9em; }
+    .ui-prose h1, .ui-prose h2, .ui-prose h3 { color: var(--app-ink); font-weight: 600; line-height: 1.3; }
+    .ui-prose h1 { font-size: 1.35rem; }
+    .ui-prose h2 { font-size: 1.2rem; }
+    .ui-prose strong { color: var(--app-ink); font-weight: 600; }
+    .ui-prose a { color: var(--app-accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+    .ui-prose ul { list-style: disc; padding-left: 1.25rem; }
+    .ui-prose ol { list-style: decimal; padding-left: 1.25rem; }
+    .ui-prose li + li { margin-top: 0.3em; }
+    .ui-prose li[data-list='bullet'] { list-style: disc; }
+    .ui-prose li[data-list='ordered'] { list-style: decimal; }
+    .ui-prose .ql-ui { display: none; }
+
+    /* ---------- Data display ---------- */
+    .ui-stat-value {
+        font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+        font-weight: 600;
+        font-size: 2.4rem;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+        color: var(--app-ink);
+    }
+    .ui-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        border-radius: 9999px;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.2;
+        background: var(--app-hover);
+        color: var(--app-muted);
+        white-space: nowrap;
+    }
+    .ui-badge-accent { background: var(--app-accent-soft); color: var(--app-accent-ink); }
+    .ui-badge-success { background: var(--app-success-soft); color: var(--app-success); }
+    .ui-badge-danger { background: var(--app-danger-soft); color: var(--app-danger); }
+    .ui-badge-float { background: color-mix(in srgb, var(--app-float) 14%, transparent); color: var(--app-float); }
+
+    .ui-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.875rem; }
+    .ui-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--app-surface-2);
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--app-subtle);
+        border-bottom: 1px solid var(--app-border);
+        white-space: nowrap;
+    }
+    .ui-table tbody td {
+        padding: 0.85rem 1rem;
+        color: var(--app-muted);
+        border-bottom: 1px solid var(--app-border);
+        vertical-align: middle;
+    }
+    .ui-table tbody tr:last-child td { border-bottom: 0; }
+    .ui-table tbody tr { transition: background-color 0.15s; }
+    .ui-table tbody tr:hover { background: var(--app-hover); }
+    .ui-table .ui-table-primary { color: var(--app-ink); font-weight: 600; }
+
+    /* Rows of a list inside a card */
+    .ui-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.8rem 1rem;
+        border-radius: 0.9rem;
+        color: var(--app-ink);
+        transition: background-color 0.15s;
+    }
+    .ui-row:hover { background: var(--app-hover); }
+
+    /* ---------- Controls ---------- */
+    .ui-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 9999px;
+        color: var(--app-muted);
+        transition: background-color 0.15s, color 0.15s;
+    }
+    .ui-icon-btn:hover { background: var(--app-hover); color: var(--app-ink); }
+
+    .ui-search {
+        position: relative;
+    }
+    .ui-search > svg {
+        position: absolute;
+        left: 0.95rem;
+        top: 50%;
+        width: 1.1rem;
+        height: 1.1rem;
+        transform: translateY(-50%);
+        color: var(--app-subtle);
+        pointer-events: none;
+    }
+    .ui-search > input { padding-left: 2.6rem !important; width: 100%; }
+
+    /* ---------- Form fields (scoped to the app; auth pages have their own) ---------- */
+    .petri-app .form-input,
+    .petri-app .form-textarea,
+    .petri-app .form-select {
+        background-color: var(--app-surface);
+        color: var(--app-ink);
+        border: 1px solid var(--app-border-strong);
+        border-radius: 0.85rem;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        box-shadow: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .petri-app .form-select { padding-right: 2.5rem; }
+    .petri-app .form-input:hover,
+    .petri-app .form-textarea:hover,
+    .petri-app .form-select:hover { border-color: color-mix(in srgb, var(--app-ink) 30%, transparent); }
+    .petri-app .form-input:focus,
+    .petri-app .form-textarea:focus,
+    .petri-app .form-select:focus {
+        border-color: var(--app-accent);
+        box-shadow: 0 0 0 4px var(--app-accent-soft);
+        outline: none;
+    }
+    .petri-app .form-input::placeholder,
+    .petri-app .form-textarea::placeholder { color: var(--app-subtle); }
+    .petri-app .form-input:disabled,
+    .petri-app .form-select:disabled { background: var(--app-surface-2); color: var(--app-subtle); }
+    .petri-app .form-input.pl-9 { padding-left: 2.4rem; }
+
+    .petri-app .form-checkbox,
+    .petri-app .form-radio {
+        width: 1.1rem;
+        height: 1.1rem;
+        background-color: var(--app-surface);
+        border: 1px solid var(--app-border-strong);
+        color: var(--app-accent);
+    }
+    .petri-app .form-checkbox { border-radius: 0.35rem; }
+    .petri-app .form-checkbox:checked,
+    .petri-app .form-radio:checked { background-color: var(--app-accent); border-color: var(--app-accent); }
+    .petri-app .form-checkbox:focus,
+    .petri-app .form-radio:focus { box-shadow: 0 0 0 4px var(--app-accent-soft); outline: none; }
+
+    /* Rich text editor (Quill) */
+    .petri-app .ql-toolbar.ql-snow {
+        border: 1px solid var(--app-border-strong);
+        border-radius: 0.85rem 0.85rem 0 0;
+        background: var(--app-surface-2);
+        font-family: inherit;
+    }
+    .petri-app .ql-container.ql-snow {
+        border: 1px solid var(--app-border-strong);
+        border-top: 0;
+        border-radius: 0 0 0.85rem 0.85rem;
+        background: var(--app-surface);
+        color: var(--app-ink);
+        font-family: inherit;
+        font-size: 0.95rem;
+        min-height: 9rem;
+    }
+    .petri-app .ql-snow .ql-stroke { stroke: var(--app-muted); }
+    .petri-app .ql-snow .ql-fill { fill: var(--app-muted); }
+    .petri-app .ql-snow .ql-picker { color: var(--app-muted); }
+    .petri-app .ql-snow .ql-picker-options { background: var(--app-surface); border-color: var(--app-border); }
+    .petri-app .ql-editor.ql-blank::before { color: var(--app-subtle); font-style: normal; }
+
+    /* Date picker */
+    .petri-app .flatpickr-calendar {
+        background: var(--app-surface);
+        border: 1px solid var(--app-border);
+        border-radius: 1rem;
+        box-shadow: var(--app-shadow-lg);
+    }
+}
+
+/* Typography helpers shared with the public site */
+.font-display {
+    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+}
+/* Akzentwörter in Überschriften nur farbig hervorheben, nicht kursiv */
+.font-display em,
+.font-display.italic {
+    font-style: normal;
+}
+.font-log {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@keyframes app-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
+.app-fade-up { animation: app-fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+    .app-fade-up { animation: none; }
+    .ui-card-hover:hover { transform: none; }
+}
+
+/* Dialogs/menus that are teleported to <body> should keep the app font */
+body:has(.petri-app) {
+    font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* <transition name="fade"> used across the app */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+/* Leaflet-Karten (Spot-Karte). Bewusst ohne Layer, da leaflet.css ebenfalls ungelayert geladen wird. */
+.petri-map {
+    font-family: inherit;
+    z-index: 0;
+}
+.petri-map.is-placing,
+.petri-map.is-placing .leaflet-interactive {
+    cursor: crosshair;
+}
+.petri-map .leaflet-control-zoom,
+.petri-map .leaflet-control-layers {
+    overflow: hidden;
+    border: 1px solid var(--app-border) !important;
+    border-radius: 0.9rem !important;
+    box-shadow: var(--app-shadow) !important;
+}
+.petri-map .leaflet-control-zoom a,
+.petri-map .leaflet-control-layers {
+    background: var(--app-surface);
+    color: var(--app-ink);
+}
+.petri-map .leaflet-control-zoom a {
+    width: 36px;
+    height: 36px;
+    line-height: 34px;
+    border-color: var(--app-border);
+}
+.petri-map .leaflet-control-zoom a:hover { background: var(--app-hover); }
+.petri-map .leaflet-control-layers-expanded { padding: 0.6rem 0.9rem; font-size: 0.85rem; }
+.petri-map .leaflet-control-layers-selector { accent-color: var(--app-accent); }
+.petri-map .leaflet-control-scale-line {
+    border-color: var(--app-subtle);
+    background: color-mix(in srgb, var(--app-surface) 80%, transparent);
+    color: var(--app-muted);
+}
+.petri-map .leaflet-control-attribution {
+    background: color-mix(in srgb, var(--app-surface) 85%, transparent);
+    color: var(--app-muted);
+    font-size: 10px;
+}
+.petri-map .leaflet-control-attribution a { color: var(--app-accent-ink); }
+
+.petri-map .leaflet-popup-content-wrapper {
+    border-radius: 1.1rem;
+    background: var(--app-surface);
+    color: var(--app-ink);
+    box-shadow: var(--app-shadow-lg);
+}
+.petri-map .leaflet-popup-tip { background: var(--app-surface); }
+.petri-map .leaflet-popup-content { margin: 0.8rem 0.9rem; line-height: 1.4; }
+.petri-map a.leaflet-popup-close-button { color: var(--app-subtle); top: 4px; right: 4px; }
+
+.petri-popup p { margin: 0; }
+.petri-popup-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    margin-bottom: 0.6rem;
+    border-radius: 0.75rem;
+}
+.petri-popup-kicker {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--app-subtle);
+}
+.petri-popup-title { font-weight: 700; font-size: 0.95rem; }
+.petri-popup-meta { margin-top: 0.15rem !important; font-size: 0.8rem; color: var(--app-muted); }
+.petri-popup-note { margin-top: 0.35rem !important; font-size: 0.8rem; color: var(--app-muted); white-space: pre-line; }
+.petri-popup-actions { display: flex; gap: 0.9rem; }
+.petri-popup-link {
+    display: inline-block;
+    margin-top: 0.55rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--app-accent-ink) !important;
+    cursor: pointer;
+}
+
+.petri-dot {
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    background: #8b989c;
+    box-shadow: 0 1px 4px rgba(2, 16, 21, 0.45);
+}
+.petri-dot.is-kept { background: var(--app-accent); }
+.petri-dot.is-released { background: var(--app-success); }
+/* In der Legende sitzt der Punkt im Fließtext */
+.petri-dot.is-legend { display: inline-block; width: 10px; height: 10px; margin: 0; border-width: 1.5px; }
+
+.petri-cluster {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    border-radius: 999px;
+    background: var(--app-sidebar);
+    color: #fff;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--app-accent) 35%, transparent), 0 4px 12px rgba(2, 16, 21, 0.35);
+}
+
+.petri-spot-pin {
+    display: block;
+    width: 34px;
+    height: 34px;
+    color: var(--app-float);
+    filter: drop-shadow(0 2px 3px rgba(2, 16, 21, 0.45));
+}
+.petri-spot-pin svg { width: 100%; height: 100%; stroke: #fff; stroke-width: 1.2; }
+
+.petri-position {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border: 3px solid #fff;
+    border-radius: 999px;
+    background: var(--app-accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-accent) 55%, transparent);
+    animation: petri-pulse 1.8s ease-out infinite;
+}
+@keyframes petri-pulse {
+    to { box-shadow: 0 0 0 18px transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .petri-position { animation: none; }
+}
+
+/* Grid items default to min-width:auto and would grow with long (truncated) text,
+   pushing cards wider than the screen on phones. */
+@layer components {
+    .petri-app main .grid > * {
+        min-width: 0;
+    }
+}

@@ -1,18 +1,18 @@
 <template>
   <div v-if="items.length" class="flex flex-wrap justify-center gap-2">
-    <div v-for="(item, index) in items" :key="index" class="w-28 flex flex-col items-center border p-1 rounded-md">
-      <img :src="item.url" class="w-20 h-20 object-cover rounded-md border mb-2" alt="Preview" />
+    <div v-for="(item, index) in items" :key="index" class="w-28 flex flex-col items-center gap-1 rounded-2xl border border-(--app-border) bg-(--app-surface) p-1.5 shadow-(--app-shadow)">
+      <img :src="item.url" class="w-full aspect-square object-cover rounded-xl" alt="Vorschau" />
 
-      <div v-if="item.name" class="text-center font-medium truncate w-full">
+      <div v-if="item.name" class="text-center text-xs font-medium truncate w-full px-1">
         {{ item.name }}
       </div>
 
-      <div v-if="item.size" class="text-center text-xs text-gray-500 mb-2 w-full">
+      <div v-if="item.size" class="text-center text-[10px] text-(--app-subtle) w-full">
         {{ formatSize(item.size) }}
       </div>
 
       <button type="button"
-        class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md font-semibold text-xs text-white uppercase w-full"
+        class="w-full rounded-full px-3 py-1.5 text-xs font-semibold text-(--app-danger) transition hover:bg-(--app-danger-soft)"
         @click="$emit('remove', item)">
         Entfernen
       </button>

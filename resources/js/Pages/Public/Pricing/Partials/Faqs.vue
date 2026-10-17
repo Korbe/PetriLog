@@ -1,68 +1,32 @@
 <script setup>
 import Accordion from './Accordion.vue';
 
-const faqs = [
-    {
-        question: 'Was ist PetriLog?',
-        answer: 'PetriLog ist dein digitales Angel-Tagebuch in Österreich, in dem du alle gefangenen Fische mit Länge, Gewicht, Tiefe, Wassertemperatur und Fotos und mehr festhalten kannst.',
-        active: true
-    },
-    {
-        question: 'Kann ich mehrere Fänge pro Tag eintragen?',
-        answer: 'Ja! Du kannst mit PetriLog Plus unbegrenzt viele Einträge pro Tag hinzufügen und behältst so den vollen Überblick über deine Fänge. Ohne Abo sind die Einträge auf maximal 5 begrenzt.',
-    },
-    {
-        question: 'Wie viele Fotos kann ich pro Fang speichern?',
-        answer: 'Du kannst bis zu 3 Bilder pro Fang hinzufügen, um deinen größten Erfolg visuell festzuhalten.'
-    },
-    {
-        question: 'Kann ich meine Fänge mit Freunden teilen?',
-        answer: 'Ja! Du kannst einzelne Fänge über Social Media oder einen direkten Link teilen.'
-    },
-    {
-        question: 'Sind meine Daten sicher gespeichert?',
-        answer: 'Alle deine Daten werden in der Cloud gespeichert und sind jederzeit von all deinen Geräten aus zugänglich.'
-    },
-    {
-        question: 'Gibt es Statistiken und Analysen?',
-        answer: 'Ja! PetriLog zeigt dir Fangstatistiken nach Tag, Monat und Jahr, inklusive Diagrammen und Gesamtübersichten.'
-    },
-    {
-        question: 'Funktioniert PetriLog auf dem Smartphone?',
-        answer: 'Ja! PetriLog ist für mobile Geräte optimiert, sodass du unterwegs direkt Fänge eintragen und nachschauen kannst.'
-    },
-    {
-        question: 'Wie kann ich PetriLog abonnieren?',
-        answer: 'Wenn du eingeloggt bist gehe auf den Reiter Abo dann auf den Jährlichen Plan abonnieren.'
-    },
-    {
-        question: 'Gibt es ein Monatsabo?',
-        answer: 'Es gibt nur ein Jahresabo, dass du buchen kannst.'
-    },
-    {
-        question: 'Habt ihr auch deutsche Seen?',
-        answer: 'PetriLog bietet derzeit nur Österreichische Gewässer an.',
-        active: true
-    },
-];
+// FAQs come from the controller, which also renders them as FAQPage structured data.
+defineProps({
+    faqs: { type: Array, required: true },
+});
 </script>
 
 <template>
-    <section>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="pb-12 md:pb-20">
-                <div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                    <h2 class="text-3xl md:text-4xl font-bold">Häufig gestellte Fragen</h2>
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 pb-20 md:pb-28">
+        <div class="grid gap-10 border-t border-(--ink)/10 pt-16 md:pt-24 lg:grid-cols-12">
+            <div class="ph-reveal lg:col-span-4">
+                <div class="lg:sticky lg:top-28">
+                <p class="font-log text-xs uppercase tracking-[0.22em] text-(--ink)/55">FAQ</p>
+                <h2 class="font-display mt-4 text-5xl leading-[1] md:text-6xl">Häufig gestellte <em
+                        class="text-primary-700">Fragen.</em></h2>
+                <p class="mt-6 text-(--ink)/65">
+                    Noch etwas offen? <Link href="/contact" class="font-medium text-(--ink) underline underline-offset-4">
+                        Schreib uns</Link>.
+                </p>
                 </div>
-                <div class="max-w-3xl mx-auto">
-                    <div class="space-y-5">
-                        <template v-for="(faq, index) in faqs">
-                            <Accordion :title="faq.question" :id="`faqs-${index}`" :active="faq.active">
-                                {{ faq.answer }}
-                            </Accordion>
-                        </template>
-                    </div>
-                </div>
+            </div>
+
+            <div class="ph-reveal lg:col-span-8" style="transition-delay: 100ms">
+                <Accordion v-for="(faq, index) in faqs" :key="index" :id="`faq-${index}`" :title="faq.question"
+                    :active="index === 0">
+                    {{ faq.answer }}
+                </Accordion>
             </div>
         </div>
     </section>

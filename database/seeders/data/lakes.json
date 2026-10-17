@@ -1,0 +1,1232 @@
+[
+    {
+        "name": "Anderes / nicht gelistet",
+        "is_default": true,
+        "states": [],
+        "desc": "Sonstiges / nicht gelistetes Gewässer",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Wörthersee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "<p><strong>Der Wörthersee</strong>, auch Wörther See, ist der größte See Kärntens. Er ist einer der wärmsten Alpenseen.</p><p>\nDer Grund des Sees bis zur Uferlinie gehört den österreichischen Bundesforsten. Das Gewässer selbst ist öffentlich. Der Zugang wird durch überwiegend private Eigner der anliegenden Seegrundstücke beschränkt. Es gibt jedoch eine Vielzahl öffentlicher Strandbäder – gegen Eintrittsgeld, darunter mit dem Strandbad Klagenfurt eines der größten Binnenseebäder Europas. Viele Orte bieten Seepromenaden, Landungsstege für die Passagierschifffahrt, Yachthäfen und kostenlos nutzbare Badeplätze.</p>",
+        "hint": "<p><strong>Frühjahr:</strong> flach an Schilfkanten auf Hecht (Jerkbait, Swimbait). Sommer: Renken mit Hegene über Kanten (12–20 m). Nacht: Zander mit Gummifisch/Jig an Steinpackungen; Boilies &amp; Partikel für Karpfen in ruhigen Buchten.</p>",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Reinanke - Felchen",
+            "Schleie",
+            "Forellenbarsch",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Bitterling",
+            "Brachse - Brasse",
+            "Gemeiner Sonnenbarsch",
+            "Güster",
+            "Mairenke",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Ossiacher See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Ossiacher See hat eine Länge von 10.8 km und eine maximale Breite bis zu 1,7 km. Er ist mit einer Wassefläche von 10,60 Quadratkilometer der drittgrößte See Kärntens. Die größte Tiefe beträgt 52 m, die mittlere Tiefe weist nur etwa 20 Meter auf.\n\nDas Gewässer hat eine gute Wasserqualität, der Hauptzufluß ist die im östlichen Seeteil einmündende Tiebel. Durch die eher geringe Tiefe des Sees werden die Wasserschichten zweimal pro Jahr vollständig durchmischt (holomiktischer See). Die Wassertemperatur steigt im Sommer in Seemitte auf über 24 Grad, im Uferbereich werden noch höhere Temperaturen gemessen.\n\nDie Ufer des Ossiacher Sees sind zum Großteil schilfbewachsen, in seichteren Wasserbereichen (z. B. in der Ostbucht) befinden sich ausgedehnte See- und Teichrosenbestände.\n\nIn der Sommersaison wird der See von zahleichen Urlaubern und von den Tagesgästen der nahen Stadt Villach frequentiert.\n\nDas Gewässer ist aber nicht nur für Badeurlauber, sondern auch für Angler empfehlenswert.\n\nArtenreichtum und Bestandsdichte können als gut bezeichnet werden.\n\nIm Vergleich zu anderen großen Kärntner Seen ist besonders hervorzuheben, das hier seit 1981 keine Berufsfischerei mehr ausgeübt wird. Es bestehen mehrere Schon- und Landschaftsschutzgebiete. Im Bereich des Seeabflußes wurde mit großem finanziellen Aufwand ein Laichschongebiet geschaffen (künstlicher Nebenarm des Seeabflusses Seebach).\n\nDie Bewirtschafter, insbesondere die großen Villacher Fischereivereine investieren beträchtliche Summen in den Fischbesatz (z. B. werden alljährlich Wildkarpfen, Maränen und Schleien besetzt).\n\nDas sich diese Maßnahmen positiv auf den Fischbestand auswirken, zeigt sich in den alljährlichen Fangstatistiken. Der Renkenanteil steigt stetig, bei den Friedfischen ist der Karpfen der wichtigste Sportfisch. Große Schleien, Brachsen und Rotaugen sind möglich. Im Bereich des Zu- und Abflusses werden gelegentlich Barben gefangen. Weitere Weißfischarten, Aale und Aalrutten sind vorhanden.\n\nDer Wels vermehrt sich im See natürlich, er ist in einer zufriedenstellenden Bestandsdichte vorhanden, speziell beim Nachtfischen in den Sommermonaten gehen manchmal größere Exemplare an den Haken. Alljährlich werden kapitale Hechte erbeutet, der Hecht ist häufiger vertreten als der Zander. Barsche sind zahlreich vorhanden, ganz vereinzelt werden See- und Regenbogenforellen gefangen.",
+        "hint": "Zander ab Juni nachts an Hafenmauern/Drop-offs (3–8 m) mit Low-Action Shads. Hecht im Frühsommer in Krautfeldern mit Spinnerbait. Renke tagsüber mit feiner Hegene über Freiwasser-Schwärmen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Reinanke - Felchen",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Millstätter See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Tiefes Klarwassergewässer mit Reinanke und Seeforelle als Highlights; auch starke Hechte.",
+        "hint": "Frühjahr/Spätherbst: Seeforelle mit Schleppködern (Wobbler, Blinkerlöffel) entlang Kanten. Renke: feine 0,12–0,16er, Hegene #16–18; Echolot hilfreich.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Bachforelle",
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Saibling",
+            "Schleie",
+            "Regenbogenforelle",
+            "Aitel - Döbel",
+            "Barsch",
+            "Gemeiner Sonnenbarsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Weißensee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Weißensee ist ein See in Kärnten am Fuß der Gailtaler Alpen nördlich von Hermagor. Er liegt auf 930 m ü. A. und ist damit der höchstgelegene der großen Kärntner Badeseen. Der weitaus größte Teil des Sees gehört zur Gemeinde Weißensee, das kurze Ostufer zur Gemeinde Stockenboi.\n\nDer Weißensee ist 11,6 Kilometer lang; an der breitesten Stelle misst er 900 Meter, an seiner tiefsten 99 Meter. Mit einer Durchmischungstiefe von 40–60 m ist er ein meromiktisches Gewässer. Seine Fläche beträgt 6,5 Quadratkilometer und sein Einzugsgebiet umfasst 46 Quadratkilometer. Sein 23 Kilometer langes Ufer ist nur zu einem Drittel bebaut (Westteil des Sees sowie die Ortsee am Ostufer), der Rest steht unter Natur- und Landschaftsschutz.\n\nAm Seeufer führt keine Durchgangsstraße entlang, nur ein schmaler, teils steiler Pfad verbindet den Ronacherfels (östliches Ende der Fahrstraße) mit dem Ostufer, welches ansonsten nur durch das Weißenbachtal von der Drautaler Seite her zugänglich ist.\n\nDer See gilt aufgrund seiner hervorragenden Wasserqualität (seit 1969 verhindert eine Ringkanalisation die Einleitung von Hausabwässern) als gutes Fischgewässer. Mit Sichttiefen von bis zu 6 Metern und einer Wasserqualität, die an die von Trinkwasser heranreicht, ist er ein ideales Badegewässer mit bis zu 24 °C Wassertemperatur. Zur Erhaltung der Wasserqualität ist die Nutzung von Verbrennungsmotoren auf dem See verboten, davon ausgenommen sind Linienschifffahrt, Polizei, Wasserrettung, Land- und Forstwirtschaft.\n\nSchon seit dem Mittelalter ist der Weißensee für seine Seeforellen bekannt, in der Neuzeit wurde durch künstlichen Besatz mit anderen Fischarten wie Flussbarsch, Karpfen oder Hecht die Attraktivität als Angelgewässer gesteigert. Durch den entstehenden Konkurrenzdruck starben aber einige ursprüngliche Arten wie Gründling oder Elritze aus. Das Aussterben der Seeforelle wurde durch Besatzmaßnahmen verhindert – nicht zuletzt zur Erhaltung der touristischen Attraktivität des Sees.",
+        "hint": "Früher Morgen: Saiblinge flacher (5–12 m) mit Naturköder (Wurm, Made) an feinen Montagen. Sommer: Seeforelle tiefer schleppen (Downrigger/Paravan).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Saibling",
+            "Reinanke - Felchen",
+            "Schleie",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Faaker See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Faaker See) ist ein See in Kärnten. Mit einer Fläche von 220 ha (bei einer maximalen Tiefe von 29,5 m) ist er der fünftgrößte See Kärntens.\n\nDer Faaker See liegt südlich von Villach und der Drau und im Norden des in den Karawanken gelegenen Mittagskogels. Der Faaker See gehört politisch zu den Gemeinden Villach (mit den Ortschaften Drobollach am Faaker See und Egg am Faaker See im Norden) und Finkenstein (mit der Ortschaft Faak am See im Südwesten).\n\nDer See wird durch eine von West nach Ost reichende Bodenschwelle, welche sich auch als Insel 12 m über die Wasseroberfläche erhebt, in zwei Becken geteilt. Seine Größe beträgt 2,2 km², seine maximale Tiefe erreicht er im nördlichen Becken mit 29,5 m. Seine mittlere Tiefe beträgt 16,1 m. Sein Volumen beträgt 35,24 Mio. m³ und seine theoretische Wassererneuerungszeit 7,8 Monate. Der Hauptzufluss des Faaker Sees ist die Worounitza. Weitere Zuflüsse sind die Rotschitza und der Mühlbach sowie einige Quellen im See. Entwässert wird er zur Gail über den Faaker Seebach. Die Worounitza verursacht auch das türkisblaue Aussehen des Wassers. Sie führt dem See feinste Kalkpartikel zu, die lange in Schwebe bleiben und das Licht türkisblau reflektieren, bevor sie sich am Boden ablagern.",
+        "hint": "Barsch: Microjigs/Drop-Shot an Steinrampen. Hecht: flach mit Jerkbait/fransenlosen Streamern an Krautkanten. Renke: Hegene im Mittelwasser über Tiefen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Reinanke - Felchen",
+            "Nase",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Klopeiner See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Klopeiner See (slowenisch: ist ein See in Kärnten, Österreich, südwestlich von Völkermarkt, im Gemeindegebiet von Sankt Kanzian am Klopeiner See. Der Klopeiner See stellt den Rest eines ehemals viel größeren, nacheiszeitlichen Sees dar, der das ganze Gebiet um die heutige Ortschaft Kühnsdorf umfasste. Mit Wassertemperaturen von bis zu 29 °C zählt er zu den wärmsten Alpenseen.\n\nDer Klopeiner See wird nur schwach durchströmt. Lediglich einige kleinere oberflächliche Zuflüsse mit geringer Wasserführung und das Grundwasser speisen ihn. Dadurch ist der Klopeiner See einer der am geringsten durchfluteten Seen Kärntens, was auch die hohe Wassertemperatur erklärt. Der Abfluss verlässt den See im Westen und entwässert letztlich in die Drau. Der Klopeiner See ist 1,8 Kilometer lang, 800 Meter breit und an seiner tiefsten Stelle 48 Meter tief, die durchschnittliche Tiefe beträgt 23 Meter.\n\nAufgrund des geringen Wasserdurchflusses gibt sich die Gemeinde St. Kanzian am Klopeiner See als Eigentümerin des Klopeiner Sees große Mühe, die Wasserqualität des Sees zu erhalten. Der Einzugsbereich des Sees ist seit Jahrzehnten, nachdem der See Anfang der 1980er biologisch „gekippt“ war, voll kanalisiert. Der Klopeiner See verfügt seit 1975 über eine Tiefenwasserableitung, die sauerstoffarmes und nährstoffreiches Wasser entfernt. Auf diese Weise wird die Tiefe der sauerstoffangereicherten Wasserschicht vergrößert. Während in den 1930er Jahren die Zirkulationsströmungen eine Tiefe von 40 Metern erreichten, findet heute eine Durchmischung nur noch bis 30 Meter statt, weshalb technisch nachgeholfen werden muss.\n\nAuch der 13 Meter tiefe und etwas kleinere Turnersee ist für seine angenehmen Wassertemperaturen bekannt. Er liegt etwa 2 Kilometer entfernt bei Unternarrach und gehört ebenfalls zur Gemeinde St. Kanzian. Bekannt unter den Fischern ist auch der Kleinsee. Dieser befindet sich nordwestlich des Klopeiner Sees.",
+        "hint": "Sommernächte: Zander flach an Sandbänken (5–30 g Jigs, dunkle Shads). Wels: Großköder (Gummi 20–25 cm) in warmen Nächten an Kanten. Tags: Karpfen mit Partikel/Boilie.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Saibling",
+            "Reinanke - Felchen",
+            "Schleie",
+            "Aitel - Döbel",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Pressegger See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Pressegger See (slowenisch: Preseško Jezero) liegt im Unteren Gailtal östlich von Hermagor. Mit einer Fläche von 55 Hektar ist er der neuntgrößte See Kärntens. Charakteristisch für diesen See sind die großflächigen Schilfbestände.\n\nDer See liegt in einem glazial geformten Becken, das eine Nebenfurche des Gailtales bildet. Er stellt den Rest eines nacheiszeitlich wesentlich größeren Sees dar, der durch Verlandung und Schuttkegel verkleinert wurde. Nördlich des Sees liegen die Kalkketten des Spitzegelzuges. Im Südwesten befinden sich die Phyllitrücken von Guggenberg-Egg, die aus kristallinen Schiefern aufgebaut sind.\n\nDer See hat eine Wasserfläche von 55 Hektar. Damit ist er der neuntgrößte See Kärntens. Er hat eine halbkreisförmige Form, die Uferlinie ist wenig differenziert. Die Unterwasserböschungen im Westen, Norden und Osten sind flach abfallend, im Süden sind sie steiler. Der Boden des Sees ist flach. In ihm sind etliche kleine Quelltrichter eingesenkt. Die mittlere Tiefe des Pressegger Sees beträgt 3,4 m. Nur ein Siebtel des Sees ist tiefer als 6 m. Im Bereich der Quelltrichter erreicht der See eine Tiefe von 13 m.\n\nIm Westen und Osten ist der See von natürlichen Schilfbeständen umgeben, im Norden und Süden wurden diese durch Kulturland und Badegelände verdrängt.[2]",
+        "hint": "Karpfen: Randbereiche der Schilfinseln anfüttern; Method Feeder/Boilie. Hecht: Spinnerbait/Jerk über Kraut.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Längsee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Längsee ist ein weitgehend naturbelassener Badesee im Bezirk St. Veit an der Glan in Kärnten.\n\nWie die meisten anderen Kärntner Seen wurde der Längsee glazial geformt. Er stellt den Rest eines ehemaligen viel größeren Sees dar. Mit Ausnahme des Westufers, das verhältnismäßig steil einfällt, sind die Ufer flach, versumpft und unverbaut. Das klare Wasser erreicht im Sommer 26 °C. Zwei Liegeplätze, das Strandbad (Gemeindebad) und das kleinere, ruhigere Schloßbad sind in der Sommersaison vor allem von Gästen aus der Region besucht. Der See wird von zahlreichen Schilfzonen und Seerosen umrahmt. Als beste Tauchzeit gilt der Herbst, wobei dann Sichtweiten von bis zu 8 m möglich sind. Am Seegrund werden noch nicht gehobenes Kriegsmaterial und Munition aus dem Zweiten Weltkrieg vermutet.\n\nZu den häufigsten Algenarten am See zählen die Goldalgen, die Panzeralgen und in größeren Tiefen die Cyanobakterien. Selten kann man am Längsee einen purpurroten Oberflächenfilm sehen. Dieser besteht aus kugeligen Zellen, die auch Aggregationen am Gewässerboden bildeten und im Uferbereich frei flottieren. Es handelt sich hierbei um Purpurbakterien der Art Thiocystis violacea.\n\nDer Längsee stellt für heimische Angler ein besonderes Gewässer dar. Der als flacher Brachsen- bzw. Hecht-Seetyp einordenbare Längsee bietet eine Vielzahl interessanter Arten. Die Brachse ist die häufigste Fischart und wird im Längsee über 50 cm groß. Auch Hechte vermehren sich relativ gut und werden im Vergleich zu anderen Kärntner Seen sehr groß. So wurde beispielsweise im Mai 1990 ein Hecht mit 29 kg Gewicht und 146 cm Länge tot angetrieben. Insgesamt wurden 13 verschiedene Fischarten nachgewiesen.",
+        "hint": "Flachwasser im Frühsommer: Schleie auf Wurm/Mais. Hecht entlang Schilfkanten mit langsam geführten Softbaits.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Aitel - Döbel",
+            "Barsch",
+            "Bitterling",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Brennsee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Brennsee oder Feldsee ist ein See im Gegendtal in Kärnten. Er liegt auf dem Gebiet der Gemeinde Feld am See. Der See wird als Badesee genutzt.\n\nDer See liegt innerhalb der Talfurche des Gegendtals zwischen den Hängen des Mirnock (südlich des Sees) und des Wöllaner Nock, die jeweils steil zum See hin abfallen. Die Hänge des Mirnocks sind mit Wald bedeckt, die sonnenexponierten Hänge im Norden des Sees tragen vorwiegend Weiden und einige große Bauernhöfe.\n\nDer Zufluss des Sees erfolgt zum einen über den Grundwasserstrom, zum anderen von Norden über einige kleine Zuflüsse. Der See-Abfluss mündet in den Kleinkirchheimer Bach, der dann als Riegerbach in den Millstätter See mündet. Der mittlere Abfluss beträgt 80 l/s. Der See hat eine Wassererneuerungszeit von rund 2,5 Jahren.[1]\n\nDer See ist holomiktisch und weist im Sommer eine deutliche Schichtung auf. Die Oberflächentemperatur im Sommer steigt bis 23 °C.[1]\n\nDas Seewasser weist einen sehr geringen Kalkgehalt auf, der See zählt zu den kalkärmsten Talseen in Kärnten.",
+        "hint": "Sommer: Barsch mit kleinen Cranks an Stein-/Holzstrukturen. Abends: Hecht mit Topwater über Krautfeldern.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Reinanke - Felchen",
+            "Schleie",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Bitterling",
+            "Brachse - Brasse",
+            "Güster",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Afritzer See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Afritzer See ist ein See in Kärnten. Er liegt im Gegendtal nördlich von Villach im Gemeindegebiet von Feld am See.\n\nDer See liegt im Gegendtal in den Nockbergen auf einer Höhe von 752 m ü. A. zwischen dem Wöllaner Nock und dem Mirnock. Er liegt am Südrand des Gemeindegebiets von Feld am See, teilweise folgt die Gemeindegrenze zu Afritz der Uferlinie. Das Südostufer ist zu großen Teilen unberührt. Am Nordostufer verläuft die Millstätter Straße (B 98).\n\nDer See ist Überrest eines einst größeren Sees. Dieser wurde durch einen Felssturz vom Mirnock (Lierzberger Alpenspitz – Wieserwald) geteilt: in den Afritzer See und den Feldsee. Die beiden Seen sind durch eine flache Talwasserscheide getrennt. Der Afritzsee entwässert nach Südosten hin in Richtung Treffen.\n\nDer See wird von einigen kleinen Bächen gespeist, die besonders am Süd- und am Westufer Schwemmkegel aufgeschüttet haben.\n\nDa der See in einer häufig windigen Talfurche liegt, erreicht er nicht die hohen Wassertemperaturen anderer Kärntner Seen. Er ist dennoch im Sommer streng geschichtet, die Oberflächentemperaturen übersteigen im Sommer 23 °C.",
+        "hint": "Ufernah morgens: Barsch auf Drop-Shot. Karpfen tagsüber am Futterplatz (Method/Inline-Feeder).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Armurkarpfen",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Urbansee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Kleiner Waldsee; sehr friedfischlastig, punktuell Hecht.",
+        "hint": "Leise präsentieren: Pole/Match & Brotflocke im Kraut; kleine Spinner #2 für Hecht-Trupps.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Turnersee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Turnersee (bis 1932: Sabladnigsee, ist ein Badesee in der Gemeinde St. Kanzian im Südosten Kärntens.\n\nDer See liegt wie der Gösselsdorfer See auf der Rückersdorfer Platte. Er ist der Überrest eines nacheiszeitlichen Sees von etwa 9 km² Fläche. Neben dem Turnersee mit heute 44 ha Fläche ist von diesem See nur noch der Tomarteich,[2] ein Teil des Sablatnigmoors bei Eberndorf, als offene Wasserfläche erhalten.",
+        "hint": "Sommernachtsfischen: Zupfermontage/Boilie auf Karpfen; Wels mit totem Köderfisch an Kanten & Ausläufen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Güster",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Silbersee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Silbersee befindet sich in Villach am Rande der Ortschaft St. Ulrich und in unmittelbarer Nähe zur Drau. Dieser Schotterteich erstreckt sich auf einer Fläche von 14,5 Hektar und hat eine maximale Tiefe von 7 Metern. Seine Oberfläche liegt 492 m ü. A.\n\nDer See entstand Anfang der 1970er Jahre im Zuge des Baus der Südautobahn im Bereich Villach. Der kurz darauf erfolgte Staubeginn für das Kraftwerk Rosegg hob den Grundwasserpegel um mehr als zwei Meter an. Dadurch wuchs der See beträchtlich und überflutete im Westteil bis dahin trockenliegende Bereiche. Einige Jahre später wurde er im Norden und Osten durch weiteren Schotterabbau mit Tieflöffelbaggern noch einmal vergrößert. Nach Abschluss des Schotterabbaus erwarb die Stadt Villach den See und seine Umgebung und baute ihn zu einem frei zugänglichen Naherholungsgebiet aus. 1991 wurde am Silbersee die Wasserski-Weltmeisterschaft ausgetragen, bei deren Vorbereitungen die Insel künstlich um einige Meter verlegt wurde. Im Jahr 2000 wurde am Silbersee die „Wakeboard 2000 European pro tour“ ausgetragen.",
+        "hint": "Feedern mit süßen Mischungen, kleine Haken #12–16. Hecht im Herbst mit schlanken Jerkbaits entlang Steinpackungen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Barbe",
+            "Regenbogenforelle",
+            "Aitel - Döbel",
+            "Barsch",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Maltschacher See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Maltschacher See ist ein kleiner österreichischer Badesee rund drei Kilometer südöstlich von Feldkirchen in Kärnten. Im Westen des Sees befindet sich ein Niederungsmoor. Vom Abfluss des Maltschacher Sees wird der Strußnigteich gespeist. Der See war ursprünglich durch einen dichten Makrophyten- und Schilfgürtel gekennzeichnet. Durch 1975 eingesetzte Amurkarpfen wurden sowohl Makrophytenbestände als auch die Schilfgürtel vernichtet. Seit 1991 wurden jedoch keine Amurkarpfen mehr nachgewiesen.",
+        "hint": "Frühjahr: Schleie auf Wurm/Mais in Krautfenstern. Karpfen: flach anfüttern, unauffällige Rigs.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Bitterling",
+            "Brachse - Brasse",
+            "Gemeiner Sonnenbarsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Keutschacher See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Keutschacher See liegt in Kärnten, Österreich, südlich des Wörthersees. Mit einer Fläche von 1,32 km² ist er der sechstgrößte der Kärntner Seen. 1864 wurde hier durch Ferdinand von Hochstetter eine Pfahlbausiedlung aus der Jungsteinzeit entdeckt, welche seit 2011 zum UNESCO-Welterbe Prähistorische Pfahlbauten um die Alpen gehört.\n\nDer See liegt im Bereich der Sattnitz im Keutschacher Seental, das seine Entstehung einem Seitenast des Draugletschers verdankt. Dieser hat die tektonisch vorgeformte Talfurche überformt. Der See war in der Vergangenheit deutlich größer als heute, dies ist aus den ausgedehnten Moorflächen östlich und nördlich des Sees ersichtlich.\n\nDer See hat eine länglich-ovale Gestalt. Im Westen liegt eine Bucht, hier münden die Zuflüsse. Im Osten liegt eine schmale Halbinsel, die rund 400 m in den See hineinragt. In der Mitte des Sees liegt eine Untiefe, wo das Wasser nur 1,6 m tief ist. Halbinsel wie Untiefe sind Teil von Felsrippen, die unter dem Seeboden in Südwest-Nordost-Richtung streichen. Seine maximale Tiefe von 15,6 m erreicht der See nahe der Untiefe in der Seemitte. Im Westen des Sees schließen sich Verlandungsflächen an, die mit ihren Mooren bis zum Hafnersee reichen. Hier liegt auch ein kleiner Teich, der sogenannte Moorteich. Das Moor ist mit Seggen und Schilf bestanden.",
+        "hint": "Unauffällige Präsentation im Klarwasser; Krautkanten systematisch absuchen (Texas/Weightless).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Forellenbarsch",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Güster",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Rauschelesee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Rauschelesee ist ein See im Keutschacher Seental nahe dem Keutschacher See in der Gemeinde Keutschach am See (Kärnten). Der See wird als Bade- und Angelgewässer genutzt.\n\nDas Einzugsgebiet des Rauschelesees wird durch eine Wasserscheide von jenem des Keutschacher Sees getrennt. Der Rauschelesee entwässert nach Osten, der Keutschacher See nach Norden über den Reifnitzbach in den Wörthersee. Der See ist in Ost-West-Richtung gestreckt und besteht aus zwei Becken, die durch eine flache Schwelle getrennt sind. Zu- und Abfluss bildet der Viktringer Bach, der vom Baßgeigensee kommend in den Rauschelesee mündet und aus diesem weiter durch die Treimischer Teiche in Richtung Glanfurt fließt.",
+        "hint": "Leise Fütterung, kleine Köder. Barsch-Trupps mit Spinnern & kleinen Gummis absuchen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Bitterling",
+            "Gemeiner Sonnenbarsch",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Gösselsdorfer See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Gösselsdorfer See ist ein Badesee in den Gemeinden Eberndorf und Sittersdorf im Südosten Kärntens.\n\nDer See liegt am Ostrand der Rückersdorfer Platte und ist der am stärksten verlandete See im Kärntner Unterland. Von der ursprünglich vorhandenen Fläche von 1 km² sind nur mehr rund 32 ha freie Wasserfläche vorhanden. Die maximale Wassertiefe beträgt 3 m, durch die geringe Tiefe ist der See reich mit See- und Teichrosen sowie mit Unterwasserpflanzen bewachsen. An den Ufern befinden sich breite Schilfbestände mit Schilfrohr, Breitblättrigem Rohrkolben, Teich- und Schneidebinse und Igelkolben. Aus den angrenzenden Verlandungsmooren gelangen Huminsäuren in den See und rufen eine bräunliche Färbung hervor.\n\nDer Gösselsdorfer See liegt in einem 476 ha großen Landschaftsschutzgebiet (LGBl. Nr. 51/1970, 101/1979 und 73/1986). Südlich des Sees befindet sich seit 1986 ein 23,4 ha großes Gebiet unter Naturschutz gestellt (LGBl. Nr. 71/1986).\n\nDer See wird hauptsächlich durch Grundwasser gespeist, die Durchflutung ist im Sommer mit 300–400 l/s recht stark. Der Abfluss entwässert in die Drau.",
+        "hint": "Hecht mit Spinnerbait über Kraut. Friedfisch mit Waggler weit über Schilfkehlen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Flussbarsch",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Brachse - Brasse",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Kraiger See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Kraiger See, ehemals auch Seebichler See ist ein kleiner See bei Kraig (Gemeinde Frauenstein) in Mittelkärnten. Der eingezäunte See mit großteils unverbautem Ufer erreicht im Sommer Temperaturen bis zu 25 °C. Er ist glazialen Ursprungs. Um der starken Eutrophierung entgegenzuwirken, wurde an diesem See 1974 die erste künstliche Tiefenwasserableitung Kärntens gelegt.\n\nDer See liegt im 532 Hektar große Landschaftsschutzgebiet „Kraiger Schlösser“.\n\nUrlauber aus Wien haben im See einige Jahre zuvor einen alten truhenförmigen Gegenstand gefunden und 2024 gehoben und geborgen. Das Relikt aus dem 2. Weltkrieg wurde als Korpus eines Infanteriekarrens der deutschen Wehrmacht identifiziert.\n\nDer Fischereibetrieb am See wurde vor einigen Jahren eingestellt. Das Strandbad und die Hotel-Pension Kraigersee wurde bis etwa 2009 von den Eignern, Familie Andreas Ruhdorfer betrieben. Damit auf Bürgerwunsch das Bad weiter in Betrieb bleibt, hat die Gemeinde ab 2020 (bis 2029) das Strandbad samt Buffett gepachtet.\n\nDas Strandbad ist (Stand 2024) von Mitte Mai bis Mitte September von 9 bis 19 Uhr, ab 17 Uhr bei freiem Eintritt, geöffnet.",
+        "hint": "Früh/Spät: Oberflächenaktivität beobachten; leichte Posenmontagen, Grundruten an Hotspots.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Brachse - Brasse",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Goggausee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Goggausee liegt im Bereich der Gurktaler Alpen, nördlich von Feldkirchen in Kärnten, in einem sehr windstillen Becken. Aufgrund der geschützten Lage ist das Gewässer trotz seiner geringen Tiefe wenig durchmischt und bereits nach wenigen Metern sauerstoffarm.\n\nDie Wasserqualität gilt trotz teilweise geringer Sichtweiten als gut. Der kleine See von länglich, rechteckiger Form ist in der Region als kühlerer Badesee bekannt. Das Gewässer hat einen Abfluss über ein Moor in den Wimitzbach. Die Gegend um den See ist sehr dünn besiedelt, insbesondere das fast menschenleere Wimitztal. Der See liegt in der Gemeinde Steuerberg. Die nächsten Orte Steuerberg und Rennweg sind etwa 2 km entfernt.\n\nDer See liegt im 100 ha großen Landschaftsschutzgebiet Goggausee (LGBl. Nr. 80/1970).",
+        "hint": "Hecht im Frühjahr flach; Barsch an Holz/Steg mit kleinen Jigs.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Armurkarpfen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Forstsee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Forstsee liegt im Gemeindegebiet von Techelsberg am Wörther See zwischen den Ortschaften Pörtschach und Velden.\n\nDer Forstsee liegt auf einem Höhenrücken etwa 1 km nördlich des Wörthersees auf 601 m. Mit einer Fläche von 29 ha ist er ein eher kleiner See. Seine maximale Tiefe beträgt 35 m, die mittlere Tiefe 22 m. Der See enthält 6,5 Millionen Kubikmeter Wasser.\n\nEin Bach, der früher auch Wassermühlen antrieb, heute jedoch nur Restwasser führt, fließt vom Ostende des Forstsees steil hinunter zum Wörthersee.\n\nDie Druckrohrleitung vom Auslassbauwerk im Forstsee nahe seinem Westufer hinunter zum Kraftwerk Forstsee am Nordufer des Wörthersees verbindet seit dem Jahr 1925 diese beiden Seen hydraulisch. Bis zum Jahr 1983 wurde im Sommer auch Wasser des Wörthersees zum Forstsee hinaufgepumpt zum Zweck des Betriebs des Speicherkraftwerkes.\n\nAnsonsten ist der See weitestgehend naturbelassen. Der See wird gerne von FKK-Liebhabern besucht. Es gibt, abgesehen von zwei Toilettenanlagen, keinerlei nennenswerten baulichen Anlagen und der Forstsee ist frei als Badesee nutzbar. Ein Wanderweg führt um den See herum, am Westufer liegt ein denkmalgeschütztes Stück einer antiken Straße.",
+        "hint": "Forelle: schlanke Wobbler/Spinner im Ejektionsbereich; Hecht mit Jerk/Jig an Felskanten. (Revier kann abweichende Maße/Zeiten vorgeben!)",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Flussbarsch",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Saibling",
+            "Schleie",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Gemeiner Sonnenbarsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Hörzendorfer See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Hörzendorfer See ist ein künstlicher Badesee im Stadtteil Hörzendorf in der Stadtgemeinde St. Veit an der Glan in Kärnten.\n\nDer See liegt im Hügelland nördlich vom Ulrichsberg und rund drei Kilometer südlich der Stadt. Zuflüsse sind der Hörzendorfer Bach (auch Draschelbach genannt) von Süden und der Projerner Bach von Westen; der Abfluss erfolgt durch den Hörzendorfer Bach im Nordosten.",
+        "hint": "Karpfen: kurze Distanzen, unauffällige Rigs. Hecht: Krautbahnen mit Softjerks.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Seeforelle",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Forellenbarsch",
+            "Aitel - Döbel",
+            "Barsch",
+            "Brachse - Brasse",
+            "Gemeiner Sonnenbarsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "St. Leonharder See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Leonharder See (auch: St. Leonharder See) ist ein kleiner See im Villacher Stadtteil St. Leonhard. Das Gewässer wird vom Land Kärnten als mesotroph eingestuft.\n\nDer See liegt am nördlichen Stadtrand von Villach, in unmittelbarer Nähe des etwas größeren Vassacher Sees. Beide Seen entstanden aus Toteis-Schollen, die beim Rückzug des Draugletschers auf einer Schotterterrasse in diesem Gebiet zurückblieben. Der Abfluss des Vassacher Sees durchfließt auf etwa 300 m Länge ein Moorgebiet und mündet dann in den Leonharder See. Dieser hat einen kleinen Abfluss im Südosten, der sich nach wenigen hundert Metern im Stadtgebiet von Villach verliert.\n\nDie Uferzonen des Sees sind flach und nur in geringem Maß von Schilf und anderen Pflanzen bewachsen. Größere Veränderungen der Uferlinie erfolgten durch einen Hotelkomplex am Nordufer sowie durch Aufschüttungen verschiedener privater Badeplätze.",
+        "hint": "Frühmorgens: Posenfischen in Buchten; tagsüber: feine Grundmontagen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Armurkarpfen",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Hafnersee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Hafnersee  ist einer von mehreren Seen im Keutschacher Seental südlich des Wörthersees (Kärnten).\n\nDer See liegt im Keutschacher Seental im Bereich der Sattnitz, das seine Entstehung einem Seitenast des Draugletschers verdankt. Dieser hat die tektonisch vorgeformte Talfurche überformt. Der Hafnersee liegt 800 m westlich des Keutschacher Sees.[1] Der Untergrund setzt sich aus altkristallinen Gesteinsserien (Phyllite, Glimmerschiefer, Kalkmarmor) zusammen. Darüber liegen tonige Ablagerungen aus dem Jungtertiär, die 40 bis 50 m dick sind. Auf diesen wiederum liegt das rund 400 m dicke Sattnitzkonglomerat (jüngstes Pleistozän).\n\nDer Hafnersee verfügt über zwei Zuflüsse, den Rodabach, der Schiefling und Techelweg entwässert, und den Abfluss des südlich gelegenen Penkensees. Quantitativ bedeutend ist der Anteil des Grundwassers.[1]\n\nIm Westen des Hafnersees liegen ausgedehnte Flachmoore, durch die der Hauptzufluss des Sees führt. Aufgrund der aus dem Moor stammenden Huminsäuren hat der See eine natürliche braune Färbung. Das Ostufer ist ebenfalls flach, hier entspringt der Rakouza- oder Rodabach, der in den Keutschacher See mündet. An Nord- und Südufer gibt nur kleine Verlandungsflächen.\n\nDas Einflussgebiet des Sees ist 12,7 km² groß und besteht aus dem westlichen Teil des Keutschacher Seentals, den Nordhang des Turiawaldes und die Südhänge der Wörthersee-Berge.\n\nDer Hafnersee ist länglich-rechteckig. In der Mitte wird das Seebecken durch eine nur 1,8 m tiefe Untiefe in zwei Teilbecken getrennt. Das westliche Becken ist 10 m tief, das östliche 9,1 m.",
+        "hint": "Krautlücken exakt anwerfen; Waathose meiden (Schutzzonen beachten).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Forellenbarsch",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Bitterling",
+            "Brachse - Brasse",
+            "Güster",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Vassacher See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Vassacher See liegt im Norden am Rand der Stadt Villach im österreichischen Bundesland Kärnten.\n\nNordwestlich des Vassacher Sees liegt der Oswaldiberg, östlich des Sees der Kumitzberg. In seiner Nähe bilden hochrangige Straßen ein T. Die Fläche des halbrund-runden Sees beträgt 4,43 ha, seine maximale Tiefe 10,2 m. Er liegt auf einer Seehöhe von 521 m ü. A. und hat ein Einzugsgebiet von 1,5 km².",
+        "hint": "Sommer: Oberflächenbisse auf Barsch (Topwater). Karpfen im Schatten der Schilfkanten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Zeilkarpfen",
+            "Armurkarpfen",
+            "Brachse - Brasse",
+            "Gemeiner Sonnenbarsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Sonnegger See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Sonnegger See ist ein künstlicher Badesee im Sittersdorfer Ortsteil Sonnegg im Jauntal im österreichischen Bundesland Kärnten. Er wurde 1966 ausgehoben und östlich und westlich durch Dämme gegen das umliegende Feuchtgebiet begrenzt. Da der natürliche Zufluss sich als unzureichend erwies, wurde für eine Verbesserung der Wasserqualität ein künstlicher Zufluss von 20 l/s vom Sucherbach her geschaffen",
+        "hint": "Bodennahe, unauffällige Präsentation; kleine Köfis am Abend für Hecht.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Barsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "Magdalensee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Magdalensee ist ein 14 ha großer See in Kärnten, der sich im Gemeindegebiet der Stadt Villach befindet. Der See liegt in einer flachen Mulde südwestlich einer Schotterterrasse. Seine theoretische Wassererneuerungszeit beträgt 3,6 Monate. Da er nur durch Grundwasser gespeist wird, ist sein Einzugsgebiet nur 0,6 km² groß.\n\nAm Ufer des Sees befindet sich der Villacher Ortsteil St. Magdalen.",
+        "hint": "Sommer: Waggler zwischen Krautbahnen; Hecht mit Weedless-Rigs.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Schleie",
+            "Zeilkarpfen",
+            "Aitel - Döbel",
+            "Armurkarpfen",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Flatschacher See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Flatschacher See ist ein See nahe Feldkirchen in Kärnten, Österreich. Der See wird ausschließlich als Badegewässer genutzt.\n\nDa der Zufluss durch ein stark landwirtschaftlich genutztes Gebiet fließt, ist der See recht stark mit Nährstoffen belastet. Der See selbst liegt im 272 ha großen Landschaftsschutzgebiet Flatschacher See - Krahkogel",
+        "hint": "Feeder & Method dicht am Schilfsaum; Hecht mit Spinner #4 an Kanten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Schleie",
+            "Armurkarpfen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder",
+            "Tostolop - Silberkarpfen"
+        ]
+    },
+    {
+        "name": "St. Andräer See",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der St. Andräer See ist ein kleiner See in der Kärntner Gemeinde St. Andrä. Das Gewässer wird vom Land Kärnten als schwach eutroph (Stand 2021) eingestuft.\n\nDer See liegt nordwestlich der Ortschaft Mettersdorf zwischen einem Altarm und dem regulierten Flussverlauf der Lavant. Er wurde 1990 künstlich im Auengebiet des Flusses angelegt und 1991 als Badesee eröffnet. Zum Zeitpunkt der Eröffnung speiste sich das Gewässer alleine aus Grundwasser. Da dieses aufgrund der im Einzugsgebiet intensiv betriebenen Landwirtschaft beeinträchtigt ist, wurde ein Zu- und Abfluss zur nur wenige Meter westlich gelegenen Lavant installiert. Somit kann der See im Bedarfsfall mit frischem Wasser durchspült werden. Aufgrund starker Algenblüten wurde der ursprünglich nur 3,5 Meter tiefe See auf 5 Meter eingetieft und eine schilfige Verlandungszone im Osten vom Badebereich abgetrennt. Sie dient nun als Puffer gegen den Nährstoffeintrag aus der Landwirtschaft.",
+        "hint": "Karpfen mit Partikelmischung vorbadender Bereiche; Barsch an Steganlagen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schleie",
+            "Aitel - Döbel",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Neusiedler See",
+        "is_default": false,
+        "states": [
+            "Burgenland"
+        ],
+        "desc": "Größter Steppensee Mitteleuropas (≈315 km²), UNESCO-Biosphärenpark, flach & schilfreich, geteilt mit Ungarn.",
+        "hint": "Frühjahr: Hecht in Schilfbuchten (Spinnerbait/Swimbait). Sommer: Zander nachts an Kanten (Gummifisch). Karpfen im Schilf auf Partikel.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Zicksee",
+        "is_default": false,
+        "states": [
+            "Burgenland"
+        ],
+        "desc": "Flacher, periodischer Steppensee; Wasserstand schwankt stark, teils trockenfallend.",
+        "hint": "Frühjahr flach an Schilfkanten; unauffällige Präsentationen wegen Klarwasser/Flachwasser.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Neufelder See",
+        "is_default": false,
+        "states": [
+            "Burgenland"
+        ],
+        "desc": "Klarer Baggersee; Bade- und Tauchrevier.",
+        "hint": "Zander nachts an Stegen/Strukturen; tags Hecht an Kanten & Krautbetten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Lunzer See",
+        "is_default": false,
+        "states": [
+            "Niederösterreich"
+        ],
+        "desc": "Einziger natürlicher See Niederösterreichs; klares Bergwasser in den Ybbstaler Alpen.",
+        "hint": "Sommer: Renken mit Hegene 10–20 m. Frühjahr/Herbst: Hecht flacher an Schilf & Einläufen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Erlaufsee",
+        "is_default": false,
+        "states": [
+            "Niederösterreich"
+        ],
+        "desc": "Klarer Grenzsee zu Steiermark; gute Sichtweiten, Bade- & Tauchsee.",
+        "hint": "Frühe Saison: Forellen an Kanten/Einläufen. Sommer: Renken tiefer (15–25 m).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Ottensteiner Stausee",
+        "is_default": false,
+        "states": [
+            "Niederösterreich"
+        ],
+        "desc": "Fjordartige Granitlandschaft am Kamp; viele Buchten, Inseln, Klippen.",
+        "hint": "Hecht an Felsabbrüchen (Jerkbait/Swimbait). Zander nachts an Steinpackungen mit Gummifisch.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Dobra-Stausee",
+        "is_default": false,
+        "states": [
+            "Niederösterreich"
+        ],
+        "desc": "Ruhige Stausee-Abschnitte, Paddel- und Kletter-Hotspot.",
+        "hint": "Sommerabends: Zander an Kanten. Hecht tagsüber an Holz & Fels.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Thurnberger Stausee",
+        "is_default": false,
+        "states": [
+            "Niederösterreich"
+        ],
+        "desc": "Kamp-Stausee mit ausgedehnten Uferzonen und Kanten.",
+        "hint": "Zander bei Dämmerung; Barsch truppweise an Steinpackungen (Jig/Minnow).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Wienerwaldsee",
+        "is_default": false,
+        "states": [
+            "Niederösterreich"
+        ],
+        "desc": "Speichersee mit Geschichte der Wiener Wasserversorgung; Ufer teils bewaldet.",
+        "hint": "Frühjahr flach; Sommer nachts Karpfen mit Boilies in ruhigen Zonen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Attersee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Größter Binnen-See AT (≈46 km²), sehr klar, tiefe Kanten; Segeln & Tauchen.",
+        "hint": "Renken im Sommer 15–25 m (Hegene). Hecht im Frühjahr flach; Zander nachts an Steinpackungen.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Traunsee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Sehr tief (bis ~191 m), fjordartige Ufer, klares Wasser.",
+        "hint": "Forellen/ Saibling tief über Kanten schleppen; Renken vertikal.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Mondsee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Karstsee, klare Sicht, markante Uferkanten.",
+        "hint": "Hecht im Frühjahr flach; Renken im Sommer tiefer mit Hegene.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Wolfgangsee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich",
+            "Salzburg"
+        ],
+        "desc": "Grenzsee zu Oberösterreich; klare Buchten, touristische Infrastruktur.",
+        "hint": "Renken über Kanten, Hecht im Krautgürtel.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Hallstätter See",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "UNESCO-Kulisse, kaltes, klares Wasser; tiefe Ufer.",
+        "hint": "Schleppen auf Forelle/ Saibling entlang tiefer Kanten; Renken vertikal.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Irrsee (Zeller See)",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Relativ warm; Flachwasserzonen mit Krautgürteln.",
+        "hint": "Hecht flach im Frühjahr; Karpfen in Buchten (Boilies/Partikel).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Almsee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Türkisgrüner Bergsee im Naturschutzgebiet; sehr klar.",
+        "hint": "Klares Wasser: feine Vorfächer und natürliche Köderfarben.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Vorderer Gosausee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Sehr klarer Bergsee; Dachsteinblick.",
+        "hint": "Leichte Rigs, unauffällige Präsentation, frühe/ späte Tageszeiten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Hinterer Gosausee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Abgelegener Bergsee; glasklar.",
+        "hint": "Still & klar – weite Würfe, feines Gerät.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Vorderer Langbathsee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Klarer Bergsee nahe Ebensee.",
+        "hint": "Früh & spät aktiv; Schlauchboote/ Belly (falls erlaubt) vorteilhaft.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Hinterer Langbathsee",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Kleiner, klarer Bergsee im Waldkessel.",
+        "hint": "Unauffällige Montagen; Uferpirsch.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Pleschinger See",
+        "is_default": false,
+        "states": [
+            "Oberösterreich"
+        ],
+        "desc": "Bade-/Angelsee bei Linz; krautreiche Ufer.",
+        "hint": "Früh/Spät fischen; tagsüber viel Badebetrieb.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Zeller See",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Alpiner, klarer Badesee mit Gletscherblick.",
+        "hint": "Frühjahr: Forelle an Kanten/Einläufen. Sommer: Renken 10–20 m (Hegene).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Wallersee",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Relativ flach, windoffen; ausgedehnte Schilfzonen.",
+        "hint": "Hecht im Frühjahr in Schilfbuchten; Zander nachts an Kanten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Mattsee",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Teil der Trumer Seen; strukturreiche Ufer mit Schilf & Buchten.",
+        "hint": "Frühsommer: Hecht im Kraut; Barsch an Steinpackungen (Jig/Crank).",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Obertrumer See",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Größter der Trumer Seen; weiträumige Flachwasserbereiche.",
+        "hint": "Abend-/Nacht: Zander an Übergängen von Flach- zu Tiefwasser.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Grabensee",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Kleiner, naturnaher Teil der Trumer Seen; Schilfgürtel.",
+        "hint": "Hecht in Buchten; Barsch an Schilfkanten mit leichten Jigs.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Fuschlsee",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Sehr klares Wasser, Uferwanderweg; steile Kanten.",
+        "hint": "Tagesrandzeiten & feine Vorfächer; Renken tiefer im Sommer.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Hintersee (Faistenau)",
+        "is_default": false,
+        "states": [
+            "Salzburg"
+        ],
+        "desc": "Kleiner, klarer Bergsee; familienfreundlich.",
+        "hint": "Leichte Rigs; kleine Minnows/Spinner.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Grundlsee",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "‚Steirisches Meer‘; großer Klarwassersee im Ausseerland.",
+        "hint": "Sommer: Renken tiefer (Hegene). Hecht an Kraut- & Schilfkanten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Altausseer See",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "Smaragdgrüner, klarer See am Loser; steile Ufer.",
+        "hint": "Feine Hegenen/Fliegen; Schleppangeln tief an Kanten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Toplitzsee",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> Ausseerland, Steiermark – eingebettet in die eindrucksvolle Bergwelt des Toten Gebirges</p><p><br></p><p><strong>Gewässercharakter:</strong></p><p> Hochalpiner Bergsee mit streng geschütztem Naturraum</p><p><br></p><p><strong>Fangbestimmungen:</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Tagesfanglimit: 3 Salmoniden</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Verkauf von gefangenen Fischen verboten</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Hechte sind verpflichtend zu entnehmen</li></ol><p><br></p><p><strong>Mindestmaße (Brittelmaße):</strong></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Bachforelle: 30 cm</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Seesaibling: 30 cm</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Seeforelle: 60 cm</li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><br></li></ol><h3>WEITERE INFORMATIONEN</h3><p>Der Toplitzsee zählt zu den exklusivsten und am strengsten geschützten Angelrevieren der Steiermark. Die Kombination aus limitierter Lizenzausgabe und klaren Regeln dient dem langfristigen Erhalt dieses einzigartigen Ökosystems.</p><p>Erlaubt ist das Fliegenfischen mit einer einzelnen Fliege und Einzelhaken sowie das Spinnfischen mit Blinkern aller Art oder toten Köderfischen. Dabei dürfen Köderfische ausschließlich aus dem Toplitzsee stammen.</p><p>Das Schleppfischen ist ebenfalls gestattet, jedoch mit maximal zwei Angeln pro Person und jeweils nur einem Haken.</p><p>Aufgrund des steilen Uferverlaufs ist das Fischen nahezu ausschließlich vom Boot aus möglich. Eigene Boote sind nicht erlaubt, Ruderboote können bei der Fischerhütte ausgeliehen werden.</p><p>Das Fischen im benachbarten Kammersee ist ausdrücklich untersagt.</p><p>Der Zugang zum Toplitzsee erfolgt über den Ortsteil Gößl bei Grundlsee. Dort stehen von Mai bis Oktober gebührenpflichtige Parkmöglichkeiten zur Verfügung. Ein gut ausgebauter Spazierweg führt entlang des Toplitzbaches direkt zum See. In unmittelbarer Nähe befindet sich auch der Ausgangspunkt der beliebten 3-Seen-Tour (Grundlsee – Toplitzsee – Kammersee), wobei im Kammersee keine Fischerei erlaubt ist.</p><p><br></p><p><strong>Was uns besonders am Herzen liegt:</strong></p><p>Das Fischen am Toplitzsee steht für ein bewusstes, ruhiges und naturverträgliches Angelerlebnis – exklusiv, streng reglementiert und im Einklang mit der einzigartigen Landschaft des Ausseerlands.</p>",
+        "hint": null,
+        "fishing_rights": "<p><strong>Fischereisaison:</strong></p><p> 01.06. bis 31.08.</p><p><br></p><p><strong>Fischereizeiten:</strong></p><p> Fischen ausschließlich bei Tageslicht erlaubt</p>",
+        "ticket_sales": "<p><strong>Lizenzen:</strong></p><p> Tageslizenzen stark limitiert – maximal 4 Lizenzen pro Tag</p><p> Erhältlich bei der Fischerhütte am Westufer des Sees sowie im Online-Shop der Österreichischen Bundesforste</p>",
+        "fish": [
+            "Bachforelle",
+            "Seeforelle",
+            "Hecht",
+            "Saibling"
+        ]
+    },
+    {
+        "name": "Erlaufsee (Stmk-Anteil)",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "Klarer Grenzsee zu Niederösterreich.",
+        "hint": "Ähnlich NÖ-Seite: Renken tiefer, Forellen an Kanten.",
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Leopoldsteiner See",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": null,
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": []
+    },
+    {
+        "name": "Aichwaldsee",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Aichwaldsee ist ein kleiner See in der Gemeinde Finkenstein. Es handelt sich um einen moorigen See, dessen Wasserqualität trotz der daraus folgenden Trübe als sehr gut ausgewiesen ist.\n\nDen See umgibt ein 24 Hektar großes Landschaftsschutzgebiet (LGBl. Nr. 41/1970).[1] Am Südufer des Sees gibt es ein öffentliches Strandbad und im Winter wird der See für das Eislaufen vom Eislaufverein Wörthersee bewirtschaftet.",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Reinanke - Felchen",
+            "Schleie",
+            "Armurkarpfen",
+            "Barsch",
+            "Brachse - Brasse",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Mossburger -Miterteich",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Der Moosburger Mitterteich ist ein kleiner See in Kärnten. Er ist Teil des Landschaftsschutzgebietes Moosburger Teichlandschaft und wird vom Land Kärnten als eutroph eingestuft.\n\nDie Moosburger Teiche liegen in einer durch eiszeitliche Ablagerungen verfüllten Furche nahe der Marktgemeinde Moosburg. Diese Furche verfügt nur über unzureichenden Abfluss verfügt und ist daher zu großen Teilen stark versumpft. Innerhalb dieses sumpfigen Areals bildete sich eine Reihe von Gewässern. Die Vegetation ist von Schilf und Teichbinsen sowie Rohrkolben geprägt, typisch für die dichte Unterwasserflora sind Laichkräuter, Tausendblatt und Seerosen. Entsprechend der moorigen Umgebung ist das Wasser bräunlich gefärbt.",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Aal",
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Schleie",
+            "Aitel - Döbel",
+            "Barsch",
+            "Laube - Ukelei",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Spintik-Teiche",
+        "is_default": false,
+        "states": [
+            "Kärnten"
+        ],
+        "desc": "Die Spintik-Teiche sind zwei Kärntner Teiche, die auf dem Höhenrücken zwischen Wörthersee und Keutschacher Seental liegen. Das Gebiet um die beiden Teiche ist seit 1959 Naturschutzgebiet. Die beiden Teiche sind aus künstlich überstauten Nassflächen entstanden. Sie liegen in flachen Mulden aus Grundmoränenmaterial, das über oberostalpinem Altkristallin liegt. Zu- und Abfluss erfolgen durch ein Kerbtal. Der untere Teich ist teilweise von Wiesen und Feldern umgeben, der obere großteils von Wald und Flachmooren.",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Wels",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    },
+    {
+        "name": "Panoramasee in Admont",
+        "is_default": false,
+        "states": [
+            "Steiermark"
+        ],
+        "desc": "<p><strong>Lage:</strong></p><p> </p><p>Marktgemeinde Admont, Ortsteil Aigen, Steiermark</p><p><strong>Gewässertyp:</strong></p><p> Moorsee auf dem Areal eines ehemaligen Torfwerkes</p><p><br></p><p><strong>Fläche:</strong></p><p> ca. 12 ha</p><p><br></p><p><strong>Tiefe:</strong></p><p> ca. 1–3 m</p><p><br></p><p><strong>Bewirtschaftung:</strong></p><p> Fischereiverein Liezen (seit 2016)</p><p><br></p><p><strong>Nutzung:</strong></p><p> Ausschließlich Sportfischerei</p><p><br></p><h3>WEITERE INFORMATIONEN</h3><p>Der Panoramasee ist ein idyllisch gelegener Moorsee in der Marktgemeinde Admont. Das rund zwölf Hektar große Gewässer befindet sich im Ortsteil Aigen und entstand durch umfassende Renaturierungsmaßnahmen auf dem Gelände eines ehemaligen Torfwerkes.</p><p>Mit einer durchschnittlichen Tiefe von etwa ein bis drei Metern bietet der See ideale Voraussetzungen für eine naturnahe und nachhaltige Fischerei. Seit dem Jahr 2016 wird der Panoramasee vom Fischereiverein Liezen bewirtschaftet und gezielt als reines Sportfischereigewässer genutzt.</p><p>Der besondere Charakter als Moorsee verleiht dem Gewässer eine eigene Atmosphäre und macht den Panoramasee zu einem ruhigen, landschaftlich reizvollen Revier für Angler, die Wert auf Naturerlebnis und Erholung legen.</p>",
+        "hint": null,
+        "fishing_rights": null,
+        "ticket_sales": null,
+        "fish": [
+            "Zander",
+            "Hecht",
+            "Schuppenkarpfen",
+            "Spiegelkarpfen",
+            "Schleie",
+            "Armurkarpfen",
+            "Barsch",
+            "Rotauge",
+            "Rotfeder"
+        ]
+    }
+]

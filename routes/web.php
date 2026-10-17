@@ -2,7 +2,6 @@
 
 use Spark\Spark;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PwaController;
 use App\Http\Controllers\FishController;
 use App\Http\Controllers\LakeController;
 use App\Http\Controllers\RiverController;
@@ -30,6 +29,11 @@ use App\Http\Controllers\Admin\TicketAdminController;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\AssociationAdminController;
 use App\Http\Controllers\ManifestController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SpotController;
+use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\Admin\SubmissionAdminController;
+use App\Http\Controllers\Admin\WikiExportAdminController;
 
 // Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
@@ -59,7 +63,6 @@ Route::middleware(['auth'])->name('app.')->group(function () {
 
     Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
 
-    Route::get('/pwa', [PwaController::class, 'index'])->name('pwa.index');
 
     Route::resource('catched', CatchedController::class)
         ->except(['update'])
@@ -75,6 +78,16 @@ Route::middleware(['auth'])->name('app.')->group(function () {
     Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->name('catched.photo.delete');
 
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+
+    Route::get('/spots', [SpotController::class, 'index'])->name('spots.index');
+    Route::post('/spots', [SpotController::class, 'store'])->name('spots.store');
+    Route::put('/spots/{spot}', [SpotController::class, 'update'])->name('spots.update');
+    Route::delete('/spots/{spot}', [SpotController::class, 'destroy'])->name('spots.destroy');
+
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report/export', [ReportController::class, 'export'])->name('report.export');
+    Route::get('/report/print', [ReportController::class, 'print'])->name('report.print');
+    Route::patch('/report/catches/{catched}', [ReportController::class, 'updateRelease'])->name('report.release');
 
     Route::prefix('states')->group(function () {
 
@@ -97,6 +110,11 @@ Route::middleware(['auth'])->name('app.')->group(function () {
     Route::get('/fish', [FishController::class, 'index'])->name('fish.index');
     Route::get('/fish/{fish}', [FishController::class, 'show'])->name('fish.show');
 
+    Route::post('/submissions/{type}', [SubmissionController::class, 'store'])
+        ->whereIn('type', ['fish', 'lake', 'river'])
+        ->middleware('throttle:20,60')
+        ->name('submissions.store');
+
     Route::get('/ticket', [TicketController::class, 'create'])->name('ticket.create');
     Route::post('/ticket', [TicketController::class, 'store'])->name('ticket.store');
 
@@ -112,6 +130,18 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::impersonate();
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::get('/wiki-export', [WikiExportAdminController::class, 'index'])->name('wiki-export.index');
+    Route::get('/wiki-export/zip', [WikiExportAdminController::class, 'zip'])->name('wiki-export.zip');
+    Route::get('/wiki-export/{name}.json', [WikiExportAdminController::class, 'dataset'])
+        ->whereIn('name', \App\Services\WikiExporter::DATASETS)
+        ->name('wiki-export.dataset');
+
+    Route::get('/submissions', [SubmissionAdminController::class, 'index'])->name('submissions.index');
+    Route::post('/submissions/{type}/{id}/approve', [SubmissionAdminController::class, 'approve'])
+        ->whereIn('type', ['fish', 'lake', 'river'])->whereNumber('id')->name('submissions.approve');
+    Route::post('/submissions/{type}/{id}/reject', [SubmissionAdminController::class, 'reject'])
+        ->whereIn('type', ['fish', 'lake', 'river'])->whereNumber('id')->name('submissions.reject');
+
     Route::get('/tickets', [TicketAdminController::class, 'index'])->name('tickets.index');
     Route::get('/tickets/{ticket}', [TicketAdminController::class, 'show'])->name('tickets.show');
     Route::delete('/tickets/{ticket}', [TicketAdminController::class, 'destroy'])->name('tickets.destroy');

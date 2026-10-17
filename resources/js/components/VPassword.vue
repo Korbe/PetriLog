@@ -2,9 +2,9 @@
     <div>
         <!-- Label -->
         <div class="flex items-center justify-between" v-if="label">
-            <label :for="id" class="block text-md md:text-sm font-medium mb-1 dark:text-gray-400">
+            <label :for="id" class="block text-sm font-medium mb-1.5 text-(--app-ink)">
                 {{ label }}
-                <span v-if="mandatory" class="text-red-500">*</span>
+                <span v-if="mandatory" class="text-(--app-float)">*</span>
             </label>
         </div>
 
@@ -18,22 +18,23 @@
             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                 <!-- Vergessen? -->
                 <Link v-if="showForgot && !modelValue" href="/forgot-password"
-                    class="text-sm text-primary-600 hover:underline whitespace-nowrap">
+                    class="text-sm font-medium text-(--app-accent-ink) hover:underline whitespace-nowrap">
                 Vergessen?
                 </Link>
 
                 <!-- Toggle Auge -->
-                <button v-else type="button" class="focus:outline-none" @click="toggleVisible">
-                    <EyeIcon v-if="!visible" class="w-5 h-5 text-gray-400 hover:text-gray-600" />
-                    <EyeSlashIcon v-else class="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                <button v-else type="button" class="focus:outline-none" @click="toggleVisible"
+                    :aria-label="visible ? 'Passwort verbergen' : 'Passwort anzeigen'">
+                    <EyeIcon v-if="!visible" class="w-5 h-5 text-(--app-subtle) hover:text-(--app-ink)" />
+                    <EyeSlashIcon v-else class="w-5 h-5 text-(--app-subtle) hover:text-(--app-ink)" />
                 </button>
             </div>
         </div>
 
         <!-- Fehler / Hinweis -->
-        <div v-if="error" class="text-xs mt-1 text-red-500">{{ error }}</div>
-        <div v-if="success" class="text-xs mt-1 text-green-500">{{ success }}</div>
-        <div v-if="supportingText" class="text-xs mt-1">{{ supportingText }}</div>
+        <div v-if="error" class="text-xs mt-1.5 font-medium text-(--app-danger)">{{ error }}</div>
+        <div v-if="success" class="text-xs mt-1.5 font-medium text-(--app-success)">{{ success }}</div>
+        <div v-if="supportingText" class="text-xs mt-1.5 text-(--app-muted)">{{ supportingText }}</div>
     </div>
 </template>
 
@@ -66,9 +67,9 @@ const toggleVisible = () => {
 const inputClass = computed(() => {
     return {
         'pr-16': true,
-        'border-red-300': props.error,
-        'border-green-300': props.success,
-        'dark:disabled:placeholder:text-gray-600 disabled:border-gray-200 dark:disabled:border-gray-700 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-not-allowed shadow-none': props.disabled,
+        'border-(--app-danger)!': props.error,
+        'border-(--app-success)!': props.success,
+        'cursor-not-allowed': props.disabled,
     }
 })
 </script>

@@ -3,43 +3,28 @@
 namespace Database\Seeders;
 
 use App\Models\Fish;
+use Database\Seeders\Concerns\UsesSeedData;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class FishSeeder extends Seeder
 {
+    use UsesSeedData;
+
     public function run(): void
     {
-        $fishConfig = config('fish');
+        $fish = $this->seedData('fish');
 
-        DB::transaction(function () use ($fishConfig) {
+        DB::transaction(function () use ($fish) {
+            foreach ($fish as $data) {
+                // is_default ist nicht fillable → forceFill
+                $model = Fish::firstOrNew(['name' => $data['name']]);
+                $model->forceFill([
+                    'desc' => $data['desc'] ?? null,
+                    'is_default' => (bool) ($data['is_default'] ?? false),
+                ])->save();
 
-            // 1️⃣ Default-Fisch immer zuerst anlegen / aktualisieren
-            $defaultFish = Fish::updateOrCreate(
-                ['name' => 'Anderes / nicht gelistet'],
-                [
-                    'desc' => 'Sonstige / nicht gelistete Fischart',
-                    'is_default' => true,
-                ]
-            );
-
-            // 2️⃣ Alle anderen Fische aus der Config
-            foreach ($fishConfig as $fishKey => $fishData) {
-
-                $name = $fishData['name'] ?? $fishKey;
-
-                // Sicherheit: Default nicht doppelt anlegen
-                if ($name === 'Anderes / nicht gelistet') {
-                    continue;
-                }
-
-                Fish::updateOrCreate(
-                    ['name' => $name],
-                    [
-                        'desc' => $fishData['desc'] ?? null,
-                        'is_default' => false,
-                    ]
-                );
+                $this->attachSeedImage($model, $data['image'] ?? null, 'fish');
             }
         });
     }

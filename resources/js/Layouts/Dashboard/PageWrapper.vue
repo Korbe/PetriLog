@@ -2,21 +2,25 @@
 
     <Head :title="title" />
 
-    <!-- Actions -->
-    <div class="sm:flex sm:justify-between sm:items-center">
+    <!-- Page header -->
+    <div class="app-fade-up mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
 
-        <!-- Left: Title -->
-        <div v-if="!hideBackButton" class="mb-4 sm:mb-0 flex items-center md:mb-5">
-            <Link :href="backUrl" class="flex items-center gap-2">
-            <ChevronLeftIcon class="w-6 h-6 text-gray-800 dark:text-gray-100" />
-            <span class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
-                {{ title }}
-            </span>
+        <!-- Left: Back + Title -->
+        <div class="flex min-w-0 items-center gap-3">
+            <Link v-if="!hideBackButton" :href="backUrl || '/dashboard'" aria-label="Zurück"
+                class="ui-icon-btn shrink-0 border border-(--app-border) bg-(--app-surface) shadow-(--app-shadow)">
+                <ChevronLeftIcon class="size-5" />
             </Link>
+            <div class="min-w-0">
+                <p v-if="eyebrow" class="ui-kicker mb-1">{{ eyebrow }}</p>
+                <h1 class="font-display break-words text-[2.4rem] leading-[1.05] text-(--app-ink) md:text-5xl">
+                    {{ title }}
+                </h1>
+            </div>
         </div>
 
         <!-- Right: Actions -->
-        <div class="flex flex-wrap justify-start sm:justify-end gap-2">
+        <div v-if="$slots.actions" class="flex flex-wrap items-center gap-2 md:justify-end">
             <slot name="actions" />
         </div>
 
@@ -25,7 +29,7 @@
     <slot />
 </template>
 <script setup>
-import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
+import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 import { Head } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 
@@ -37,6 +41,7 @@ onMounted(() => {
 
 const props = defineProps({
     title: String,
+    eyebrow: String,
     backTo: String,
     hideBackButton: Boolean
 });

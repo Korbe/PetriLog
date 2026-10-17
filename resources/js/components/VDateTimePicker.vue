@@ -1,15 +1,15 @@
 <template>
 
-    <label v-if="label" :for="id" class="block text-md md:text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+    <label v-if="label" :for="id" class="block text-sm font-medium mb-1.5 text-(--app-ink)">
         {{ label }}
-        <span v-if="mandatory" class="text-red-500">*</span>
+        <span v-if="mandatory" class="text-(--app-float)">*</span>
     </label>
 
     <div class="relative">
         <flat-pickr v-model="modelValue" :config="config" :id="id" :name="name" :disabled="disabled"
             class="form-input pl-9 font-medium w-full" />
         <div class="absolute inset-0 right-auto flex items-center pointer-events-none">
-            <svg class="fill-current text-gray-400 dark:text-gray-400 ml-3" width="16" height="16" viewBox="0 0 16 16">
+            <svg class="fill-current text-(--app-subtle) ml-3" width="16" height="16" viewBox="0 0 16 16">
                 <path d="M5 4a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2H5Z" />
                 <path
                     d="M4 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4H4ZM2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z" />
@@ -21,6 +21,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import FlatPickr from 'vue-flatpickr-component'
+import { German } from 'flatpickr/dist/l10n/de.js'
 
 const props = defineProps({
     modelValue: [String, Date],
@@ -59,6 +60,7 @@ watch(modelValue, (val) => {
 })
 
 const config = {
+    locale: German,
     enableTime: true,
     dateFormat: 'd.m.Y H:i',
     time_24hr: true

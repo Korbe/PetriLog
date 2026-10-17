@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Submittable;
+
 use App\Models\Catched;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +17,7 @@ class Lake extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
+    use Submittable;
 
     protected $fillable = [
         'name',

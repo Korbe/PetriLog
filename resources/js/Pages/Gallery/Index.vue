@@ -1,52 +1,51 @@
 <template>
-  <PageWrapper title="Galerie" :backTo="route('app.dashboard')">
+  <PageWrapper title="Galerie" eyebrow="Deine Fangfotos" :backTo="route('app.dashboard')">
     <template v-slot:actions>
       <DropdownFilter :options="filters" @filtersChanged="handleFiltersChanged" />
       <VDateRangePicker align="right" v-model="dateRange" />
       <ResetButton @click="resetDateRange" />
-      <VButton :href="route('app.catched.create')">Eintragen</VButton>
+      <VButton :href="route('app.catched.create')">
+        <PlusIcon class="size-4" /> Eintragen
+      </VButton>
     </template>
 
-    <div class="w-full m-auto">
+    <!-- Empty State -->
+    <div v-if="catcheds.length === 0" class="ui-card mx-auto flex max-w-2xl flex-col items-center p-8 text-center md:p-12">
+      <img src="/images/fisher.webp" alt="" class="mb-4 h-48 w-auto" />
+      <h2 class="font-display text-4xl">Noch keine Schnappschüsse.</h2>
+      <p class="ui-muted mt-2">Fänge mit Fotos landen automatisch hier – auch in anderen Zeiträumen lohnt ein Blick.</p>
+      <VButton class="mt-6" size="lg" :href="route('app.catched.create')">
+        <PlusIcon class="size-5" /> Fang mit Foto eintragen
+      </VButton>
+    </div>
 
-      <!-- Empty State -->
-      <div v-if="catcheds.length === 0" class="text-center">
-        <img src="images/fisher.webp" alt="Fischer" class="mx-auto mb-1 w-auto h-64" />
-        <div
-          class="mx-auto w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 flex transition-all duration-200 transform hover:scale-105 flex-col items-center text-center">
-          <h1 class="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Noch keine Schnappschüsse vorhanden</h1>
-          <p class="text-gray-700 dark:text-gray-300 mb-5">Lade deine ersten Bilder hoch!</p>
-          <VButton class="px-6 py-3 text-lg rounded-lg font-semibold" :href="route('app.catched.create')">
-            Ersten Fang eintragen
-          </VButton>
+    <!-- Galerie -->
+    <div v-else class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 xl:grid-cols-4">
+      <Link v-for="item in catcheds" :key="item.id" :href="route('app.catched.show', item.id)"
+        class="group relative block overflow-hidden rounded-[1.25rem] bg-(--app-surface-2) shadow-(--app-shadow)">
+        <img v-if="item.images.length" :src="item.images[0].url" :alt="item.name" loading="lazy"
+          class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" />
+        <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-black/75 via-black/10 to-transparent"></div>
+        <span v-if="item.images.length > 1"
+          class="font-log absolute right-3 top-3 rounded-full bg-black/45 px-2 py-0.5 text-[11px] text-white backdrop-blur-sm">
+          {{ item.images.length }} Fotos
+        </span>
+        <div class="absolute inset-x-0 bottom-0 p-3 text-white md:p-4">
+          <p class="truncate text-base font-semibold md:text-lg">{{ item.name }}</p>
+          <p class="truncate text-xs text-white/75 md:text-sm">
+            {{ item.date }}<template v-if="item.water"> · {{ item.water.name }}</template>
+          </p>
+          <p v-if="item.length" class="font-log mt-1 text-[11px] text-white/70">{{ item.length }} cm<template v-if="item.weight"> · {{ item.weight }} g</template></p>
         </div>
-      </div>
+      </Link>
+    </div>
 
-      <!-- Galerie -->
-      <div class="p-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <div v-for="item in catcheds" :key="item.id"
-            class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-            <Link :href="route('app.catched.show', item.id)">
-            <img v-if="item.images.length" :src="item.images[0].url" alt="Bild" class="w-full h-48 object-cover" />
-            <div class="p-4">
-              <h2 class="text-lg font-semibold">{{ item.name }}</h2>
-              <p class="text-sm text-gray-500">{{ item.date }} - <span class="text-primary-500">{{ item.water.name
-              }}</span>
-              </p>
-            </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <!-- Load More Button -->
-      <div class="text-center my-6">
-        <VButton v-if="nextPageUrl" @click="loadMore" :disabled="isLoadingMore" class="px-6 py-2">
-          {{ isLoadingMore ? 'Lade...' : 'Weitere Fänge laden' }}
-        </VButton>
-        <span v-else class="text-gray-500">Keine weiteren Fänge</span>
-      </div>
+    <!-- Load More Button -->
+    <div v-if="catcheds.length" class="my-8 text-center">
+      <VButton v-if="nextPageUrl" variant="secondary" @click="loadMore" :disabled="isLoadingMore" :loading="isLoadingMore">
+        {{ isLoadingMore ? 'Lade …' : 'Weitere Fotos laden' }}
+      </VButton>
+      <span v-else class="ui-kicker">Das waren alle Fotos im Zeitraum</span>
     </div>
   </PageWrapper>
 </template>
@@ -59,6 +58,7 @@ import VDateRangePicker from '@/components/VDateRangePicker.vue';
 import VButton from '@/components/VButton.vue';
 import ResetButton from '@/components/pagination/ResetButton.vue';
 import DropdownFilter from '@/components/DropdownFilter.vue';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 interface Props {
   catcheds: Array<any>,

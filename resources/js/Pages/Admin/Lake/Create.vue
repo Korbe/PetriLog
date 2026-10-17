@@ -1,35 +1,33 @@
 <template>
     <PageWrapper title="See hinzufügen" backTo="/admin/lake">
-        <div class="w-full bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
+        <div class="ui-card mx-auto max-w-4xl p-5 md:p-8">
 
-            <div class="p-6">
+            <div>
                 <form @submit.prevent="submit">
 
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
                     <div class="my-4">
-                        <label class="block text-sm font-medium mb-1">
+                        <label class="block text-sm font-medium mb-1.5 text-(--app-ink)">
                             Bundesländer
                         </label>
 
-                        <VMultiselect v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
-                            :multiple="true" placeholder="Bundesländer auswählen" :close-on-select="false"
-                            :clear-on-select="false" :preserve-search="true" />
+                        <VMultiCombobox v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
+                            placeholder="Bundesländer auswählen" search-placeholder="Bundesland suchen …" aria-label="Bundesländer" />
 
-                        <p v-if="form.errors.state_ids" class="text-red-500 text-sm mt-1">
+                        <p v-if="form.errors.state_ids" class="text-xs mt-1.5 font-medium text-(--app-danger)">
                             {{ form.errors.state_ids }}
                         </p>
                     </div>
                     <div class="my-4">
-                        <label class="block text-sm font-medium mb-1">
+                        <label class="block text-sm font-medium mb-1.5 text-(--app-ink)">
                             Fische
                         </label>
 
                         <!-- Fish -->
-                        <VMultiselect v-model="selectedFish" :options="fishOptions" label="name" track-by="id"
-                            :multiple="true" placeholder="Fische auswählen" :close-on-select="false"
-                            :clear-on-select="false" :preserve-search="true" />
+                        <VMultiCombobox v-model="selectedFish" :options="fishOptions" label="name" track-by="id"
+                            placeholder="Fische auswählen" search-placeholder="Fischart suchen …" aria-label="Fischarten" />
 
-                        <p v-if="form.errors.fish_ids" class="text-red-500 text-sm mt-1">
+                        <p v-if="form.errors.fish_ids" class="text-xs mt-1.5 font-medium text-(--app-danger)">
                             {{ form.errors.state_ids }}
                         </p>
                     </div>
@@ -55,7 +53,7 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import VEditor from '@/components/VEditor.vue';
-import VMultiselect from '@/components/VMultiselect.vue';
+import VMultiCombobox from '@/components/VMultiCombobox.vue';
 
 const props = defineProps({
     states: Array,  // State-Objekte aus DB

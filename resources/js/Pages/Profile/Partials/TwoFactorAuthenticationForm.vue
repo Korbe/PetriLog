@@ -106,25 +106,25 @@ const disableTwoFactorAuthentication = () => {
     <ActionSection>
 
         <template #header>
-            <h1 class="text-lg font-medium text-gray-900 dark:text-gray-100">Two Factor Authentication</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Erhöhen Sie die Sicherheit Ihres Kontos durch
+            <h1 class="font-display text-3xl text-(--app-ink)">Zwei-Faktor-Authentifizierung</h1>
+            <p class="mt-1 mb-6 text-sm text-(--app-muted)">Erhöhen Sie die Sicherheit Ihres Kontos durch
                 die Zwei-Faktor-Authentifizierung.</p>
         </template>
 
         <template #content>
-            <h3 v-if="twoFactorEnabled && !confirming" class="text-lg font-medium text-gray-900 dark:text-gray-300">
+            <h3 v-if="twoFactorEnabled && !confirming" class="text-lg font-medium text-(--app-ink)">
                 Sie haben die Zwei-Faktor-Authentifizierung aktiviert.
             </h3>
 
-            <h3 v-else-if="twoFactorEnabled && confirming" class="text-lg font-medium text-gray-900 dark:text-gray-300">
+            <h3 v-else-if="twoFactorEnabled && confirming" class="text-lg font-medium text-(--app-ink)">
                 Schließen Sie die Aktivierung der Zwei-Faktor-Authentifizierung ab.
             </h3>
 
-            <h3 v-else class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h3 v-else class="font-display text-3xl text-(--app-ink)">
                 Sie haben die Zwei-Faktor-Authentifizierung nicht aktiviert.
             </h3>
 
-            <div class="mt-3 max-w-xl text-sm text-gray-600 dark:text-gray-300">
+            <div class="mt-3 max-w-xl text-sm text-(--app-muted)">
                 <p>
                     Wenn die Zwei-Faktor-Authentifizierung aktiviert ist, werden Sie während der Authentifizierung nach
                     einem sicheren, zufälligen Token gefragt. Sie können dieses Token über die Google
@@ -134,7 +134,7 @@ const disableTwoFactorAuthentication = () => {
 
             <div v-if="twoFactorEnabled">
                 <div v-if="qrCode">
-                    <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-300">
+                    <div class="mt-4 max-w-xl text-sm text-(--app-muted)">
                         <p v-if="confirming" class="font-semibold">
                             Um die Aktivierung der Zwei-Faktor-Authentifizierung abzuschließen, scannen Sie den
                             folgenden QR-Code mit der Authentifizierungsanwendung Ihres Telefons oder geben Sie den
@@ -149,7 +149,7 @@ const disableTwoFactorAuthentication = () => {
 
                     <div class="mt-4 p-2 inline-block bg-white" v-html="qrCode" />
 
-                    <div v-if="setupKey" class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-300">
+                    <div v-if="setupKey" class="mt-4 max-w-xl text-sm text-(--app-muted)">
                         <p class="font-semibold">
                             Schlüssel: <span v-html="setupKey"></span>
                         </p>
@@ -162,7 +162,7 @@ const disableTwoFactorAuthentication = () => {
                 </div>
 
                 <div v-if="recoveryCodes.length > 0 && !confirming">
-                    <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-300">
+                    <div class="mt-4 max-w-xl text-sm text-(--app-muted)">
                         <p class="font-semibold">
                             Speichern Sie diese Wiederherstellungscodes in einem sicheren Passwort-Manager. Sie können
                             sie verwenden, um den Zugriff auf Ihr Konto wiederherzustellen, falls Ihr
@@ -171,7 +171,7 @@ const disableTwoFactorAuthentication = () => {
                     </div>
 
                     <div
-                        class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 dark:bg-gray-900 rounded-lg">
+                        class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-(--app-surface-2) rounded-lg">
                         <div v-for="code in recoveryCodes" :key="code">
                             {{ code }}
                         </div>

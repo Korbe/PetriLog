@@ -1,36 +1,34 @@
 <template>
     <PageWrapper title="Fluss bearbeiten" backTo="/admin/river">
-        <div class="w-full bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
-            <div class="p-6">
+        <div class="ui-card mx-auto max-w-4xl p-5 md:p-8">
+            <div>
                 <form @submit.prevent="submit">
 
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
 
                     <div class="my-4">
-                        <label class="block text-sm font-medium mb-1">
+                        <label class="block text-sm font-medium mb-1.5 text-(--app-ink)">
                             Bundesländer
                         </label>
 
                         <!-- States -->
-                        <VMultiselect v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
-                            :multiple="true" placeholder="Bundesländer auswählen" :close-on-select="false"
-                            :clear-on-select="false" :preserve-search="true" />
+                        <VMultiCombobox v-model="selectedStates" :options="stateOptions" label="name" track-by="id"
+                            placeholder="Bundesländer auswählen" search-placeholder="Bundesland suchen …" aria-label="Bundesländer" />
 
-                        <p v-if="form.errors.state_ids" class="text-red-500 text-sm mt-1">
+                        <p v-if="form.errors.state_ids" class="text-xs mt-1.5 font-medium text-(--app-danger)">
                             {{ form.errors.state_ids }}
                         </p>
                     </div>
                     <div class="my-4">
-                        <label class="block text-sm font-medium mb-1">
+                        <label class="block text-sm font-medium mb-1.5 text-(--app-ink)">
                             Fische
                         </label>
 
                         <!-- Fish -->
-                        <VMultiselect v-model="selectedFish" :options="fishOptions" label="name" track-by="id"
-                            :multiple="true" placeholder="Fische auswählen" :close-on-select="false"
-                            :clear-on-select="false" :preserve-search="true" />
+                        <VMultiCombobox v-model="selectedFish" :options="fishOptions" label="name" track-by="id"
+                            placeholder="Fische auswählen" search-placeholder="Fischart suchen …" aria-label="Fischarten" />
 
-                        <p v-if="form.errors.fish_ids" class="text-red-500 text-sm mt-1">
+                        <p v-if="form.errors.fish_ids" class="text-xs mt-1.5 font-medium text-(--app-danger)">
                             {{ form.errors.state_ids }}
                         </p>
                     </div>
@@ -60,8 +58,9 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 import { useForm } from '@inertiajs/vue3'
 import { Inertia } from '@inertiajs/inertia'
 import { ref } from 'vue'
+import { confirmDialog } from '@/composables/useDialog'
 import VEditor from '@/components/VEditor.vue'
-import VMultiselect from '@/components/VMultiselect.vue'
+import VMultiCombobox from '@/components/VMultiCombobox.vue'
 
 const props = defineProps({
     river: Object,
@@ -93,8 +92,14 @@ function submit() {
 
     form.put(route('admin.river.update', props.river.id))
 }
-function destroy() {
-    if (confirm(`Möchtest du den Fluss "${props.river.name}" wirklich löschen?`)) {
+async function destroy() {
+    const confirmed = await confirmDialog({
+        title: 'Fluss löschen?',
+        message: `„${props.river.name}“ wird mit allen Wiki-Angaben dauerhaft gelöscht. Fänge an diesem Fluss verlieren ihre Gewässer-Zuordnung.`,
+        confirmText: 'Fluss löschen',
+        tone: 'danger',
+    })
+    if (confirmed) {
         Inertia.delete(route('admin.river.destroy', props.river.id))
     }
 }

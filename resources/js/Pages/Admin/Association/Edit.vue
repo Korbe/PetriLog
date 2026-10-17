@@ -1,22 +1,21 @@
 <template>
     <PageWrapper title="Verein bearbeiten" backTo="/admin/association">
-        <div class="w-full bg-white flex flex-col justify-center dark:bg-gray-800 shadow-xs rounded-lg p-5">
-            <div class="p-6">
+        <div class="ui-card mx-auto max-w-4xl p-5 md:p-8">
+            <div>
                 <form @submit.prevent="submit">
 
                     <VInput label="Name" v-model="form.name" :error="form.errors.name" />
                     <div class="my-4">
-                        <label class="block text-sm font-medium mb-1">
+                        <label class="block text-sm font-medium mb-1.5 text-(--app-ink)">
                             Bundesland
                         </label>
 
                         <!-- States -->
-                        <VMultiselect v-model="form.state" :options="stateOptions" label="name" track-by="id"
-                            :multiple="false" placeholder="Bundesland auswählen" :close-on-select="true"
-                            :clear-on-select="false" :preserve-search="true" />
+                        <VCombobox v-model="form.state" :options="stateOptions" label="name" track-by="id"
+                            placeholder="Bundesland auswählen" search-placeholder="Bundesland suchen …" aria-label="Bundesland" />
 
-                        <p v-if="form.errors.state_ids" class="text-red-500 text-sm mt-1">
-                            {{ form.errors.state_ids }}
+                        <p v-if="form.errors.state_id || form.errors.state_ids" class="text-xs mt-1.5 font-medium text-(--app-danger)">
+                            {{ form.errors.state_id || form.errors.state_ids }}
                         </p>
                     </div>
                     <VInput label="Link" v-model="form.link" :error="form.errors.link" />
@@ -46,7 +45,8 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 import VEditor from '@/components/VEditor.vue';
-import VMultiselect from '@/components/VMultiselect.vue';
+import VCombobox from '@/components/VCombobox.vue';
+import { confirmDialog } from '@/composables/useDialog';
 
 const props = defineProps({
     association: Object,
@@ -65,8 +65,9 @@ const form = useForm({
 });
 
 function submit() {
+    form.clearErrors('state_id');
     if (!form.state) {
-        alert('Bitte wähle ein Bundesland aus!');
+        form.setError('state_id', 'Bitte wähle ein Bundesland aus.');
         return;
     }
 
@@ -74,8 +75,14 @@ function submit() {
     form.put(route('admin.association.update', props.association.id));
 }
 
-function destroy() {
-    if (confirm(`Möchtest du den Verein "${props.association.name}" wirklich löschen?`)) {
+async function destroy() {
+    const confirmed = await confirmDialog({
+        title: 'Verein löschen?',
+        message: `„${props.association.name}“ wird dauerhaft aus dem Wiki entfernt.`,
+        confirmText: 'Verein löschen',
+        tone: 'danger',
+    });
+    if (confirmed) {
         Inertia.delete(route('admin.association.destroy', props.association.id));
     }
 }

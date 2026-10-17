@@ -17,7 +17,6 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        session()->forget('meta');
 
         $userId = Auth::id();
 
@@ -149,7 +148,7 @@ public function getCatchedStatisticsForCurrentYear($userId)
             ->first();
 
         if ($catched != null)
-            $catched->load('media');
+            $catched->load(['media', 'fish', 'lake', 'river']);
 
         return $catched;
     }
@@ -165,7 +164,7 @@ public function getCatchedStatisticsForCurrentYear($userId)
         }
 
         if ($catched != null)
-            $catched->load('media');
+            $catched->load(['media', 'fish', 'lake', 'river']);
 
         return $catched;
     }
@@ -245,12 +244,14 @@ public function getCatchedStatisticsForCurrentYear($userId)
         return Catched::with(['fish', 'lake', 'river'])
             ->where('user_id', $userId)
             ->orderByDesc('created_at')
-            ->limit(2)
+            ->limit(5)
             ->get()
             ->map(function ($catched) {
                 return [
                     'id' => $catched->id,
                     'created_at' => $catched->created_at,
+                    'date' => $catched->date,
+                    'length' => $catched->length,
                     'fish' => $catched->fish,
                     'lake' => $catched->lake,
                     'river' => $catched->river,

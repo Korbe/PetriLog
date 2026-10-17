@@ -1,31 +1,32 @@
 <template>
     <div v-if="items && items.length">
-        <p v-if="title" class="font-bold text-lg pt-5 pb-2">
-            {{ title }}
-        </p>
+        <div v-if="title" class="flex items-baseline justify-between gap-3 pb-2 pt-6">
+            <h3 class="text-base font-semibold text-(--app-ink)">{{ title }}</h3>
+            <span class="ui-badge">{{ items.length }}</span>
+        </div>
 
-        <ul>
-            <li v-for="item in visibleItems" :key="item.id" class="hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
-                <Link :href="`${baseUrl}/${item.id}`"
-                    class="flex items-center justify-between gap-2 p-2 text-blue-500 hover:text-blue-700">
-                    <span>{{ item.name }}</span>
-                    <ArrowRightIcon class="w-5 h-5" />
+        <ul class="-mx-2">
+            <li v-for="item in visibleItems" :key="item.id">
+                <Link :href="`${baseUrl}/${item.id}`" class="ui-row group justify-between">
+                    <span class="truncate">{{ item.name }}</span>
+                    <ArrowRightIcon class="w-4 h-4 shrink-0 text-(--app-subtle) transition group-hover:translate-x-0.5 group-hover:text-(--app-accent-ink)" />
                 </Link>
             </li>
         </ul>
 
         <!-- Weiterlesen -->
-        <p v-if="items.length > limit" class="text-sm text-blue-500 hover:text-blue-700 cursor-pointer mt-2 select-none"
+        <button v-if="items.length > limit" type="button"
+            class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-(--app-accent-ink) hover:underline"
             @click="expanded = !expanded">
-            {{ expanded ? 'Weniger anzeigen' : 'Weiterlesen' }}
-        </p>
+            {{ expanded ? 'Weniger anzeigen' : `Alle ${items.length} anzeigen` }}
+        </button>
     </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
-import { ArrowRightIcon } from '@heroicons/vue/24/solid'
+import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
     items: {

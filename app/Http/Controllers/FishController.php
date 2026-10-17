@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Fish;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class FishController extends Controller
 {
     public function index()
     {
-        session()->forget('meta');
 
-        $fish = Fish::where('name', '!=', 'Anderes / nicht gelistet')
+        $fish = Fish::approved()->where('name', '!=', 'Anderes / nicht gelistet')
             ->orderBy('name') // <-- hier nach Namen sortieren
             ->get()
             ->map(fn($f) => [
@@ -28,7 +28,8 @@ class FishController extends Controller
 
     public function show(Fish $fish)
     {
-        session()->forget('meta');
+        // Vorschläge in Prüfung sind nur für Einreichende und Admins sichtbar
+        abort_unless($fish->isVisibleTo(Auth::user()), 404);
 
         return Inertia::render('Fish/Show', [
             'fish' => [

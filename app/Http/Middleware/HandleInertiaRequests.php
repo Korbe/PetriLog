@@ -55,7 +55,7 @@ class HandleInertiaRequests extends Middleware
                         'subscribed' => $user->subscribed(),
                         'verified' => $user->hasVerifiedEmail(),
                         'newsletter_opt_out' => $user->newsletter_opt_out,
-                        'state' => $user->relationLoaded('state') || $user->state
+                        'state' => $user->state
                             ? [
                                 'id' => $user->state->id,
                                 'name' => $user->state->name,

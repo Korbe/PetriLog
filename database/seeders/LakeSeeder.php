@@ -2,73 +2,42 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fish;
 use App\Models\Lake;
 use App\Models\State;
+use Database\Seeders\Concerns\UsesSeedData;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class LakeSeeder extends Seeder
 {
+    use UsesSeedData;
+
     public function run(): void
     {
-        $lakes = config('lakes');
+        $lakes = $this->seedData('lakes');
+        $stateIds = State::pluck('id', 'name');
+        $fishIds = Fish::pluck('id', 'name');
 
-        DB::transaction(function () use ($lakes) {
+        DB::transaction(function () use ($lakes, $stateIds, $fishIds) {
+            foreach ($lakes as $data) {
+                // is_default ist nicht fillable → forceFill
+                $lake = Lake::firstOrNew(['name' => $data['name']]);
+                $lake->forceFill([
+                    'desc' => $data['desc'] ?? null,
+                    'hint' => $data['hint'] ?? null,
+                    'fishing_rights' => $data['fishing_rights'] ?? null,
+                    'ticket_sales' => $data['ticket_sales'] ?? null,
+                    'is_default' => (bool) ($data['is_default'] ?? false),
+                ])->save();
 
-            // 1️⃣ Zuerst: Neutraler Default-Eintrag
-            Lake::updateOrCreate(
-                ['name' => 'Anderes / nicht gelistet'],
-                [
-                    'desc' => 'Sonstiges / nicht gelistetes Gewässer',
-                    'hint' => null,
-                    'is_default' => true,
-                ]
-            );
-
-            // 2️⃣ Danach alle Lakes aus der Config
-            foreach ($lakes as $lakeKey => $data) {
-
-                $name = $data['name'] ?? $lakeKey;
-
-                // Falls in der Config zufällig gleich benannt → überspringen
-                if ($name === 'Anderes / nicht gelistet') {
-                    continue;
-                }
-
-                $lake = Lake::updateOrCreate(
-                    [
-                        'name' => $name,
-                    ],
-                    [
-                        'desc' => $data['desc'] ?? null,
-                        'hint' => $data['tips'] ?? null,
-                    ]
+                // Bundesländer und Fischarten (n:n) über Namen zuordnen
+                $lake->states()->sync(
+                    $this->resolveIds($data['states'] ?? [], $stateIds, 'State(s) für Lake "' . $lake->name . '"')
                 );
-
-                /**
-                 * STATES anbinden (n:n)
-                 */
-                if (!empty($data['state'])) {
-                    $states = (array) $data['state'];
-
-                    $stateIds = State::whereIn('name', $states)->pluck('id');
-
-                    if ($stateIds->count() !== count($states)) {
-                        $missing = array_diff(
-                            $states,
-                            State::whereIn('name', $states)->pluck('name')->toArray()
-                        );
-
-                        throw new \Exception(
-                            'State(s) nicht gefunden für Lake "' .
-                                $lake->name .
-                                '": ' . implode(', ', $missing)
-                        );
-                    }
-
-                    $lake->states()->syncWithoutDetaching($stateIds);
-                }
+                $lake->fish()->sync(
+                    $this->resolveIds($data['fish'] ?? [], $fishIds, 'Fisch(e) für Lake "' . $lake->name . '"')
+                );
             }
         });
     }

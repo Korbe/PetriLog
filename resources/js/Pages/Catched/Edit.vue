@@ -1,75 +1,105 @@
 <template>
-  <PageWrapper title="Fang bearbeiten" :backTo="`/catched/${catched.id}`">
-    <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg p-5">
-      <FullLoadingScreen v-if="loading" />
+  <PageWrapper title="Fang bearbeiten" :eyebrow="props.catched?.fish?.name ?? 'Fang'" :backTo="`/catched/${catched.id}`">
+    <template v-slot:actions>
+      <VButton type="button" variant="ghost" class="text-(--app-danger)!" @click="showDeleteDialog = true">
+        <TrashIcon class="size-4" /> Löschen
+      </VButton>
+      <VButton type="submit" form="catched-edit-form" :disabled="form.processing">
+        <CheckIcon class="size-4" /> Speichern
+      </VButton>
+    </template>
 
-      <form @submit.prevent="submit" class="space-y-5">
+    <FullLoadingScreen v-if="loading" />
 
-        <!-- Vorschau + Sortierung -->
-        <ImageAndUploadPreview v-model="images" />
+    <form id="catched-edit-form" @submit.prevent="submit" class="grid gap-5 md:gap-6 lg:grid-cols-12">
 
-        <VDateTimePicker v-model="form.date" label="Datum" mandatory />
+      <div class="space-y-5 md:space-y-6 lg:col-span-7">
+        <!-- Fotos -->
+        <section class="ui-card p-5 md:p-6">
+          <p class="ui-kicker">Fotos</p>
+          <p class="mb-4 mt-1 text-sm text-(--app-muted)">Bis zu 3 Fotos – das erste wird zum Titelbild. Reihenfolge per Ziehen ändern.</p>
+          <ImageAndUploadPreview v-model="images" />
+        </section>
 
-        <!-- Fisch -->
-        <VMultiselect v-model="selectedFish" :options="fish" label="name" track-by="id" placeholder="Fisch auswählen" />
+        <!-- Fang -->
+        <section class="ui-card space-y-5 p-5 md:p-6">
+          <p class="ui-kicker">Fang</p>
+          <VDateTimePicker v-model="form.date" label="Datum" mandatory />
 
-        <!-- Gewässer -->
-        <VMultiselect v-model="selectedLake" :options="lakes" label="name" track-by="id" placeholder="See auswählen" />
+          <CatchSpeciesWaterFields v-model:fish-id="form.fish_id" v-model:lake-id="form.lake_id" v-model:river-id="form.river_id"
+            :fish="fish" :lakes="lakes" :rivers="rivers" :states="states" :errors="form.errors" />
+        </section>
 
-        <VMultiselect v-model="selectedRiver" :options="rivers" label="name" track-by="id"
-          placeholder="Fluss auswählen" />
+        <!-- Bemerkungen -->
+        <section class="ui-card p-5 md:p-6">
+          <VEditor label="Bemerkungen" v-model="form.remark" :error="form.errors.remark" />
+        </section>
+      </div>
 
-        <!-- Felder -->
-        <VInput label="Länge (cm)" type="number" mandatory v-model="form.length" />
-        <VInput label="Gewicht (g)" type="number" v-model="form.weight" />
-        <VInput label="Tiefe (cm)" type="number" v-model="form.depth" />
-        <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" />
-        <VInput label="Luftdruck (hPa)" type="number" v-model="form.air_pressure" />
-        <VInput label="Köder" v-model="form.bait" />
-        <VEditor label="Bemerkungen" v-model="form.remark" />
+      <div class="space-y-5 md:space-y-6 lg:col-span-5">
+        <!-- Messdaten -->
+        <section class="ui-card p-5 md:p-6">
+          <p class="ui-kicker mb-4">Messdaten</p>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <VInput label="Länge (cm)" type="number" mandatory v-model="form.length" :error="form.errors.length" />
+            <VInput label="Gewicht (g)" type="number" v-model="form.weight" :error="form.errors.weight" />
+            <VInput label="Tiefe (cm)" type="number" v-model="form.depth" :error="form.errors.depth" />
+            <VInput label="Temperatur (°C)" type="number" v-model="form.temperature" :error="form.errors.temperature" />
+            <VInput label="Luftdruck gemessen (hPa)" type="number" v-model="form.air_pressure" :error="form.errors.air_pressure" />
+            <VInput label="Köder" v-model="form.bait" :error="form.errors.bait" />
+          </div>
+          <ReleaseToggle v-model="form.released" label="Verbleib" block class="mt-5" />
+        </section>
+      </div>
 
+      <!-- Position -->
+      <section class="ui-card space-y-4 p-5 md:p-6 lg:col-span-12">
+        <div>
+          <p class="ui-kicker">Position</p>
+          <p class="mt-1 text-sm text-(--app-muted)">Tippe in die Karte, um den Fangort zu ändern.</p>
+        </div>
         <GoogleMapPicker label="Position auswählen" :initialLat="form.latitude" :initialLng="form.longitude"
           @locationSelected="updateLocation" />
-
-        <VInput label="Adresse" v-model="form.address" />
-        <VInput label="Latitude" v-model="form.latitude" />
-        <VInput label="Longitude" v-model="form.longitude" />
-
-        <div class="flex justify-end gap-3">
-          <VButton type="submit">Aktualisieren</VButton>
-          <VButton type="button" variant="danger" @click="showDeleteDialog = true">
-            Löschen
-          </VButton>
+        <div class="grid gap-4 md:grid-cols-[2fr_1fr_1fr]">
+          <VInput label="Adresse" v-model="form.address" :error="form.errors.address" />
+          <VInput label="Breitengrad" v-model="form.latitude" :error="form.errors.latitude" />
+          <VInput label="Längengrad" v-model="form.longitude" :error="form.errors.longitude" />
         </div>
+      </section>
 
-      </form>
+      <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between lg:col-span-12">
+        <VButton type="button" variant="ghost" class="text-(--app-danger)!" @click="showDeleteDialog = true">
+          <TrashIcon class="size-4" /> Fang löschen
+        </VButton>
+        <VButton type="submit" size="lg" :disabled="form.processing">
+          <CheckIcon class="size-5" /> Änderungen speichern
+        </VButton>
+      </div>
+    </form>
 
-      <transition name="fade">
-        <div v-if="showDeleteDialog" class="fixed inset-0 z-50 flex items-center justify-center">
-          <!-- Backdrop -->
-          <div class="absolute inset-0 bg-black/50" @click="showDeleteDialog = false" />
+    <transition name="fade">
+      <div v-if="showDeleteDialog" class="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-[#021015]/60 backdrop-blur-sm" @click="showDeleteDialog = false" />
 
-          <!-- Dialog -->
-          <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 z-10">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-              Fang löschen?
-            </h2>
+        <!-- Dialog -->
+        <div class="relative z-10 w-full max-w-md rounded-3xl border border-(--app-border) bg-(--app-surface) p-6 shadow-(--app-shadow-lg)">
+          <span class="flex size-12 items-center justify-center rounded-2xl bg-(--app-danger-soft) text-(--app-danger)">
+            <TrashIcon class="size-6" />
+          </span>
+          <h2 class="font-display mt-4 text-3xl text-(--app-ink)">Fang löschen?</h2>
+          <p class="mt-2 text-sm text-(--app-muted)">
+            Dieser Fang wird mit allen Fotos <strong class="text-(--app-ink)">dauerhaft gelöscht</strong>.
+            Das kann nicht rückgängig gemacht werden.
+          </p>
 
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Dieser Fang wird <strong>dauerhaft gelöscht</strong>.
-              Dieser Vorgang kann nicht rückgängig gemacht werden.
-            </p>
-
-            <div class="flex justify-end gap-3">
-              <VButton variant="secondary" @click="showDeleteDialog = false">Abbrechen</VButton>
-              <VButton variant="danger" @click="deleteCatched">Ja, löschen</VButton>
-            </div>
+          <div class="mt-6 flex justify-end gap-2">
+            <VButton variant="secondary" @click="showDeleteDialog = false">Abbrechen</VButton>
+            <VButton variant="danger" @click="deleteCatched">Ja, löschen</VButton>
           </div>
         </div>
-      </transition>
-
-
-    </div>
+      </div>
+    </transition>
   </PageWrapper>
 </template>
 <script setup>
@@ -82,8 +112,10 @@ import { computed, onMounted, ref } from 'vue'
 import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
 import FullLoadingScreen from '@/components/FullLoadingScreen.vue'
 import VEditor from '@/components/VEditor.vue'
-import VMultiselect from '@/components/VMultiselect.vue'
+import CatchSpeciesWaterFields from '@/components/CatchSpeciesWaterFields.vue'
 import ImageAndUploadPreview from '@/components/ImageAndUploadPreview.vue'
+import ReleaseToggle from '@/components/ReleaseToggle.vue'
+import { TrashIcon, CheckIcon } from '@heroicons/vue/24/outline'
 
 /* ------------------------------------------------------------------ */
 /* Props */
@@ -94,6 +126,7 @@ const props = defineProps({
   fish: Array,
   lakes: Array,
   rivers: Array,
+  states: Array,
 })
 
 const page = usePage()
@@ -110,6 +143,7 @@ const form = useForm({
   temperature: props.catched?.temperature ?? null,
   air_pressure: props.catched?.air_pressure ?? null,
   bait: props.catched?.bait ?? null,
+  released: props.catched?.released ?? null,
   remark: props.catched?.remark ?? null,
   date: props.catched?.date ? new Date(props.catched.date) : new Date(),
   latitude: props.catched?.latitude ?? null,
@@ -138,30 +172,6 @@ const existingMedia = computed(() =>
 )
 
 const newUploads = ref([]) // nur neue Files
-
-/* ------------------------------------------------------------------ */
-/* Multiselects */
-/* ------------------------------------------------------------------ */
-const selectedFish = computed({
-  get: () => props.fish.find(f => f.id === form.fish_id) ?? null,
-  set: v => (form.fish_id = v?.id ?? null),
-})
-
-const selectedLake = computed({
-  get: () => props.lakes.find(l => l.id === form.lake_id) ?? null,
-  set: v => {
-    form.lake_id = v?.id ?? null
-    if (v) form.river_id = null
-  },
-})
-
-const selectedRiver = computed({
-  get: () => props.rivers.find(r => r.id === form.river_id) ?? null,
-  set: v => {
-    form.river_id = v?.id ?? null
-    if (v) form.lake_id = null
-  },
-})
 
 /* ------------------------------------------------------------------ */
 /* Submit */

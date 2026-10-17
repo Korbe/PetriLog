@@ -1,27 +1,26 @@
 <template>
-    <header class="flex justify-between items-start mb-2">
-      <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Dieser Monat</h2>
+  <div class="flex h-full flex-col">
+    <header class="flex items-start justify-between gap-3">
+      <div>
+        <p class="ui-kicker">Dieser Monat</p>
+        <h2 class="mt-1 text-base font-semibold">Fänge pro Tag</h2>
+      </div>
+      <span class="ui-badge ui-badge-accent">{{ data.total }} {{ data.total === 1 ? 'Fang' : 'Fänge' }}</span>
     </header>
-    <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
-      Insgesamt gefangen
+    <div class="relative mt-4 h-44 grow">
+      <canvas ref="canvas"></canvas>
     </div>
-    <div class="flex items-start mb-4">
-      <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{{ data.total }}</div>
-    </div>
-    <div class="grow max-sm:max-h-[128px] xl:max-h-[128px]">
-      <canvas ref="canvas" :width="389" :height="200"></canvas>
-    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip } from 'chart.js'
+import { Chart, BarController, BarElement, LinearScale, TimeScale, Tooltip } from 'chart.js'
 import 'chartjs-adapter-moment'
 import { useDark } from '@vueuse/core'
-import { getChartColors, chartAreaGradient } from '@/services/ChartjsConfig'
-import { getCssVariable, adjustColorOpacity } from '@/utils/Utils'
+import { appChartTheme } from '@/services/ChartjsConfig'
 
-Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip)
+Chart.register(BarController, BarElement, LinearScale, TimeScale, Tooltip)
 
 const props = defineProps({
   data: {
@@ -36,107 +35,73 @@ const props = defineProps({
 const canvas = ref(null)
 let chart = null
 const darkMode = useDark()
-const tooltipBodyColor = ref('#000') // Default-Wert für SSR
-const tooltipBgColor = ref('#fff')
-const tooltipBorderColor = ref('#ccc')
-
-const resolveCssVariable = (variableName) => getCssVariable(`--color-${variableName}`)
 
 const initChart = () => {
-  const primaryColor = resolveCssVariable('primary-500')
-  const ctx = canvas.value
+  const theme = appChartTheme()
 
-  chart = new Chart(ctx, {
-    type: 'line',
+  chart = new Chart(canvas.value, {
+    type: 'bar',
     data: {
       labels: props.data.timestamps.map(ts => new Date(ts)),
       datasets: [
         {
-          label: 'Anzahl',
+          label: 'Fänge',
           data: props.data.scores,
-          fill: true,
-          backgroundColor: (context) => {
-            const { ctx, chartArea } = context.chart
-            return chartAreaGradient(ctx, chartArea, [
-              { stop: 0, color: adjustColorOpacity(primaryColor, 0) },
-              { stop: 1, color: adjustColorOpacity(primaryColor, 0.2) },
-            ])
-          },
-          borderColor: primaryColor,
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 3,
-          pointBackgroundColor: primaryColor,
-          pointHoverBackgroundColor: primaryColor,
-          pointBorderWidth: 0,
-          pointHoverBorderWidth: 0,
-          clip: 20,
-          tension: 0.2,
+          backgroundColor: theme.accent,
+          hoverBackgroundColor: theme.float,
+          borderRadius: 4,
+          barPercentage: 0.9,
+          categoryPercentage: 1,
+          maxBarThickness: 14,
         },
       ],
     },
     options: {
-      layout: { padding: 20 },
+      layout: { padding: { top: 4 } },
       scales: {
         y: {
-          display: false,
           beginAtZero: true,
+          border: { display: false },
+          grid: { color: theme.grid },
+          ticks: { color: theme.text, precision: 0, maxTicksLimit: 4 },
         },
         x: {
           type: 'time',
           time: {
             parser: 'YYYY-MM-DD',
             unit: 'day',
-            stepSize: 3,
-            tooltipFormat: 'DD-MM-YYYY',
-            displayFormats: {
-              day: 'DD-MM',
-              week: 'DD-MM',
-            },
+            tooltipFormat: 'DD.MM.YYYY',
+            displayFormats: { day: 'DD.' },
           },
-          ticks: {
-            autoSkip: true,
-            maxTicksLimit: 5,
-          },
+          border: { display: false },
+          grid: { display: false },
+          ticks: { color: theme.text, autoSkip: true, maxTicksLimit: 8, maxRotation: 0 },
         },
       },
       plugins: {
         tooltip: {
+          ...theme.tooltip,
           callbacks: {
-            title: () => false,
-            label: (context) => `${context.label} - ${context.parsed.y}`,
+            label: (context) => `${context.parsed.y} ${context.parsed.y === 1 ? 'Fang' : 'Fänge'}`,
           },
-          bodyColor: darkMode.value ? tooltipBodyColor.dark : tooltipBodyColor.light,
-          backgroundColor: darkMode.value ? tooltipBgColor.dark : tooltipBgColor.light,
-          borderColor: darkMode.value ? tooltipBorderColor.dark : tooltipBorderColor.light,
         },
-        legend: {
-          display: false,
-        },
+        legend: { display: false },
       },
-      interaction: {
-        intersect: false,
-        mode: 'nearest',
-      },
+      interaction: { intersect: false, mode: 'index' },
       maintainAspectRatio: false,
       resizeDelay: 200,
     },
   })
 }
 
-
-onMounted(() => {
-  const colors = getChartColors()
-  tooltipBodyColor.value = colors.tooltipBodyColor
-  tooltipBgColor.value = colors.tooltipBgColor
-  tooltipBorderColor.value = colors.tooltipBorderColor
-
-  initChart();
-})
-onUnmounted(() => chart?.destroy())
-watch(() => [props.data, props.color], () => {
+const rebuild = () => {
   chart?.destroy()
   initChart()
-}, { deep: true })
+}
 
+onMounted(initChart)
+onUnmounted(() => chart?.destroy())
+watch(() => props.data, rebuild, { deep: true })
+// wait a frame so the html.dark class (and with it the CSS tokens) is already switched
+watch(darkMode, () => requestAnimationFrame(rebuild))
 </script>

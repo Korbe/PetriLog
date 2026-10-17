@@ -1,18 +1,18 @@
 <template>
-    <div class="relative w-full" style="height:500px; min-height:500px;">
+    <div class="relative w-full overflow-hidden rounded-2xl border border-(--app-border)" style="height:420px; min-height:420px;">
         <!-- 🔄 Loading Overlay -->
-        <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 z-10">
+        <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-(--app-surface-2) z-10">
             <!-- Spinner -->
-            <div class="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+            <div class="w-10 h-10 border-4 border-(--app-border) border-t-primary-500 rounded-full animate-spin"></div>
 
             <!-- Text -->
-            <div class="mt-3 text-sm text-gray-600">
+            <div class="mt-3 text-sm text-(--app-muted)">
                 Standort wird ermittelt…
             </div>
         </div>
 
         <!-- 🗺️ Map -->
-        <div v-show="!isLoading" :id="id" ref="mapElement" class="w-full h-full" style="background:#eee;"></div>
+        <div v-show="!isLoading" :id="id" ref="mapElement" class="w-full h-full" style="background:var(--app-surface-2);"></div>
     </div>
 </template>
 

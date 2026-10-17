@@ -1,25 +1,28 @@
 <template>
-    <div
-        class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col">
-        <header class="mb-2">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                Deine letzten Fänge 🎣
-            </h2>
-        </header>
-
-        <div v-for="catchItem in recentCatches" :key="catchItem.id" class="flex items-center space-x-4">
-            <Link :href="catchItem.show_url">
-            <div class="flex-1 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg">
-                <div class="font-medium">
-                    {{ catchItem.fish?.name ?? 'Unbekannter Fisch' }}
-                </div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ catchItem.lake?.name || catchItem.river?.name }}
-                    · {{ formatDate(catchItem.created_at) }}
-                </div>
-            </div>
-            </Link>
+    <div class="ui-card flex h-full flex-col p-6">
+        <div class="flex items-center justify-between gap-3">
+            <p class="ui-kicker">Letzte Fänge</p>
+            <Link href="/catched" class="text-sm font-semibold text-(--app-accent-ink) hover:underline">Alle ansehen</Link>
         </div>
+
+        <ul v-if="recentCatches.length" class="-mx-3 mt-3 flex-1">
+            <li v-for="catchItem in recentCatches" :key="catchItem.id">
+                <Link :href="catchItem.show_url" class="ui-row group">
+                    <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-(--app-surface-2) font-log text-xs text-(--app-muted)">
+                        {{ day(catchItem.date ?? catchItem.created_at) }}
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate font-semibold">{{ catchItem.fish?.name ?? 'Unbekannter Fisch' }}</p>
+                        <p class="truncate text-sm text-(--app-muted)">
+                            {{ catchItem.lake?.name || catchItem.river?.name || 'Unbekanntes Gewässer' }}
+                            · {{ formatDate(catchItem.date ?? catchItem.created_at) }}
+                        </p>
+                    </div>
+                    <span v-if="catchItem.length" class="font-log shrink-0 text-sm text-(--app-muted)">{{ catchItem.length }} cm</span>
+                </Link>
+            </li>
+        </ul>
+        <p v-else class="ui-muted mt-4 text-sm">Noch keine Fänge eingetragen.</p>
     </div>
 </template>
 
@@ -30,6 +33,8 @@ defineProps({
         required: true
     }
 });
+
+const day = (dateString) => String(new Date(dateString).getDate()).padStart(2, '0');
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);

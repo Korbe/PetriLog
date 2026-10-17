@@ -12,7 +12,8 @@ class StateFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->state,
+            // states.name ist eindeutig – ohne unique() kollidieren Faker-Namen gelegentlich
+            'name' => $this->faker->unique()->state,
             'desc' => $this->faker->paragraph,
         ];
     }

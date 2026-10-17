@@ -13,9 +13,12 @@ class StateController extends Controller
      */
     public function index()
     {
-        session()->forget('meta');
 
-        $states = State::withCount(['lakes', 'rivers', 'associations'])
+        $states = State::withCount([
+            'lakes' => fn($q) => $q->approved(),
+            'rivers' => fn($q) => $q->approved(),
+            'associations',
+        ])
             ->get()
             ->map(fn($state) => [
                 'id' => $state->id,
@@ -36,10 +39,14 @@ class StateController extends Controller
 
     public function show(State $state)
     {
-        session()->forget('meta');
 
         // Relations laden
-        $state->load(['lakes', 'rivers', 'associations']);
+        $state->load([
+            'lakes' => fn($q) => $q->approved(),
+            'rivers' => fn($q) => $q->approved(),
+            'associations',
+            'media',
+        ]);
 
         return Inertia::render('States/Show', [
             'state' => [

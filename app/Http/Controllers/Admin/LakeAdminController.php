@@ -7,19 +7,24 @@ use App\Models\Lake;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Http\Controllers\Controller;
+use App\Support\WaterAdminRow;
 use App\Http\Requests\LakeRequest;
 
 class LakeAdminController extends Controller
 {
     public function index()
     {
-        $lake = Lake::with(['fish', 'states'])
+        $lakes = Lake::approved()
+            ->with('states:id,name')
+            ->withCount(['fish', 'catched'])
+            ->orderByDesc('is_default')
+            ->orderBy('name')
             ->get()
-            ->sortBy('name')
-            ->values(); // Index neu setzen, weil sortBy Collection zurückgibt
+            ->map(fn(Lake $lake) => WaterAdminRow::from($lake));
 
         return Inertia::render('Admin/Lake/Index', [
-            'lakes' => $lake,
+            'lakes' => $lakes,
+            'states' => State::orderBy('name')->get(['id', 'name']),
         ]);
     }
 
@@ -27,7 +32,7 @@ class LakeAdminController extends Controller
     {
         return Inertia::render('Admin/Lake/Create', [
             'states' => State::orderBy('name', 'asc')->get(),
-            'fish'   => Fish::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::approved()->orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -47,7 +52,7 @@ class LakeAdminController extends Controller
         return Inertia::render('Admin/Lake/Edit', [
             'lake'   => $lake->load('states', 'fish'),
             'states' => State::orderBy('name', 'asc')->get(),
-            'fish'   => Fish::orderBy('name', 'asc')->get(),
+            'fish'   => Fish::approved()->orderBy('name', 'asc')->get(),
         ]);
     }
 

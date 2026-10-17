@@ -6,7 +6,7 @@ import { adjustColorOpacity, getCssVariable } from '../utils/Utils'
 Chart.register(Tooltip)
 
 // Define Chart.js default settings
-Chart.defaults.font.family = '"Inter", sans-serif'
+Chart.defaults.font.family = '"Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif'
 Chart.defaults.font.weight = 500
 Chart.defaults.plugins.tooltip.borderWidth = 1
 Chart.defaults.plugins.tooltip.displayColors = false
@@ -60,3 +60,24 @@ export const getChartColors = () => ({
     dark: getCssVariable('--color-gray-600')
   },
 })
+
+// Colors of the app design system (app-ui.css), read at chart creation so they follow light/dark mode.
+export const appChartTheme = () => {
+  const css = getComputedStyle(document.documentElement)
+  const v = (name, fallback) => css.getPropertyValue(name).trim() || fallback
+
+  return {
+    accent: v('--app-accent', '#118df0'),
+    float: v('--app-float', '#ff5a1f'),
+    text: v('--app-subtle', 'rgba(15, 29, 34, 0.44)'),
+    grid: v('--app-border', 'rgba(15, 29, 34, 0.09)'),
+    tooltip: {
+      backgroundColor: v('--app-surface', '#ffffff'),
+      borderColor: v('--app-border-strong', 'rgba(15, 29, 34, 0.17)'),
+      titleColor: v('--app-ink', '#0f1d22'),
+      bodyColor: v('--app-muted', 'rgba(15, 29, 34, 0.64)'),
+      padding: 10,
+      cornerRadius: 10,
+    },
+  }
+}

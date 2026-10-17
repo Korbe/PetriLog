@@ -1,57 +1,47 @@
 <template>
-  <header class="sticky top-0 before:absolute before:inset-0 before:backdrop-blur-md max-lg:before:bg-white/90 dark:max-lg:before:bg-gray-800/90 before:-z-10 z-30 before:bg-white after:absolute after:h-px after:inset-x-0 after:top-full after:bg-gray-200 dark:after:bg-gray-700/60 after:-z-10 dark:before:bg-gray-800">
-    <div class="px-4 sm:px-6 lg:px-8">
-      <div
-        class="flex items-center justify-between h-16"
-        :class="variant === 'v2' || variant === 'v3' ? '' : 'lg:border-b border-gray-200 dark:border-gray-700/60'"
-      >
+  <header class="sticky top-0 z-30 border-b border-(--app-border) bg-(--app-bg)/80 backdrop-blur-md">
+    <div class="flex h-16 items-center justify-between gap-3 px-4 sm:px-6 lg:px-10">
 
-        <!-- Header: Left side -->
-        <div class="flex">
+      <!-- Header: Left side -->
+      <div class="flex items-center gap-2">
+        <!-- Hamburger button -->
+        <button class="ui-icon-btn -ml-2 lg:hidden" @click.stop="$emit('toggle-sidebar')" aria-controls="sidebar"
+          :aria-expanded="sidebarOpen">
+          <span class="sr-only">Menü öffnen</span>
+          <svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M3 6h14M3 10h14M3 14h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </button>
 
-          <!-- Hamburger button -->
-          <button class="text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 lg:hidden" @click.stop="$emit('toggle-sidebar')" aria-controls="sidebar" :aria-expanded="sidebarOpen">
-            <span class="sr-only">Open sidebar</span>
-            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="5" width="16" height="2" />
-              <rect x="4" y="11" width="16" height="2" />
-              <rect x="4" y="17" width="16" height="2" />
-            </svg>
-          </button>
-
-        </div>
-
-        <!-- Header: Right side -->
-        <div class="flex items-center space-x-3">
-          <!-- <Notifications align="right" />
-          <Help align="right" /> -->
-          <ThemeToggle />
-          <!-- Divider -->
-          <hr class="w-px h-6 bg-gray-200 dark:bg-gray-700/60 border-none" />
-          <UserMenu align="right" />
-
-        </div>
-
+        <Link href="/dashboard" class="flex items-center gap-2 lg:hidden" aria-label="PetriLog Dashboard">
+          <img src="/logo-short.png" alt="" class="size-7" />
+          <span class="text-lg font-medium tracking-tight">PetriLog</span>
+        </Link>
       </div>
+
+      <!-- Header: Right side -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <VButton :href="route('app.catched.create')" size="sm" class="hidden sm:inline-flex">
+          <PlusIcon class="size-4" />
+          Fang eintragen
+        </VButton>
+        <ThemeToggle />
+        <UserMenu align="right" />
+      </div>
+
     </div>
   </header>
 </template>
 
-<script>
+<script setup>
+import { PlusIcon } from '@heroicons/vue/24/outline'
+import VButton from '@/components/VButton.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import UserMenu from './DropdownProfile.vue'
 
-export default {
-  name: 'Header',
-  props: [
-    'sidebarOpen',
-    'variant',
-  ],
-  components: {
-    ThemeToggle,
-    UserMenu,
-  },
-  setup() {
-  }  
-}
+defineProps({
+  sidebarOpen: Boolean,
+})
+
+defineEmits(['toggle-sidebar'])
 </script>

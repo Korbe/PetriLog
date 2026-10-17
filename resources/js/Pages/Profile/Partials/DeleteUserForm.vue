@@ -38,12 +38,12 @@ const closeModal = () => {
     <ActionSection>
 
         <template #header>
-            <h1 class="text-lg font-medium text-gray-900 dark:text-gray-100">Konto löschen</h1>
-            <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">Lösche dein Konto dauerhaft.</p>
+            <h1 class="font-display text-3xl text-(--app-ink)">Konto löschen</h1>
+            <p class="mt-1 mb-6 text-sm text-(--app-muted)">Lösche dein Konto dauerhaft.</p>
         </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-300">
+            <div class="max-w-xl text-sm text-(--app-muted)">
                 Sobald dein Konto gelöscht ist, werden alle darin enthaltenen Ressourcen und Daten dauerhaft gelöscht.
                 Lade vor dem Löschen deines Kontos bitte alle Daten und Informationen herunter, die du behalten
                 möchtest.
@@ -56,12 +56,12 @@ const closeModal = () => {
             </div>
 
             <Dialog :open="confirmingUserDeletion" @close="closeModal" class="relative z-50">
-                <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
+                <div class="fixed inset-0 bg-[#021015]/60 backdrop-blur-sm" aria-hidden="true" />
 
                 <div class="fixed inset-0 flex items-center justify-center p-4">
-                    <DialogPanel class="w-full max-w-md rounded bg-white p-6 shadow-xl">
-                        <DialogTitle class="text-lg font-bold">Account löschen</DialogTitle>
-                        <p class="mt-2 text-sm text-gray-600">Möchten Sie Ihr Konto wirklich löschen? Sobald Ihr Konto
+                    <DialogPanel class="w-full max-w-md rounded-3xl border border-(--app-border) bg-(--app-surface) p-6 text-(--app-ink) shadow-(--app-shadow-lg)">
+                        <DialogTitle class="font-display text-3xl">Account löschen</DialogTitle>
+                        <p class="mt-2 text-sm text-(--app-muted)">Möchten Sie Ihr Konto wirklich löschen? Sobald Ihr Konto
                             gelöscht ist, werden alle darin enthaltenen Ressourcen und Daten dauerhaft gelöscht. Bitte
                             geben Sie Ihr Passwort ein, um die endgültige Löschung Ihres Kontos zu bestätigen.</p>
                         <div class="mt-4">

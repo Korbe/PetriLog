@@ -1,40 +1,33 @@
 <template>
-  <PageWrapper title="Gewässer" :backTo="`/dashboard`">
+  <PageWrapper title="Gewässer-Wiki" eyebrow="Österreichs Bundesländer" :backTo="`/dashboard`">
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-      <div v-for="state in states" :key="state.id">
-        <Link :href="`/states/${state.id}`">
-        <div
-          class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden">
+    <p class="ui-muted -mt-2 mb-6 max-w-2xl md:mb-8">
+      Seen, Flüsse und Fischereivereine – sortiert nach Bundesland. Wähle ein Bundesland, um seine Gewässer zu sehen.
+    </p>
 
-          <!-- Bild -->
-          <div class="relative w-full h-44">
-            <img :src="state.media[0]?.url ?? '/placeholder.png'" :alt="state.name"
-              class="w-full h-full object-contain mt-5 hover:scale-105 transition-transform duration-200" />
-          </div>
-
-          <!-- Info-Bereich -->
-          <div class="p-4 flex flex-col items-center text-center">
-            <h2 class="text-xl font-bold">{{ state.name }}</h2>
-            <p class="text-gray-700 dark:text-gray-300 mt-2 text-sm">
-              {{ state.lakes_count }} {{ state.lakes_count === 1 ? 'See' : 'Seen' }} &nbsp;•&nbsp;
-              {{ state.rivers_count }} {{ state.rivers_count === 1 ? 'Fluss' : 'Flüsse' }}
-            </p>
-            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
-              {{ state.associations_count }} {{ state.associations_count === 1 ? 'Verein' : 'Vereine' }}
-            </p>
-          </div>
-
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 xl:grid-cols-4">
+      <Link v-for="(state, i) in states" :key="state.id" :href="`/states/${state.id}`"
+        class="ui-card ui-card-hover app-fade-up group flex flex-col items-center p-5 text-center md:p-6"
+        :style="{ animationDelay: `${i * 40}ms` }">
+        <div class="flex h-28 w-full items-center justify-center md:h-32">
+          <img :src="state.media[0]?.url ?? '/placeholder.png'" :alt="`Wappen ${state.name}`" loading="lazy"
+            class="max-h-full max-w-[70%] object-contain transition duration-300 group-hover:scale-105" />
         </div>
-        </Link>
-      </div>
+        <h2 class="font-display mt-4 text-2xl leading-tight md:text-3xl">{{ state.name }}</h2>
+        <div class="mt-3 flex flex-wrap justify-center gap-1.5">
+          <span class="ui-badge">{{ state.lakes_count }} {{ state.lakes_count === 1 ? 'See' : 'Seen' }}</span>
+          <span class="ui-badge">{{ state.rivers_count }} {{ state.rivers_count === 1 ? 'Fluss' : 'Flüsse' }}</span>
+          <span class="ui-badge ui-badge-accent">{{ state.associations_count }} {{ state.associations_count === 1 ? 'Verein' :
+            'Vereine' }}</span>
+        </div>
+      </Link>
     </div>
 
-    <div class="flex items-center gap-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 mt-5  px-4 py-3 text-sm">
+    <div class="ui-panel mt-6 flex items-start gap-3 px-4 py-3 text-sm text-(--app-muted) md:mt-8">
+      <InformationCircleIcon class="mt-0.5 size-5 shrink-0 text-(--app-accent-ink)" />
       <span>
-        Diese Liste ist unvollständig und wird laufend ergänzt. Sollten Sie Vorschläge oder Ergänzungen haben,
-        schreiben Sie uns gerne per Mail
-        <a href="mailto:info@petrilog.com" class="underline">info@petrilog.com</a>
+        Diese Liste ist unvollständig und wird laufend ergänzt. Vorschläge oder Ergänzungen gerne per Mail an
+        <a href="mailto:info@petrilog.com" class="ui-link">info@petrilog.com</a>.
       </span>
     </div>
 
@@ -44,6 +37,7 @@
 
 <script setup>
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
+import { InformationCircleIcon } from '@heroicons/vue/24/outline';
 import { onMounted } from 'vue';
 
 defineProps({

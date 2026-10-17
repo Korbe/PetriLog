@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>{{ config('app.name') }}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,13 +7,15 @@
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
 <style>
-@media only screen and (max-width: 600px) {
-.inner-body {
-width: 100% !important;
+@media only screen and (max-width: 620px) {
+.wrapper-cell {
+padding: 16px 8px !important;
 }
 
-.footer {
-width: 100% !important;
+.header,
+.content-cell {
+padding-left: 22px !important;
+padding-right: 22px !important;
 }
 }
 
@@ -23,20 +25,21 @@ width: 100% !important;
 }
 }
 </style>
+<link href="https://fonts.bunny.net/css?family=manrope:600,700|schibsted-grotesk:400,500,600&display=swap" rel="stylesheet">
 {!! $head ?? '' !!}
 </head>
 <body>
 
 <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
 <tr>
-<td align="center">
+<td align="center" class="wrapper-cell">
 <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
 {!! $header ?? '' !!}
 
 <!-- Email Body -->
 <tr>
 <td class="body" width="100%" cellpadding="0" cellspacing="0" style="border: hidden !important;">
-<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+<table class="inner-body" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
 <!-- Body content -->
 <tr>
 <td class="content-cell">

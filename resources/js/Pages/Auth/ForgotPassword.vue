@@ -1,7 +1,6 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
 import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 
@@ -21,20 +20,10 @@ const submit = () => {
 <template>
     <Head title="Passwort vergessen?" />
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
+    <AuthenticationCard eyebrow="Passwort" title="Passwort vergessen?">
+        <template #intro>Keine Sorge, wir senden dir Anweisungen zum Zurücksetzen deines Passworts zu.</template>
 
-        <div>
-            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Passwort vergessen?</h1>
-        </div>
-
-        <div class="mb-4 text-sm text-center text-gray-600 dark:text-gray-400">
-            Keine Sorge, wir senden dir Anweisungen zum Zurücksetzen deines Passworts zu.
-        </div>
-
-        <div v-if="status" class="mb-4 text-center font-medium text-sm text-green-600">
+        <div v-if="status" class="mb-6 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
             {{ status }}
         </div>
 
@@ -53,11 +42,16 @@ const submit = () => {
                 />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end mt-8">
                 <VButton type="submit" class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Passwort zurücksetzen
                 </VButton>
             </div>
         </form>
+
+        <p class="mt-8 border-t border-(--ink)/10 pt-6 text-center text-(--ink)/65">
+            Doch wieder eingefallen?
+            <Link href="/login" class="font-semibold text-(--ink) underline decoration-(--float) decoration-2 underline-offset-4">Zur Anmeldung</Link>
+        </p>
     </AuthenticationCard>
 </template>

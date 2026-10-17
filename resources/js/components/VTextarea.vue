@@ -2,13 +2,13 @@
   <div>
     <!-- Label with optional tooltip and mandatory mark -->
     <div class="flex items-center justify-between" v-if="label">
-      <label :for="id" class="block text-md md:text-sm font-medium mb-1">
+      <label :for="id" class="block text-sm font-medium mb-1.5 text-(--app-ink)">
         {{ label }}
-        <span v-if="mandatory" class="text-red-500">*</span>
+        <span v-if="mandatory" class="text-(--app-float)">*</span>
       </label>
 
       <VTooltip v-if="tooltip" class="ml-2" bg="dark" size="md">
-        <div class="text-sm text-gray-500">{{ tooltip }}</div>
+        <div class="text-sm">{{ tooltip }}</div>
       </VTooltip>
     </div>
     <textarea :id="id" class="form-textarea w-full" :rows="rows" :placeholder="placeholder"

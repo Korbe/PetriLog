@@ -13,8 +13,29 @@ class StateAdminController extends Controller
 {
     public function index()
     {
+        $states = State::with('media')
+            ->withCount([
+                'lakes' => fn($q) => $q->approved(),
+                'rivers' => fn($q) => $q->approved(),
+                'associations',
+                'users',
+            ])
+            ->orderBy('name')
+            ->get()
+            ->map(fn(State $state) => [
+                'id' => $state->id,
+                'name' => $state->name,
+                'image' => $state->getFirstMediaUrl('state') ?: null,
+                'has_desc' => filled(strip_tags((string) $state->desc)),
+                'lakes_count' => $state->lakes_count,
+                'rivers_count' => $state->rivers_count,
+                'associations_count' => $state->associations_count,
+                'users_count' => $state->users_count,
+                'updated_at' => $state->updated_at,
+            ]);
+
         return Inertia::render('Admin/State/Index', [
-            'states' => State::orderBy('name')->get(),
+            'states' => $states,
         ]);
     }
 

@@ -1,49 +1,20 @@
 <template>
-
-    <div
-        class="w-full lg:w-1/3 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl rounded-lg p-8 transition-all duration-200 transform hover:scale-105 flex flex-col">
-
-        <header class="mb-2">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                Dein schwerster Fang
-            </h2>
-        </header>
-        <div v-if="catched" class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-
-
-            <!-- Bild links -->
-            <div class="w-full sm:w-1/3">
-                <img v-if="catched.media?.length > 0" :src="catched.media[0].original_url" alt="Fangbild"
-                    class="rounded-xl w-full h-auto object-cover" />
-                <img v-else class="rounded-xl w-full h-auto object-cover" src="/images/fish-default.png" />
-            </div>
-
-            <!-- Text rechts -->
-            <div class="flex-1">
-                <p class="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                    {{ catched.name }}
-                </p>
-                <p>Mit einem Gewicht von <b>{{ catched.weight }}</b> Gramm.</p>
-                <p></p>
-
-                <!-- Button unten -->
-                <div class="mt-3">
-                    <VButton :href="route">Mehr</VButton>
-                </div>
-            </div>
-        </div>
-
-        <div v-else class="text-center py-10">
-            Noch kein Fang eingetragen
-        </div>
-    </div>
+    <RecordCatchCard kicker="Schwerster Fang" :catched="catched" :route="route" :value="weightValue" :unit="weightUnit" />
 </template>
 
 <script setup>
-import VButton from '@/components/VButton.vue'
+import { computed } from 'vue'
+import RecordCatchCard from './RecordCatchCard.vue'
 
 const props = defineProps({
     catched: Object,
     route: String,
 })
+
+// weight is stored in gramm – show kg from 1000 g on
+const weightValue = computed(() => {
+    const g = Number(props.catched?.weight ?? 0)
+    return g >= 1000 ? (g / 1000).toLocaleString('de-AT', { maximumFractionDigits: 2 }) : g
+})
+const weightUnit = computed(() => (Number(props.catched?.weight ?? 0) >= 1000 ? 'kg' : 'g'))
 </script>

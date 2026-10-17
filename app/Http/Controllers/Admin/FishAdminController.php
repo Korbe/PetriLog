@@ -13,9 +13,27 @@ class FishAdminController extends Controller
 {
     public function index()
     {
-        $fishs = Fish::withCount(['lakes', 'rivers'])
+        $fishs = Fish::approved()
+            ->with('media')
+            ->withCount(['lakes', 'rivers', 'catcheds'])
+            ->withMax('catcheds', 'length')
+            ->withMax('catcheds', 'created_at')
+            ->orderByDesc('is_default')
             ->orderBy('name')
-            ->get();
+            ->get()
+            ->map(fn(Fish $fish) => [
+                'id' => $fish->id,
+                'name' => $fish->name,
+                'is_default' => (bool) $fish->is_default,
+                'image' => $fish->getFirstMediaUrl('fish') ?: null,
+                'has_desc' => filled(strip_tags((string) $fish->desc)),
+                'lakes_count' => $fish->lakes_count,
+                'rivers_count' => $fish->rivers_count,
+                'catches_count' => $fish->catcheds_count,
+                'record_length' => $fish->catcheds_max_length ? (int) $fish->catcheds_max_length : null,
+                'last_catch_at' => $fish->catcheds_max_created_at,
+                'updated_at' => $fish->updated_at,
+            ]);
 
         return Inertia::render('Admin/Fish/Index', compact('fishs'));
     }

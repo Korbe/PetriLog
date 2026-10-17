@@ -1,20 +1,18 @@
-<x-mail.wrapper>
-    @if ($user)
-        <p>Hallo {{ $user->name }},</p>
-    @else
-        <p>Hallo,</p>
-    @endif
+<x-mail.wrapper :preheader="$subjectText">
+    <x-mail.heading eyebrow="Newsletter">
+        {{ $subjectText }}
+    </x-mail.heading>
 
-    {!! $content !!}
+    <x-mail.text>
+        Hallo{{ $user ? ' ' . $user->name : '' }},
+    </x-mail.text>
+
+    {{ $body }}
 
     @if ($user)
-        @slot('subcopy')
-            <p style="font-size:12px; color:#999;">
-                Du möchtest keine Newsletter mehr erhalten?<br>
-                <a href="{{ URL::signedRoute('public.newsletter.unsubscribe', $user) }}">
-                    Newsletter abbestellen
-                </a>
-            </p>
-        @endslot
+        <x-slot:subcopy>
+            Du bekommst diese E-Mail, weil du den PetriLog-Newsletter erhältst.
+            <a href="{{ URL::signedRoute('public.newsletter.unsubscribe', $user) }}" style="color:#0c6fc0;">Newsletter abbestellen</a>
+        </x-slot:subcopy>
     @endif
 </x-mail.wrapper>

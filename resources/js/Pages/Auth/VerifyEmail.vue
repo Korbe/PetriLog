@@ -2,8 +2,6 @@
 import { computed } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
-import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue';
 import VButton from '@/components/VButton.vue';
 
 const props = defineProps({
@@ -21,24 +19,16 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 
 <template>
 
-    <Head title="Email Verification" />
+    <Head title="E-Mail bestätigen" />
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
+    <AuthenticationCard eyebrow="Fast geschafft" title="E-Mail bestätigen.">
+        <template #intro>
+            <p>Bitte bestätige deine E-Mail über den Link, den wir dir soeben gesendet haben.</p>
+            <p class="mt-3">Keine Mail bekommen? Wir schicken dir gerne eine neue.</p>
         </template>
 
-        <div>
-            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Email Adresse bestätigen</h1>
-        </div>
 
-        <div class="space-y-5 mb-4 text-center text-gray-600 dark:text-gray-400">
-            <p>Bitte bestätige deine E-Mail über den Link, den wir dir soeben gesendet haben.</p>
-            <p>Keine Mail bekommen?<br> Wir schicken dir gerne eine neue.</p>
-        </div>
-
-
-        <div v-if="verificationLinkSent" class="mb-4 font-medium text-center text-sm text-green-600">
+        <div v-if="verificationLinkSent" class="mb-6 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
             Wir haben dir einen neuen Bestätigungslink geschickt.
         </div>
 
@@ -51,9 +41,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
             </div>
         </form>
 
-        <div class="flex justify-center mt-5">
+        <div class="mt-8 flex justify-center border-t border-(--ink)/10 pt-6">
             <Link href="/logout" method="post" as="button"
-                class="text-gray-600 hover:text-gray-900 rounded-md">
+                class="text-(--ink)/65 underline underline-offset-4 transition hover:text-(--ink)">
             Abmelden
             </Link>
         </div>

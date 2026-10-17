@@ -4,24 +4,24 @@
     <!-- Draggable Bilderliste -->
     <draggable v-model="localList" item-key="key" class="flex gap-2 flex-wrap" handle=".handle" @end="onDragEnd">
       <template #item="{ element }">
-        <div class="w-28 flex flex-col items-center border p-1 rounded-md bg-white dark:bg-gray-800">
+        <div class="w-28 flex flex-col items-center gap-1 rounded-2xl border border-(--app-border) bg-(--app-surface) p-1.5 shadow-(--app-shadow)">
 
           <!-- Drag Handle -->
-          <div class="cursor-move mb-2 handle">
-            <img :src="element.url || element.original_url" class="w-20 h-20 object-cover rounded-md border" />
+          <div class="cursor-move handle w-full">
+            <img :src="element.url || element.original_url" class="w-full aspect-square object-cover rounded-xl" alt="Foto" />
           </div>
 
           <!-- Name & Größe -->
           <div v-if="element.name" class="text-center font-medium truncate w-full text-xs mb-1">
             {{ element.name }}
           </div>
-          <div v-if="element.size" class="text-center text-[10px] text-gray-500 mb-2 w-full">
+          <div v-if="element.size" class="text-center text-[10px] text-(--app-subtle) w-full">
             {{ formatSize(element.size) }}
           </div>
 
           <!-- Entfernen Button -->
           <button type="button"
-            class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md font-semibold text-xs text-white uppercase w-full"
+            class="w-full rounded-full px-3 py-1.5 text-xs font-semibold text-(--app-danger) transition hover:bg-(--app-danger-soft)"
             @click="confirmRemove(element)">
             Entfernen
           </button>
@@ -31,13 +31,13 @@
 
     <!-- Upload Karte -->
     <div v-if="localList.length < 3"
-      class="w-28 h-28 flex flex-col items-center justify-center border-dashed border-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+      class="w-28 aspect-[4/5] flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-(--app-border-strong) bg-(--app-surface-2) cursor-pointer text-(--app-muted) transition hover:border-primary-500 hover:text-(--app-accent-ink)"
       @click="triggerFileInput">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24"
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
-      <div class="text-xs text-gray-500 mt-1">Upload</div>
+      <div class="text-xs font-semibold">Foto hinzufügen</div>
     </div>
 
     <!-- Unsichtbares File Input -->
@@ -50,14 +50,14 @@
       <div v-if="toDelete" class="fixed inset-0 z-50 flex items-center justify-center">
 
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/50" @click="toDelete = null" />
+        <div class="absolute inset-0 bg-[#021015]/60 backdrop-blur-sm" @click="toDelete = null" />
 
         <!-- Dialog -->
-        <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 z-10">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+        <div class="relative z-10 mx-4 w-full max-w-md rounded-3xl border border-(--app-border) bg-(--app-surface) p-6 shadow-(--app-shadow-lg)">
+          <h3 class="font-display text-3xl text-(--app-ink) mb-2">
             Bild wirklich löschen?
           </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+          <p class="text-sm text-(--app-muted) mb-6">
             Diese Aktion kann nicht rückgängig gemacht werden.
           </p>
           <div class="flex justify-end gap-2">

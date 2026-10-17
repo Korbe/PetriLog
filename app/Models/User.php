@@ -87,6 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Catched::class);
     }
 
+    public function spots()
+    {
+        return $this->hasMany(Spot::class);
+    }
+
     public function state()
     {
         return $this->belongsTo(State::class);

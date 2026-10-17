@@ -1,7 +1,6 @@
 import './bootstrap';
-import './pwa.js';
+import { initPwa } from './pwa.js';
 import '../css/app.css';
-import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -12,21 +11,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 
 const appName = import.meta.env.VITE_APP_NAME || 'PetriLog';
 
-window.pwa = {
-    deferredPrompt: null,
-    installable: false
-}
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    window.pwa.deferredPrompt = e
-    window.pwa.installable = true
-});
-
-window.addEventListener('appinstalled', () => {
-    window.pwa.deferredPrompt = null;
-    window.pwa.installable = false;
-});
+initPwa();
 
 createInertiaApp({
     title: title => `${title} - ${appName}`,

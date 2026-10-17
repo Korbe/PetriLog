@@ -13,7 +13,6 @@ class GalleryController extends Controller
 {
     public function index(FilterRequest $request)
     {
-        session()->forget('meta');
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -37,7 +36,7 @@ class GalleryController extends Controller
             : Carbon::parse($latestDate)->endOfDay();
 
         $query = $baseQuery
-            ->with(['media', 'lake', 'river'])
+            ->with(['media', 'fish', 'lake', 'river'])
             ->whereBetween('date', [$startDate, $endDate]);
 
         if (!empty($validated['onlyWithDescription']) && filter_var($validated['onlyWithDescription'], FILTER_VALIDATE_BOOLEAN)) {
@@ -50,7 +49,9 @@ class GalleryController extends Controller
         $catcheds = $paginated->getCollection()
             ->map(fn($catched) => [
                 'id' => $catched->id,
-                'name' => $catched->name,
+                'name' => $catched->fish?->name ?? 'Unbekannter Fisch',
+                'length' => $catched->length,
+                'weight' => $catched->weight,
                 'date' => $catched->date->format('d.m.Y'),
                 'images' => $catched->getMedia('photos')->map(fn($media) => ['url' => $media->getFullUrl()]),
                 'water' => $catched->lake

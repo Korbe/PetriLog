@@ -1,5 +1,5 @@
 <template>
-    <div ref="map" class="w-full h-[400px]"></div>
+    <div ref="map" class="w-full h-[360px] overflow-hidden rounded-2xl bg-(--app-surface-2)"></div>
     <!-- rounded-2xl -->
 </template>
 

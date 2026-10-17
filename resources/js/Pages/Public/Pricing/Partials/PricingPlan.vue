@@ -1,138 +1,103 @@
 <script setup>
-import { ref } from 'vue';
-import PageIllustration from '../../PageIllustration.vue';
-import { Link } from '@inertiajs/vue3';
-
-const isAnnual = ref(true)
+const features = [
+    'Fischart, Länge, Gewicht & Köder',
+    'Tiefe, Wassertemperatur & Luftdruck',
+    'Bis zu 3 Fotos pro Fang',
+    'GPS-Spot mit Google & Apple Maps',
+    'Monats- & Jahresstatistik',
+    'Fänge mit Freunden teilen',
+    'Smartphone, Tablet & PC',
+];
 </script>
+
 <template>
-    <section class="relative">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div class="grid gap-5 lg:grid-cols-12">
 
-        <PageIllustration />
+            <!-- Free -->
+            <article
+                class="ph-reveal flex flex-col rounded-[2rem] bg-white p-8 ring-1 ring-(--ink)/10 md:p-10 lg:col-span-5">
+                <p class="font-log text-[11px] uppercase tracking-[0.2em] text-(--ink)/50">Zum Reinschnuppern</p>
+                <h2 class="font-display mt-3 text-4xl">Kostenlos</h2>
+                <p class="mt-6 flex items-baseline gap-2">
+                    <span class="font-display text-7xl leading-none">0 €</span>
+                </p>
+                <p class="mt-3 text-(--ink)/65">Alle Funktionen, bis zu <strong class="text-(--ink)">5 Fänge</strong>
+                    in deinem Fangbuch.</p>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <ul class="mt-8 space-y-3 border-t border-(--ink)/10 pt-8 text-(--ink)/75">
+                    <li class="flex gap-3">
+                        <span class="mt-2.5 h-px w-3 shrink-0 bg-(--ink)/40"></span>Alle Fangdaten & Fotos
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="mt-2.5 h-px w-3 shrink-0 bg-(--ink)/40"></span>Statistik & Gewässer-Wiki
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="mt-2.5 h-px w-3 shrink-0 bg-(--ink)/40"></span>Jederzeit auf Plus upgraden
+                    </li>
+                </ul>
 
-            <!-- Hero content -->
-            <div class="pt-32 pb-12 md:pt-10 md:pb-20">
+                <div class="mt-auto pt-10">
+                    <Link href="/register"
+                        class="flex items-center justify-center rounded-full border border-(--ink)/20 px-6 py-4 text-base font-semibold transition hover:border-(--ink)">
+                        Kostenlos registrieren
+                    </Link>
+                </div>
+            </article>
 
-                <!-- Section header -->
-                <div class="text-center pb-12">
-                    <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                        Ein Abo für echte Angler</h1>
-                    <div class="max-w-3xl mx-auto">
-                        <p class="text-lg text-gray-700">Alle Funktionen freigeschaltet, um deine Fänge das ganze Jahr
-                            über zu dokumentieren und zu teilen.</p>
+            <!-- Plus -->
+            <article
+                class="ph-reveal ph-grain relative isolate flex flex-col overflow-hidden rounded-[2rem] bg-(--lake-900) p-8 text-(--paper) shadow-[0_40px_80px_-40px_rgba(3,20,26,0.7)] md:p-10 lg:col-span-7"
+                style="transition-delay: 100ms">
+                <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_60%_at_100%_0%,rgba(17,141,240,0.35),transparent_70%)]"
+                    aria-hidden="true"></div>
+
+                <div class="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                        <p class="font-log text-[11px] uppercase tracking-[0.2em] text-primary-300">Für die ganze Saison</p>
+                        <h2 class="font-display mt-3 text-4xl">PetriLog Plus</h2>
                     </div>
+                    <span
+                        class="font-log rounded-full bg-(--float) px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-white">Unbegrenzt</span>
                 </div>
 
-                <!-- Pricing tables -->
-                <div>
+                <p class="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span class="font-display text-7xl leading-none">49,99 €</span>
+                    <span class="text-(--paper)/65">pro Jahr inkl. MwSt.</span>
+                </p>
+                <p class="font-log mt-3 text-xs text-(--paper)/50">entspricht ca. 4,17 € im Monat</p>
 
-                    <!-- Pricing toggle -->
-                    <div class="flex justify-center max-w-xs m-auto mb-16">
-                        <div class="relative flex w-full mx-6 p-1 bg-gray-200 rounded-lg">
-                            <span class="absolute inset-0 m-1 pointer-events-none" aria-hidden="true">
-                                <span class="absolute inset-0 w-1/2 bg-white rounded-sm shadow-sm transform transition"
-                                    :class="isAnnual ? 'translate-x-0' : 'translate-x-full'"></span>
-                            </span>
-                            <button class="relative flex-1 text-sm font-medium p-1 transition"
-                                :class="isAnnual ? '' : 'text-gray-500'" @click="isAnnual = true"
-                                :aria-pressed="isAnnual">
-                                Jährlich
-                            </button>
-                            <button class="relative flex-1 text-sm font-medium p-1 transition"
-                                :class="isAnnual ? 'text-gray-500' : ''" @click="isAnnual = false"
-                                :aria-pressed="!isAnnual">
-                                Monatlich
-                            </button>
-                        </div>
-                    </div>
+                <ul class="mt-8 grid gap-x-8 gap-y-3 border-t border-white/10 pt-8 sm:grid-cols-2">
+                    <li class="flex gap-3 font-semibold sm:col-span-2">
+                        <svg class="mt-1 size-4 shrink-0 text-(--float)" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="m2.5 8.5 3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Unbegrenzt viele Fänge
+                    </li>
+                    <li v-for="feature in features" :key="feature" class="flex gap-3 text-(--paper)/80">
+                        <svg class="mt-1 size-4 shrink-0 text-primary-300" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="m2.5 8.5 3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        {{ feature }}
+                    </li>
+                </ul>
 
-                    <div class="max-w-sm mx-auto gap-8">
-                        <div
-                            class="relative flex flex-col h-full p-5 rounded-2xl backdrop-blur-xs bg-linear-to-tr from-gray-900 to-gray-700 shadow-lg shadow-black/[0.03]">
-                            <div class="mb-4">
-                                <div
-                                    class="text-gray-200 font-medium underline underline-offset-4 decoration-gray-600 mb-1">
-                                    PetriLog Plus</div>
-                                <div class="flex items-baseline pb-4 mb-4 border-b border-gray-600 border-dashed">
-                                    <span class="text-gray-200 text-2xl font-bold">€</span>
-                                    <span class="text-gray-200 text-4xl font-bold tabular-nums"
-                                        v-text="isAnnual ? '49,99' : '4,17'"></span>
-                                    <span class="text-sm text-gray-400 pl-1"
-                                        v-text="isAnnual ? '/Jahr' : '/Monat'"></span>
-                                </div>
-                                <div class="text-sm text-gray-300">Ein Abo für alles inkl. MwSt</div>
-                            </div>
-                            <ul class="text-sm text-gray-400 space-y-2 grow">
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Unlimitierte Einträge</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Bilder hochladen</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Statistiken</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Standort merken</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Erfolge teilen</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Mobile & Desktop Nutzung</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="w-3 h-3 fill-current text-emerald-500 mr-2 shrink-0" viewBox="0 0 12 12"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                                    </svg>
-                                    <span>Cloud-Speicherung</span>
-                                </li>
-                            </ul>
-                            <div class="mt-6">
-                                <Link class="btn-sm py-1.5 rounded-lg text-white bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] hover:bg-[length:100%_150%] bg-[bottom] shadow-sm w-full"
-                                    href="register">Jetzt kostenlos testen</Link>
-                            </div>
-                        </div>
-
-                    </div>
-
+                <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <Link href="/register"
+                        class="group inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full bg-(--paper) px-7 py-4 text-base font-semibold text-(--ink) transition hover:bg-white">
+                        Jetzt starten
+                        <svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 16 16" fill="none"
+                            aria-hidden="true">
+                            <path d="M1 8h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </Link>
+                    <p class="text-sm text-(--paper)/55">Registrieren, Fänge eintragen und im Dashboard unter „Abo“
+                        upgraden.</p>
                 </div>
-
-            </div>
+            </article>
 
         </div>
     </section>

@@ -1,5 +1,5 @@
 <template>
-    <div class="border border-gray-300 rounded-md shadow-sm p-2 space-y-2">
+    <div>
       <input
         ref="fileRef"
         :accept="accept"
@@ -10,11 +10,11 @@
       />
   
       <button
-        class="flex px-4 p-2 bg-gray-800 hover:bg-gray-700 rounded-md font-semibold text-xs text-white uppercase"
+        class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-(--app-border-strong) bg-(--app-surface-2) px-4 py-6 text-sm font-semibold text-(--app-muted) transition hover:border-primary-500 hover:text-(--app-accent-ink)"
         type="button"
         @click="browse"
       >
-        <PaperClipIcon class="h-4 text-gray-400 mr-2" />
+        <PaperClipIcon class="h-5" />
         <span>Bilder auswählen</span>
       </button>
     </div>

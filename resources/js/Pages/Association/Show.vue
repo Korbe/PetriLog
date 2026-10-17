@@ -1,26 +1,37 @@
 <template>
-    <PageWrapper :title="association.name" :backTo="`/states/${state_id}`">
+    <PageWrapper :title="association.name" eyebrow="Gewässer-Wiki · Verein" :backTo="`/states/${state_id}`">
+        <template v-if="isAdmin" v-slot:actions>
+            <VButton variant="secondary" :href="`/admin/association/${association.id}/edit`">
+                <PencilSquareIcon class="size-4" /> Verein bearbeiten
+            </VButton>
+        </template>
 
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6">
+        <div class="grid gap-5 md:gap-6 lg:grid-cols-12">
+            <section class="ui-card p-5 md:p-7 lg:col-span-8">
+                <p class="ui-kicker">Über den Verein</p>
+                <div v-if="association.desc" class="ui-prose mt-3" v-html="association.desc"></div>
+                <p v-else class="ui-muted mt-3 text-sm">Für diesen Verein gibt es noch keine Beschreibung.</p>
+            </section>
 
-                <h1 class="text-center font-bold text-4xl mb-2">Verein {{ association.name }}</h1>
-
-                <div v-if="isAdmin" class="flex justify-center mb-6">
-                    <VButton :href="`/admin/association/${association.id}/edit`" size="sm">
-                        Verein bearbeiten
-                    </VButton>
-                </div>
-
-                <a v-if="association.link" :href="association.link" target="_blank"
-                    class="mt-5 flex items-center gap-2 p-2 text-blue-500 hover:text-blue-700 rounded">
-                    {{ shortenLink(association.link) }}
-                    <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+            <aside class="space-y-5 lg:col-span-4">
+                <a v-if="association.link" :href="association.link" target="_blank" rel="noopener"
+                    class="ui-card ui-card-hover group flex items-center gap-4 p-5">
+                    <span class="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-(--app-accent-soft) text-(--app-accent-ink)">
+                        <GlobeAltIcon class="size-5" />
+                    </span>
+                    <span class="min-w-0 flex-1">
+                        <span class="block text-xs text-(--app-subtle)">Website des Vereins</span>
+                        <span class="block truncate font-semibold">{{ shortenLink(association.link) }}</span>
+                    </span>
+                    <ArrowTopRightOnSquareIcon class="size-5 shrink-0 text-(--app-subtle) transition group-hover:text-(--app-accent-ink)" />
                 </a>
 
-                <p class="pt-5" v-html="association.desc"></p>
-
-            </div>
+                <div class="ui-panel flex items-start gap-3 px-4 py-3 text-sm text-(--app-muted)">
+                    <InformationCircleIcon class="mt-0.5 size-5 shrink-0 text-(--app-accent-ink)" />
+                    <span>Infos zum Verein veraltet? Schreib uns an
+                        <a href="mailto:info@petrilog.com" class="ui-link">info@petrilog.com</a>.</span>
+                </div>
+            </aside>
         </div>
 
     </PageWrapper>
@@ -28,12 +39,14 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/solid';
+import {
+    ArrowTopRightOnSquareIcon, GlobeAltIcon, PencilSquareIcon, InformationCircleIcon,
+} from '@heroicons/vue/24/outline';
 import { usePage } from '@inertiajs/vue3';
 import { computed, onMounted } from 'vue';
 
 defineProps({
-    state_id: String,
+    state_id: [String, Number],
     association: Object
 });
 

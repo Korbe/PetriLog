@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import ActionMessage from '@/JetstreamComponents/ActionMessage.vue'
 import PrimaryButton from '@/JetstreamComponents/PrimaryButton.vue'
-import VMultiselect from '@/components/VMultiselect.vue'
+import VCombobox from '@/components/VCombobox.vue';
 
 const props = defineProps({
     states: {
@@ -30,16 +30,16 @@ const submit = () => {
 
 <template>
     <div class="md:grid md:grid-cols-2 md:gap-6">
-        <div class="mt-5 md:mt-0 md:col-span-2 rounded-lg bg-white dark:bg-gray-800">
+        <div class="ui-card overflow-hidden md:col-span-2">
             <form @submit.prevent="submit">
                 <!-- CONTENT -->
-                <div class="px-4 py-5 sm:p-6">
+                <div class="p-5 sm:p-7">
 
                     <!-- HEADER -->
-                    <h1 class="text-lg font-medium text-gray-800 dark:text-gray-100">
+                    <h1 class="font-display text-3xl text-(--app-ink)">
                         Bundesland
                     </h1>
-                    <p class="mt-1 mb-5 text-sm text-gray-600 dark:text-gray-300">
+                    <p class="mt-1 mb-6 text-sm text-(--app-muted)">
                         Verwalte deine Bundesland-Einstellung.
                     </p>
 
@@ -49,9 +49,8 @@ const submit = () => {
                             Bundesland
                         </label>
 
-                        <VMultiselect v-model="form.state" :options="states" label="name" track-by="id"
-                            :multiple="false" placeholder="Bundesland auswählen" :close-on-select="true"
-                            :clear-on-select="true" :preserve-search="true" />
+                        <VCombobox v-model="form.state" :options="states" label="name" track-by="id"
+                            placeholder="Bundesland auswählen" search-placeholder="Bundesland suchen …" aria-label="Bundesland" />
 
                         <p v-if="form.errors.state_id" class="text-red-500 text-sm mt-1">
                             {{ form.errors.state_id }}
@@ -60,7 +59,7 @@ const submit = () => {
                 </div>
 
                 <!-- ACTIONS -->
-                <div class="rounded-lg flex items-center px-4 py-3 shadow">
+                <div class="flex items-center justify-end gap-3 border-t border-(--app-border) bg-(--app-surface-2) px-5 py-4 sm:px-7">
                     <ActionMessage :on="form.recentlySuccessful">
                         Gespeichert.
                     </ActionMessage>

@@ -65,44 +65,39 @@ class UserAdminControllerTest extends TestCase
         // 🔹 HTTP OK
         $response->assertStatus(200);
 
-        // 🔹 Inertia Assertions
+        // 🔹 Inertia Assertions – Reihenfolge ist „neueste zuerst“, daher nach ID suchen
         $response->assertInertia(
             fn(AssertableInertia $page) =>
             $page->component('Admin/User/Index')
                 ->has('users', 2)
+                ->where('users', function ($users) use ($admin, $user) {
+                    $users = collect($users)->keyBy('id');
+                    $adminRow = $users[$admin->id];
+                    $userRow = $users[$user->id];
 
-                // 🔸 Admin selbst
-                ->has(
-                    'users.0',
-                    fn(AssertableInertia $u) =>
-                    $u->where('id', $admin->id)
-                        ->where('name', $admin->name)
-                        ->where('email', $admin->email)
-                        ->where('subscribed', false)
-                        ->where('subscription_expires_at', null)
-                        ->where('canceled', false)
-                        ->where('state', null)
-                        ->where('is_admin', true)
-                        ->has('created_at')
-                )
+                    // 🔸 Admin selbst
+                    $this->assertSame($admin->email, $adminRow['email']);
+                    $this->assertFalse($adminRow['subscribed']);
+                    $this->assertNull($adminRow['subscription_expires_at']);
+                    $this->assertFalse($adminRow['canceled']);
+                    $this->assertSame('free', $adminRow['plan']);
+                    $this->assertNull($adminRow['state']);
+                    $this->assertTrue($adminRow['is_admin']);
 
-                // 🔸 Normaler User mit Abo
-                ->has(
-                    'users.1',
-                    fn(AssertableInertia $u) =>
-                    $u->where('id', $user->id)
-                        ->where('name', 'Max Mustermann')
-                        ->where('email', 'max@test.de')
-                        ->where('subscribed', true)
-                        ->where(
-                            'subscription_expires_at',
-                            $user->subscription('default')->ends_at->toISOString()
-                        )
-                        ->where('canceled', true) // 👈 WICHTIG: ends_at gesetzt = canceled()
-                        ->where('state', 'Bayern')
-                        ->where('is_admin', false)
-                        ->has('created_at')
-                )
+                    // 🔸 Normaler User mit gekündigtem, noch laufendem Abo
+                    $this->assertSame('Max Mustermann', $userRow['name']);
+                    $this->assertSame('max@test.de', $userRow['email']);
+                    $this->assertTrue($userRow['subscribed']);
+                    $this->assertSame($user->subscription('default')->ends_at->toISOString(), $userRow['subscription_expires_at']);
+                    $this->assertTrue($userRow['canceled']); // ends_at gesetzt = canceled()
+                    $this->assertSame('canceled', $userRow['plan']);
+                    $this->assertSame('Bayern', $userRow['state']);
+                    $this->assertFalse($userRow['is_admin']);
+                    $this->assertSame(0, $userRow['catches_count']);
+                    $this->assertArrayHasKey('last_active_at', $userRow);
+
+                    return true;
+                })
         );
     }
 

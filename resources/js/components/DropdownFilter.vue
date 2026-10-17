@@ -2,7 +2,7 @@
   <div class="relative inline-flex">
     <button
       ref="trigger"
-      class="cursor-pointer btn px-2.5 bg-white dark:bg-gray-800 border-gray-200 hover:border-gray-300 dark:border-gray-700/60 dark:hover:border-gray-600 text-gray-400 dark:text-gray-500"
+      class="cursor-pointer inline-flex size-[2.75rem] items-center justify-center rounded-full border border-(--app-border-strong) bg-(--app-surface) text-(--app-muted) transition hover:bg-(--app-hover) hover:text-(--app-ink)" title="Filter"
       aria-haspopup="true"
       @click.prevent="dropdownOpen = !dropdownOpen"
       :aria-expanded="dropdownOpen"
@@ -22,27 +22,27 @@
     >
       <div
         v-show="dropdownOpen"
-        class="origin-top-right z-10 absolute top-full left-0 right-auto min-w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 pt-1.5 rounded-lg shadow-lg overflow-hidden mt-1"
+        class="origin-top-right z-20 absolute top-full left-0 right-auto min-w-56 bg-(--app-surface) border border-(--app-border) p-2 rounded-2xl shadow-(--app-shadow-lg) overflow-hidden mt-2"
         :class="align === 'right' ? 'md:left-auto md:right-0' : 'md:left-0 md:right-auto'"
       >
         <div ref="dropdown">
-          <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase pt-1.5 pb-2 px-3">
+          <div class="ui-kicker pt-1.5 pb-2 px-3">
             Filter
           </div>
-          <ul class="mb-4">
+          <ul>
             <li
               v-for="(option, index) in localOptions"
               :key="option.value"
-              class="py-1 px-3"
+              class="rounded-xl px-3 py-2 hover:bg-(--app-hover)"
             >
-              <label class="flex items-center">
+              <label class="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   class="form-checkbox"
                   v-model="localOptions[index].selected"
                   @change="onFilterChange(option)"
                 />
-                <span class="text-sm font-medium ml-2">
+                <span class="text-sm font-medium ml-2.5 text-(--app-ink)">
                   {{ option.label }}
                 </span>
               </label>

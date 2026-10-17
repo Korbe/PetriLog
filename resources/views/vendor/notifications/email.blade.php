@@ -4,9 +4,9 @@
 # {{ $greeting }}
 @else
 @if ($level === 'error')
-# @lang('Whoops!')
+# Hoppla!
 @else
-# @lang('Hello!')
+# Hallo!
 @endif
 @endif
 
@@ -25,7 +25,7 @@
     };
 ?>
 <x-mail::button :url="$actionUrl" :color="$color">
-{{ $actionText }}
+{{ $actionText }} &rarr;
 </x-mail::button>
 @endisset
 
@@ -39,20 +39,15 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Regards,')<br>
-{{ config('app.name') }}
+Petri Heil 🎣<br>
+Dein {{ config('app.name') }}-Team
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 <x-slot:subcopy>
-@lang(
-    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser:',
-    [
-        'actionText' => $actionText,
-    ]
-) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+Falls der Button „{{ $actionText }}“ nicht funktioniert, kopiere diesen Link in deinen Browser:
+<span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
 </x-slot:subcopy>
 @endisset
 </x-mail::message>

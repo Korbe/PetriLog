@@ -6,6 +6,7 @@ use App\Models\Lake;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LakeController extends Controller
 {
@@ -14,10 +15,11 @@ class LakeController extends Controller
      */
     public function show(State $state, Lake $lake)
     {
-        session()->forget('meta');
 
         // Lade die Fische für diesen See
-        $lake->load('fish');
+        abort_unless($lake->isVisibleTo(Auth::user()), 404);
+
+        $lake->load(['fish' => fn($q) => $q->approved()]);
 
         return Inertia::render('Lakes/Show', [
             'state_id' => $state->id,

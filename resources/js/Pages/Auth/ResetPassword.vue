@@ -1,7 +1,6 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/JetstreamComponents/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/JetstreamComponents/AuthenticationCardLogo.vue';
 import VInput from '@/components/VInput.vue';
 import VPassword from '@/components/VPassword.vue';
 import VButton from '@/components/VButton.vue';
@@ -29,14 +28,7 @@ const submit = () => {
 
     <Head title="Passwort zurücksetzen" />
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <div>
-            <h1 class="text-center font-medium text-lg mb-2 dark:text-gray-400">Passwort zurücksetzen</h1>
-        </div>
+    <AuthenticationCard eyebrow="Passwort" title="Neues Passwort festlegen.">
 
         <form @submit.prevent="submit">
             <div>
@@ -55,7 +47,7 @@ const submit = () => {
                     :error="form.errors.password_confirmation" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end mt-8">
                 <VButton type="submit" class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Passwort zurücksetzen
                 </VButton>
