@@ -1,6 +1,6 @@
 <script setup>
 // Shell for all auth pages (login, register, password, verification …) in the public site design.
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import DepthContours from '@/components/public/DepthContours.vue';
 import FishingFloat from '@/components/public/FishingFloat.vue';
 
@@ -8,6 +8,9 @@ defineProps({
     eyebrow: { type: String, default: '' },
     title: { type: String, default: '' },
 });
+
+// Flash-Fehler (z.B. abgelaufene Sitzung) – das Dashboard zeigt sie über das Banner, hier direkt über dem Formular
+const page = usePage();
 </script>
 
 <template>
@@ -71,6 +74,10 @@ defineProps({
                 </div>
 
                 <div class="mt-10">
+                    <p v-if="page.props.flash?.error" role="alert"
+                        class="mb-6 rounded-xl bg-(--app-danger-soft) px-4 py-3 text-sm font-medium text-(--app-danger)">
+                        {{ page.props.flash.error }}
+                    </p>
                     <slot />
                 </div>
             </div>

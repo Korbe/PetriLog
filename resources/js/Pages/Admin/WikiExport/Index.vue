@@ -1,5 +1,14 @@
 <template>
-    <PageWrapper title="Wiki-Export" eyebrow="Administration · Wiki" backTo="/admin">
+    <PageWrapper title="Wiki herunterladen" eyebrow="Development · Seed-Daten" backTo="/admin/development">
+        <p class="mb-5 flex items-start gap-2.5 rounded-2xl border border-dashed border-(--app-border-strong) px-4 py-3 text-sm text-(--app-muted) md:mb-6">
+            <CommandLineIcon class="mt-0.5 size-5 shrink-0 text-(--app-accent-ink)" />
+            <span>
+                <strong class="text-(--app-ink)">Development-Funktion:</strong> Dieser Export dient dazu, den Wiki-Stand ins Repository zu
+                übernehmen. Er ist <strong class="text-(--app-ink)">kein Backup</strong> – User, Fänge und Fotos sind nicht enthalten.
+                Für Sicherungen gibt es die <Link href="/admin/development/backups" class="ui-link">Datenbank-Backups</Link>.
+            </span>
+        </p>
+
         <div class="grid gap-5 md:gap-6 lg:grid-cols-12">
 
             <!-- Komplettpaket -->
@@ -14,7 +23,7 @@
                 </p>
 
                 <div class="mt-6">
-                    <a v-if="zipAvailable" :href="route('admin.wiki-export.zip')"
+                    <a v-if="zipAvailable" :href="route('admin.development.wiki-export.zip')"
                         class="inline-flex items-center gap-2 rounded-full bg-primary-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-600">
                         <ArrowDownTrayIcon class="size-5" /> ZIP herunterladen
                     </a>
@@ -53,7 +62,7 @@
                             <p class="font-log truncate text-sm text-(--app-ink)">{{ dataset.file }}</p>
                             <p class="text-xs text-(--app-muted)">{{ dataset.count }} {{ LABELS[dataset.name] }}</p>
                         </div>
-                        <a :href="route('admin.wiki-export.dataset', dataset.name)" class="ui-icon-btn" :aria-label="`${dataset.file} herunterladen`"
+                        <a :href="route('admin.development.wiki-export.dataset', dataset.name)" class="ui-icon-btn" :aria-label="`${dataset.file} herunterladen`"
                             title="Herunterladen">
                             <ArrowDownTrayIcon class="size-4" />
                         </a>
@@ -66,8 +75,9 @@
 
 <script setup>
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
+import { Link } from '@inertiajs/vue3'
 import {
-    ArchiveBoxArrowDownIcon, ArrowDownTrayIcon, DocumentTextIcon, ExclamationTriangleIcon,
+    ArchiveBoxArrowDownIcon, ArrowDownTrayIcon, CommandLineIcon, DocumentTextIcon, ExclamationTriangleIcon,
 } from '@heroicons/vue/24/outline'
 
 defineProps({

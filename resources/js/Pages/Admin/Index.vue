@@ -186,7 +186,7 @@ import StatsTrendChart from './partials/StatsTrendChart.vue';
 import {
     ArrowRightIcon, ArrowTopRightOnSquareIcon, ChatBubbleLeftRightIcon, UsersIcon, EnvelopeIcon, MapIcon,
     BeakerIcon, UserGroupIcon, ChartBarIcon, InboxArrowDownIcon, ExclamationTriangleIcon, EyeIcon, UserIcon,
-    UserPlusIcon, BookOpenIcon, PhotoIcon, StarIcon, GlobeAltIcon, BoltIcon, ArrowDownTrayIcon,
+    UserPlusIcon, BookOpenIcon, PhotoIcon, StarIcon, GlobeAltIcon, BoltIcon, CommandLineIcon,
 } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
@@ -290,7 +290,7 @@ const groups = [
             { title: 'Tickets', desc: 'Probleme & Wünsche', href: '/admin/tickets', icon: ChatBubbleLeftRightIcon, tone: orange },
             { title: 'User', desc: 'Abo-Status & Impersonieren', href: '/admin/user', icon: UsersIcon, tone: accent },
             { title: 'Newsletter', desc: 'Erstellen, testen, versenden', href: '/admin/newsletter', icon: EnvelopeIcon, tone: accent },
-            { title: 'Pulse', desc: 'Performance & Fehler live', href: '/pulse', icon: ChartBarIcon, tone: green, external: true },
+            { title: 'Development', desc: 'Backups, Wiki-Export, Pulse', href: '/admin/development', icon: CommandLineIcon, tone: green },
         ],
     },
     {
@@ -301,7 +301,6 @@ const groups = [
             { title: 'Flüsse', desc: 'Fische, Tipps, Kartenverkauf', href: '/admin/river', icon: MapIcon, tone: accent },
             { title: 'Fische', desc: 'Bild & Steckbrief', href: '/admin/fish', icon: BeakerIcon, tone: orange },
             { title: 'Vereine', desc: 'Link & Beschreibung', href: '/admin/association', icon: UserGroupIcon, tone: green },
-            { title: 'Wiki-Export', desc: 'Seed-Daten fürs Repo laden', href: '/admin/wiki-export', icon: ArrowDownTrayIcon, tone: accent },
         ],
     },
 ];

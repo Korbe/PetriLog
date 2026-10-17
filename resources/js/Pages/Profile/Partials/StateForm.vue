@@ -50,7 +50,7 @@ const submit = () => {
                         </label>
 
                         <VCombobox v-model="form.state" :options="states" label="name" track-by="id"
-                            placeholder="Bundesland auswählen" search-placeholder="Bundesland suchen …" aria-label="Bundesland" />
+                            placeholder="Bundesland auswählen" search-placeholder="Bundesland suchen …" aria-label="Bundesland" :clearable="false" />
 
                         <p v-if="form.errors.state_id" class="text-red-500 text-sm mt-1">
                             {{ form.errors.state_id }}

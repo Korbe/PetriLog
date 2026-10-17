@@ -106,7 +106,7 @@ import { h, ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import {
   HomeIcon, BookOpenIcon, PhotoIcon, MapIcon, StarIcon, Cog6ToothIcon, LifebuoyIcon, PlusIcon,
-  ArrowDownTrayIcon, XMarkIcon, ChevronDoubleRightIcon, MapPinIcon, DocumentChartBarIcon,
+  ArrowDownTrayIcon, XMarkIcon, ChevronDoubleRightIcon, MapPinIcon, DocumentChartBarIcon, CommandLineIcon,
 } from '@heroicons/vue/24/outline'
 import { pwa, installPwa } from '@/pwa'
 import DepthContours from '@/components/public/DepthContours.vue'
@@ -153,7 +153,10 @@ const groups = computed(() => [
     items: [
       { label: 'PetriLog Abo', href: '/billing-portal', icon: StarIcon, external: true },
       { label: 'Ticket erstellen', href: '/ticket', icon: LifebuoyIcon },
-      ...(user.value?.is_admin ? [{ label: 'Admin', href: '/admin', icon: Cog6ToothIcon }] : []),
+      ...(user.value?.is_admin ? [
+        { label: 'Admin', href: '/admin', icon: Cog6ToothIcon, exclude: '/admin/development' },
+        { label: 'Development', href: '/admin/development', icon: CommandLineIcon },
+      ] : []),
     ],
   },
 ])
@@ -165,7 +168,7 @@ const sidebarExpanded = ref(storedSidebarExpanded === null ? false : storedSideb
 
 // Current URL (Inertia)
 const currentUrl = computed(() => page.url)
-const isActive = (item) => currentUrl.value.startsWith(item.href)
+const isActive = (item) => (currentUrl.value.startsWith(item.href) && !(item.exclude && currentUrl.value.startsWith(item.exclude)))
   // lakes, rivers and associations live below /states
   || (item.href === '/states' && /^\/(lakes|rivers)\//.test(currentUrl.value))
 

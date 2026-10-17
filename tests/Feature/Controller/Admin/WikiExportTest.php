@@ -35,7 +35,7 @@ class WikiExportTest extends TestCase
     public function test_page_lists_all_datasets(): void
     {
         $this->actingAs($this->admin)
-            ->get(route('admin.wiki-export.index'))
+            ->get(route('admin.development.wiki-export.index'))
             ->assertOk()
             ->assertInertia(fn(Assert $page) => $page
                 ->component('Admin/WikiExport/Index')
@@ -46,7 +46,7 @@ class WikiExportTest extends TestCase
 
     public function test_single_dataset_matches_the_seeder_format_without_pending_entries(): void
     {
-        $response = $this->actingAs($this->admin)->get(route('admin.wiki-export.dataset', 'lakes'));
+        $response = $this->actingAs($this->admin)->get(route('admin.development.wiki-export.dataset', 'lakes'));
 
         $response->assertOk()->assertDownload('lakes.json');
         $json = $response->streamedContent();
@@ -69,7 +69,7 @@ class WikiExportTest extends TestCase
             $this->markTestSkipped('PHP-Erweiterung zip fehlt.');
         }
 
-        $response = $this->actingAs($this->admin)->get(route('admin.wiki-export.zip'));
+        $response = $this->actingAs($this->admin)->get(route('admin.development.wiki-export.zip'));
         $response->assertOk();
 
         $zip = new ZipArchive();
@@ -86,10 +86,10 @@ class WikiExportTest extends TestCase
 
     public function test_unknown_datasets_and_regular_users_are_rejected(): void
     {
-        $this->actingAs($this->admin)->get('/admin/wiki-export/users.json')->assertNotFound();
+        $this->actingAs($this->admin)->get('/admin/development/wiki-export/users.json')->assertNotFound();
 
         $this->actingAs(User::factory()->create())
-            ->get(route('admin.wiki-export.dataset', 'fish'))
+            ->get(route('admin.development.wiki-export.dataset', 'fish'))
             ->assertRedirect();
     }
 }

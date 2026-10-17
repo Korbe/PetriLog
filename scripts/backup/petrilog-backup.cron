@@ -1,0 +1,12 @@
+# /etc/cron.d/petrilog-backup – auf SERVER A (petrilog.com)
+#
+# Täglich 03:15 Uhr: Backup erstellen, prüfen, auf korbitsch.at übertragen, dort nachprüfen und lokal löschen.
+# Sonntags zusätzlich mit Wiederherstellungstest – das Ergebnis kommt per Mail.
+#
+# Das Skript wechselt selbst zum App-Benutzer (deployer) und verschickt die Mails per msmtp.
+# Siehe docs/backup.md, Abschnitt „Automatisierung“.
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+15 3 * * * root /bin/bash /var/www/petrilog.com/current/scripts/backup/petrilog-backup.sh

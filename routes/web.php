@@ -34,6 +34,8 @@ use App\Http\Controllers\SpotController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\Admin\SubmissionAdminController;
 use App\Http\Controllers\Admin\WikiExportAdminController;
+use App\Http\Controllers\Admin\DevelopmentController;
+use App\Http\Controllers\Admin\BackupAdminController;
 
 // Route::post('/send-mail', [MailController::class, 'sendTestMail'])->name('send.mail');
 
@@ -130,11 +132,31 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::impersonate();
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
-    Route::get('/wiki-export', [WikiExportAdminController::class, 'index'])->name('wiki-export.index');
-    Route::get('/wiki-export/zip', [WikiExportAdminController::class, 'zip'])->name('wiki-export.zip');
-    Route::get('/wiki-export/{name}.json', [WikiExportAdminController::class, 'dataset'])
-        ->whereIn('name', \App\Services\WikiExporter::DATASETS)
-        ->name('wiki-export.dataset');
+    // Development: Entwicklungs-, Wartungs- und Administrationswerkzeuge (nur Admins, siehe Gruppen-Middleware)
+    Route::prefix('development')->name('development.')->group(function () {
+        Route::get('/', [DevelopmentController::class, 'index'])->name('index');
+
+        Route::get('/wiki-export', [WikiExportAdminController::class, 'index'])->name('wiki-export.index');
+        Route::get('/wiki-export/zip', [WikiExportAdminController::class, 'zip'])->name('wiki-export.zip');
+        Route::get('/wiki-export/{name}.json', [WikiExportAdminController::class, 'dataset'])
+            ->whereIn('name', \App\Services\WikiExporter::DATASETS)
+            ->name('wiki-export.dataset');
+
+        // Backups enthalten personenbezogene Daten: der ganze Bereich nur nach erneuter Passwort-Eingabe
+        Route::middleware('password.confirm')->group(function () {
+            Route::get('/backups', [BackupAdminController::class, 'index'])->name('backups.index');
+            Route::post('/backups', [BackupAdminController::class, 'store'])->middleware('throttle:6,60')->name('backups.store');
+            Route::post('/backups/upload', [BackupAdminController::class, 'upload'])->middleware('throttle:2000,60')->name('backups.upload');
+            Route::post('/backups/{name}/verify', [BackupAdminController::class, 'verify'])->name('backups.verify');
+            Route::post('/backups/{name}/restore-test', [BackupAdminController::class, 'restoreTest'])->middleware('throttle:6,60')->name('backups.restore-test');
+            Route::post('/backups/{name}/restore-production', [BackupAdminController::class, 'restoreProduction'])->middleware('throttle:3,60')->name('backups.restore-production');
+            Route::get('/backups/{name}/download', [BackupAdminController::class, 'download'])->middleware('throttle:10,60')->name('backups.download');
+            Route::delete('/backups/{name}', [BackupAdminController::class, 'destroy'])->name('backups.destroy');
+        });
+    });
+
+    // Alte Adresse des Wiki-Exports weiterleiten
+    Route::redirect('/wiki-export', '/admin/development/wiki-export');
 
     Route::get('/submissions', [SubmissionAdminController::class, 'index'])->name('submissions.index');
     Route::post('/submissions/{type}/{id}/approve', [SubmissionAdminController::class, 'approve'])
