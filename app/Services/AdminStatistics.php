@@ -225,7 +225,12 @@ class AdminStatistics
      */
     private function health(): array
     {
+        $lastBackup = \App\Models\BackupRun::lastSuccessfulBackupAt();
+        // Nur warnen, wo Backups eingerichtet sind (nicht lokal ohne Zweitserver/Zeitplan)
+        $backupsExpected = \App\Services\Backup\RemoteBackupStore::enabled() || config('backup.schedule.enabled');
+
         return [
+            'backupAgeHours' => $backupsExpected ? ($lastBackup ? (int) $lastBackup->diffInHours(now()) : -1) : null,
             'queuedJobs' => DB::table('jobs')->count(),
             'oldestJobMinutes' => ($oldest = DB::table('jobs')->min('created_at')) ? (int) floor((time() - (int) $oldest) / 60) : null,
             'failedJobs' => DB::table('failed_jobs')->count(),

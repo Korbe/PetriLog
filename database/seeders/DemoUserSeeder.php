@@ -44,7 +44,7 @@ class DemoUserSeeder extends Seeder
             'photos' => ['catches/hecht-1.jpg'],
         ],
         [
-            // Schwerster Fang (Dashboard-Highlight)
+            // Längster und schwerster Fang (Dashboard-Highlights)
             'fish' => 'Spiegelkarpfen', 'lake' => 'Faaker See', 'days_ago' => 95, 'time' => '05:50',
             'length' => 81, 'weight' => 13400, 'depth' => 350, 'temperature' => 21, 'air_pressure' => 1014,
             'bait' => 'Boilie Fisch/Krill 24 mm',
@@ -53,13 +53,12 @@ class DemoUserSeeder extends Seeder
             'photos' => ['catches/spiegelkarpfen-2.jpg'],
         ],
         [
-            // Längster Fang (Dashboard-Highlight)
-            'fish' => 'Huchen', 'river' => 'Drau', 'days_ago' => 180, 'time' => '07:30',
-            'length' => 112, 'weight' => 12800, 'depth' => 250, 'temperature' => 6, 'air_pressure' => 1024,
-            'bait' => 'Huchenzopf 18 cm',
-            'latitude' => 46.6130, 'longitude' => 13.8500, 'address' => 'Drau, Villach',
-            'remark' => '<p><strong>Fisch des Lebens!</strong> Nach drei Wintern endlich ein Huchen über einem Meter. <em>Nach dem Foto schonend zurückgesetzt.</em></p>',
-            'photos' => ['catches/huchen-1.jpg'],
+            'fish' => 'Regenbogenforelle', 'lake' => 'Millstätter See', 'days_ago' => 40, 'time' => '06:45',
+            'length' => 46, 'weight' => 1150, 'depth' => 400, 'temperature' => 18, 'air_pressure' => 1017,
+            'bait' => 'Blinker 15 g, kupfer',
+            'latitude' => 46.7950, 'longitude' => 13.5800, 'address' => 'Millstätter See, Millstatt',
+            'remark' => '<p>Weit ausgeworfen und langsam eingeholt. <strong>Mehrere Sprünge</strong> im Drill.</p>',
+            'photos' => ['catches/regenbogenforelle-1.jpg'],
         ],
     ];
 

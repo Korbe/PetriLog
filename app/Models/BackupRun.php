@@ -54,6 +54,32 @@ class BackupRun extends Model
         }
     }
 
+    // Älter darf das letzte erfolgreiche Backup nicht sein (täglich + Puffer), sonst Warnung
+    public const MAX_BACKUP_AGE_HOURS = 26;
+
+    /**
+     * Zeitpunkt des letzten erfolgreichen Backups – mit Zweitserver zählt nur, was dort bestätigt angekommen ist.
+     * Download-Kopien aus der Weboberfläche zählen nie.
+     */
+    public static function lastSuccessfulBackupAt(): ?\Illuminate\Support\Carbon
+    {
+        try {
+            if (\App\Services\Backup\RemoteBackupStore::enabled()) {
+                $at = static::where('action', 'transfer')->where('status', 'success')->max('finished_at');
+
+                return $at ? \Illuminate\Support\Carbon::parse($at) : null;
+            }
+
+            $run = static::where('action', 'create')->whereIn('status', ['success', 'warning'])
+                ->latest('finished_at')->get(['finished_at', 'details'])
+                ->first(fn(self $run) => ! ($run->details['download_only'] ?? false));
+
+            return $run?->finished_at;
+        } catch (Throwable) {
+            return null;
+        }
+    }
+
     // Eingeplant, aber nie gestartet → der Auftrag ging verloren (kein Queue-Worker, Queue geleert …)
     public const STALE_QUEUED_HOURS = 2;
 
@@ -83,7 +109,20 @@ class BackupRun extends Model
                     'finished_at' => now(),
                 ]);
 
-            return $queued + $running;
+            // Backup-Erstellung „läuft“, aber niemand hält die Backup-Sperre → Prozess ist abgestürzt oder wurde
+            // beendet (z. B. MySQL- oder Server-Neustart). Sofort abschließen statt 6 Stunden zu warten.
+            $orphaned = 0;
+            $candidates = static::where('action', 'create')->where('status', 'running')
+                ->where('started_at', '<', now()->subMinute());
+            if ($candidates->exists() && ! \App\Services\Backup\BackupRunner::isRunning()) {
+                $orphaned = $candidates->update([
+                    'status' => 'failed',
+                    'message' => 'Abgebrochen – der Backup-Prozess wurde beendet (z. B. Absturz oder Neustart).',
+                    'finished_at' => now(),
+                ]);
+            }
+
+            return $queued + $running + $orphaned;
         } catch (Throwable) {
             return 0;
         }

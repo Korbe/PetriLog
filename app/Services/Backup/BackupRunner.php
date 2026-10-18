@@ -208,6 +208,31 @@ class BackupRunner
      *
      * @return resource|null
      */
+    /**
+     * Läuft gerade irgendwo ein Backup (Cron, CLI oder Queue)? Erkennbar an der gehaltenen Dateisperre –
+     * stirbt der Prozess (Absturz, Neustart), gibt das Betriebssystem die Sperre automatisch frei.
+     */
+    public static function isRunning(): bool
+    {
+        $file = BackupFiles::directory() . DIRECTORY_SEPARATOR . '.backup.lock';
+        if (! is_file($file)) {
+            return false;
+        }
+
+        $handle = @fopen($file, 'c');
+        if ($handle === false) {
+            return true; // im Zweifel nichts als abgebrochen markieren
+        }
+
+        $free = flock($handle, LOCK_EX | LOCK_NB);
+        if ($free) {
+            flock($handle, LOCK_UN);
+        }
+        fclose($handle);
+
+        return ! $free;
+    }
+
     private function acquireLock()
     {
         $handle = fopen(BackupFiles::directory() . DIRECTORY_SEPARATOR . '.backup.lock', 'c');

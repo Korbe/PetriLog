@@ -86,31 +86,29 @@ class DatabaseSeederTest extends TestCase
         $this->assertSame(9, Media::where('collection_name', 'state')->count());
         $this->assertSame(33, Media::where('collection_name', 'fish')->count());
         State::all()->each(fn (State $state) => $this->assertCount(1, $state->getMedia('state'), $state->name));
+        // Wappen wie auf dem Produktivsystem mit großem Anfangsbuchstaben (Linux unterscheidet Groß-/Kleinschreibung)
+        $this->assertSame('Niederoesterreich.png', State::where('name', 'Niederösterreich')->first()->getFirstMedia('state')->file_name);
         Storage::disk('public')->assertExists(State::first()->getFirstMedia('state')->getPathRelativeToRoot());
 
         // Seed-Assets dürfen nicht verschoben werden
-        $this->assertFileExists(database_path('seeders/assets/states/kaernten.png'));
-        $this->assertFileExists(database_path('seeders/assets/catches/huchen-1.jpg'));
+        $this->assertFileExists(database_path('seeders/assets/states/Kaernten.png'));
+        $this->assertFileExists(database_path('seeders/assets/catches/hecht-1.jpg'));
 
         $demo = User::where('email', DemoUserSeeder::EMAIL)->firstOrFail();
         $this->assertTrue($demo->hasVerifiedEmail());
         $this->assertSame('Kärnten', $demo->state->name);
 
         $catches = $demo->catched()->with('media')->get();
-        $this->assertCount(4, $catches);
-        $this->assertSame(4, Catched::count());
-        $this->assertSame(5, Media::where('collection_name', 'photos')->count());
+        $this->assertCount(3, $catches);
+        $this->assertSame(3, Catched::count());
+        $this->assertSame(3, Media::where('collection_name', 'photos')->count());
         $this->assertTrue($catches->every(fn (Catched $c) => $c->lake_id xor $c->river_id));
         $this->assertTrue($catches->every(fn (Catched $c) => $c->date->isPast() && $c->date->gt(now()->subYear())));
-
-        // Fotos in Reihenfolge 0,1,…
-        $multi = $catches->first(fn (Catched $c) => $c->getMedia('photos')->count() > 1);
-        $this->assertSame([0, 1], $multi->getMedia('photos')->pluck('order_column')->all());
 
         // Dashboard-Highlights (längster/schwerster Fang) sind Fänge mit Foto
         $longest = $catches->sortByDesc('length')->first();
         $heaviest = $catches->sortByDesc('weight')->first();
-        $this->assertSame('Huchen', $longest->fish->name);
+        $this->assertSame('Spiegelkarpfen', $longest->fish->name);
         $this->assertSame('Spiegelkarpfen', $heaviest->fish->name);
         $this->assertNotEmpty($longest->getMedia('photos'));
         $this->assertNotEmpty($heaviest->getMedia('photos'));

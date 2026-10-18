@@ -14,7 +14,14 @@
         <div class="space-y-6 md:space-y-8" :class="{ 'opacity-60 transition-opacity': loading }">
 
             <!-- Hinweise -->
-            <div v-if="pendingSubmissions || openCorrections || queueWarning" class="grid gap-3 md:grid-cols-2">
+            <div v-if="pendingSubmissions || openCorrections || queueWarning || backupWarning" class="grid gap-3 md:grid-cols-2">
+                <div v-if="backupWarning" class="flex items-start gap-3 rounded-[1.25rem] bg-(--app-danger-soft) p-4 text-sm" role="alert">
+                    <ExclamationTriangleIcon class="mt-0.5 size-5 shrink-0 text-(--app-danger)" />
+                    <p>
+                        <strong class="text-(--app-danger)">Backup prüfen:</strong> {{ backupWarning }}
+                        Auf dem Server zeigt <code class="font-log text-xs">php artisan backup:status</code> den Grund.
+                    </p>
+                </div>
                 <Link v-if="pendingSubmissions" href="/admin/submissions"
                     class="ui-card ui-card-hover group flex items-center gap-4 border-(--app-float)! p-4">
                     <span class="font-display flex size-11 shrink-0 items-center justify-center rounded-2xl bg-(--app-float) text-xl text-white">
@@ -321,6 +328,14 @@ const totals = computed(() => {
 const maxMailType = computed(() => Math.max(0, ...props.stats.mailsByType.map(m => m.total)));
 
 // Hängen Jobs länger als 15 Minuten, läuft vermutlich kein Queue-Worker
+// Läuft das nächtliche Backup? (null = Backups hier nicht eingerichtet, -1 = noch nie erfolgreich)
+const backupWarning = computed(() => {
+    const hours = props.stats.health.backupAgeHours;
+    if (hours === null || hours === undefined) return '';
+    if (hours < 0) return 'Es gibt noch kein erfolgreiches Backup.';
+    return hours > 26 ? `Das letzte erfolgreiche Backup ist ${hours} Stunden alt – das nächtliche Backup ist offenbar nicht gelaufen.` : '';
+});
+
 const queueWarning = computed(() => {
     const h = props.stats.health;
     const parts = [];

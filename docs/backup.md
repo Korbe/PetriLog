@@ -316,7 +316,46 @@ Alle Development-Werkzeuge sind nur für Admins erreichbar (`isAdmin`-Middleware
 
 ---
 
-## 7. Hinweise
+## 7. Wenn etwas hängt (ohne Datenbank-Zugriff)
+
+Alle Befehle auf Server A als root.
+
+**1. Lagebild:**
+
+```bash
+runuser -u deployer -- php /var/www/petrilog.com/current/artisan backup:status
+```
+
+Zeigt, ob gerade ein Backup läuft (mit Prozess-ID), offene Aufträge, das letzte erfolgreiche Backup, Fehler der letzten 24 Stunden, Speicherplatz und Queue-Stau. Hängengebliebene Statuseinträge werden dabei automatisch aufgeräumt. Exit-Code 0 = in Ordnung, 1 = Warnung.
+
+**2. Selbstheilung (passiert automatisch, auch beim Öffnen der Backup-Seite):**
+
+| Situation | Reaktion |
+|---|---|
+| Backup-Prozess abgestürzt oder beendet (Neustart, Deploy) | sofort als abgebrochen markiert (Backup-Sperre ist frei) |
+| Auftrag seit 2 Std. nicht gestartet (kein Queue-Worker) | als fehlgeschlagen markiert |
+| Vorgang seit 6 Std. nicht fertig | als abgebrochen markiert |
+| `mysqldump` hängt | wird nach `BACKUP_DUMP_TIMEOUT` (Standard 1 Std.) beendet |
+
+**3. Ein Backup läuft wirklich, hängt aber** (`backup:status` zeigt „Backup läuft: ja (Prozess-ID …)" seit Stunden):
+
+```bash
+ps -fp <Prozess-ID>
+```
+
+```bash
+kill <Prozess-ID>
+```
+
+Danach erkennt `backup:status` den Abbruch und räumt den Eintrag auf.
+
+**4. Das Admin-Dashboard warnt**, wenn das letzte erfolgreiche Backup älter als 26 Stunden ist. Das passiert z. B., wenn der Cron gar nicht läuft und deshalb auch keine Fehler-Mail kommt.
+
+Ein laufendes Backup blockiert die Website nicht: Der Dump liest mit `--single-transaction` und `--skip-lock-tables` und sperrt keine Tabellen.
+
+---
+
+## 8. Hinweise
 
 - Der ältere Befehl `backup:restore` (lädt Backups mit Root-Passwort per SFTP von „Server A“ und **löscht** dabei lokal `storage/app/public`) ist unverändert vorhanden, wird aber nicht mehr empfohlen. Nutze stattdessen `backup:restore-test` bzw. `backup:restore-production` mit einer heruntergeladenen Datei.
 - Queue: Erstellt die Weboberfläche ein Backup, muss `retry_after` der Queue-Verbindung (Standard 90 s) größer sein als die Backup-Dauer. Sonst kann ein zweiter Worker den Auftrag erneut starten (die Dateisperre verhindert dann einen doppelten Lauf). Für große Datenbestände Backups primär per Cron ausführen.

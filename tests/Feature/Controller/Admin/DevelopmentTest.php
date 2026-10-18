@@ -223,6 +223,29 @@ class DevelopmentTest extends TestCase
             ->assertInertia(fn($page) => $page->where('busy', false)->where('waitingForWorker', false));
     }
 
+    public function test_crashed_backup_is_finalized_immediately_but_a_running_one_is_not(): void
+    {
+        \Illuminate\Support\Facades\File::ensureDirectoryExists(config('backup.local_path'));
+        $run = BackupRun::create(['action' => 'create', 'status' => 'running', 'trigger' => 'web', 'started_at' => now()->subMinutes(5)]);
+        $lockFile = config('backup.local_path') . DIRECTORY_SEPARATOR . '.backup.lock';
+
+        // Ein Prozess hält die Sperre → Backup läuft wirklich → bleibt „läuft“
+        $handle = fopen($lockFile, 'c');
+        flock($handle, LOCK_EX);
+        try {
+            BackupRun::finalizeStale();
+            $this->assertSame('running', $run->fresh()->status);
+        } finally {
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+
+        // Sperre frei (Prozess beendet) → sofort abgeschlossen
+        BackupRun::finalizeStale();
+        $this->assertSame('failed', $run->fresh()->status);
+        $this->assertStringContainsString('beendet', $run->fresh()->message);
+    }
+
     public function test_safety_backup_of_a_restore_is_marked_and_offered_for_download(): void
     {
         $dir = config('backup.local_path');

@@ -191,7 +191,12 @@ class WikiExporter
 
         // Die Bildoptimierung ersetzt Originale durch WebP – Endung daher nach echtem Inhalt wählen
         $extension = $this->extensionFor($contents) ?? (strtolower(pathinfo($media->file_name, PATHINFO_EXTENSION)) ?: 'jpg');
-        $path = $folder . '/' . Str::slug($model->name, '-', 'de') . '.' . $extension;
+        $slug = Str::slug($model->name, '-', 'de');
+        // Wappen heißen wie auf dem Produktivsystem mit großem Anfangsbuchstaben (Kaernten.png, Niederoesterreich.png)
+        if ($folder === 'states') {
+            $slug = ucfirst($slug);
+        }
+        $path = $folder . '/' . $slug . '.' . $extension;
 
         if ($withImages) {
             $this->assets[$path] = $contents;
