@@ -22,7 +22,7 @@ class AdminStatisticsTest extends TestCase
 
     public function test_page_views_are_tracked_without_storing_the_ip(): void
     {
-        $this->withHeaders(['User-Agent' => self::BROWSER, 'Referer' => 'https://www.google.com/search?q=petrilog'])
+        $this->withHeaders(['User-Agent' => self::BROWSER, 'Accept-Language' => 'de-AT,de;q=0.9', 'Referer' => 'https://www.google.com/search?q=petrilog'])
             ->get(route('public.pricing'))
             ->assertOk();
 
@@ -39,11 +39,28 @@ class AdminStatisticsTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
 
         $this->withHeaders(['User-Agent' => 'Googlebot/2.1 (+http://www.google.com/bot.html)'])->get(route('public.pricing'));
-        $this->withHeaders(['User-Agent' => self::BROWSER])->actingAs($admin)->get(route('admin.index'));
-        $this->withHeaders(['User-Agent' => self::BROWSER, 'X-Inertia' => 'true', 'X-Inertia-Partial-Data' => 'fish'])
+        $this->withHeaders(['User-Agent' => self::BROWSER, 'Accept-Language' => 'de-AT,de;q=0.9'])->actingAs($admin)->get(route('admin.index'));
+        $this->withHeaders(['User-Agent' => self::BROWSER, 'Accept-Language' => 'de-AT,de;q=0.9', 'X-Inertia' => 'true', 'X-Inertia-Partial-Data' => 'fish'])
             ->actingAs($admin)->get(route('app.fish.index'));
 
         $this->assertSame(0, PageView::count());
+    }
+
+    public function test_mail_link_scanners_and_link_previews_are_not_counted(): void
+    {
+        // Sicherheits-Scanner (z. B. Outlook Safe Links): Browser-Kennung, aber keine Sprach-Präferenz
+        $this->withHeaders(['User-Agent' => self::BROWSER, 'Accept-Language' => ''])->get(route('public.pricing'))->assertOk();
+        // Link-Vorschau (WhatsApp) und HTTP-Bibliothek
+        $this->flushHeaders()->withHeaders(['User-Agent' => 'WhatsApp/2.23.20.0 A', 'Accept-Language' => 'de'])->get(route('public.pricing'));
+        $this->flushHeaders()->withHeaders(['User-Agent' => 'axios/1.6.0', 'Accept-Language' => 'de'])->get(route('public.pricing'));
+
+        $this->assertSame(0, PageView::count());
+
+        // Echter Browser zählt
+        $this->flushHeaders()->withHeaders(['User-Agent' => self::BROWSER, 'Accept-Language' => 'de-AT,de;q=0.9'])->get(route('public.pricing'));
+        $this->assertSame(1, PageView::count());
+
+        $this->artisan('stats:traffic')->expectsOutputToContain('1 Seitenaufrufe von 1 Besuchern')->assertSuccessful();
     }
 
     public function test_sent_mails_are_logged_with_type_and_recipient(): void
@@ -96,9 +113,9 @@ class AdminStatisticsTest extends TestCase
         $windows = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130.0 Safari/537.36';
 
         // Start der installierten App über /app (start_url des Manifests)
-        $this->actingAs(User::factory()->create())->withHeaders(['User-Agent' => $iphone])->get('/app');
+        $this->actingAs(User::factory()->create())->withHeaders(['User-Agent' => $iphone, 'Accept-Language' => 'de-AT'])->get('/app');
         auth()->logout();
-        $this->flushHeaders()->withHeaders(['User-Agent' => $windows])->get('/pricing');
+        $this->flushHeaders()->withHeaders(['User-Agent' => $windows, 'Accept-Language' => 'de-AT'])->get('/pricing');
 
         $this->assertDatabaseHas('page_views', ['device' => 'mobile', 'standalone' => true, 'route' => 'app.pwa.dashboard']);
         $this->assertDatabaseHas('page_views', ['device' => 'desktop', 'standalone' => false]);

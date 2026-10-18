@@ -18,7 +18,11 @@ class TrackPageView
     private const IGNORED_PATHS = ['admin*', 'pulse*', 'up', 'manifest.json', 'sw.js', 'build/*', 'storage/*',
         'report/export', 'report/print', 'report/pdf', 'billing*', 'stripe/*', 'spark/*', 'livewire/*', '_ignition/*', 'sanctum/*'];
 
-    private const BOT_PATTERN = '/bot|crawl|spider|slurp|preview|monitor|curl|wget|python|headless|lighthouse|uptime/i';
+    // Bots, Crawler, Link-Vorschauen (WhatsApp, Facebook …), Sicherheits-Scanner der Mail-Anbieter, HTTP-Bibliotheken
+    private const BOT_PATTERN = '/bot|crawl|spider|slurp|preview|monitor|curl|wget|python|headless|lighthouse|uptime'
+        . '|scan|check|fetch|facebookexternalhit|whatsapp|telegram|skype|slack|discord|embedly|outlook|office|'
+        . 'googleimageproxy|ggpht|yahoo|petal|semrush|ahrefs|mj12|dotbot|seznam|bingpreview|go-http|java\\/|okhttp|'
+        . 'axios|node|httpclient|libwww|guzzle|postman|insomnia|http_request/i';
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -77,7 +81,21 @@ class TrackPageView
             return false;
         }
 
-        return ! preg_match(self::BOT_PATTERN, (string) $request->userAgent());
+        return ! self::isLikelyBot($request);
+    }
+
+    /**
+     * Automatische Aufrufe erkennen. Sicherheits-Scanner der Mail-Anbieter (z. B. Outlook Safe Links) öffnen jeden Link
+     * in einer Mail mit einer normalen Browser-Kennung – sie senden aber in der Regel keine Sprach-Präferenz.
+     * Echte Browser schicken Accept-Language bei jedem Seitenaufruf und jeder Inertia-Navigation mit.
+     */
+    public static function isLikelyBot(Request $request): bool
+    {
+        $agent = (string) $request->userAgent();
+
+        return $agent === ''
+            || trim((string) $request->header('Accept-Language')) === ''
+            || (bool) preg_match(self::BOT_PATTERN, $agent);
     }
 
     /**
