@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Support\RichText;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -31,6 +32,7 @@ class Catched extends Model implements HasMedia
         'air_pressure',
         'bait',
         'released',
+        'weather_notify',
         'user_id',
     ];
 
@@ -47,9 +49,14 @@ class Catched extends Model implements HasMedia
         'weather_fetched_at',
     ];
 
+    // Der Freigabe-Token gelangt nur gezielt (als shareUrl) ins Frontend
+    protected $hidden = ['share_token'];
+
     protected $casts = [
         'date' => 'datetime',
+        'shared_at' => 'datetime',
         'released' => 'boolean',
+        'weather_notify' => 'boolean',
         'weather_temperature' => 'float',
         'weather_pressure' => 'float',
         'weather_pressure_trend' => 'float',
@@ -68,6 +75,31 @@ class Catched extends Model implements HasMedia
         return Attribute::make(
             set: fn(?string $value) => RichText::sanitize($value),
         );
+    }
+
+    public function isShared(): bool
+    {
+        return $this->share_token !== null;
+    }
+
+    public function shareUrl(): ?string
+    {
+        return $this->share_token ? route('public.catched.show', $this->share_token) : null;
+    }
+
+    /**
+     * Öffentlichen Link erzeugen (bestehender Link bleibt gültig).
+     */
+    public function share(): void
+    {
+        if (! $this->share_token) {
+            $this->forceFill(['share_token' => Str::random(32), 'shared_at' => now()])->save();
+        }
+    }
+
+    public function unshare(): void
+    {
+        $this->forceFill(['share_token' => null, 'shared_at' => null])->save();
     }
 
     public function user()

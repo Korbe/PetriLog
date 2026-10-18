@@ -42,3 +42,15 @@ export function baseLayers(L) {
 
 // Mitte Österreichs als Startansicht ohne Daten
 export const AUSTRIA_CENTER = [47.6, 13.8]
+
+// Fang-/Spot-Pin (Stil: .petri-spot-pin in app-ui.css) – ersetzt Leaflets Standard-Marker, dessen Bilder
+// mit Vite nicht gefunden werden
+export function pinIcon(L) {
+    return L.divIcon({
+        className: '',
+        html: '<span class="petri-spot-pin"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg></span>',
+        iconSize: [34, 34],
+        iconAnchor: [17, 32],
+        popupAnchor: [0, -28],
+    })
+}

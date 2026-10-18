@@ -14,7 +14,7 @@
         <div class="space-y-6 md:space-y-8" :class="{ 'opacity-60 transition-opacity': loading }">
 
             <!-- Hinweise -->
-            <div v-if="pendingSubmissions || queueWarning" class="grid gap-3 md:grid-cols-2">
+            <div v-if="pendingSubmissions || openCorrections || queueWarning" class="grid gap-3 md:grid-cols-2">
                 <Link v-if="pendingSubmissions" href="/admin/submissions"
                     class="ui-card ui-card-hover group flex items-center gap-4 border-(--app-float)! p-4">
                     <span class="font-display flex size-11 shrink-0 items-center justify-center rounded-2xl bg-(--app-float) text-xl text-white">
@@ -23,6 +23,17 @@
                     <span class="min-w-0 flex-1">
                         <span class="block font-semibold">{{ pendingSubmissions === 1 ? 'Neuer Vorschlag' : 'Neue Vorschläge' }} zur Prüfung</span>
                         <span class="ui-muted block text-sm">Fischarten und Gewässer freigeben oder ablehnen.</span>
+                    </span>
+                    <ArrowRightIcon class="size-5 shrink-0 text-(--app-accent-ink) transition group-hover:translate-x-0.5" />
+                </Link>
+                <Link v-if="openCorrections" href="/admin/corrections"
+                    class="ui-card ui-card-hover group flex items-center gap-4 border-(--app-accent)! p-4">
+                    <span class="font-display flex size-11 shrink-0 items-center justify-center rounded-2xl bg-(--app-accent) text-xl text-white">
+                        {{ openCorrections }}
+                    </span>
+                    <span class="min-w-0 flex-1">
+                        <span class="block font-semibold">{{ openCorrections === 1 ? 'Offene Fehlermeldung' : 'Offene Fehlermeldungen' }}</span>
+                        <span class="ui-muted block text-sm">Hinweise von Usern zu Fischen und Gewässern.</span>
                     </span>
                     <ArrowRightIcon class="size-5 shrink-0 text-(--app-accent-ink) transition group-hover:translate-x-0.5" />
                 </Link>
@@ -107,7 +118,31 @@
             </div>
 
             <!-- Traffic-Details & Fänge -->
-            <div class="grid gap-5 md:gap-6 lg:grid-cols-3">
+            <div class="grid gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-4">
+                <section class="ui-card p-5 md:p-6">
+                    <p class="ui-kicker">Geräte</p>
+                    <p class="ui-muted mt-1 text-xs">Besucher nach Gerät – ohne Cookies, alle Besucher.</p>
+                    <template v-if="stats.devices.total">
+                        <div class="mt-4 flex h-3 overflow-hidden rounded-full bg-(--app-surface-2)" role="img"
+                            :aria-label="deviceRows.map(d => `${d.label} ${d.percent} %`).join(', ')">
+                            <div v-for="d in deviceRows" :key="d.key" :class="d.bar" :style="{ width: `${d.percent}%` }"></div>
+                        </div>
+                        <ul class="mt-4 space-y-2.5">
+                            <li v-for="d in deviceRows" :key="d.key" class="flex items-center gap-2.5 text-sm">
+                                <component :is="d.icon" class="size-4 shrink-0" :class="d.text" />
+                                <span class="flex-1 font-medium">{{ d.label }}</span>
+                                <span class="font-log text-(--app-muted)">{{ format(d.visitors) }}</span>
+                                <span class="font-log w-11 text-right font-semibold">{{ d.percent }} %</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 flex items-center gap-2 border-t border-(--app-border) pt-3 text-xs text-(--app-muted)">
+                            <BoltIcon class="size-4 shrink-0 text-(--app-float)" />
+                            {{ appShare }} % nutzen PetriLog als installierte App
+                        </p>
+                    </template>
+                    <p v-else class="ui-panel mt-4 px-4 py-5 text-sm text-(--app-muted)">Noch keine Gerätedaten – werden ab jetzt erfasst.</p>
+                </section>
+
                 <section class="ui-card p-5 md:p-6">
                     <p class="ui-kicker">Meistbesuchte Seiten</p>
                     <ol v-if="stats.topPages.length" class="mt-4 space-y-3">
@@ -180,18 +215,20 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import StatsTrendChart from './partials/StatsTrendChart.vue';
 import {
     ArrowRightIcon, ArrowTopRightOnSquareIcon, ChatBubbleLeftRightIcon, UsersIcon, EnvelopeIcon, MapIcon,
     BeakerIcon, UserGroupIcon, ChartBarIcon, InboxArrowDownIcon, ExclamationTriangleIcon, EyeIcon, UserIcon,
     UserPlusIcon, BookOpenIcon, PhotoIcon, StarIcon, GlobeAltIcon, BoltIcon, CommandLineIcon,
+    DevicePhoneMobileIcon, DeviceTabletIcon, ComputerDesktopIcon, FlagIcon,
 } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     stats: { type: Object, required: true },
     pendingSubmissions: { type: Number, default: 0 },
+    openCorrections: { type: Number, default: 0 },
 });
 
 /* Zeitraum */
@@ -216,6 +253,20 @@ const rangeLabel = computed(() => `${dateFormat(props.stats.range.from)} – ${d
 
 /* Formatierung */
 const format = (value) => Number(value ?? 0).toLocaleString('de-AT');
+/* Geräte */
+const DEVICE_STYLE = {
+    mobile: { icon: DevicePhoneMobileIcon, bar: 'bg-(--app-accent)', text: 'text-(--app-accent)' },
+    tablet: { icon: DeviceTabletIcon, bar: 'bg-(--app-float)', text: 'text-(--app-float)' },
+    desktop: { icon: ComputerDesktopIcon, bar: 'bg-(--app-ink)', text: 'text-(--app-ink)' },
+};
+const percentOf = (value, total) => (total ? Math.round((value / total) * 100) : 0);
+const deviceRows = computed(() => props.stats.devices.rows.map(d => ({
+    ...d,
+    ...DEVICE_STYLE[d.key],
+    percent: percentOf(d.visitors, props.stats.devices.total),
+})));
+const appShare = computed(() => percentOf(props.stats.devices.appVisitors, props.stats.devices.total));
+
 const share = (value, max) => `${max ? Math.max(4, Math.round((value / max) * 100)) : 0}%`;
 
 const relative = (date) => {
@@ -287,10 +338,14 @@ const groups = [
         title: 'Betrieb',
         cards: [
             { title: 'Vorschläge', desc: 'Fischarten & Gewässer prüfen', href: '/admin/submissions', icon: InboxArrowDownIcon, tone: orange },
+            { title: 'Fehlermeldungen', desc: 'Hinweise zu Wiki-Einträgen', href: '/admin/corrections', icon: FlagIcon, tone: orange },
             { title: 'Tickets', desc: 'Probleme & Wünsche', href: '/admin/tickets', icon: ChatBubbleLeftRightIcon, tone: orange },
             { title: 'User', desc: 'Abo-Status & Impersonieren', href: '/admin/user', icon: UsersIcon, tone: accent },
             { title: 'Newsletter', desc: 'Erstellen, testen, versenden', href: '/admin/newsletter', icon: EnvelopeIcon, tone: accent },
-            { title: 'Development', desc: 'Backups, Wiki-Export, Pulse', href: '/admin/development', icon: CommandLineIcon, tone: green },
+            // Nur Admins – Editoren sehen die Karte nicht
+            ...(usePage().props.auth?.user?.is_admin
+                ? [{ title: 'Development', desc: 'Backups, Wiki-Export, Pulse', href: '/admin/development', icon: CommandLineIcon, tone: green }]
+                : []),
         ],
     },
     {

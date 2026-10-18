@@ -47,6 +47,7 @@ class AdminStatistics
             'recentMails' => $this->recentMails(),
             'topPages' => $this->topPages(),
             'topReferrers' => $this->topReferrers(),
+            'devices' => $this->devices(),
             'topFish' => $this->topFish(),
             'totals' => $this->totals(),
             'health' => $this->health(),
@@ -158,6 +159,30 @@ class AdminStatistics
             ->all();
     }
 
+    /**
+     * Geräteverteilung nach Besuchern (je Tag gezählt, wie die Besucher-Kennzahl) plus Anteil der App-Nutzung.
+     * Aufrufe von vor der Einführung (device = null) bleiben außen vor.
+     */
+    private function devices(): array
+    {
+        $visitors = fn($query) => (int) $query->selectRaw('COUNT(DISTINCT visitor) as v')->groupBy('date')->get()->sum('v');
+
+        $rows = collect(['mobile' => 'Handy', 'tablet' => 'Tablet', 'desktop' => 'Desktop'])
+            ->map(fn(string $label, string $key) => [
+                'key' => $key,
+                'label' => $label,
+                'visitors' => $visitors($this->pageViews($this->start, $this->end)->where('device', $key)),
+                'views' => $this->pageViews($this->start, $this->end)->where('device', $key)->count(),
+            ])
+            ->values();
+
+        return [
+            'rows' => $rows->all(),
+            'total' => $rows->sum('visitors'),
+            'appVisitors' => $visitors($this->pageViews($this->start, $this->end)->where('standalone', true)),
+        ];
+    }
+
     private function topFish(): array
     {
         return Catched::query()
@@ -182,6 +207,7 @@ class AdminStatistics
             'spots' => Schema::hasTable('spots') ? DB::table('spots')->count() : 0,
             'tickets' => Ticket::count(),
             'pendingSubmissions' => collect(SubmissionController::TYPES)->sum(fn(string $model) => $model::pending()->count()),
+            'openCorrections' => \App\Models\Correction::open()->count(),
         ];
     }
 

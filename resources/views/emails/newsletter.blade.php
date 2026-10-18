@@ -1,5 +1,5 @@
 <x-mail.wrapper :preheader="$subjectText">
-    <x-mail.heading eyebrow="Newsletter">
+    <x-mail.heading :eyebrow="$service ? 'Wichtige Mitteilung' : 'Newsletter'">
         {{ $subjectText }}
     </x-mail.heading>
 
@@ -9,7 +9,12 @@
 
     {{ $body }}
 
-    @if ($user)
+    @if ($user && $service)
+        <x-slot:subcopy>
+            Du bekommst diese E-Mail als wichtige Mitteilung zu deinem PetriLog-Konto – unabhängig von deiner
+            Newsletter-Einstellung.
+        </x-slot:subcopy>
+    @elseif ($user)
         <x-slot:subcopy>
             Du bekommst diese E-Mail, weil du den PetriLog-Newsletter erhältst.
             <a href="{{ URL::signedRoute('public.newsletter.unsubscribe', $user) }}" style="color:#0c6fc0;">Newsletter abbestellen</a>

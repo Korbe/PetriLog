@@ -37,7 +37,7 @@
                         <tr>
                             <th scope="col">User</th>
                             <th scope="col">Abo</th>
-                            <th scope="col">Bundesland</th>
+                            <th scope="col" class="hidden xl:table-cell">Bundesland</th>
                             <th scope="col" class="text-right">Fänge</th>
                             <th scope="col">Aktivität</th>
                             <th scope="col"><span class="sr-only">Aktionen</span></th>
@@ -48,13 +48,14 @@
                             <td>
                                 <div class="flex items-center gap-3">
                                     <span class="flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold"
-                                        :class="user.is_admin ? 'bg-(--app-ink) text-(--app-surface)' : 'bg-(--app-accent-soft) text-(--app-accent-ink)'">
+                                        :class="user.role !== 'user' ? 'bg-(--app-ink) text-(--app-surface)' : 'bg-(--app-accent-soft) text-(--app-accent-ink)'">
                                         {{ initials(user.name) }}
                                     </span>
                                     <div class="min-w-0">
                                         <p class="flex items-center gap-1.5 font-semibold text-(--app-ink)">
                                             <span class="truncate">{{ user.name }}</span>
-                                            <span v-if="user.is_admin" class="ui-badge">Admin</span>
+                                            <span v-if="user.role !== 'user'" class="ui-badge">{{ roles[user.role] }}</span>
+                                            <span v-if="user.is_demo" class="ui-badge">Demo</span>
                                             <span v-if="user.id === currentUserId" class="ui-badge">Du</span>
                                         </p>
                                         <p class="flex items-center gap-1.5 text-xs text-(--app-muted)">
@@ -71,7 +72,7 @@
                                     {{ user.plan === 'canceled' ? 'aktiv bis' : 'endete am' }} {{ formatDate(user.subscription_expires_at) }}
                                 </p>
                             </td>
-                            <td class="whitespace-nowrap text-sm">
+                            <td class="hidden whitespace-nowrap text-sm xl:table-cell">
                                 <span v-if="user.state">{{ user.state }}</span>
                                 <span v-else class="text-(--app-subtle)">–</span>
                             </td>
@@ -87,14 +88,23 @@
                                 <p class="text-xs text-(--app-subtle)">seit {{ formatDate(user.created_at) }}</p>
                             </td>
                             <td class="whitespace-nowrap text-right">
-                                <div class="flex justify-end gap-1">
+                                <div class="flex items-center justify-end gap-1">
+                                    <select v-if="canManage && user.id !== currentUserId" :value="user.role"
+                                        class="form-select mr-1 rounded-full! py-1! pl-3! pr-8! text-xs"
+                                        :aria-label="`Rolle von ${user.name}`" @change="changeRole(user, $event)">
+                                        <option v-for="(label, value) in roles" :key="value" :value="value">{{ label }}</option>
+                                    </select>
                                     <a :href="`mailto:${user.email}`" class="ui-icon-btn" :aria-label="`${user.name} eine E-Mail schreiben`" title="E-Mail schreiben">
                                         <EnvelopeIcon class="size-4" />
                                     </a>
-                                    <Link v-if="user.id !== currentUserId" :href="route('admin.impersonate', user.id)" class="ui-icon-btn"
+                                    <Link v-if="canImpersonate(user)" :href="route('admin.impersonate', user.id)" class="ui-icon-btn"
                                         :aria-label="`Als ${user.name} ansehen`" title="App als dieser User ansehen">
                                         <EyeIcon class="size-4" />
                                     </Link>
+                                    <button v-if="canDelete(user)" type="button" class="ui-icon-btn hover:text-(--app-danger)!"
+                                        :aria-label="`${user.name} löschen`" title="User löschen" @click="deleteUser(user)">
+                                        <TrashIcon class="size-4" />
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -110,7 +120,7 @@
                 <li v-for="user in visible" :key="user.id" class="ui-card p-4">
                     <div class="flex items-start gap-3">
                         <span class="flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold"
-                            :class="user.is_admin ? 'bg-(--app-ink) text-(--app-surface)' : 'bg-(--app-accent-soft) text-(--app-accent-ink)'">
+                            :class="user.role !== 'user' ? 'bg-(--app-ink) text-(--app-surface)' : 'bg-(--app-accent-soft) text-(--app-accent-ink)'">
                             {{ initials(user.name) }}
                         </span>
                         <div class="min-w-0 flex-1">
@@ -118,12 +128,12 @@
                             <a :href="`mailto:${user.email}`" class="block truncate text-xs text-(--app-muted)">{{ user.email }}</a>
                             <div class="mt-2 flex flex-wrap gap-1.5">
                                 <span class="ui-badge" :class="PLANS[user.plan].badge">{{ PLANS[user.plan].label }}</span>
-                                <span v-if="user.is_admin" class="ui-badge">Admin</span>
+                                <span v-if="user.role !== 'user'" class="ui-badge">{{ roles[user.role] }}</span>
                                 <span v-if="!user.verified" class="ui-badge ui-badge-float">unbestätigt</span>
                                 <span v-if="user.state" class="ui-badge">{{ user.state }}</span>
                             </div>
                         </div>
-                        <Link v-if="user.id !== currentUserId" :href="route('admin.impersonate', user.id)" class="ui-icon-btn shrink-0"
+                        <Link v-if="canImpersonate(user)" :href="route('admin.impersonate', user.id)" class="ui-icon-btn shrink-0"
                             :aria-label="`Als ${user.name} ansehen`">
                             <EyeIcon class="size-4" />
                         </Link>
@@ -133,6 +143,17 @@
                         <div><dt class="text-(--app-subtle)">Aktiv</dt><dd class="mt-0.5">{{ relativeTime(user.last_active_at) }}</dd></div>
                         <div><dt class="text-(--app-subtle)">Seit</dt><dd class="mt-0.5">{{ formatDate(user.created_at) }}</dd></div>
                     </dl>
+                    <div v-if="canManage && user.id !== currentUserId" class="mt-3 flex items-center gap-2 border-t border-(--app-border) pt-3">
+                        <select :value="user.role" class="form-select flex-1 rounded-full! py-1.5! text-sm"
+                            :aria-label="`Rolle von ${user.name}`" @change="changeRole(user, $event)">
+                            <option v-for="(label, value) in roles" :key="value" :value="value">{{ label }}</option>
+                        </select>
+                        <button v-if="canDelete(user)" type="button"
+                            class="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold text-(--app-danger) hover:bg-(--app-danger-soft)"
+                            @click="deleteUser(user)">
+                            <TrashIcon class="size-4" /> Löschen
+                        </button>
+                    </div>
                 </li>
                 <li v-if="!visible.length" class="ui-card px-4 py-10 text-center text-sm text-(--app-muted)">Keine User gefunden.</li>
             </ul>
@@ -142,16 +163,60 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
-import { EnvelopeIcon, EyeIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { EnvelopeIcon, EyeIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { confirmDialog } from '@/composables/useDialog'
 import { formatDate, formatNumber, initials, normalize, relativeTime } from '@/utils/format'
 
 const props = defineProps({
     users: { type: Array, default: () => [] },
+    roles: { type: Object, default: () => ({ user: 'User', editor: 'Editor', admin: 'Admin' }) },
+    // Rollen vergeben und User löschen dürfen nur Admins
+    canManage: { type: Boolean, default: false },
 })
 
 const currentUserId = usePage().props.auth.user.id
+
+// Admins lassen sich nie übernehmen, Editoren nur durch Admins (gleiche Regel wie im Backend)
+const canImpersonate = (user) => user.id !== currentUserId
+    && user.role !== 'admin'
+    && (user.role !== 'editor' || props.canManage)
+
+const canDelete = (user) => props.canManage && user.id !== currentUserId && user.role !== 'admin'
+
+const changeRole = async (user, event) => {
+    const role = event.target.value
+    const ok = await confirmDialog({
+        title: 'Rolle ändern?',
+        message: `${user.name} wird zu „${props.roles[role]}“.`
+            + (role === 'admin' ? ' Admins haben vollen Zugriff, inklusive Development und Backups.' : '')
+            + (role === 'editor' ? ' Editoren dürfen alles im Admin-Bereich außer Development und User löschen.' : ''),
+        confirmText: 'Rolle ändern',
+        tone: role === 'admin' ? 'warning' : 'primary',
+    })
+    if (!ok) {
+        event.target.value = user.role
+        return
+    }
+    router.patch(route('admin.user.role', user.id), { role }, {
+        preserveScroll: true,
+        onError: () => (event.target.value = user.role),
+    })
+}
+
+const deleteUser = async (user) => {
+    const ok = await confirmDialog({
+        title: `${user.name} löschen?`,
+        message: `Das Konto wird mit allen ${user.catches_count} Fängen, Fotos und Spots endgültig gelöscht. `
+            + 'Ein laufendes Abo wird sofort beendet. Das lässt sich nicht rückgängig machen.',
+        confirmText: 'Endgültig löschen',
+        tone: 'danger',
+    })
+    if (ok) {
+        router.delete(route('admin.user.destroy', user.id), { preserveScroll: true })
+    }
+}
 
 const PLANS = {
     plus: { label: 'Plus', badge: 'ui-badge-success' },
@@ -167,7 +232,7 @@ const FILTERS = {
     free: (u) => u.plan === 'free',
     unverified: (u) => !u.verified,
     inactive: (u) => !u.catches_count,
-    admins: (u) => u.is_admin,
+    team: (u) => u.role !== 'user',
 }
 
 const filter = ref('all')
@@ -178,7 +243,7 @@ const segments = computed(() => [
     { key: 'free', label: 'Gratis', dot: 'bg-(--app-accent)' },
     { key: 'unverified', label: 'Unbestätigt', dot: 'bg-(--app-float)' },
     { key: 'inactive', label: 'Ohne Fänge', dot: 'bg-(--app-border-strong)' },
-    { key: 'admins', label: 'Admins', dot: 'bg-(--app-ink)' },
+    { key: 'team', label: 'Team', dot: 'bg-(--app-ink)' },
 ].map(s => ({ ...s, count: props.users.filter(FILTERS[s.key]).length })))
 
 const sortOptions = [

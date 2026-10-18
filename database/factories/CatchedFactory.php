@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Catched;
 use App\Models\Fish;
 use App\Models\Lake;
+use App\Models\River;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -20,18 +21,12 @@ class CatchedFactory extends Factory
     {
         $useLake = $this->faker->boolean();
 
-        // Fish aus DB zufällig auswählen
-        $fishId = Fish::inRandomOrder()->value('id');
-
-        // Lake oder River zufällig aus definierten ID-Bereichen
-        $lakeId = $useLake ? rand(2, 100) : null;
-        $riverId = !$useLake ? rand(1, 20) : null;
-
+        // Vorhandene Stammdaten nutzen (Seeder), sonst – z. B. in Tests – passende Einträge anlegen
         return [
-            'user_id' => 10,
-            'fish_id' => $fishId,
-            'lake_id' => $lakeId,
-            'river_id' => $riverId,
+            'user_id' => User::factory(),
+            'fish_id' => fn() => Fish::inRandomOrder()->value('id') ?? Fish::factory(),
+            'lake_id' => $useLake ? fn() => Lake::inRandomOrder()->value('id') ?? Lake::factory() : null,
+            'river_id' => $useLake ? null : fn() => River::inRandomOrder()->value('id') ?? River::factory(),
             'length' => $this->faker->numberBetween(10, 100),
             'weight' => $this->faker->numberBetween(100, 10000),
             'depth' => $this->faker->numberBetween(1, 50),

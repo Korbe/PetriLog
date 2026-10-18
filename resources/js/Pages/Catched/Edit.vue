@@ -58,7 +58,7 @@
           <p class="ui-kicker">Position</p>
           <p class="mt-1 text-sm text-(--app-muted)">Tippe in die Karte, um den Fangort zu ändern.</p>
         </div>
-        <GoogleMapPicker label="Position auswählen" :initialLat="form.latitude" :initialLng="form.longitude"
+        <MapPicker label="Position auswählen" :initialLat="form.latitude" :initialLng="form.longitude"
           @locationSelected="updateLocation" />
         <div class="grid gap-4 md:grid-cols-[2fr_1fr_1fr]">
           <VInput label="Adresse" v-model="form.address" :error="form.errors.address" />
@@ -109,7 +109,7 @@ import VInput from '@/components/VInput.vue'
 import VDateTimePicker from '@/components/VDateTimePicker.vue'
 import { useForm, router, usePage } from '@inertiajs/vue3'
 import { computed, onMounted, ref } from 'vue'
-import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
+import MapPicker from '@/components/MapPicker.vue'
 import FullLoadingScreen from '@/components/FullLoadingScreen.vue'
 import VEditor from '@/components/VEditor.vue'
 import CatchSpeciesWaterFields from '@/components/CatchSpeciesWaterFields.vue'

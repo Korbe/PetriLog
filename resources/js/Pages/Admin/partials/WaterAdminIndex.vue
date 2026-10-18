@@ -62,7 +62,7 @@
                                     {{ item.name }}
                                 </Link>
                                 <span v-if="item.is_default" class="ui-badge ml-1.5">Platzhalter</span>
-                                <p class="text-xs text-(--app-subtle)">geändert {{ formatDate(item.updated_at) }}</p>
+                                <p class="text-xs text-(--app-subtle)">geändert {{ formatDate(item.updated_at) }}<template v-if="item.updated_by"> von {{ item.updated_by }}</template></p>
                             </td>
                             <td>
                                 <div v-if="item.states.length" class="flex flex-wrap gap-1">

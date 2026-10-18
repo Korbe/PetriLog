@@ -109,7 +109,7 @@ class SubmissionTest extends TestCase
 
     public function test_admin_can_approve_a_submission(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $fish = $this->pendingFish(User::factory()->create());
 
         $this->actingAs($admin)->get(route('admin.submissions.index'))
@@ -125,7 +125,7 @@ class SubmissionTest extends TestCase
 
     public function test_rejecting_moves_catches_to_the_replacement_and_deletes_the_submission(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $owner = User::factory()->create();
         $fish = $this->pendingFish($owner, 'Hächt');
         $official = Fish::factory()->create(['name' => 'Hecht']);
@@ -163,7 +163,7 @@ class SubmissionTest extends TestCase
         $owner = User::factory()->create();
         $fish = $this->pendingFish($owner);
 
-        $this->actingAs(User::factory()->create(['is_admin' => true]))
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
             ->post(route('admin.submissions.approve', ['type' => 'fish', 'id' => $fish->id]));
 
         Mail::assertQueued(SubmissionReviewedMail::class, fn(SubmissionReviewedMail $mail) => $mail->hasTo($owner->email)
@@ -181,7 +181,7 @@ class SubmissionTest extends TestCase
             'fish_id' => $fish->id, 'lake_id' => Lake::factory()->create()->id, 'river_id' => null,
         ]);
 
-        $this->actingAs(User::factory()->create(['is_admin' => true]))
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
             ->post(route('admin.submissions.reject', ['type' => 'fish', 'id' => $fish->id]), [
                 'replacement_id' => $official->id, 'reason' => 'Gibt es bereits als „Hecht“.',
             ]);

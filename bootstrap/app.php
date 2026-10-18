@@ -27,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
             \App\Http\Middleware\TrackPageView::class,
+            \App\Http\Middleware\ProtectDemoAccount::class,
             // IsAdminMiddleware::class
         ]);
 
@@ -37,6 +38,20 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->respond(function (Response $response, Throwable $e, Request $request) {
             if ($response->getStatusCode() === 419 && ! $request->expectsJson()) {
                 return back()->with('error', 'Sitzung abgelaufen, bitte erneut versuchen.');
+            }
+
+            // Gebrandete Fehlerseite mit Navigation (Zurück / Dashboard) statt einer Sackgasse – auch in der PWA,
+            // die keinen Browser-Zurück-Button hat. Im Debug-Modus bleibt bei 500 die Laravel-Fehlerseite.
+            $status = $response->getStatusCode();
+            $handled = [403, 404, 405, 429, 500, 503];
+            if (in_array($status, $handled, true) && ! $request->expectsJson()
+                && ! ($status >= 500 && config('app.debug'))) {
+                $user = $request->hasSession() ? $request->user() : null;
+
+                return \Inertia\Inertia::render('Public/Error', [
+                    'status' => $status,
+                    'auth' => ['user' => $user ? ['id' => $user->id, 'name' => $user->name] : null],
+                ])->toResponse($request)->setStatusCode($status);
             }
 
             return $response;

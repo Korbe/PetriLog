@@ -41,6 +41,7 @@
                                     <Link :href="route('admin.association.edit', assoc.id)">
                                         {{ assoc.name }}
                                     </Link>
+                                    <p class="text-xs font-normal text-(--app-subtle)">geändert {{ formatDate(assoc.updated_at) }}<template v-if="assoc.editor"> von {{ assoc.editor.name }}</template></p>
                                 </td>
 
                                 <!-- Bundesland -->
@@ -74,6 +75,7 @@ import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+import { formatDate } from '@/utils/format';
 
 interface State {
     id: number;

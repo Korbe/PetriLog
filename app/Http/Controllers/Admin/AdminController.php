@@ -21,6 +21,7 @@ class AdminController extends Controller
         return Inertia::render('Admin/Index', [
             'stats' => $stats,
             'pendingSubmissions' => $stats['totals']['pendingSubmissions'],
+            'openCorrections' => $stats['totals']['openCorrections'],
         ]);
     }
 }

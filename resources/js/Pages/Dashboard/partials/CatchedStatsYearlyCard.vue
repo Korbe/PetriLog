@@ -16,7 +16,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip } from 'chart.js'
-import { useDark } from '@vueuse/core'
+import { useAppDark } from '@/composables/useTheme'
 import { appChartTheme } from '@/services/ChartjsConfig'
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip)
@@ -36,7 +36,7 @@ const year = new Date().getFullYear()
 
 const canvas = ref(null)
 let chart = null
-const darkMode = useDark()
+const darkMode = useAppDark()
 
 const initChart = () => {
   const theme = appChartTheme()

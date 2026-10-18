@@ -153,8 +153,10 @@ const groups = computed(() => [
     items: [
       { label: 'PetriLog Abo', href: '/billing-portal', icon: StarIcon, external: true },
       { label: 'Ticket erstellen', href: '/ticket', icon: LifebuoyIcon },
-      ...(user.value?.is_admin ? [
+      ...(user.value?.is_staff ? [
         { label: 'Admin', href: '/admin', icon: Cog6ToothIcon, exclude: '/admin/development' },
+      ] : []),
+      ...(user.value?.is_admin ? [
         { label: 'Development', href: '/admin/development', icon: CommandLineIcon },
       ] : []),
     ],

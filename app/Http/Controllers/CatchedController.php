@@ -130,6 +130,7 @@ class CatchedController extends Controller
             'air_pressure' => 'nullable|integer',
             'bait' => 'nullable|string',
             'released' => 'nullable|boolean',
+            'weather_notify' => 'nullable|boolean',
             'remark' => 'nullable|string',
             'photos' => 'nullable|array|max:3',
             'photos.*' => 'image|max:30720', // 30MB
@@ -173,7 +174,6 @@ class CatchedController extends Controller
     {
         $this->authorize('view', $catched);
 
-        $shareurl = route('public.catched.show', $catched->id);
         $editurl = route('app.catched.edit', $catched->id);
 
         // Medien sortieren nach order_column
@@ -186,9 +186,32 @@ class CatchedController extends Controller
         return Inertia::render('Catched/Show', [
             'catched' => $catched,
             'astro' => Astro::forCatch($catched->date, (float) $catched->latitude, (float) $catched->longitude),
-            'shareUrl' => $shareurl,
+            'shareUrl' => $catched->shareUrl(),
+            'sharedAt' => $catched->shared_at,
             'editUrl' => $editurl,
         ]);
+    }
+
+    /**
+     * Öffentlichen Freigabe-Link erstellen – erst dann ist der Fang für andere sichtbar.
+     */
+    public function share(Catched $catched)
+    {
+        $this->authorize('update', $catched);
+        $catched->share();
+
+        return back()->with('success', 'Öffentlicher Link erstellt.');
+    }
+
+    /**
+     * Freigabe beenden – der bisherige Link funktioniert danach nicht mehr.
+     */
+    public function unshare(Catched $catched)
+    {
+        $this->authorize('update', $catched);
+        $catched->unshare();
+
+        return back()->with('success', 'Freigabe beendet – der Fang ist wieder privat.');
     }
 
     public function edit(Catched $catched)

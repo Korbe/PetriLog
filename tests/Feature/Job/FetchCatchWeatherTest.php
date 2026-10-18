@@ -9,7 +9,9 @@ use App\Models\Lake;
 use App\Models\User;
 use App\Services\GeoSphereWeather;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Mail\WeatherReadyMail;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
@@ -140,5 +142,77 @@ class FetchCatchWeatherTest extends TestCase
         $this->assertNull($catched->fresh()->weather_status);
         $this->assertNull($catched->fresh()->weather_temperature);
         Queue::assertPushed(FetchCatchWeather::class, 2);
+    }
+
+    private function fakeWeather(): void
+    {
+        Http::fake(['dataset.api.hub.geosphere.at/*' => Http::response($this->geosphereResponse([
+            '2026-10-14T05:00+00:00', '2026-10-14T06:00+00:00', '2026-10-14T07:00+00:00', '2026-10-14T08:00+00:00',
+        ]))]);
+    }
+
+    public function test_user_is_notified_once_when_weather_arrives_if_requested(): void
+    {
+        Mail::fake();
+        $this->fakeWeather();
+
+        $catched = $this->catchAt('2026-10-14 07:40:00');
+        $catched->forceFill(['weather_notify' => true])->save();
+
+        $this->runJob($catched);
+
+        Mail::assertQueued(WeatherReadyMail::class, fn($mail) => $mail->hasTo($catched->user->email));
+        $this->assertFalse($catched->fresh()->weather_notify);
+
+        // Erneuter Abruf (z. B. nach Bearbeiten) → keine zweite Mail
+        $this->runJob($catched);
+        Mail::assertQueuedCount(1);
+    }
+
+    public function test_no_notification_without_request_or_without_data(): void
+    {
+        Mail::fake();
+        $this->fakeWeather();
+
+        $this->runJob($this->catchAt('2026-10-14 07:40:00'));
+
+        $berlin = $this->catchAt('2026-10-14 07:00:00', 52.52, 13.40);
+        $berlin->forceFill(['weather_notify' => true])->save();
+        $this->runJob($berlin);
+
+        Mail::assertNothingQueued();
+        $this->assertFalse($berlin->fresh()->weather_notify);
+    }
+
+    public function test_weather_mail_renders_the_values(): void
+    {
+        $this->fakeWeather();
+        $catched = $this->catchAt('2026-10-14 07:40:00');
+        $this->runJob($catched);
+
+        $html = (new WeatherReadyMail($catched->fresh()))->render();
+
+        $this->assertStringContainsString('8,3 °C', $html);
+        $this->assertStringContainsString('1.032 hPa · steigend', $html);
+        $this->assertStringContainsString('11 km/h aus O', $html);
+        $this->assertStringContainsString(route('app.catched.show', $catched->id), $html);
+    }
+
+    public function test_checkbox_is_stored_when_creating_a_catch(): void
+    {
+        Queue::fake();
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post(route('app.catched.store'), [
+            'date' => now()->toIso8601String(),
+            'fish_id' => Fish::factory()->create()->id,
+            'lake_id' => Lake::factory()->create()->id,
+            'length' => 50,
+            'latitude' => 46.6,
+            'longitude' => 13.9,
+            'weather_notify' => true,
+        ])->assertSessionHasNoErrors();
+
+        $this->assertTrue($user->catched()->first()->weather_notify);
     }
 }

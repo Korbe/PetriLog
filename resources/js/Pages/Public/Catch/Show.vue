@@ -125,7 +125,7 @@
           </a>
         </div>
 
-        <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="fishName" />
+        <MapView :latitude="catched.latitude" :longitude="catched.longitude" :title="fishName" />
       </div>
 
       <CtaAlternative class="overflow-hidden" heading="Logge jetzt deine Fangmomente"
@@ -141,7 +141,7 @@ import Layout from '@/Layouts/Public/Layout.vue'
 import PageIllustration from '../PageIllustration.vue'
 import VButton from '@/components/VButton.vue'
 import { Head } from '@inertiajs/vue3'
-import GoogleMap from '@/components/GoogleMap.vue'
+import MapView from '@/components/MapView.vue'
 import CtaAlternative from '../CtaAlternative.vue'
 
 const props = defineProps({

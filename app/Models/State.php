@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TracksEditor;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -13,6 +14,7 @@ class State extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
+    use TracksEditor;
 
     protected $fillable = [
         'name',

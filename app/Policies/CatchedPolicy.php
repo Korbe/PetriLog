@@ -36,6 +36,6 @@ class CatchedPolicy
      */
     protected function isOwnerOrAdmin(User $user, Catched $catched): bool
     {
-        return $user->id === $catched->user_id || $user->isAdmin();
+        return $user->id === $catched->user_id || $user->isStaff();
     }
 }

@@ -14,6 +14,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    public const DEMO_EMAIL = 'demo@petrilog.com';
+
+    // Rollen: Editoren dürfen alles im Admin-Bereich außer Development, Benutzer löschen und Rollen vergeben
+    public const ROLE_USER = 'user';
+    public const ROLE_EDITOR = 'editor';
+    public const ROLE_ADMIN = 'admin';
+
+    public const ROLES = [
+        self::ROLE_USER => 'User',
+        self::ROLE_EDITOR => 'Editor',
+        self::ROLE_ADMIN => 'Admin',
+    ];
+
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -43,7 +56,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'newsletter_opt_out',
         'state_id',
-        'is_admin',
     ];
 
     /**
@@ -53,7 +65,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $hidden = [
         'password',
-        'is_admin',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
@@ -78,7 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean'
         ];
     }
 
@@ -97,18 +107,44 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(State::class);
     }
 
+    /**
+     * Öffentlicher Demo-Zugang (siehe DemoUserSeeder) – Profil und Abo sind dort gesperrt.
+     */
+    public function isDemo(): bool
+    {
+        return strcasecmp((string) $this->email, self::DEMO_EMAIL) === 0;
+    }
+
     public function isAdmin(): bool
     {
-        return $this->is_admin === true;
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isEditor(): bool
+    {
+        return $this->role === self::ROLE_EDITOR;
+    }
+
+    /**
+     * Admin oder Editor – Zugang zum Admin-Bereich.
+     */
+    public function isStaff(): bool
+    {
+        return $this->isAdmin() || $this->isEditor();
     }
 
     public function canImpersonate(): bool
     {
-        return $this->isAdmin();
+        return $this->isStaff();
     }
 
     public function canBeImpersonated(): bool
     {
-        return true;
+        // Admins nie; Editoren nur durch Admins
+        if ($this->isAdmin()) {
+            return false;
+        }
+
+        return ! $this->isEditor() || (bool) auth()->user()?->isAdmin();
     }
 }

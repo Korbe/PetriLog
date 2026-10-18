@@ -26,7 +26,7 @@ class NewsletterAdminControllerTest extends TestCase
 
     public function test_user_cannot_access_newsletter_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
 
         $this->actingAs($user)->get(route('admin.newsletter.index'))->assertRedirect('/dashboard');
         $this->actingAs($user)->post(route('admin.newsletter.send'), [])->assertRedirect('/dashboard');
@@ -35,7 +35,7 @@ class NewsletterAdminControllerTest extends TestCase
 
     public function test_admin_can_view_newsletter_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $response = $this->actingAs($admin)->get(route('admin.newsletter.index'));
         $response->assertStatus(200);
@@ -51,7 +51,7 @@ class NewsletterAdminControllerTest extends TestCase
         Mail::fake();
         Queue::fake();
 
-        $admin = User::factory()->create(['is_admin' => true, 'newsletter_opt_out' => true,]);
+        $admin = User::factory()->create(['role' => 'admin', 'newsletter_opt_out' => true,]);
 
         // Zwei User mit verified Email
         $users = User::factory()->count(2)->create([
@@ -73,7 +73,7 @@ class NewsletterAdminControllerTest extends TestCase
         $response = $this->actingAs($admin)->post(route('admin.newsletter.send'), $data);
 
         $response->assertRedirect(route('admin.newsletter.index'));
-        $response->assertSessionHas('success', 'Newsletter an 2 User erfolgreich verschickt 🎉');
+        $response->assertSessionHas('success', 'Newsletter an 2 User verschickt 🎉');
 
         // Job wurde für die 2 User dispatched
         Queue::assertPushed(SendNewsletterMail::class, 2);
@@ -84,10 +84,69 @@ class NewsletterAdminControllerTest extends TestCase
         });
     }
 
+    public function test_service_message_reaches_opted_out_users_only_after_confirmation(): void
+    {
+        Mail::fake();
+        Queue::fake();
+
+        $admin = User::factory()->create(['role' => 'admin', 'email_verified_at' => now(), 'newsletter_opt_out' => false]);
+        User::factory()->create(['email_verified_at' => now(), 'newsletter_opt_out' => true]);
+        User::factory()->create(['email_verified_at' => null, 'newsletter_opt_out' => false]);
+
+        $data = ['subject' => 'Neues Design', 'content' => '<p>PetriLog sieht jetzt anders aus.</p>', 'audience' => 'all'];
+
+        // Ohne ausdrückliche Bestätigung geht nichts raus
+        $this->actingAs($admin)->post(route('admin.newsletter.send'), $data)->assertSessionHasErrors('service_confirmed');
+        Queue::assertNothingPushed();
+
+        $this->actingAs($admin)->post(route('admin.newsletter.send'), [...$data, 'service_confirmed' => true])
+            ->assertSessionHas('success', 'Service-Mitteilung an 2 User verschickt 🎉');
+
+        // Bestätigte Adressen inkl. Abgemeldeter, nie unbestätigte
+        Queue::assertPushed(SendNewsletterMail::class, 2);
+        Queue::assertPushed(SendNewsletterMail::class, fn($job) => $job->service === true);
+    }
+
+    public function test_index_shows_recipient_counts(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'email_verified_at' => now(), 'newsletter_opt_out' => false]);
+        User::factory()->count(2)->create(['email_verified_at' => now(), 'newsletter_opt_out' => true]);
+        User::factory()->create(['email_verified_at' => null]);
+
+        $this->actingAs($admin)->get(route('admin.newsletter.index'))
+            ->assertInertia(fn($page) => $page
+                ->where('stats.subscribers', 1)
+                ->where('stats.optedOut', 2)
+                ->where('stats.all', 3)
+                ->where('stats.unverified', 1));
+    }
+
+    public function test_preview_renders_the_real_mail(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'name' => 'Lukas']);
+
+        $newsletter = $this->actingAs($admin)
+            ->post(route('admin.newsletter.preview'), ['subject' => 'Frühjahr', 'content' => '<p>Petri Heil!</p>'])
+            ->assertOk()
+            ->getContent();
+
+        $this->assertStringContainsString('Frühjahr', $newsletter);
+        $this->assertStringContainsString('Petri Heil!', $newsletter);
+        $this->assertStringContainsString('Hallo Lukas', $newsletter);
+        $this->assertStringContainsString('Newsletter abbestellen', $newsletter);
+
+        $service = $this->actingAs($admin)
+            ->post(route('admin.newsletter.preview'), ['subject' => 'X', 'content' => 'Y', 'audience' => 'all'])
+            ->getContent();
+
+        $this->assertStringContainsString('Wichtige Mitteilung', $service);
+        $this->assertStringNotContainsString('Newsletter abbestellen', $service);
+    }
+
     public function test_admin_can_send_test_newsletter_to_self(): void
     {
         Queue::fake();
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $data = [
             'subject' => 'Test',

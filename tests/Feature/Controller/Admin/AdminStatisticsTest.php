@@ -36,7 +36,7 @@ class AdminStatisticsTest extends TestCase
 
     public function test_bots_admin_pages_and_partial_reloads_are_not_counted(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $this->withHeaders(['User-Agent' => 'Googlebot/2.1 (+http://www.google.com/bot.html)'])->get(route('public.pricing'));
         $this->withHeaders(['User-Agent' => self::BROWSER])->actingAs($admin)->get(route('admin.index'));
@@ -59,7 +59,7 @@ class AdminStatisticsTest extends TestCase
 
     public function test_admin_dashboard_shows_statistics_for_the_period(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $angler = User::factory()->create();
 
         Catched::factory()->forUser($angler)->count(3)->create([
@@ -90,9 +90,32 @@ class AdminStatisticsTest extends TestCase
                 ->where('stats.series.catches', fn($days) => collect($days)->sum() === 3));
     }
 
+    public function test_device_and_installed_app_are_tracked_and_summarised(): void
+    {
+        $iphone = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148';
+        $windows = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130.0 Safari/537.36';
+
+        // Start der installierten App über /app (start_url des Manifests)
+        $this->actingAs(User::factory()->create())->withHeaders(['User-Agent' => $iphone])->get('/app');
+        auth()->logout();
+        $this->flushHeaders()->withHeaders(['User-Agent' => $windows])->get('/pricing');
+
+        $this->assertDatabaseHas('page_views', ['device' => 'mobile', 'standalone' => true, 'route' => 'app.pwa.dashboard']);
+        $this->assertDatabaseHas('page_views', ['device' => 'desktop', 'standalone' => false]);
+
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->get(route('admin.index'))
+            ->assertInertia(fn(Assert $page) => $page
+                ->where('stats.devices.total', 2)
+                ->where('stats.devices.appVisitors', 1)
+                ->where('stats.devices.rows.0.key', 'mobile')
+                ->where('stats.devices.rows.0.visitors', 1)
+                ->where('stats.devices.rows.2.visitors', 1));
+    }
+
     public function test_invalid_period_is_rejected(): void
     {
-        $this->actingAs(User::factory()->create(['is_admin' => true]))
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
             ->get(route('admin.index', ['period' => 12]))
             ->assertSessionHasErrors('period');
     }

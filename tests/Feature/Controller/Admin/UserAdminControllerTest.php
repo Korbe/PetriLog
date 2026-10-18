@@ -22,7 +22,7 @@ class UserAdminControllerTest extends TestCase
 
     public function test_user_cannot_access_user_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
 
         $this->actingAs($user)->get(route('admin.user.index'))->assertRedirect('/dashboard');
     }
@@ -31,7 +31,7 @@ class UserAdminControllerTest extends TestCase
     {
         // 🔹 Admin
         $admin = User::factory()->create([
-            'is_admin' => true,
+            'role' => 'admin',
         ]);
 
         // 🔹 State
@@ -44,7 +44,7 @@ class UserAdminControllerTest extends TestCase
             'name' => 'Max Mustermann',
             'email' => 'max@test.de',
             'state_id' => $state->id,
-            'is_admin' => false,
+            'role' => 'user',
         ]);
 
         // 🔹 Subscription (mit ends_at → gilt als canceled!)
@@ -104,7 +104,7 @@ class UserAdminControllerTest extends TestCase
     public function test_non_admin_user_cannot_access_user_index(): void
     {
         $user = User::factory()->create([
-            'is_admin' => false,
+            'role' => 'user',
         ]);
 
         $response = $this->actingAs($user)

@@ -27,7 +27,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_user_cannot_access_lake_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $lake = Lake::factory()->create();
 
         $this->actingAs($user)->get(route('admin.lake.index'))->assertRedirect('/dashboard');
@@ -39,7 +39,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_admin_can_view_lake_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $lakes = Lake::factory()->count(2)->create();
 
         $response = $this->actingAs($admin)->get(route('admin.lake.index'));
@@ -54,7 +54,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_admin_can_view_lake_create_form(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         State::factory()->count(2)->create();
         Fish::factory()->count(2)->create();
 
@@ -71,7 +71,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_admin_can_store_lake_with_states_and_fish(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $states = State::factory()->count(2)->create();
         $fish = Fish::factory()->count(2)->create();
@@ -99,7 +99,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_admin_can_view_lake_edit_form(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $lake = Lake::factory()->create();
         $states = State::factory()->count(2)->create();
@@ -123,7 +123,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_admin_can_update_lake_with_states_and_fish(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $lake = Lake::factory()->create(['name' => 'Altsee']);
         $oldState = State::factory()->create();
@@ -156,7 +156,7 @@ class LakeAdminControllerTest extends TestCase
 
     public function test_admin_can_delete_lake(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $lake = Lake::factory()->create();
 
         $response = $this->actingAs($admin)->delete(route('admin.lake.destroy', $lake));

@@ -191,7 +191,7 @@ const modes = [
     { value: 'markers', label: 'Fänge', icon: MapIcon },
     { value: 'heat', label: 'Heatmap', icon: FireIcon },
 ]
-const mode = ref('markers')
+const mode = ref('heat')
 const showSpots = ref(true)
 const fishFilter = ref('')
 const yearFilter = ref('')

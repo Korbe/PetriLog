@@ -55,12 +55,13 @@ class GalleryControllerTest extends TestCase
                     'catcheds.0',
                     fn(Assert $c) =>
                     $c->where('id', $withPhoto->id)
-                        ->where('name', $withPhoto->name)
+                        ->where('name', $withPhoto->fish->name)
                         ->where('date', $withPhoto->date->format('d.m.Y'))
                         ->where('water.type', 'lake')
                         ->where('water.name', 'Starnberger See')
                         ->has('images', 1)
                         ->has('images.0.url')
+                        ->etc()
                 )
                 ->has('dateRange.startDate')
                 ->has('dateRange.endDate')

@@ -32,6 +32,7 @@ class WaterAdminRow
             'completeness' => $fields,
             'completeness_score' => count(array_filter($fields)),
             'updated_at' => $water->updated_at,
+            'updated_by' => $water->editor?->name,
         ];
     }
 }

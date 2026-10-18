@@ -28,7 +28,7 @@ class FishAdminControllerTest extends TestCase
 
     public function test_user_cannot_access_fish_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $fish = Fish::factory()->create();
 
         $this->actingAs($user)->get(route('admin.fish.index'))->assertRedirect('/dashboard');
@@ -43,7 +43,7 @@ class FishAdminControllerTest extends TestCase
      */
     public function test_admin_can_view_fish_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $fish = Fish::factory()->count(2)->create();
 
         $response = $this->actingAs($admin)->get(route('admin.fish.index'));
@@ -61,7 +61,7 @@ class FishAdminControllerTest extends TestCase
      */
     public function test_user_cannot_access_fish_index(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
 
         $response = $this->actingAs($user)->get(route('admin.fish.index'));
 
@@ -75,7 +75,7 @@ class FishAdminControllerTest extends TestCase
      */
     public function test_admin_can_view_fish_create(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $response = $this->actingAs($admin)->get(route('admin.fish.create'));
 
@@ -92,7 +92,7 @@ class FishAdminControllerTest extends TestCase
     public function test_admin_can_store_fish_with_photo(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $file = UploadedFile::fake()->image('fish.jpg');
 
@@ -119,7 +119,7 @@ class FishAdminControllerTest extends TestCase
     public function test_admin_can_view_fish_edit_with_media(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $fish = Fish::factory()->create();
 
         $fish->addMedia(UploadedFile::fake()->image('fish.jpg'))
@@ -142,7 +142,7 @@ class FishAdminControllerTest extends TestCase
     public function test_admin_can_update_fish_with_new_photo(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $fish = Fish::factory()->create();
         $fish->addMedia(UploadedFile::fake()->image('old.jpg'))->toMediaCollection('fish');
 
@@ -170,7 +170,7 @@ class FishAdminControllerTest extends TestCase
      */
     public function test_admin_can_destroy_fish(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $fish = Fish::factory()->create();
 
         $response = $this->actingAs($admin)->delete(route('admin.fish.destroy', $fish));
@@ -188,7 +188,7 @@ class FishAdminControllerTest extends TestCase
     {
         Storage::fake('public');
 
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $fish = Fish::factory()->create();
 
         // Media hinzufügen

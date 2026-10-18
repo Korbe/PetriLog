@@ -1,10 +1,11 @@
 <script setup>
 // Shared detail view for lakes and rivers in the Gewässer-Wiki.
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import VButton from '@/components/VButton.vue';
-import { PencilSquareIcon, LightBulbIcon, ScaleIcon, TicketIcon, InformationCircleIcon } from '@heroicons/vue/24/outline';
+import ReportCorrectionDialog from '@/components/ReportCorrectionDialog.vue';
+import { PencilSquareIcon, LightBulbIcon, ScaleIcon, TicketIcon, InformationCircleIcon, FlagIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     water: { type: Object, required: true },
@@ -14,9 +15,10 @@ const props = defineProps({
 });
 
 const page = usePage();
-const isAdmin = computed(() => page.props.auth?.user?.is_admin === true);
+const isAdmin = computed(() => page.props.auth?.user?.is_staff === true);
 
 const label = computed(() => (props.kind === 'lake' ? 'See' : 'Fluss'));
+const reporting = ref(false);
 
 const facts = computed(() => [
     { key: 'fishing_rights', title: 'Fischereirechte', icon: ScaleIcon, html: props.water.fishing_rights },
@@ -28,11 +30,16 @@ const fish = computed(() => [...(props.water.fish ?? [])].sort((a, b) => a.name.
 
 <template>
     <PageWrapper :title="water.name" :eyebrow="`Gewässer-Wiki · ${label}`" :backTo="`/states/${stateId}`">
-        <template v-if="isAdmin" v-slot:actions>
-            <VButton variant="secondary" :href="`/admin/${kind}/${water.id}/edit`">
+        <template v-slot:actions>
+            <VButton variant="ghost" @click="reporting = true" title="Falsche oder fehlende Angaben melden">
+                <FlagIcon class="size-4" /> Fehler melden
+            </VButton>
+            <VButton v-if="isAdmin" variant="secondary" :href="`/admin/${kind}/${water.id}/edit`">
                 <PencilSquareIcon class="size-4" /> {{ label }} bearbeiten
             </VButton>
         </template>
+
+        <ReportCorrectionDialog :show="reporting" :type="kind" :id="water.id" :name="water.name" @close="reporting = false" />
 
         <div class="grid gap-5 md:gap-6 lg:grid-cols-12">
             <div class="space-y-5 md:space-y-6 lg:col-span-7">

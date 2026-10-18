@@ -25,7 +25,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import {
     Chart, BarController, BarElement, LineController, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Filler, Legend,
 } from 'chart.js'
-import { useDark } from '@vueuse/core'
+import { useAppDark } from '@/composables/useTheme'
 import { appChartTheme } from '@/services/ChartjsConfig'
 
 Chart.register(BarController, BarElement, LineController, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Filler, Legend)
@@ -45,7 +45,7 @@ const current = computed(() => metrics.find(m => m.key === selected.value))
 
 const canvas = ref(null)
 let chart = null
-const darkMode = useDark()
+const darkMode = useAppDark()
 
 const formatLabel = (date) => {
     const d = new Date(`${date}T12:00:00`)

@@ -17,7 +17,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, BarController, BarElement, LinearScale, TimeScale, Tooltip } from 'chart.js'
 import 'chartjs-adapter-moment'
-import { useDark } from '@vueuse/core'
+import { useAppDark } from '@/composables/useTheme'
 import { appChartTheme } from '@/services/ChartjsConfig'
 
 Chart.register(BarController, BarElement, LinearScale, TimeScale, Tooltip)
@@ -34,7 +34,7 @@ const props = defineProps({
 
 const canvas = ref(null)
 let chart = null
-const darkMode = useDark()
+const darkMode = useAppDark()
 
 const initChart = () => {
   const theme = appChartTheme()

@@ -13,7 +13,7 @@ class StateAdminController extends Controller
 {
     public function index()
     {
-        $states = State::with('media')
+        $states = State::with(['media', 'editor:id,name'])
             ->withCount([
                 'lakes' => fn($q) => $q->approved(),
                 'rivers' => fn($q) => $q->approved(),
@@ -32,6 +32,7 @@ class StateAdminController extends Controller
                 'associations_count' => $state->associations_count,
                 'users_count' => $state->users_count,
                 'updated_at' => $state->updated_at,
+                'updated_by' => $state->editor?->name,
             ]);
 
         return Inertia::render('Admin/State/Index', [

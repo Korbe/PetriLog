@@ -1,10 +1,15 @@
 <template>
     <PageWrapper :title="fish.name" eyebrow="Fisch-Wiki">
-        <template v-if="isAdmin" v-slot:actions>
-            <VButton variant="secondary" :href="`/admin/fish/${fish.id}/edit`">
+        <template v-slot:actions>
+            <VButton variant="ghost" @click="reporting = true" title="Falsche oder fehlende Angaben melden">
+                <FlagIcon class="size-4" /> Fehler melden
+            </VButton>
+            <VButton v-if="isAdmin" variant="secondary" :href="`/admin/fish/${fish.id}/edit`">
                 <PencilSquareIcon class="size-4" /> Fisch bearbeiten
             </VButton>
         </template>
+
+        <ReportCorrectionDialog :show="reporting" type="fish" :id="fish.id" :name="fish.name" @close="reporting = false" />
 
         <div class="grid gap-5 md:gap-6 lg:grid-cols-12">
             <!-- illustrations have a white background: keep the frame white in both themes -->
@@ -27,9 +32,12 @@
 <script setup>
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
-import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { FlagIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import ReportCorrectionDialog from '@/components/ReportCorrectionDialog.vue';
 import { usePage } from '@inertiajs/vue3';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+
+const reporting = ref(false);
 
 defineProps({
     fish: Object
@@ -38,7 +46,7 @@ defineProps({
 const page = usePage();
 
 const isAdmin = computed(() => {
-    return page.props.auth?.user?.is_admin === true;
+    return page.props.auth?.user?.is_staff === true;
 });
 
 onMounted(() => {

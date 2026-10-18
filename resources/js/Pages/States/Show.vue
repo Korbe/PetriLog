@@ -94,7 +94,7 @@ const props = defineProps({
 const page = usePage();
 
 const isAdmin = computed(() => {
-    return page.props.auth?.user?.is_admin === true;
+    return page.props.auth?.user?.is_staff === true;
 });
 
 const LakeIcon = (p) => h('svg', { ...p, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6 }, [

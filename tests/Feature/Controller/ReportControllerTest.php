@@ -92,7 +92,38 @@ class ReportControllerTest extends TestCase
             ->get(route('app.report.print', ['year' => 2026, 'water' => "lake-{$this->lake->id}"]))
             ->assertOk()
             ->assertSee('Fangstatistik 2026')
-            ->assertSee('Faaker See');
+            ->assertSee('Faaker See')
+            ->assertSee('PDF herunterladen');
+    }
+
+    public function test_pdf_download_contains_only_own_catches(): void
+    {
+        $this->user->forceFill(['name' => 'Max Muster'])->save();
+        $this->catchFor($this->user);
+        $this->catchFor(User::factory()->create(), ['length' => 99]);
+
+        $response = $this->actingAs($this->user)
+            ->get(route('app.report.pdf', ['year' => 2026, 'water' => "lake-{$this->lake->id}"]));
+
+        $response->assertOk();
+        $this->assertSame('application/pdf', $response->headers->get('Content-Type'));
+        $this->assertStringContainsString(
+            'attachment; filename=fangmeldung-2026-faaker-see-max-muster.pdf',
+            $response->headers->get('Content-Disposition')
+        );
+        $this->assertStringStartsWith('%PDF-', $response->getContent());
+
+        // Inhalt über die gerenderte Vorlage prüfen (PDF-Text ist komprimiert)
+        $html = view('reports.catches-pdf', (fn() => $this->reportData(request()->merge(['year' => 2026])))
+            ->call(app(\App\Http\Controllers\ReportController::class)))->render();
+        $this->assertStringContainsString('Fangstatistik 2026', $html);
+        $this->assertStringContainsString('70 cm', $html);
+        $this->assertStringNotContainsString('99 cm', $html);
+    }
+
+    public function test_pdf_requires_login(): void
+    {
+        $this->get(route('app.report.pdf'))->assertRedirect('/login');
     }
 
     public function test_release_status_can_be_set_only_for_own_catches(): void

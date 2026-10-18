@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Jobs\FetchCatchWeather;
 use App\Models\Catched;
+use App\Models\Correction;
 use App\Models\Fish;
 use App\Models\Lake;
 use App\Models\River;
@@ -15,21 +17,22 @@ use Illuminate\Support\Facades\Hash;
 use RuntimeException;
 
 /**
- * Demo-Account mit realistischen Fängen (Kärnten/Steiermark) und Fotos.
- * Idempotent: Fänge des Demo-Users werden bei jedem Lauf gelöscht und neu angelegt.
+ * Demo-Account mit realistischen Fängen (Kärnten) und Fotos.
+ * Idempotent: Alles, was Besucher im Demo-Konto angelegt haben (Fänge, Fotos, Spots, Meldungen), wird bei jedem
+ * Lauf gelöscht und neu angelegt. Läuft jede Nacht um Mitternacht über `php artisan demo:reset` (routes/console.php).
  */
 class DemoUserSeeder extends Seeder
 {
     use UsesSeedData;
 
-    public const EMAIL = 'demo@petrilog.com';
+    public const EMAIL = User::DEMO_EMAIL;
 
     /**
      * Einheiten: length cm, weight g, depth cm, temperature °C (Wasser), air_pressure hPa.
      * days_ago/time → Datum relativ zu now(). Fisch und Gewässer per Name (exakt wie in data/*.json).
      */
     /**
-     * Bewusst nur 4 Fänge: Ohne Abo sind 5 erlaubt, so kann der Demo-User selbst noch einen anlegen.
+     * Bewusst nur 3 Fänge: Ohne Abo sind 5 erlaubt, so können Besucher selbst noch zwei Fänge ausprobieren.
      */
     private const CATCHES = [
         [
@@ -39,14 +42,6 @@ class DemoUserSeeder extends Seeder
             'latitude' => 46.6330, 'longitude' => 14.1400, 'address' => 'Wörthersee, Pörtschach am Wörthersee',
             'remark' => '<p>Biss direkt an der Schilfkante, kurz bevor die Sonne weg war. <strong>Schöner Herbsthecht</strong>, schonend released.</p>',
             'photos' => ['catches/hecht-1.jpg'],
-        ],
-        [
-            'fish' => 'Regenbogenforelle', 'lake' => 'Millstätter See', 'days_ago' => 40, 'time' => '06:45',
-            'length' => 46, 'weight' => 1150, 'depth' => 400, 'temperature' => 18, 'air_pressure' => 1017,
-            'bait' => 'Blinker 15 g, kupfer',
-            'latitude' => 46.7950, 'longitude' => 13.5800, 'address' => 'Millstätter See, Millstatt',
-            'remark' => '<p>Weit ausgeworfen und langsam eingeholt. <strong>Mehrere Sprünge</strong> im Drill.</p>',
-            'photos' => ['catches/regenbogenforelle-1.jpg', 'catches/regenbogenforelle-2.jpg'],
         ],
         [
             // Schwerster Fang (Dashboard-Highlight)
@@ -85,13 +80,25 @@ class DemoUserSeeder extends Seeder
             $user->forceFill(['email_verified_at' => now()])->save();
         }
 
+        // Profil auf den Ausgangszustand (Besucher können es nicht ändern, aber sicher ist sicher)
+        $user->forceFill([
+            'name' => 'Demo Angler',
+            'role' => User::ROLE_USER,
+            'newsletter_opt_out' => true,
+            'state_id' => State::where('name', 'Kärnten')->value('id') ?? $user->state_id,
+        ])->save();
+
         $fishIds = Fish::pluck('id', 'name');
         $lakes = Lake::with('fish:id')->get()->keyBy('name');
         $rivers = River::with('fish:id')->get()->keyBy('name');
 
-        DB::transaction(function () use ($user, $fishIds, $lakes, $rivers) {
-            // Vorhandene Fänge inkl. Medien entfernen (delete() löscht die Fotos mit)
+        $created = [];
+
+        DB::transaction(function () use ($user, $fishIds, $lakes, $rivers, &$created) {
+            // Alles von Besuchern Angelegte entfernen – Fänge einzeln, damit die Fotos (Media Library) mitgehen
             $user->catched()->get()->each->delete();
+            $user->spots()->delete();
+            Correction::where('user_id', $user->id)->delete();
 
             foreach (self::CATCHES as $data) {
                 $water = isset($data['lake']) ? $lakes[$data['lake']] ?? null : $rivers[$data['river']] ?? null;
@@ -119,6 +126,8 @@ class DemoUserSeeder extends Seeder
                     ])->all(),
                 ]);
 
+                $created[] = $catch;
+
                 foreach ($data['photos'] as $order => $photo) {
                     $catch->addMedia($this->seedAsset($photo))
                         ->preservingOriginal()
@@ -127,5 +136,10 @@ class DemoUserSeeder extends Seeder
                 }
             }
         });
+
+        // Wetter zu den Demo-Fängen (läuft über die Queue)
+        foreach ($created as $catch) {
+            FetchCatchWeather::dispatchFor($catch);
+        }
     }
 }

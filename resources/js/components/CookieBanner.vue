@@ -22,7 +22,7 @@
                             </h2>
 
                             <p class="text-neutral-400 text-sm leading-relaxed">
-                                Diese Website verwendet Cookies um die Benutzererfahrung zu verbessern. Du kannst selbst entscheiden, ob du zustimmen möchtest. Google Maps wird nicht funktionieren wenn du ablehnst.
+                                Mit deiner Zustimmung nutzen wir Google Analytics, um zu verstehen, wie PetriLog genutzt wird. PetriLog funktioniert auch vollständig, wenn du ablehnst.
                             </p>
                         </div>
 
@@ -63,7 +63,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { initAnalytics, initGoogleMaps } from '@/google.js'
+import { initAnalytics } from '@/google.js'
 
 const visible = ref(false)
 
@@ -72,7 +72,6 @@ onMounted(() => {
 
     if (consent === 'accepted') {
         initAnalytics()
-        initGoogleMaps()
     } else if (!consent) {
         visible.value = true
     }
@@ -81,7 +80,6 @@ onMounted(() => {
 function accept() {
     localStorage.setItem('cookie-consent', 'accepted')
     initAnalytics();
-    initGoogleMaps();
     visible.value = false
 }
 

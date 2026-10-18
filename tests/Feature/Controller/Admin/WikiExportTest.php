@@ -20,7 +20,7 @@ class WikiExportTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->admin = User::factory()->create(['is_admin' => true]);
+        $this->admin = User::factory()->create(['role' => 'admin']);
 
         $state = State::factory()->create(['name' => 'Kärnten']);
         $hecht = Fish::factory()->create(['name' => 'Hecht', 'desc' => '<p>Raubfisch</p>']);

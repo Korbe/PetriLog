@@ -11,6 +11,13 @@ Artisan::command('inspire', function () {
 // Statistikdaten (Seitenaufrufe, Mail-Protokoll) nach einem Jahr löschen
 Schedule::command('model:prune', ['--model' => [\App\Models\PageView::class, \App\Models\MailLog::class, \App\Models\BackupRun::class]])->daily();
 
+// Demo-Konto jede Nacht auf den Ausgangszustand zurücksetzen (Besucher-Daten löschen, 3 Beispielfänge neu)
+Schedule::command('demo:reset')
+    ->dailyAt('00:00')
+    ->timezone('Europe/Vienna')
+    ->withoutOverlapping()
+    ->onOneServer();
+
 // Nächtliches Backup über den Laravel-Scheduler (Alternative: eigener Cronjob, siehe docs/backup.md).
 // Nur aktiv mit BACKUP_SCHEDULE=true, damit nicht zwei Mechanismen gleichzeitig sichern.
 if (config('backup.schedule.enabled')) {

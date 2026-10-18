@@ -15,13 +15,13 @@ class AdminUserSeeder extends Seeder
         $user = User::where('email', $email)->first();
 
         if (!$user) {
-            User::create([
+            (new User())->forceFill([
                 'email' => $email,
                 'name' => 'Lukas Korbitsch',
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
-                'is_admin' => true,
-            ]);
+                'role' => User::ROLE_ADMIN,
+            ])->save();
 
             echo "Admin user created: {$email}\n";
         } else {

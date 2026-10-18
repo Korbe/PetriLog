@@ -48,8 +48,14 @@ Route::name('public.')->group(function () {
     Route::get('/impressum', [ImprintController::class, 'show'])->name('imprint');
     Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
     Route::get('/pricing', [PublicController::class, 'pricing'])->name('pricing');
-    Route::get('/catch/{catched}', [PublicController::class, 'showCatched'])->name('catched.show');
+    // Nur geteilte Fänge, über einen nicht erratbaren Token (nie über die ID)
+    Route::get('/catch/{token}', [PublicController::class, 'showCatched'])
+        ->where('token', '[A-Za-z0-9]{32}')
+        ->name('catched.show');
 });
+
+Route::post('/demo', \App\Http\Controllers\Auth\DemoLoginController::class)
+    ->middleware(['guest', 'throttle:10,1'])->name('demo.login');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)->middleware(['auth', 'signed'])->name('verification.verify');
 
@@ -77,9 +83,18 @@ Route::middleware(['auth'])->name('app.')->group(function () {
             'destroy' => 'catched.destroy',
         ]);
     Route::post('catched/{catched}/update', [CatchedController::class, 'update'])->name('catched.update');
+    Route::post('catched/{catched}/share', [CatchedController::class, 'share'])->name('catched.share');
+    Route::delete('catched/{catched}/share', [CatchedController::class, 'unshare'])->name('catched.unshare');
     Route::delete('catched/photo/{mediaId}', [CatchedController::class, 'deletePhoto'])->name('catched.photo.delete');
 
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+
+    Route::post('/corrections/{type}/{id}', [\App\Http\Controllers\CorrectionController::class, 'store'])
+        ->whereIn('type', ['fish', 'lake', 'river'])->whereNumber('id')
+        ->middleware('throttle:10,60')->name('corrections.store');
+
+    Route::get('/geocode/reverse', [\App\Http\Controllers\GeocodeController::class, 'reverse'])
+        ->middleware('throttle:30,1')->name('geocode.reverse');
 
     Route::get('/spots', [SpotController::class, 'index'])->name('spots.index');
     Route::post('/spots', [SpotController::class, 'store'])->name('spots.store');
@@ -89,6 +104,7 @@ Route::middleware(['auth'])->name('app.')->group(function () {
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/export', [ReportController::class, 'export'])->name('report.export');
     Route::get('/report/print', [ReportController::class, 'print'])->name('report.print');
+    Route::get('/report/pdf', [ReportController::class, 'pdf'])->middleware('throttle:20,1')->name('report.pdf');
     Route::patch('/report/catches/{catched}', [ReportController::class, 'updateRelease'])->name('report.release');
 
     Route::prefix('states')->group(function () {
@@ -127,13 +143,14 @@ Route::middleware(['auth'])->name('app.')->group(function () {
 
 Route::middleware(['auth', EnsureVerifiedForBilling::class])->get('/billing-portal', function () { return redirect('/billing'); })->name('billing.portal');
 
-Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+// Admin-Bereich: Admins und Editoren. Was nur Admins dürfen, ist zusätzlich mit 'isAdmin' geschützt.
+Route::middleware(['auth', 'isAdmin:staff'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::impersonate();
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
-    // Development: Entwicklungs-, Wartungs- und Administrationswerkzeuge (nur Admins, siehe Gruppen-Middleware)
-    Route::prefix('development')->name('development.')->group(function () {
+    // Development: Entwicklungs-, Wartungs- und Administrationswerkzeuge (nur Admins)
+    Route::prefix('development')->name('development.')->middleware('isAdmin')->group(function () {
         Route::get('/', [DevelopmentController::class, 'index'])->name('index');
 
         Route::get('/wiki-export', [WikiExportAdminController::class, 'index'])->name('wiki-export.index');
@@ -156,13 +173,16 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     });
 
     // Alte Adresse des Wiki-Exports weiterleiten
-    Route::redirect('/wiki-export', '/admin/development/wiki-export');
+    Route::redirect('/wiki-export', '/admin/development/wiki-export')->middleware('isAdmin');
 
     Route::get('/submissions', [SubmissionAdminController::class, 'index'])->name('submissions.index');
     Route::post('/submissions/{type}/{id}/approve', [SubmissionAdminController::class, 'approve'])
         ->whereIn('type', ['fish', 'lake', 'river'])->whereNumber('id')->name('submissions.approve');
     Route::post('/submissions/{type}/{id}/reject', [SubmissionAdminController::class, 'reject'])
         ->whereIn('type', ['fish', 'lake', 'river'])->whereNumber('id')->name('submissions.reject');
+
+    Route::get('/corrections', [\App\Http\Controllers\Admin\CorrectionAdminController::class, 'index'])->name('corrections.index');
+    Route::post('/corrections/{correction}/resolve', [\App\Http\Controllers\Admin\CorrectionAdminController::class, 'resolve'])->name('corrections.resolve');
 
     Route::get('/tickets', [TicketAdminController::class, 'index'])->name('tickets.index');
     Route::get('/tickets/{ticket}', [TicketAdminController::class, 'show'])->name('tickets.show');
@@ -184,8 +204,13 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::delete('fish/photo/{mediaId}', [FishAdminController::class, 'deletePhoto'])->name('fish.photo.delete');
 
     Route::get('user', [UserAdminController::class, 'index'])->name('user.index');
+    Route::middleware('isAdmin')->group(function () {
+        Route::patch('user/{user}/role', [UserAdminController::class, 'updateRole'])->name('user.role');
+        Route::delete('user/{user}', [UserAdminController::class, 'destroy'])->name('user.destroy');
+    });
 
     Route::get('/newsletter', [NewsletterAdminController::class, 'index'])->name('newsletter.index');
     Route::post('/newsletter/send', [NewsletterAdminController::class, 'send'])->name('newsletter.send');
     Route::post('/newsletter/test', [NewsletterAdminController::class, 'sendTest'])->name('newsletter.test');
+    Route::post('/newsletter/preview', [NewsletterAdminController::class, 'preview'])->name('newsletter.preview');
 });

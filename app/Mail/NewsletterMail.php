@@ -15,7 +15,9 @@ class NewsletterMail extends Mailable
     public function __construct(
         public string $subjectText,
         public string $content,
-        public ?User $user = null
+        public ?User $user = null,
+        // Service-Mitteilung: geht auch an Abgemeldete, daher ohne Newsletter-Abmeldelink
+        public bool $service = false,
     ) {}
 
     public function build()
@@ -25,6 +27,7 @@ class NewsletterMail extends Mailable
             ->view('emails.newsletter')
             ->with([
                 'user' => $this->user,
+                'service' => $this->service,
                 'body' => MailHtml::format($this->content),
             ]);
     }

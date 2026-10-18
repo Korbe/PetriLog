@@ -6,7 +6,7 @@
         <PencilSquareIcon class="size-4" /> Bearbeiten
       </VButton>
       <VButton @click="openShare">
-        <ShareIcon class="size-4" /> Teilen
+        <ShareIcon class="size-4" /> {{ shareUrl ? 'Geteilt' : 'Teilen' }}
       </VButton>
     </template>
 
@@ -130,7 +130,7 @@
           </div>
         </div>
 
-        <GoogleMap :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.fish?.name ?? 'Fang'" />
+        <MapView base-layer="Luftbild" :latitude="catched.latitude" :longitude="catched.longitude" :title="catched.fish?.name ?? 'Fang'" />
       </section>
     </div>
 
@@ -161,7 +161,7 @@
       </div>
     </transition>
 
-    <ShareDialog v-model="isShareOpen" :share-url="shareUrl" />
+    <ShareDialog v-model="isShareOpen" :share-url="shareUrl" :catched-id="catched.id" />
   </PageWrapper>
 </template>
 
@@ -170,7 +170,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import VButton from '@/components/VButton.vue';
 import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue';
 import ShareDialog from "@/components/ShareDialog.vue";
-import GoogleMap from '@/components/GoogleMap.vue';
+import MapView from '@/components/MapView.vue';
 import {
   ShareIcon, PencilSquareIcon, PhotoIcon, MapPinIcon, CalendarDaysIcon, XMarkIcon, ChevronLeftIcon, ChevronRightIcon,
   CloudIcon, SunIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon, ArrowLongRightIcon, BeakerIcon, FlagIcon,
@@ -179,7 +179,8 @@ import {
 const props = defineProps({
   catched: Object,
   astro: Object,
-  shareUrl: String,
+  shareUrl: { type: String, default: null },
+  sharedAt: { type: String, default: null },
   editUrl: String,
 });
 

@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // „Demo ansehen“ auf der Login-Seite (Anmeldung ohne Passwort im Demo-Konto, siehe DemoUserSeeder)
+    'demo_login' => (bool) env('DEMO_LOGIN_ENABLED', true),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

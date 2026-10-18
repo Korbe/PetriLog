@@ -16,7 +16,7 @@ use Throwable;
 class TrackPageView
 {
     private const IGNORED_PATHS = ['admin*', 'pulse*', 'up', 'manifest.json', 'sw.js', 'build/*', 'storage/*',
-        'report/export', 'report/print', 'billing*', 'stripe/*', 'spark/*', 'livewire/*', '_ignition/*', 'sanctum/*'];
+        'report/export', 'report/print', 'report/pdf', 'billing*', 'stripe/*', 'spark/*', 'livewire/*', '_ignition/*', 'sanctum/*'];
 
     private const BOT_PATTERN = '/bot|crawl|spider|slurp|preview|monitor|curl|wget|python|headless|lighthouse|uptime/i';
 
@@ -44,6 +44,8 @@ class TrackPageView
                 'visitor' => substr(hash_hmac('sha256', $request->ip() . '|' . $request->userAgent() . '|' . $today, config('app.key')), 0, 16),
                 'authenticated' => $request->user() !== null,
                 'referrer_host' => $this->externalReferrer($request),
+                'device' => $this->device($request),
+                'standalone' => $this->isStandalone($request),
             ]);
         } catch (Throwable $e) {
             Log::warning("Page view tracking failed: {$e->getMessage()}");
@@ -76,6 +78,34 @@ class TrackPageView
         }
 
         return ! preg_match(self::BOT_PATTERN, (string) $request->userAgent());
+    }
+
+    /**
+     * Handy, Tablet oder Desktop – nur aus dem, was jeder Browser ohnehin mitschickt (User-Agent, Client Hint).
+     * Bewusst kein Auslesen von Geräteinfos per Script (§ 165 TKG). iPads melden sich als Mac und zählen als Desktop.
+     */
+    public static function deviceFor(?string $userAgent, ?string $mobileHint = null): string
+    {
+        $ua = (string) $userAgent;
+
+        return match (true) {
+            (bool) preg_match('/iPad|Tablet|PlayBook|Silk|Kindle/i', $ua),
+            str_contains($ua, 'Android') && ! str_contains($ua, 'Mobile') => 'tablet',
+            $mobileHint === '?1',
+            (bool) preg_match('/Mobi|iPhone|iPod|Android|Windows Phone/i', $ua) => 'mobile',
+            default => 'desktop',
+        };
+    }
+
+    private function device(Request $request): string
+    {
+        return self::deviceFor($request->userAgent(), $request->header('Sec-CH-UA-Mobile'));
+    }
+
+    // Als installierte App gestartet – erkennbar an der Startadresse /app aus dem Web-App-Manifest
+    private function isStandalone(Request $request): bool
+    {
+        return $request->routeIs('app.pwa.dashboard');
     }
 
     private function externalReferrer(Request $request): ?string

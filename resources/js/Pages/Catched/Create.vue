@@ -20,6 +20,7 @@ import {
     BoltIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
+    CloudIcon,
 } from '@heroicons/vue/24/outline';
 
 /* ---------------------------------
@@ -92,8 +93,17 @@ const form = ref({
     air_pressure: null,
     bait: null,
     released: null,
+    weather_notify: rememberedWeatherNotify(),
     photos: [],
     media: [],
+});
+
+/* E-Mail, sobald die Wetterdaten da sind – letzte Wahl merken */
+function rememberedWeatherNotify() {
+    try { return localStorage.getItem('petrilog-weather-notify') === '1'; } catch { return false; }
+}
+watch(() => form.value.weather_notify, (value) => {
+    try { localStorage.setItem('petrilog-weather-notify', value ? '1' : '0'); } catch { /* egal */ }
 });
 
 /* ---------------------------------
@@ -239,6 +249,21 @@ const stepProps = computed(() => {
                     v-bind="stepProps"/>
 
                 <FullLoadingScreen v-if="loading" />
+
+                <!-- Wetter-Benachrichtigung (letzter Schritt) -->
+                <label v-if="!loading && currentStep === activeSteps.length - 1"
+                    class="mt-8 flex cursor-pointer items-start gap-3 rounded-2xl border border-(--app-border) bg-(--app-surface-2) p-4 transition hover:border-(--app-border-strong)">
+                    <input type="checkbox" class="form-checkbox mt-0.5" v-model="form.weather_notify" />
+                    <span class="min-w-0">
+                        <span class="flex items-center gap-1.5 text-sm font-semibold text-(--app-ink)">
+                            <CloudIcon class="size-4 text-(--app-accent)" /> Benachrichtigen, wenn die Wetterdaten da sind
+                        </span>
+                        <span class="mt-0.5 block text-xs text-(--app-muted)">
+                            Temperatur, Luftdruck und Wind zum Fangzeitpunkt kommen etwa 1–2 Stunden nach dem Fang.
+                            Wir schicken dir dann eine E-Mail.
+                        </span>
+                    </span>
+                </label>
 
                 <!-- Navigation -->
                 <div class="mt-8 flex items-center justify-between gap-3 border-t border-(--app-border) pt-5">

@@ -2,7 +2,7 @@
     <div class="space-y-4">
         <p class="text-sm text-(--app-muted)">Tippe auf die Stelle in der Karte, an der du gefangen hast.</p>
 
-        <GoogleMapPicker @locationSelected="updateLocation" />
+        <MapPicker @locationSelected="updateLocation" />
 
         <p v-if="!modelValue.latitude" class="ui-panel px-4 py-3 text-center text-sm text-(--app-muted)">Noch keine Position gewählt.</p>
 
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import GoogleMapPicker from '@/components/GoogleMapPicker.vue'
+import MapPicker from '@/components/MapPicker.vue'
 import VInput from '@/components/VInput.vue'
 
 const props = defineProps({

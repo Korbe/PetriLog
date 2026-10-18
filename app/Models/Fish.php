@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TracksEditor;
 use App\Models\Concerns\Submittable;
 
 use Spatie\MediaLibrary\HasMedia;
@@ -14,6 +15,7 @@ class Fish extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
+    use TracksEditor;
     use Submittable;
 
     protected $fillable = [

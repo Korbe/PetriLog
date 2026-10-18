@@ -10,10 +10,8 @@
 </template>
 
 <script setup>
-import { useDark } from "@vueuse/core";
+import { useAppDark } from '@/composables/useTheme'
 import { SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
 
-const isDark = useDark({
-  selector: 'html',
-})
+const isDark = useAppDark()
 </script>

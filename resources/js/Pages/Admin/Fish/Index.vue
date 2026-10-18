@@ -57,6 +57,7 @@
                                     <span class="min-w-0">
                                         <span class="block truncate font-semibold text-(--app-ink) group-hover:text-(--app-accent-ink)">{{ fish.name }}</span>
                                         <span v-if="fish.is_default" class="ui-badge mt-0.5">Platzhalter</span>
+                                        <span class="block text-xs text-(--app-subtle)">geändert {{ relativeTime(fish.updated_at) }}<template v-if="fish.updated_by"> von {{ fish.updated_by }}</template></span>
                                     </span>
                                 </Link>
                             </td>

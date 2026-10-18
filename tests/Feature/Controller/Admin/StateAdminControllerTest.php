@@ -27,7 +27,7 @@ class StateAdminControllerTest extends TestCase
 
         public function test_user_cannot_access_state_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $state = State::factory()->create();
 
         $this->actingAs($user)->get(route('admin.state.index'))->assertRedirect('/dashboard');
@@ -39,7 +39,7 @@ class StateAdminControllerTest extends TestCase
 
     public function test_admin_can_view_state_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $states = State::factory()->count(3)->create();
 
         $response = $this->actingAs($admin)->get(route('admin.state.index'));
@@ -54,7 +54,7 @@ class StateAdminControllerTest extends TestCase
 
     public function test_admin_can_view_state_create_form(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $response = $this->actingAs($admin)->get(route('admin.state.create'));
         $response->assertStatus(200);
@@ -68,7 +68,7 @@ class StateAdminControllerTest extends TestCase
     public function test_admin_can_store_state_with_photo(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $file = UploadedFile::fake()->image('state.jpg');
         $data = [
@@ -90,7 +90,7 @@ class StateAdminControllerTest extends TestCase
     public function test_admin_can_view_state_edit_form_with_media(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
         $state->addMedia(UploadedFile::fake()->image('state.jpg'))->toMediaCollection('state');
 
@@ -107,7 +107,7 @@ class StateAdminControllerTest extends TestCase
     public function test_admin_can_update_state_with_new_photo(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create(['name' => 'OldName', 'desc' => 'OldDesc']);
         $state->addMedia(UploadedFile::fake()->image('old.jpg'))->toMediaCollection('state');
 
@@ -131,7 +131,7 @@ class StateAdminControllerTest extends TestCase
 
     public function test_admin_can_delete_state(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
 
         $response = $this->actingAs($admin)->delete(route('admin.state.destroy', $state));
@@ -143,7 +143,7 @@ class StateAdminControllerTest extends TestCase
     public function test_admin_can_delete_state_photo(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
         $media = $state->addMedia(UploadedFile::fake()->image('state.jpg'))->toMediaCollection('state');
 

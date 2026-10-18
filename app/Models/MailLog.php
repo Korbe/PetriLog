@@ -29,6 +29,9 @@ class MailLog extends Model
         'NewsletterMail' => 'Newsletter',
         'SubmissionAdminMail' => 'Vorschlag (Admin)',
         'SubmissionReviewedMail' => 'Vorschlag geprüft',
+        'WeatherReadyMail' => 'Wetter zum Fang',
+        'CorrectionAdminMail' => 'Fehlermeldung (Team)',
+        'CorrectionReviewedMail' => 'Fehlermeldung geprüft',
         'VerifyEmail' => 'E-Mail bestätigen',
         'ResetPassword' => 'Passwort zurücksetzen',
     ];

@@ -15,7 +15,7 @@ class RiverAdminController extends Controller
     public function index()
     {
         $rivers = River::approved()
-            ->with('states:id,name')
+            ->with(['states:id,name', 'editor:id,name'])
             ->withCount(['fish', 'catched'])
             ->orderByDesc('is_default')
             ->orderBy('name')

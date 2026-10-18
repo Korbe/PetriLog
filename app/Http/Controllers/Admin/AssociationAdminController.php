@@ -13,7 +13,7 @@ class AssociationAdminController extends Controller
 {
     public function index()
     {
-        $associations = Association::with('state')
+        $associations = Association::with(['state', 'editor:id,name'])
             ->orderBy('name')
             ->get();
 

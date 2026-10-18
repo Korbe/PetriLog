@@ -1,11 +1,15 @@
 <script setup>
 import { ref } from "vue";
+import { router } from "@inertiajs/vue3";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { XMarkIcon, ClipboardIcon, CheckIcon } from "@heroicons/vue/24/outline";
+import { XMarkIcon, ClipboardIcon, CheckIcon, LockClosedIcon, GlobeAltIcon } from "@heroicons/vue/24/outline";
+import { confirmDialog } from "@/composables/useDialog";
 
 const props = defineProps({
     modelValue: Boolean,
-    shareUrl: { type: String, required: true },
+    // null = Fang ist privat (noch kein Freigabe-Link)
+    shareUrl: { type: String, default: null },
+    catchedId: { type: Number, required: true },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -15,6 +19,33 @@ const copyFailed = ref(false);
 const urlInput = ref(null);
 
 const close = () => emit("update:modelValue", false);
+
+const busy = ref(false);
+
+const createLink = () => {
+    router.post(route('app.catched.share', props.catchedId), {}, {
+        preserveScroll: true,
+        onStart: () => (busy.value = true),
+        onFinish: () => (busy.value = false),
+    });
+};
+
+const revokeLink = async () => {
+    close(); // Bestätigung erscheint im App-Dialog, nicht über diesem Dialog
+    const ok = await confirmDialog({
+        title: 'Freigabe beenden?',
+        message: 'Der bisherige Link funktioniert danach nicht mehr – auch dort, wo du ihn schon geteilt hast. Du kannst jederzeit einen neuen Link erstellen.',
+        confirmText: 'Freigabe beenden',
+        tone: 'danger',
+    });
+    if (!ok) return;
+
+    router.delete(route('app.catched.unshare', props.catchedId), {
+        preserveScroll: true,
+        onStart: () => (busy.value = true),
+        onFinish: () => (busy.value = false),
+    });
+};
 
 const canNativeShare = typeof navigator !== 'undefined' && !!navigator.share;
 
@@ -81,6 +112,23 @@ const copyToClipboard = async () => {
                             </button>
                         </div>
 
+                        <!-- Privat: erst nach ausdrücklicher Freigabe gibt es einen öffentlichen Link -->
+                        <div v-if="!shareUrl">
+                            <div class="flex gap-3 rounded-2xl bg-(--app-surface-2) p-4">
+                                <LockClosedIcon class="size-5 shrink-0 text-(--app-muted)" />
+                                <p class="text-sm text-(--app-muted)">
+                                    Dieser Fang ist <strong class="text-(--app-ink)">privat</strong>. Erstelle einen Link, um ihn
+                                    zu teilen – sehen kann ihn dann jeder, der den Link kennt. Deine anderen Fänge bleiben privat.
+                                </p>
+                            </div>
+                            <button type="button" @click="createLink" :disabled="busy"
+                                class="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary-600 disabled:opacity-60">
+                                <GlobeAltIcon class="size-5" />
+                                {{ busy ? 'Wird erstellt …' : 'Öffentlichen Link erstellen' }}
+                            </button>
+                        </div>
+
+                        <template v-else>
                         <button v-if="canNativeShare" type="button" @click="nativeShare"
                             class="mb-3 flex w-full items-center justify-center gap-2 rounded-full bg-primary-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary-600">
                             Teilen über …
@@ -129,6 +177,17 @@ const copyToClipboard = async () => {
                         <p v-if="copyFailed" class="mt-2 px-1 text-xs font-medium text-(--app-danger)" role="alert">
                             Automatisches Kopieren klappt in diesem Browser nicht – der Link ist markiert, kopiere ihn bitte manuell.
                         </p>
+
+                        <div class="mt-6 flex items-center justify-between gap-3 border-t border-(--app-border) pt-4">
+                            <p class="flex items-center gap-1.5 text-xs text-(--app-muted)">
+                                <GlobeAltIcon class="size-4" /> Jeder mit dem Link kann den Fang sehen.
+                            </p>
+                            <button type="button" @click="revokeLink" :disabled="busy"
+                                class="shrink-0 text-xs font-semibold text-(--app-danger) hover:underline disabled:opacity-60">
+                                Freigabe beenden
+                            </button>
+                        </div>
+                        </template>
                     </DialogPanel>
                 </TransitionChild>
             </div>

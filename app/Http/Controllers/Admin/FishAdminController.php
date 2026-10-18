@@ -14,7 +14,7 @@ class FishAdminController extends Controller
     public function index()
     {
         $fishs = Fish::approved()
-            ->with('media')
+            ->with(['media', 'editor:id,name'])
             ->withCount(['lakes', 'rivers', 'catcheds'])
             ->withMax('catcheds', 'length')
             ->withMax('catcheds', 'created_at')
@@ -33,6 +33,7 @@ class FishAdminController extends Controller
                 'record_length' => $fish->catcheds_max_length ? (int) $fish->catcheds_max_length : null,
                 'last_catch_at' => $fish->catcheds_max_created_at,
                 'updated_at' => $fish->updated_at,
+                'updated_by' => $fish->editor?->name,
             ]);
 
         return Inertia::render('Admin/Fish/Index', compact('fishs'));

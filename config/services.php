@@ -14,8 +14,12 @@ return [
     |
     */
 
-    'google' => [
-        'maps_api_key' => env('GOOGLE_MAPS_API_KEY'),
+    // Adresse zu einer Fang-Position: OpenStreetMap Nominatim (kein API-Key; max. 1 Anfrage/Sekunde, Ergebnisse
+    // werden gecacht). Läuft über unseren Server, damit OSM nie die IP-Adressen der User sieht.
+    'nominatim' => [
+        'enabled' => env('GEOCODING_ENABLED', true),
+        'url' => env('NOMINATIM_URL', 'https://nominatim.openstreetmap.org'),
+        'email' => env('NOMINATIM_EMAIL', 'info@petrilog.com'),
     ],
 
     // Wetterdaten zum Fang: GeoSphere Austria Data Hub (Open Data, CC BY 4.0, kein API-Key nötig)

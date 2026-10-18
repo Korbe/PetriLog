@@ -70,8 +70,11 @@ const columns = computed(() => [
 
       <div
         class="font-log mt-16 flex flex-col gap-2 border-t border-white/10 py-6 text-[11px] uppercase tracking-[0.15em] text-(--paper)/40 sm:flex-row sm:justify-between">
-        <span>&copy; {{ year }} PetriLog.com</span>
-        <span>Gemacht in Kärnten, Österreich</span>
+        <span>&copy; {{ year }} PetriLog.com · Ein Produkt von
+          <a href="https://korbitsch.at" target="_blank" rel="noopener"
+            class="text-(--paper)/70 underline-offset-4 transition hover:text-(--paper) hover:underline"
+            title="Entwickelt von Ing. Lukas Korbitsch">korbitsch.at</a></span>
+        <span>Entwickelt von Ing. Lukas Korbitsch · Kärnten, Österreich</span>
       </div>
     </div>
 

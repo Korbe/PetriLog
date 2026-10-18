@@ -18,121 +18,128 @@ class PublicControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_public_home_page_sets_correct_meta(): void
+    public function test_public_home_page_sets_seo(): void
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertInertia(fn(Assert $page) => $page->component('Public/Home/Index'));
 
-        $response->assertInertia(
-            fn(Assert $page) => $page
-                ->component('Public/Home/Index')
-        );
-
-        $this->assertEquals('PetriLog - Dein digitales Fangbuch', session('meta.title'));
-        $this->assertEquals(
-            'Behalte den Überblick über deine Fänge, teile deine Erlebnisse und analysiere deine Angelerfolge mit PetriLog.',
-            session('meta.description')
-        );
-        $this->assertEquals(asset('logo.png'), session('meta.og:image'));
-        $this->assertEquals(url('/'), session('meta.og:url'));
-        $this->assertEquals('website', session('meta.og:type'));
-        $this->assertEquals('summary_large_image', session('meta.twitter:card'));
+        $seo = $response->viewData('seo');
+        $this->assertStringContainsString('Das digitale Fangbuch', $seo['title']);
+        $this->assertSame(url('/'), $seo['canonical']);
+        $this->assertSame('website', $seo['og']['type']);
     }
 
-    public function test_public_pricing_page_sets_correct_meta(): void
+    public function test_public_pricing_page_sets_seo(): void
     {
         $response = $this->get('/pricing');
 
         $response->assertStatus(200);
+        $response->assertInertia(fn(Assert $page) => $page->component('Public/Pricing/Index')->has('faqs'));
 
-        $response->assertInertia(
-            fn(Assert $page) => $page
-                ->component('Public/Pricing/Index')
-        );
-
-        $this->assertEquals('PetriLog - Preis', session('meta.title'));
-        $this->assertStringContainsString('Ein Preis, ein Paket', session('meta.description'));
-        $this->assertEquals(asset('logo.png'), session('meta.og:image'));
-        $this->assertEquals(url('/pricing'), session('meta.og:url'));
+        $this->assertStringStartsWith('Preise', $response->viewData('seo')['title']);
+        $this->assertSame(url('/pricing'), $response->viewData('seo')['canonical']);
     }
 
-    public function test_public_contact_page_sets_correct_meta(): void
+    public function test_public_contact_page_sets_seo(): void
     {
         $response = $this->get('/contact');
 
         $response->assertStatus(200);
+        $response->assertInertia(fn(Assert $page) => $page->component('Public/Contact/Index'));
 
-        $response->assertInertia(
-            fn(Assert $page) => $page
-                ->component('Public/Contact/Index')
-        );
-
-        $this->assertEquals('PetriLog - Kontakt', session('meta.title'));
-        $this->assertStringContainsString('Du hast Fragen oder Feedback?', session('meta.description'));
-        $this->assertEquals(asset('logo.png'), session('meta.og:image'));
-        $this->assertEquals(url('/contact'), session('meta.og:url'));
+        $this->assertStringStartsWith('Kontakt', $response->viewData('seo')['title']);
     }
 
-    public function test_public_show_catched_sets_correct_meta_and_loads_relationships(): void
+    private function catchFor(User $user, array $attributes = []): Catched
     {
-        // 🔹 Fake Storage für Spatie Media Library
-        Storage::fake('public');
-
-        // 🔹 User, Fish, Lake, River
-        $user = User::factory()->create(['name' => 'Max Mustermann']);
-        $fish = Fish::factory()->create(['name' => 'Forelle']);
-        $lake = Lake::factory()->create(['name' => 'Starnberger See']);
-        $river = River::factory()->create(['name' => 'Isar']);
-
-        // 🔹 Catched erstellen
-        $catched = Catched::factory()->create([
+        return Catched::factory()->create([
             'user_id' => $user->id,
-            'fish_id' => $fish->id,
-            'lake_id' => $lake->id,
-            'river_id' => $river->id,
+            'fish_id' => Fish::factory()->create(['name' => 'Hecht'])->id,
+            'lake_id' => Lake::factory()->create(['name' => 'Starnberger See'])->id,
+            'river_id' => River::factory()->create(['name' => 'Isar'])->id,
             'date' => Carbon::parse('2026-02-08 12:00'),
             'length' => 42,
+            ...$attributes,
         ]);
+    }
 
-        // 🔹 Media anhängen
-        $file = UploadedFile::fake()->image('catch.jpg');
-        $catched->addMedia($file)->toMediaCollection('catched', 'public');
+    public function test_shared_catch_is_visible_via_its_token(): void
+    {
+        Storage::fake('public');
 
-        $response = $this->get(route('public.catched.show', $catched->id));
+        $catched = $this->catchFor(User::factory()->create(['name' => 'Max Mustermann']));
+        $catched->addMedia(UploadedFile::fake()->image('catch.jpg'))->toMediaCollection('photos', 'public');
+        $catched->share();
 
-        // 🔹 Status
+        $response = $this->get($catched->shareUrl());
+
         $response->assertStatus(200);
-
-        // 🔹 Inertia Props prüfen
         $response->assertInertia(
             fn(Assert $page) => $page
                 ->component('Public/Catch/Show')
                 ->where('user', 'Max Mustermann')
                 ->where('catched.id', $catched->id)
                 ->where('catched.length', 42)
-                ->where('catched.date', $catched->date->toISOString())
+                ->missing('catched.share_token')
                 ->has('catched.fish')
                 ->has('catched.lake')
                 ->has('catched.river')
                 ->has('catched.media', 1)
-                ->where('catched.media.0.original_url', $catched->getFirstMediaUrl('catched', 'public'))
         );
 
-        // 🔹 Session meta prüfen
-        $catchDate = $catched->date->format('d.m.Y H:i');
+        $seo = $response->viewData('seo');
+        $this->assertStringStartsWith('Hecht', $seo['title']);
+        $this->assertSame('noindex, follow', $seo['robots']);
+        $this->assertSame($catched->shareUrl(), $seo['canonical']);
+    }
 
-        $this->assertEquals("Schau was ich gefangen habe - PetriLog", session('meta.title'));
-        $this->assertEquals("Gefangen am {$catchDate} mit einer Länge von 42cm.", session('meta.description'));
-        $this->assertEquals(route('public.catched.show', $catched->id), session('meta.og:url'));
-        $this->assertEquals($catched->getFirstMediaUrl('catched', 'public'), session('meta.og:image'));
-        $this->assertEquals('website', session('meta.og:type'));
-        $this->assertEquals("Schau was ich gefangen habe - PetriLog", session('meta.og:title'));
-        $this->assertEquals("Gefangen am {$catchDate} mit einer Länge von 42cm.", session('meta.og:description'));
+    /**
+     * Sicherheit: Fänge dürfen nicht über die fortlaufende ID abrufbar sein (Durchprobieren aller Fänge).
+     */
+    public function test_catches_cannot_be_enumerated_by_id(): void
+    {
+        $private = $this->catchFor(User::factory()->create());
+        $shared = $this->catchFor(User::factory()->create());
+        $shared->share();
 
-        $this->assertEquals("summary_large_image", session('meta.twitter:card'));
-        $this->assertEquals("Schau was ich gefangen habe - PetriLog", session('meta.twitter:title'));
-        $this->assertEquals("Gefangen am {$catchDate} mit einer Länge von 42cm.", session('meta.twitter:description'));
-        $this->assertEquals($catched->getFirstMediaUrl('catched', 'public'), session('meta.twitter:image'));
+        $this->get("/catch/{$private->id}")->assertNotFound();
+        $this->get("/catch/{$shared->id}")->assertNotFound();
+        $this->get('/catch/' . str_repeat('a', 32))->assertNotFound();
+    }
+
+    public function test_owner_can_share_and_revoke_a_catch(): void
+    {
+        $user = User::factory()->create();
+        $catched = $this->catchFor($user);
+
+        $this->actingAs($user)->post(route('app.catched.share', $catched))->assertRedirect();
+        $url = $catched->refresh()->shareUrl();
+        $this->assertNotNull($url);
+        $this->assertNotNull($catched->shared_at);
+
+        // Erneutes Teilen behält den Link
+        $this->actingAs($user)->post(route('app.catched.share', $catched));
+        $this->assertSame($url, $catched->refresh()->shareUrl());
+
+        $this->get($url)->assertOk();
+
+        $this->actingAs($user)->delete(route('app.catched.unshare', $catched))->assertRedirect();
+        $this->assertNull($catched->refresh()->share_token);
+
+        auth()->logout();
+        $this->get($url)->assertNotFound();
+    }
+
+    public function test_other_users_cannot_share_foreign_catches(): void
+    {
+        $catched = $this->catchFor(User::factory()->create());
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('app.catched.share', $catched))
+            ->assertForbidden();
+
+        $this->assertNull($catched->refresh()->share_token);
     }
 }

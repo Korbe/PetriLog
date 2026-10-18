@@ -46,6 +46,6 @@ trait Submittable
 
     public function isVisibleTo(?User $user): bool
     {
-        return $this->is_approved || ($user && ($user->isAdmin() || $this->submitted_by === $user->id));
+        return $this->is_approved || ($user && ($user->isStaff() || $this->submitted_by === $user->id));
     }
 }

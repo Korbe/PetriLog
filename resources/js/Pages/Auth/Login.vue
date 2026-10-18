@@ -8,8 +8,8 @@ import VPassword from '@/components/VPassword.vue';
 import Cookies from 'js-cookie';
 import { ref, onMounted } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/solid';
+import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import InputError from '@/JetstreamComponents/InputError.vue';
-import { initAnalytics, initGoogleMaps } from '@/google.js';
 
 defineProps({
     canResetPassword: Boolean,
@@ -36,11 +36,6 @@ onMounted(() => {
 
 const submit = () => {
 
-    localStorage.setItem('cookie-consent', 'accepted')
-
-    initAnalytics();
-    initGoogleMaps();
-
     form.transform(data => ({
         ...data,
         remember: form.remember ? 'on' : '',
@@ -51,6 +46,12 @@ const submit = () => {
         },
     });
 };
+
+// Demo-Konto ohne Passwort öffnen
+const demoForm = useForm({});
+const loginDemo = () => demoForm.post(route('demo.login'), {
+    onError: (errors) => (form.errors.email = errors.email),
+});
 
 const editEmail = () => {
     showEmailInput.value = true;
@@ -108,7 +109,20 @@ const editEmail = () => {
                 </VButton>
             </div>
 
-            <p class="mt-8 border-t border-(--ink)/10 pt-6 text-center text-(--ink)/65">
+            <div class="my-6 flex items-center gap-3 text-xs text-(--ink)/45">
+                <span class="h-px flex-1 bg-(--ink)/10"></span> oder <span class="h-px flex-1 bg-(--ink)/10"></span>
+            </div>
+
+            <button type="button" @click="loginDemo" :disabled="demoForm.processing"
+                class="group flex w-full items-center justify-between gap-3 rounded-2xl border border-(--ink)/12 bg-white px-4 py-3 text-left transition hover:border-(--float) hover:shadow-sm disabled:opacity-60">
+                <span class="min-w-0">
+                    <span class="block font-semibold text-(--ink)">{{ demoForm.processing ? 'Demo wird geöffnet …' : 'Demo ansehen' }}</span>
+                    <span class="block text-xs text-(--ink)/55">Ohne Anmeldung ein fertiges Fangbuch ausprobieren</span>
+                </span>
+                <ArrowRightIcon class="size-5 shrink-0 text-(--float) transition group-hover:translate-x-0.5" />
+            </button>
+
+            <p class="mt-6 border-t border-(--ink)/10 pt-6 text-center text-(--ink)/65">
                 Noch kein Fangbuch?
                 <Link class="font-semibold text-(--ink) underline decoration-(--float) decoration-2 underline-offset-4" href="/register">Kostenlos registrieren</Link>
             </p>

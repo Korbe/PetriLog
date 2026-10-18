@@ -26,7 +26,7 @@ class AssociationAdminControllerTest extends TestCase
 
     public function test_user_cannot_access_association_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $association = Association::factory()->create();
 
         $this->actingAs($user)->get(route('admin.association.index'))->assertRedirect('/dashboard');
@@ -41,7 +41,7 @@ class AssociationAdminControllerTest extends TestCase
      */
     public function test_admin_can_view_association_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
         $associations = Association::factory()->count(2)->create(['state_id' => $state->id]);
 
@@ -61,7 +61,7 @@ class AssociationAdminControllerTest extends TestCase
      */
     public function test_admin_can_view_association_create(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $states = State::factory()->count(2)->create();
 
         $response = $this->actingAs($admin)->get(route('admin.association.create'));
@@ -78,7 +78,7 @@ class AssociationAdminControllerTest extends TestCase
     public function test_normal_user_cannot_access_association_create(): void
     {
         // Erstelle einen normalen User (kein Admin)
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
 
         // Versuche, die create-Seite zu besuchen
         $response = $this->actingAs($user)->get(route('admin.association.create'));
@@ -97,7 +97,7 @@ class AssociationAdminControllerTest extends TestCase
      */
     public function test_admin_can_store_association(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
 
         $data = [
@@ -119,7 +119,7 @@ class AssociationAdminControllerTest extends TestCase
      */
     public function test_admin_can_view_association_edit(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
         $association = Association::factory()->create(['state_id' => $state->id]);
         $states = State::factory()->count(2)->create();
@@ -141,7 +141,7 @@ class AssociationAdminControllerTest extends TestCase
      */
     public function test_admin_can_update_association(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $state = State::factory()->create();
         $association = Association::factory()->create(['state_id' => $state->id]);
 
@@ -164,7 +164,7 @@ class AssociationAdminControllerTest extends TestCase
      */
     public function test_admin_can_destroy_association(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $association = Association::factory()->create();
 
         $response = $this->actingAs($admin)->delete(route('admin.association.destroy', $association));

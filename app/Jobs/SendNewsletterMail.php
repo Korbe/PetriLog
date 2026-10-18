@@ -18,7 +18,8 @@ class SendNewsletterMail implements ShouldQueue
     public function __construct(
         public User $user,
         public string $subject,
-        public string $content
+        public string $content,
+        public bool $service = false,
     ) {}
 
     public function handle(): void
@@ -27,7 +28,8 @@ class SendNewsletterMail implements ShouldQueue
             ->send(new NewsletterMail(
                 $this->subject,
                 $this->content,
-                $this->user
+                $this->user,
+                $this->service,
             ));
     }
 }

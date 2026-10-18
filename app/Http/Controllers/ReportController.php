@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Catched;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -93,12 +95,38 @@ class ReportController extends Controller
 
     public function print(Request $request)
     {
+        return view('reports.catches', [
+            ...$this->reportData($request),
+            'pdfUrl' => route('app.report.pdf', $request->only(['year', 'water'])),
+        ]);
+    }
+
+    /**
+     * Fangmeldung direkt als PDF herunterladen (gleiche Inhalte wie die Druckansicht).
+     */
+    public function pdf(Request $request)
+    {
+        $data = $this->reportData($request);
+
+        $name = 'fangmeldung-' . $data['year']
+            . ($data['waterName'] ? '-' . Str::slug($data['waterName']) : '')
+            . '-' . Str::slug($data['user']->name) . '.pdf';
+
+        return Pdf::loadView('reports.catches-pdf', $data)
+            ->setPaper('a4')
+            // Nur die verwendeten Zeichen der Schrift einbetten – sonst ist jedes PDF fast 1 MB groß
+            ->setOption(['isFontSubsettingEnabled' => true])
+            ->download($name);
+    }
+
+    private function reportData(Request $request): array
+    {
         /** @var User $user */
         $user = Auth::user();
         [$year, $water] = $this->filters($request, $user);
         $catches = $this->filterWater($this->catches($user, $year), $water);
 
-        return view('reports.catches', [
+        return [
             'user' => $user,
             'year' => $year,
             'waterName' => $water ? $this->waterName($catches->first()) : null,
@@ -107,7 +135,7 @@ class ReportController extends Controller
             'timezone' => self::TIMEZONE,
             'releaseLabel' => fn(?bool $released) => $this->releaseLabel($released),
             'waterNameFor' => fn(Catched $c) => $this->waterName($c),
-        ]);
+        ];
     }
 
     /**

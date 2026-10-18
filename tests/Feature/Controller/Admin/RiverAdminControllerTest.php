@@ -28,7 +28,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_user_cannot_access_river_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $river = River::factory()->create();
 
         $this->actingAs($user)->get(route('admin.river.index'))->assertRedirect('/dashboard');
@@ -40,7 +40,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_admin_can_view_river_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $rivers = River::factory()->count(2)->create();
 
         $response = $this->actingAs($admin)->get(route('admin.river.index'));
@@ -55,7 +55,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_admin_can_view_river_create_form(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         State::factory()->count(2)->create();
         Fish::factory()->count(2)->create();
 
@@ -72,7 +72,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_admin_can_store_river_with_states_and_fish(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $states = State::factory()->count(2)->create();
         $fish = Fish::factory()->count(2)->create();
@@ -100,7 +100,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_admin_can_view_river_edit_form(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $river = River::factory()->create();
         $states = State::factory()->count(2)->create();
@@ -124,7 +124,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_admin_can_update_river_with_states_and_fish(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $river = River::factory()->create(['name' => 'Alte Donau']);
         $oldState = State::factory()->create();
@@ -157,7 +157,7 @@ class RiverAdminControllerTest extends TestCase
 
     public function test_admin_can_delete_river(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $river = River::factory()->create();
 
         $response = $this->actingAs($admin)->delete(route('admin.river.destroy', $river));

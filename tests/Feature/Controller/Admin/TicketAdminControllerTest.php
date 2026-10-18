@@ -21,7 +21,7 @@ class TicketAdminControllerTest extends TestCase
         $response->assertRedirect('/login');
 
         // Normaler User
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $response = $this->actingAs($user)->get(route('admin.tickets.index'));
         $response->assertStatus(302);
         $response->assertRedirect(route('app.dashboard'));
@@ -30,7 +30,7 @@ class TicketAdminControllerTest extends TestCase
 
     public function test_admin_can_view_tickets_index(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $ticket = Ticket::factory()->create([
             'title' => 'Fehler A',
@@ -59,7 +59,7 @@ class TicketAdminControllerTest extends TestCase
 
     public function test_admin_can_view_single_ticket(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         // Ticket mit User
         $user = User::factory()->create(['name' => 'Max Mustermann']);
@@ -96,7 +96,7 @@ class TicketAdminControllerTest extends TestCase
 
     public function test_admin_can_delete_ticket(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $ticket = Ticket::factory()->create();
 

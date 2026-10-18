@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TracksEditor;
 use App\Models\Concerns\Submittable;
 
 use App\Models\Catched;
@@ -17,6 +18,7 @@ class Lake extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
+    use TracksEditor;
     use Submittable;
 
     protected $fillable = [

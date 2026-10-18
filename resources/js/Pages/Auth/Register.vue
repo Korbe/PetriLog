@@ -8,7 +8,6 @@ import VButton from '@/components/VButton.vue';
 import VInput from '@/components/VInput.vue';
 import VPassword from '@/components/VPassword.vue';
 import VCombobox from '@/components/VCombobox.vue';
-import { initAnalytics, initGoogleMaps } from '@/google.js'
 
 defineProps({
     states: Array,
@@ -26,11 +25,6 @@ const form = useForm({
 });
 
 const submit = () => {
-
-    localStorage.setItem('cookie-consent', 'accepted')
-
-    initAnalytics();
-    initGoogleMaps();
 
     form.state_id = form.state ? form.state.id : null;
     form.post(route('register'), {

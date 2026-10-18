@@ -72,7 +72,7 @@
             border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink);
             padding: 9px 18px; font: 600 13px/1 inherit; cursor: pointer; text-decoration: none;
         }
-        .toolbar button { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .toolbar .primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 
         @page { size: A4; margin: 14mm 12mm; }
 
@@ -88,7 +88,8 @@
 <body>
     <div class="toolbar">
         <a href="{{ route('app.report.index', ['year' => $year]) }}">Zurück</a>
-        <button type="button" onclick="window.print()">Drucken / als PDF speichern</button>
+        <a href="{{ $pdfUrl }}" class="primary" download>PDF herunterladen</a>
+        <button type="button" onclick="window.print()">Drucken</button>
     </div>
 
     <main class="sheet">

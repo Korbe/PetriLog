@@ -2,12 +2,17 @@
     <PageWrapper title="Fangmeldung" :eyebrow="`Saison ${year}`">
         <template v-slot:actions>
             <VButton variant="secondary" :href="exportUrl" :disabled="!totals.count" external>
-                <ArrowDownTrayIcon class="size-4" /> CSV für Excel
+                <TableCellsIcon class="size-4" /> CSV für Excel
             </VButton>
             <a :href="printUrl" target="_blank" rel="noopener"
+                class="inline-flex items-center gap-2 rounded-full border border-(--app-border-strong) bg-(--app-surface) px-4 py-2.5 text-sm font-semibold text-(--app-ink) transition hover:bg-(--app-hover)"
+                :class="{ 'pointer-events-none opacity-50': !totals.count }">
+                <PrinterIcon class="size-4" /> Drucken
+            </a>
+            <a :href="pdfUrl" download
                 class="inline-flex items-center gap-2 rounded-full bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-600"
                 :class="{ 'pointer-events-none opacity-50': !totals.count }">
-                <PrinterIcon class="size-4" /> Drucken / PDF
+                <ArrowDownTrayIcon class="size-4" /> PDF herunterladen
             </a>
         </template>
 
@@ -126,7 +131,7 @@ import PageWrapper from '@/Layouts/Dashboard/PageWrapper.vue'
 import VButton from '@/components/VButton.vue'
 import ReleaseToggle from '@/components/ReleaseToggle.vue'
 import {
-    ArrowDownTrayIcon, PrinterIcon, ExclamationTriangleIcon, DocumentChartBarIcon,
+    ArrowDownTrayIcon, PrinterIcon, ExclamationTriangleIcon, DocumentChartBarIcon, TableCellsIcon,
 } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
@@ -146,6 +151,7 @@ const query = computed(() => {
 })
 const exportUrl = computed(() => `/report/export?${query.value}`)
 const printUrl = computed(() => `/report/print?${query.value}`)
+const pdfUrl = computed(() => `/report/pdf?${query.value}`)
 
 const formatKg = (grams) => grams ? `${(grams / 1000).toLocaleString('de-AT', { maximumFractionDigits: 2 })} kg` : '–'
 const formatDate = (date) => new Date(date).toLocaleString('de-AT', {

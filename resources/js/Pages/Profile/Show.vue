@@ -10,6 +10,7 @@ import StateForm from './Partials/StateForm.vue';
 
 import { computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
+import { LockClosedIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
@@ -58,7 +59,7 @@ const sections = computed(() => [
                         </span>
                         <span v-if="$page.props.auth.user.state" class="ui-badge">{{ $page.props.auth.user.state.name }}</span>
                     </div>
-                    <a href="/billing-portal"
+                    <a v-if="!$page.props.auth.user.is_demo" href="/billing-portal"
                         class="mt-6 flex items-center justify-between rounded-2xl bg-(--app-surface-2) px-4 py-3 text-sm font-semibold transition hover:bg-(--app-hover)">
                         Abo verwalten <span aria-hidden="true">→</span>
                     </a>
@@ -70,6 +71,14 @@ const sections = computed(() => [
             </aside>
 
             <div class="space-y-5 md:space-y-6 lg:col-span-8">
+                <div v-if="$page.props.auth.user.is_demo" role="status"
+                    class="flex gap-3 rounded-2xl border border-(--app-border) bg-(--app-accent-soft) p-4 text-sm">
+                    <LockClosedIcon class="size-5 shrink-0 text-(--app-accent-ink)" />
+                    <p><strong>Demo-Zugang:</strong> Profil, Passwort, Sicherheit und Abo sind hier gesperrt, damit alle
+                        Besucher die Demo nutzen können. Leg dir ein eigenes Konto an, um alles auszuprobieren.</p>
+                </div>
+
+                <fieldset :disabled="$page.props.auth.user.is_demo" class="contents space-y-5 md:space-y-6">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation" id="profil" class="scroll-mt-24">
                     <UpdateProfileInformationForm :user="$page.props.auth.user" />
                 </div>
@@ -97,6 +106,7 @@ const sections = computed(() => [
                 <div v-if="$page.props.jetstream.hasAccountDeletionFeatures" id="konto-loeschen" class="scroll-mt-24">
                     <DeleteUserForm />
                 </div>
+                </fieldset>
             </div>
         </div>
     </PageWrapper>

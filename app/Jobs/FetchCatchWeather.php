@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\WeatherReadyMail;
 use App\Models\Catched;
 use App\Services\GeoSphereWeather;
 use Illuminate\Bus\Queueable;
@@ -9,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 /**
@@ -92,10 +94,18 @@ class FetchCatchWeather implements ShouldQueue
 
     private function store(Catched $catched, array $values, string $status): void
     {
+        $notify = (bool) $catched->weather_notify;
+
         $catched->forceFill([
             ...$values,
             'weather_status' => $status,
             'weather_fetched_at' => now(),
+            // Benachrichtigung gibt es nur einmal – auch wenn keine Daten kommen, ist der Wunsch erledigt
+            'weather_notify' => false,
         ])->saveQuietly();
+
+        if ($status === 'ok' && $notify && $catched->user?->email) {
+            Mail::to($catched->user)->queue(new WeatherReadyMail($catched));
+        }
     }
 }

@@ -31,7 +31,7 @@
                 </dl>
 
                 <div class="mt-5 flex items-center justify-between gap-2 border-t border-(--app-border) pt-4">
-                    <span class="text-xs text-(--app-subtle)">geändert {{ formatDate(state.updated_at) }}</span>
+                    <span class="text-xs text-(--app-subtle)">geändert {{ formatDate(state.updated_at) }}<template v-if="state.updated_by"><br>von {{ state.updated_by }}</template></span>
                     <div class="flex gap-2">
                         <VButton size="sm" variant="ghost" :href="`/states/${state.id}`">
                             <EyeIcon class="size-4" /> Wiki

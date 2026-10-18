@@ -90,8 +90,10 @@ class PublicController extends Controller
         ]);
     }
 
-    public function showCatched(Catched $catched)
+    public function showCatched(string $token)
     {
+        $catched = Catched::where('share_token', $token)->firstOrFail();
+
         $catchDate = $catched->date->format('d.m.Y');
         $fishName = $catched->fish?->name ?? 'Fang';
         $description = "{$fishName}, gefangen am {$catchDate}"
@@ -104,7 +106,7 @@ class PublicController extends Controller
             // Shared catches are reachable by link, but should not show up in search results.
             'seo' => Seo::page("{$fishName} – schau, was ich gefangen habe", $description, [
                 'robots' => 'noindex, follow',
-                'canonical' => route('public.catched.show', $catched->id),
+                'canonical' => $catched->shareUrl(),
                 'image' => optional($catched->media->first())->original_url,
                 'imageAlt' => $fishName,
                 'type' => 'article',

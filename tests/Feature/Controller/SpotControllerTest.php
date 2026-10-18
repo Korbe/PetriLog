@@ -62,7 +62,7 @@ class SpotControllerTest extends TestCase
     public function test_foreign_spots_cannot_be_changed_even_by_admins(): void
     {
         $spot = $this->spotFor(User::factory()->create());
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
 
         $this->actingAs($admin)
             ->put(route('app.spots.update', $spot), ['name' => 'Gekapert', 'latitude' => 1, 'longitude' => 1])

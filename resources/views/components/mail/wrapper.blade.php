@@ -96,6 +96,9 @@
                             <a href="{{ route('public.policy') }}" style="color:#5b6669; text-decoration:none;">Datenschutz</a>
                             <br>
                             Das digitale Fangbuch für Angler in Österreich · © {{ date('Y') }} {{ config('app.name') }}
+                            <br>
+                            Ein Produkt von <a href="https://korbitsch.at" style="color:#5b6669; text-decoration:underline;">korbitsch.at</a>
+                            · Entwickelt von Ing. Lukas Korbitsch
                         </td>
                     </tr>
 

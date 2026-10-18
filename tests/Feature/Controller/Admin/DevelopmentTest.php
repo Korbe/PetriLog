@@ -24,7 +24,7 @@ class DevelopmentTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->admin = User::factory()->create(['is_admin' => true]);
+        $this->admin = User::factory()->create(['role' => 'admin']);
         $this->backupDir = storage_path('framework/testing/backups-ui');
         File::deleteDirectory($this->backupDir);
         config(['backup.local_path' => $this->backupDir]);

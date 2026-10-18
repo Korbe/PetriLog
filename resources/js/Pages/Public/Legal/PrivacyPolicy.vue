@@ -44,18 +44,14 @@
             <p>
                 PetriLog verwendet technisch notwendige Cookies bzw. lokalen Speicher (Local Storage), um grundlegende
                 Funktionen wie die Anmeldung und deine Cookie-Einwilligung zu ermöglichen. Erst nachdem du dem im
-                Cookie-Banner ausdrücklich zugestimmt hast, werden zusätzlich folgende externe Dienste geladen:
+                Cookie-Banner ausdrücklich zugestimmt hast, wird zusätzlich <strong>Google Analytics</strong> geladen – zur
+                anonymisierten Analyse der Nutzung (IP-Anonymisierung aktiviert), Anbieter: Google Ireland Limited. Dabei
+                können Daten an Google in die USA übermittelt werden.
             </p>
-            <ul>
-                <li><strong>Google Analytics</strong> – zur anonymisierten Analyse der Nutzung (IP-Anonymisierung
-                    aktiviert), Anbieter: Google Ireland Limited</li>
-                <li><strong>Google Maps</strong> – zur Darstellung von Gewässern und Fangorten, Anbieter: Google Ireland
-                    Limited</li>
-            </ul>
             <p>
-                Lehnst du im Cookie-Banner ab, werden diese Dienste nicht geladen – einzelne Funktionen wie die
-                Kartenansicht stehen dann nicht zur Verfügung. Deine Wahl kannst du jederzeit über die Löschung der
-                Browserdaten zurücksetzen. Bei Nutzung dieser Dienste können Daten an Google in die USA übermittelt werden.
+                Lehnst du im Cookie-Banner ab, wird Google Analytics nicht geladen; alle Funktionen von PetriLog stehen dir
+                trotzdem vollständig zur Verfügung. Deine Wahl kannst du jederzeit über die Löschung der Browserdaten
+                zurücksetzen.
             </p>
             <p>
                 Für die Darstellung der Schriftarten nutzen wir <strong>Bunny Fonts</strong> (Anbieter: BunnyWay d.o.o.,
@@ -66,15 +62,22 @@
                 ohne Cookies und ohne Speicherung deiner IP-Adresse. Um Besucher eines Tages unterscheiden zu können,
                 bilden wir aus IP-Adresse und Browserkennung einen verschlüsselten Kurzwert, der sich täglich ändert und
                 keinen Rückschluss auf deine Person zulässt. Gespeichert werden außerdem die aufgerufene Seite, ob du
-                eingeloggt warst, und von welcher externen Website du gekommen bist. Die Daten werden nach einem Jahr
-                gelöscht.
+                eingeloggt warst, von welcher externen Website du gekommen bist, die Geräteart (Handy, Tablet oder
+                Desktop – abgeleitet aus der Browserkennung) und ob du PetriLog als installierte App nutzt. Rechtsgrundlage
+                ist unser berechtigtes Interesse an einer datensparsamen Reichweitenmessung (Art. 6 Abs. 1 lit. f DSGVO).
+                Die Daten werden nach einem Jahr gelöscht.
             </p>
             <p>
-                Die <strong>Spot-Karte</strong> im eingeloggten Bereich lädt Kartenkacheln von <strong>basemap.at</strong>
+                Alle <strong>Karten</strong> (Fangort, Spot-Karte, geteilte Fänge) laden Kartenkacheln von <strong>basemap.at</strong>
                 (Verwaltungsgrundkarte Österreich, betrieben von den österreichischen Bundesländern) und – falls du diese
                 Kartenansicht wählst – von <strong>OpenStreetMap</strong> (OpenStreetMap Foundation, Vereinigtes Königreich).
                 Dabei wird technisch bedingt deine IP-Adresse an den jeweiligen Kartenserver übermittelt; deine Fänge und
-                Spots selbst werden nicht übertragen.
+                Spots selbst werden nicht übertragen. Karten setzen keine Cookies.
+            </p>
+            <p>
+                Beim Eintragen eines Fangs ermittelt PetriLog zur gewählten Position die <strong>Adresse</strong> über
+                <strong>OpenStreetMap Nominatim</strong> (OpenStreetMap Foundation). Die Anfrage stellt unser Server – an
+                Nominatim gehen nur die gerundeten Koordinaten, nicht deine IP-Adresse oder Angaben zu deiner Person.
             </p>
             <p>
                 Zu jedem Fang ergänzt PetriLog automatisch Wetterdaten von <strong>GeoSphere Austria</strong> (Bundesanstalt

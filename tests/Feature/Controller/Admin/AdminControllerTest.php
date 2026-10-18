@@ -24,14 +24,14 @@ class AdminControllerTest extends TestCase
 
     public function test_user_cannot_access_association_admin_routes(): void
     {
-        $user = User::factory()->create(['is_admin' => false]);
+        $user = User::factory()->create(['role' => 'user']);
         $this->actingAs($user)->get(route('admin.index'))->assertRedirect('/dashboard');
     }
 
     public function test_admin_index_shows_page_for_admin()
     {
         $admin = User::factory()->create([
-            'is_admin' => true,
+            'role' => 'admin',
         ]);
 
         $this->actingAs($admin)
