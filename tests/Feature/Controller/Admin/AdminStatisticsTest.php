@@ -63,6 +63,24 @@ class AdminStatisticsTest extends TestCase
         $this->artisan('stats:traffic')->expectsOutputToContain('1 Seitenaufrufe von 1 Besuchern')->assertSuccessful();
     }
 
+    public function test_statistics_can_be_reset_with_confirmation(): void
+    {
+        PageView::create(['date' => now()->toDateString(), 'path' => '/', 'visitor' => 'aaaaaaaaaaaaaaaa']);
+        MailLog::create(['type' => 'WelcomeMail', 'subject' => 'Hallo', 'recipient' => 'max@example.com']);
+
+        // Abgelehnt → nichts passiert
+        $this->artisan('stats:reset')->expectsConfirmation('Statistik wirklich zurücksetzen?', 'no')->assertSuccessful();
+        $this->assertSame(1, PageView::count());
+
+        // Standard: nur Zugriffsstatistik, Mail-Protokoll bleibt
+        $this->artisan('stats:reset')->expectsConfirmation('Statistik wirklich zurücksetzen?', 'yes')->assertSuccessful();
+        $this->assertSame(0, PageView::count());
+        $this->assertSame(1, MailLog::count());
+
+        $this->artisan('stats:reset --mails --force')->assertSuccessful();
+        $this->assertSame(0, MailLog::count());
+    }
+
     public function test_sent_mails_are_logged_with_type_and_recipient(): void
     {
         Mail::to('max@example.com')->send(new WelcomeMail('Max'));
