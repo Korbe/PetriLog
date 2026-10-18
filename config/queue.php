@@ -39,7 +39,9 @@ return [
             'connection' => env('DB_QUEUE_CONNECTION'),
             'table' => env('DB_QUEUE_TABLE', 'jobs'),
             'queue' => env('DB_QUEUE', 'default'),
-            'retry_after' => (int) env('DB_QUEUE_RETRY_AFTER', 90),
+            // Länger als der längste Job (Backup/Wiederherstellung: 3600 s) – sonst gibt die Queue einen noch
+            // laufenden Job frei und ein zweiter Worker startet ihn erneut. Worker-Timeout muss darunter liegen.
+            'retry_after' => (int) env('DB_QUEUE_RETRY_AFTER', 3700),
             'after_commit' => false,
         ],
 
