@@ -16,6 +16,7 @@ class BackupRunCommand extends Command
 {
     protected $signature = 'backup:run
         {--no-transfer : Nicht auf den Backup-Server übertragen}
+        {--download : Nur zum Herunterladen (Weboberfläche): keine Übertragung, Kopie wird nachts wieder gelöscht}
         {--restore-test : Das neue Backup zusätzlich testweise in die isolierte Test-Datenbank einspielen}
         {--trigger=cli : cli | schedule | web (nur fürs Protokoll)}
         {--run-id= : Vorhandenen Statuseintrag fortführen (Weboberfläche)}';
@@ -30,10 +31,11 @@ class BackupRunCommand extends Command
         $result = $runner->run(
             trigger: $trigger,
             userId: $run?->user_id,
-            transfer: ! $this->option('no-transfer'),
+            transfer: ! $this->option('no-transfer') && ! $this->option('download'),
             output: fn(string $line) => $this->line($line),
             run: $run,
             restoreTest: (bool) $this->option('restore-test'),
+            downloadOnly: (bool) $this->option('download'),
         );
 
         if ($result['ok']) {

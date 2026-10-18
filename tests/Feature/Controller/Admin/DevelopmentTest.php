@@ -194,11 +194,60 @@ class DevelopmentTest extends TestCase
         $this->assertSame($this->admin->id, $run->user_id);
         // Knopf in der Weboberfläche = nur zum Herunterladen, keine Übertragung zum Backup-Server
         Queue::assertPushed(RunBackupCommand::class, fn($job) => $job->command === 'backup:run' && $job->runId === $run->id
-            && ($job->options['--no-transfer'] ?? false) === true);
+            && ($job->options['--download'] ?? false) === true);
 
         // Kein zweiter Auftrag, solange einer läuft
         $this->confirmed()->post(route('admin.development.backups.store'))->assertSessionHas('error');
         Queue::assertPushed(RunBackupCommand::class, 1);
+    }
+
+    public function test_stuck_runs_are_finalized_so_the_page_does_not_spin_forever(): void
+    {
+        Queue::fake();
+        $lost = BackupRun::create(['action' => 'create', 'status' => 'queued', 'trigger' => 'web']);
+        $lost->forceFill(['created_at' => now()->subHours(3)])->save();
+        $killed = BackupRun::create(['action' => 'create', 'status' => 'running', 'trigger' => 'schedule', 'started_at' => now()->subHours(7)]);
+        $waiting = BackupRun::create(['action' => 'verify', 'status' => 'queued', 'trigger' => 'web']);
+        $waiting->forceFill(['created_at' => now()->subMinutes(5)])->save();
+
+        $this->confirmed()->get(route('admin.development.backups.index'))
+            ->assertInertia(fn($page) => $page->where('busy', true)->where('waitingForWorker', true));
+
+        $this->assertSame('failed', $lost->fresh()->status);
+        $this->assertStringContainsString('Queue-Worker', $lost->fresh()->message);
+        $this->assertSame('failed', $killed->fresh()->status);
+        $this->assertSame('queued', $waiting->fresh()->status, 'kurz wartende Aufträge bleiben');
+
+        $waiting->update(['status' => 'success']);
+        $this->confirmed()->get(route('admin.development.backups.index'))
+            ->assertInertia(fn($page) => $page->where('busy', false)->where('waitingForWorker', false));
+    }
+
+    public function test_safety_backup_of_a_restore_is_marked_and_offered_for_download(): void
+    {
+        $dir = config('backup.local_path');
+        \Illuminate\Support\Facades\File::ensureDirectoryExists($dir);
+        $safety = 'petrilog-backup-' . now()->format('Y-m-d_His') . '.zip';
+        file_put_contents("{$dir}/{$safety}", 'sicherheit');
+
+        try {
+            BackupRun::create([
+                'action' => 'restore-production', 'status' => 'success', 'trigger' => 'web',
+                'file' => 'petrilog-backup-2026-10-10_031500.zip', 'finished_at' => now(),
+                'details' => ['safety_backup' => $safety],
+            ]);
+
+            $this->confirmed()->get(route('admin.development.backups.index'))
+                ->assertInertia(fn($page) => $page
+                    ->where('lastRestore.safety', $safety)
+                    ->where('lastRestore.from', 'petrilog-backup-2026-10-10_031500.zip')
+                    ->where('backups', fn($backups) => collect($backups)->firstWhere('name', $safety)['safety_for'] !== null));
+
+            // Sicherheits-Backups sind keine Download-Kopien und werden nachts nicht gelöscht
+            $this->assertNotContains($safety, \App\Services\Backup\BackupRunner::downloadOnlyFiles()->all());
+        } finally {
+            @unlink("{$dir}/{$safety}");
+        }
     }
 
     public function test_download_requires_password_confirmation_and_valid_names(): void

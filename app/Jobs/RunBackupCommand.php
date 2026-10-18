@@ -20,7 +20,7 @@ class RunBackupCommand implements ShouldQueue
 
     // Erlaubte Befehle und Optionen, die die Weboberfläche setzen darf
     public const ALLOWED = [
-        'backup:run' => ['--no-transfer'],
+        'backup:run' => ['--download'],
         'backup:verify' => ['--uploaded'],
         'backup:restore-test' => [],
         'backup:restore-production' => ['--confirm'],

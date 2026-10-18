@@ -28,6 +28,28 @@
                 Ein Backup-Vorgang läuft im Hintergrund – die Seite aktualisiert sich automatisch.
                 <template v-if="pendingDownload"> Der Download startet, sobald das Backup fertig ist.</template>
             </div>
+            <div v-if="waitingForWorker" class="flex items-start gap-3 rounded-2xl bg-(--app-danger-soft) px-4 py-3 text-sm" role="alert">
+                <ExclamationTriangleIcon class="mt-0.5 size-5 shrink-0 text-(--app-danger)" />
+                <p>
+                    <strong class="text-(--app-danger)">Der Auftrag wartet seit über 2 Minuten.</strong>
+                    Vermutlich läuft auf dem Server kein Queue-Worker. Ohne ihn wird der Auftrag nicht abgearbeitet und nach
+                    2 Stunden automatisch als fehlgeschlagen markiert.
+                </p>
+            </div>
+
+            <!-- Nach einer Wiederherstellung: vorheriger Stand als Download -->
+            <div v-if="lastRestore" class="flex flex-wrap items-center gap-3 rounded-2xl border border-(--app-border) bg-(--app-surface) px-4 py-3 text-sm shadow-(--app-shadow)">
+                <ArrowUturnLeftIcon class="size-5 shrink-0 text-(--app-accent)" />
+                <span class="min-w-0 flex-1">
+                    <strong>{{ lastRestore.status === 'failed' ? 'Wiederherstellung fehlgeschlagen' : 'Wiederherstellung durchgeführt' }}</strong>
+                    am {{ formatDateTime(lastRestore.at) }} aus <span class="font-log">{{ lastRestore.from }}</span>.
+                    Der Stand davor ist im Sicherheits-Backup gesichert – zum Aufbewahren herunterladen oder bei Bedarf wieder einspielen.
+                </span>
+                <a :href="route('admin.development.backups.download', lastRestore.safety)"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-primary-500 px-4 py-2 text-xs font-semibold text-white hover:bg-primary-600">
+                    <ArrowDownTrayIcon class="size-4" /> Sicherheits-Backup herunterladen
+                </a>
+            </div>
 
             <div v-if="readyDownload" class="flex flex-wrap items-center gap-3 rounded-2xl bg-(--app-success-soft) px-4 py-3 text-sm" role="status">
                 <CheckCircleIcon class="size-5 shrink-0 text-(--app-success)" />
@@ -89,6 +111,10 @@
                                 <span v-if="!backup.sha256" class="ui-badge ui-badge-float">Wird geprüft</span>
                                 <span v-if="backup.verified_at" class="ui-badge ui-badge-success">Geprüft {{ relativeTime(backup.verified_at) }}</span>
                                 <span v-if="backup.restore_tested_at" class="ui-badge ui-badge-success">Wiederherstellung getestet</span>
+                                <span v-if="backup.safety_for" class="ui-badge ui-badge-accent"
+                                    :title="`Automatisch erstellt vor der Wiederherstellung am ${formatDateTime(backup.safety_for)} – der Stand davor`">
+                                    Sicherheits-Backup vor Wiederherstellung
+                                </span>
                                 <span v-if="backup.download_only" class="ui-badge"
                                     title="Über „Backup erstellen &amp; herunterladen“ erstellt. Liegt nur vorübergehend hier und wird beim nächsten nächtlichen Backup automatisch gelöscht.">
                                     Download-Kopie · wird heute Nacht gelöscht
@@ -239,6 +265,8 @@ import {
 const props = defineProps({
     backups: { type: Array, default: () => [] },
     runs: { type: Array, default: () => [] },
+    waitingForWorker: { type: Boolean, default: false },
+    lastRestore: { type: Object, default: null },
     busy: { type: Boolean, default: false },
     config: { type: Object, required: true },
 })
@@ -433,7 +461,7 @@ let timer = null
 watch(() => props.busy, (busy) => {
     clearInterval(timer)
     if (busy) {
-        timer = setInterval(() => router.reload({ only: ['backups', 'runs', 'busy'] }), 4000)
+        timer = setInterval(() => router.reload({ only: ['backups', 'runs', 'busy', 'waitingForWorker'] }), 4000)
     }
 }, { immediate: true })
 onBeforeUnmount(() => clearInterval(timer))

@@ -147,7 +147,7 @@ return [
                     'yearly_id' => env('SPARK_STANDARD_YEARLY_PLAN'),
                     'features' => [
                         'Unbegrenzt Einträge',
-                        'Google Maps Integration',
+                        'Maps Integration',
                         'Fotos hochladen',
                         'Fang mit Freunden teilen',
                         'Alle Funktionen freigeschaltet',

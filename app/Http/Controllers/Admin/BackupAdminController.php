@@ -28,11 +28,19 @@ class BackupAdminController extends Controller
 
     public function index()
     {
+        BackupRun::finalizeStale();
+
         $runs = BackupRun::with('user:id,name')->latest()->limit(30)->get();
         $transferred = BackupRun::where('action', 'transfer')->where('status', 'success')->pluck('file')->flip();
         $verified = BackupRun::where('action', 'verify')->where('status', 'success')->pluck('finished_at', 'file');
         $restored = BackupRun::where('action', 'restore-test')->whereIn('status', ['success', 'warning'])->pluck('finished_at', 'file');
         $downloads = BackupRunner::downloadOnlyFiles()->flip();
+
+        // Sicherheits-Backups vor produktiven Wiederherstellungen (Eintrag überlebt die Wiederherstellung)
+        $restores = BackupRun::where('action', 'restore-production')->latest()->get(['file', 'status', 'details', 'finished_at']);
+        $safety = $restores->filter(fn(BackupRun $r) => filled($r->details['safety_backup'] ?? null))
+            ->mapWithKeys(fn(BackupRun $r) => [$r->details['safety_backup'] => $r->finished_at]);
+        $lastRestore = $restores->first();
 
         $backups = BackupFiles::list()->map(fn(array $backup) => [
             'name' => $backup['name'],
@@ -43,6 +51,7 @@ class BackupAdminController extends Controller
             'verified_at' => $verified[$backup['name']] ?? null,
             'restore_tested_at' => $restored[$backup['name']] ?? null,
             'download_only' => isset($downloads[$backup['name']]),
+            'safety_for' => $safety[$backup['name']] ?? null,
         ]);
 
         return Inertia::render('Admin/Development/Backups', [
@@ -62,7 +71,21 @@ class BackupAdminController extends Controller
                 'finished_at' => $run->finished_at,
                 'created_at' => $run->created_at,
             ]),
+            // Hinweis nach einer Wiederherstellung: vorheriger Stand zum Herunterladen
+            'lastRestore' => $lastRestore && filled($lastRestore->details['safety_backup'] ?? null)
+                && is_file(BackupFiles::path($lastRestore->details['safety_backup']))
+                && $lastRestore->finished_at?->gt(now()->subDays(7))
+                ? [
+                    'status' => $lastRestore->status,
+                    'from' => $lastRestore->file,
+                    'safety' => $lastRestore->details['safety_backup'],
+                    'at' => $lastRestore->finished_at,
+                ]
+                : null,
             'busy' => $runs->contains(fn(BackupRun $run) => in_array($run->status, ['queued', 'running'], true)),
+            // Eingeplant, aber seit über 2 Minuten nicht gestartet → vermutlich läuft kein Queue-Worker
+            'waitingForWorker' => $runs->contains(fn(BackupRun $run) => $run->status === 'queued'
+                && $run->created_at->lt(now()->subMinutes(2))),
             'config' => [
                 'encrypted' => filled(config('backup.encryption_password')),
                 'remote' => RemoteBackupStore::enabled() ? [
@@ -86,7 +109,7 @@ class BackupAdminController extends Controller
         // Backup aus der Weboberfläche: nur zum Herunterladen – nicht auf den Zweitserver übertragen.
         // Die Kopie auf diesem Server löscht der nächste nächtliche Lauf (BackupRunner::pruneLocal).
         return $this->queue('create', 'backup:run', null,
-            'Backup wird erstellt – der Download startet automatisch, sobald es fertig ist.', ['--no-transfer' => true]);
+            'Backup wird erstellt – der Download startet automatisch, sobald es fertig ist.', ['--download' => true]);
     }
 
     /**
@@ -245,7 +268,9 @@ class BackupAdminController extends Controller
 
     private function queue(string $action, string $command, ?string $file, string $message, array $options = [])
     {
-        if (BackupRun::whereIn('status', ['queued', 'running'])->where('created_at', '>', now()->subHours(2))->exists()) {
+        BackupRun::finalizeStale();
+
+        if (BackupRun::whereIn('status', ['queued', 'running'])->exists()) {
             return back()->with('error', 'Es läuft bereits ein Backup-Vorgang – bitte warten.');
         }
 

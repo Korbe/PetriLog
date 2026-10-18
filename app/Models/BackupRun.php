@@ -54,6 +54,41 @@ class BackupRun extends Model
         }
     }
 
+    // Eingeplant, aber nie gestartet → der Auftrag ging verloren (kein Queue-Worker, Queue geleert …)
+    public const STALE_QUEUED_HOURS = 2;
+
+    // Gestartet, aber nie fertig → Prozess wurde beendet (Neustart, Deploy, Speicher …). Großzügig wegen langer Restores.
+    public const STALE_RUNNING_HOURS = 6;
+
+    /**
+     * Hängengebliebene Einträge abschließen, damit die Weboberfläche nicht dauerhaft „läuft“ anzeigt.
+     */
+    public static function finalizeStale(): int
+    {
+        try {
+            $queued = static::where('status', 'queued')
+                ->where('created_at', '<', now()->subHours(self::STALE_QUEUED_HOURS))
+                ->update([
+                    'status' => 'failed',
+                    'message' => 'Nie gestartet – der Hintergrundauftrag wurde nicht abgearbeitet. Läuft der Queue-Worker?',
+                    'finished_at' => now(),
+                ]);
+
+            $running = static::where('status', 'running')
+                ->where(fn($q) => $q->where('started_at', '<', now()->subHours(self::STALE_RUNNING_HOURS))
+                    ->orWhere(fn($q) => $q->whereNull('started_at')->where('created_at', '<', now()->subHours(self::STALE_RUNNING_HOURS))))
+                ->update([
+                    'status' => 'failed',
+                    'message' => 'Abgebrochen – der Vorgang wurde unterbrochen (z. B. Neustart oder Deploy) und nicht abgeschlossen.',
+                    'finished_at' => now(),
+                ]);
+
+            return $queued + $running;
+        } catch (Throwable) {
+            return 0;
+        }
+    }
+
     /**
      * Übernimmt einen von der Weboberfläche angelegten Eintrag („eingeplant“) oder legt einen neuen an.
      */

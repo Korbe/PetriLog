@@ -29,7 +29,7 @@ class BackupRunner
      * @param callable(string): void|null $output Fortschrittsausgabe (CLI)
      * @return array{ok: bool, code: int, file: ?string, message: string, warnings: array}
      */
-    public function run(string $trigger = 'cli', ?int $userId = null, bool $transfer = true, ?callable $output = null, ?BackupRun $run = null, bool $restoreTest = false): array
+    public function run(string $trigger = 'cli', ?int $userId = null, bool $transfer = true, ?callable $output = null, ?BackupRun $run = null, bool $restoreTest = false, bool $downloadOnly = false): array
     {
         $say = $output ?? fn(string $line) => null;
         $lock = $this->acquireLock();
@@ -57,8 +57,9 @@ class BackupRunner
                     'rows' => array_sum($backup['manifest']['database']['tables']),
                     'files' => $backup['manifest']['files']['count'],
                     'encrypted' => $backup['manifest']['encrypted'],
-                    // Ohne Übertragung (Knopf in der Weboberfläche): reine Download-Kopie
-                    'download_only' => ! $transfer,
+                    // Nur über „Backup erstellen & herunterladen“ – Sicherheits-Backups vor einer Wiederherstellung
+                    // (ebenfalls ohne Übertragung) dürfen nie automatisch gelöscht werden
+                    'download_only' => $downloadOnly,
                 ],
             ]);
             $say("✔ {$file} (" . number_format($backup['size'] / 1048576, 1) . ' MB, SHA-256 ' . substr($backup['sha256'], 0, 12) . '…)');
