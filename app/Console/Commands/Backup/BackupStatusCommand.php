@@ -81,10 +81,14 @@ class BackupStatusCommand extends Command
 
         // 5. Queue (Backups aus der Weboberfläche, Mails, Wetter …)
         try {
-            $jobs = DB::table('jobs')->count();
-            $oldest = DB::table('jobs')->min('created_at');
+            // Fällig und nicht begonnen = echter Stau; geplante Jobs (Wetter erst 90 Min. nach dem Fang) sind normal
+            $due = DB::table('jobs')->whereNull('reserved_at')->where('available_at', '<=', time());
+            $jobs = (clone $due)->count();
+            $oldest = (clone $due)->min('available_at');
+            $scheduled = DB::table('jobs')->where('available_at', '>', time())->count();
             $waiting = $oldest ? (int) floor((time() - (int) $oldest) / 60) : 0;
-            $rows[] = [$waiting > 15 ? '!' : '✔', 'Queue', "{$jobs} wartend" . ($jobs ? ", ältester seit {$waiting} Min." : '')];
+            $rows[] = [$waiting > 15 ? '!' : '✔', 'Queue', "{$jobs} fällig" . ($jobs ? ", ältester seit {$waiting} Min." : '')
+                . ($scheduled ? ", {$scheduled} geplant (z. B. Wetter)" : '')];
             if ($waiting > 15) {
                 $warnings[] = "Aufträge warten seit {$waiting} Minuten – läuft der Queue-Worker?";
             }

@@ -320,7 +320,8 @@ const totals = computed(() => {
         { label: 'Fänge gesamt', value: format(t.catches) },
         { label: 'Gespeicherte Spots', value: format(t.spots) },
         { label: 'Tickets', value: format(t.tickets) },
-        { label: 'Wartende Jobs (Queue)', value: format(props.stats.health.queuedJobs) },
+        { label: 'Fällige Jobs (Queue)', value: format(props.stats.health.queuedJobs) },
+        { label: 'Geplante Jobs (z. B. Wetter)', value: format(props.stats.health.scheduledJobs ?? 0) },
         { label: 'Fehlgeschlagene Jobs', value: format(props.stats.health.failedJobs) },
     ];
 });

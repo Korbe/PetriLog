@@ -231,13 +231,21 @@ class AdminStatistics
 
         return [
             'backupAgeHours' => $backupsExpected ? ($lastBackup ? (int) $lastBackup->diffInHours(now()) : -1) : null,
-            'queuedJobs' => DB::table('jobs')->count(),
-            'oldestJobMinutes' => ($oldest = DB::table('jobs')->min('created_at')) ? (int) floor((time() - (int) $oldest) / 60) : null,
+            // Nur fällige, noch nicht begonnene Jobs – geplante (z. B. Wetter 90 Min. nach dem Fang) und gerade
+            // laufende (z. B. ein Backup) sind kein Stau
+            'queuedJobs' => $this->dueJobs()->count(),
+            'oldestJobMinutes' => ($due = $this->dueJobs()->min('available_at')) ? (int) floor((time() - (int) $due) / 60) : null,
+            'scheduledJobs' => DB::table('jobs')->where('available_at', '>', time())->count(),
             'failedJobs' => DB::table('failed_jobs')->count(),
             'failedJobsRecent' => DB::table('failed_jobs')->where('failed_at', '>=', now()->subDay())->count(),
             'trackingSince' => PageView::min('date'),
             'mailLogSince' => MailLog::min('sent_at'),
         ];
+    }
+
+    private function dueJobs()
+    {
+        return DB::table('jobs')->whereNull('reserved_at')->where('available_at', '<=', time());
     }
 
     private function pageViews(CarbonImmutable $from, CarbonImmutable $to)

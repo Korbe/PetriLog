@@ -132,6 +132,28 @@ class AdminStatisticsTest extends TestCase
         $this->assertSame(1, PageView::count(), 'nur der Aufruf älter als 3 Jahre wird gelöscht');
     }
 
+    public function test_scheduled_and_running_jobs_are_not_reported_as_a_queue_jam(): void
+    {
+        $job = fn(array $attributes) => \Illuminate\Support\Facades\DB::table('jobs')->insert([
+            'queue' => 'default', 'payload' => '{}', 'attempts' => 0, 'reserved_at' => null,
+            'available_at' => time(), 'created_at' => time() - 3600, ...$attributes,
+        ]);
+        $job(['available_at' => time() + 3600]);                     // Wetter, erst in einer Stunde fällig
+        $job(['reserved_at' => time() - 1800, 'attempts' => 1]);     // läuft gerade (z. B. Backup)
+
+        $this->actingAs(User::factory()->create(['role' => 'admin']))->get(route('admin.index'))
+            ->assertInertia(fn(Assert $page) => $page
+                ->where('stats.health.queuedJobs', 0)
+                ->where('stats.health.oldestJobMinutes', null)
+                ->where('stats.health.scheduledJobs', 1));
+
+        $job(['available_at' => time() - 1200]);                     // seit 20 Min. fällig, nicht begonnen
+        $this->actingAs(User::factory()->create(['role' => 'admin']))->get(route('admin.index'))
+            ->assertInertia(fn(Assert $page) => $page
+                ->where('stats.health.queuedJobs', 1)
+                ->where('stats.health.oldestJobMinutes', 20));
+    }
+
     public function test_invalid_period_is_rejected(): void
     {
         $this->actingAs(User::factory()->create(['role' => 'admin']))
