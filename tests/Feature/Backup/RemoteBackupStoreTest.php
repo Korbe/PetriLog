@@ -132,6 +132,26 @@ class RemoteBackupStoreTest extends TestCase
         $this->assertFileDoesNotExist(BackupFiles::checksumFile(BackupFiles::path('petrilog-backup-2026-10-15_031500.zip')));
     }
 
+    public function test_download_copies_from_the_web_do_not_replace_the_kept_backup_and_are_removed_by_the_next_run(): void
+    {
+        config(['backup.retention.local.keep_latest' => 1]);
+        $nightly = $this->fakeBackup(now()->subDays(1)->format('Y-m-d_His'));
+        BackupRun::create(['action' => 'transfer', 'status' => 'success', 'file' => basename($nightly)]);
+
+        $fresh = $this->fakeBackup(now()->subMinutes(10)->format('Y-m-d_His'));
+        $old = $this->fakeBackup(now()->subHours(3)->format('Y-m-d_His'));
+        foreach ([$fresh, $old] as $copy) {
+            BackupRun::create(['action' => 'create', 'status' => 'success', 'trigger' => 'web', 'file' => basename($copy),
+                'details' => ['download_only' => true]]);
+        }
+
+        $deleted = app(BackupRunner::class)->pruneLocal();
+
+        $this->assertSame([basename($old)], $deleted, 'Download-Kopie weg, eine gerade erst erstellte bleibt für den laufenden Download');
+        $this->assertFileExists($nightly, 'das aufbewahrte nächtliche Backup bleibt – trotz neuerer Download-Kopie');
+        $this->assertFileExists($fresh);
+    }
+
     /**
      * Regression: Ein typisierter Konstruktor-Parameter wurde von Laravel mit dem lokalen Standard-Speicher befüllt –
      * „übertragene“ Backups landeten dadurch in storage/app/private auf demselben Server.

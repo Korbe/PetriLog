@@ -65,7 +65,7 @@
                 eingeloggt warst, von welcher externen Website du gekommen bist, die Geräteart (Handy, Tablet oder
                 Desktop – abgeleitet aus der Browserkennung) und ob du PetriLog als installierte App nutzt. Rechtsgrundlage
                 ist unser berechtigtes Interesse an einer datensparsamen Reichweitenmessung (Art. 6 Abs. 1 lit. f DSGVO).
-                Die Daten werden nach einem Jahr gelöscht.
+                Die Daten werden nach drei Jahren gelöscht.
             </p>
             <p>
                 Alle <strong>Karten</strong> (Fangort, Spot-Karte, geteilte Fänge) laden Kartenkacheln von <strong>basemap.at</strong>

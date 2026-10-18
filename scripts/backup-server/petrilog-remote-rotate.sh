@@ -98,7 +98,7 @@ find "$FAILED" -type f -mtime +14 -delete
 # ==============================
 # 2. Alte Tagesordner (bisheriges Format) auslaufen lassen
 # ==============================
-OLD_FOLDERS=( $(ls -1d [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ 2>/dev/null | sort -r) )
+OLD_FOLDERS=( $(ls -1d [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ 2>/dev/null | sort -r || true) )   # || true: ohne alte Ordner liefert ls Code 2
 if [ "${#OLD_FOLDERS[@]}" -gt "$KEEP_OLD_FOLDERS" ]; then
     for d in "${OLD_FOLDERS[@]:$KEEP_OLD_FOLDERS}"; do
         rm -rf -- "$d"

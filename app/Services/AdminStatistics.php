@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class AdminStatistics
 {
-    public const PERIODS = [7, 30, 90, 365];
+    public const PERIODS = [7, 30, 90, 365, 1095];
 
     private const TIMEZONE = 'Europe/Vienna';
 
@@ -74,14 +74,23 @@ class AdminStatistics
     }
 
     /**
-     * Tageswerte; bei einem Jahr wochenweise, damit das Diagramm lesbar bleibt.
+     * Tageswerte; bei einem Jahr wochenweise, bei drei Jahren monatsweise, damit das Diagramm lesbar bleibt.
      */
     private function series(): array
     {
-        $byWeek = $this->days > 90;
-        $bucket = fn(CarbonImmutable $date) => $byWeek ? $date->startOfWeek()->toDateString() : $date->toDateString();
+        $grouping = match (true) {
+            $this->days > 365 => 'month',
+            $this->days > 90 => 'week',
+            default => 'day',
+        };
+        $bucket = fn(CarbonImmutable $date) => match ($grouping) {
+            'month' => $date->startOfMonth()->toDateString(),
+            'week' => $date->startOfWeek()->toDateString(),
+            default => $date->toDateString(),
+        };
 
-        $labels = collect(CarbonPeriod::create($this->start, $byWeek ? '1 week' : '1 day', $this->end))
+        // Tageweise durchgehen und dann zusammenfassen – so fehlt nie die angebrochene letzte Woche bzw. der letzte Monat
+        $labels = collect(CarbonPeriod::create($this->start, '1 day', $this->end))
             ->map(fn($d) => $bucket(CarbonImmutable::instance($d)))
             ->unique()
             ->values();
@@ -101,7 +110,7 @@ class AdminStatistics
 
         return [
             'labels' => $labels->all(),
-            'byWeek' => $byWeek,
+            'grouping' => $grouping,
             'views' => $labels->map(fn($l) => (int) ($views[$l] ?? collect())->sum('views'))->all(),
             'visitors' => $labels->map(fn($l) => (int) ($views[$l] ?? collect())->sum('visitors'))->all(),
             'catches' => $count(Catched::whereBetween('created_at', $range)->pluck('created_at')),

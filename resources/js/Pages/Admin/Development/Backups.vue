@@ -1,8 +1,9 @@
 <template>
     <PageWrapper title="Datenbank-Backups" eyebrow="Development · Daten & Sicherung" backTo="/admin/development">
         <template v-slot:actions>
-            <VButton :loading="creating" :disabled="busy || creating" @click="createBackup">
-                <CircleStackIcon class="size-4" /> Backup jetzt erstellen
+            <VButton :loading="creating" :disabled="busy || creating" @click="createBackup"
+                title="Erstellt ein verschlüsseltes Backup und lädt es auf deinen Computer herunter (ohne Übertragung zum Backup-Server)">
+                <ArrowDownTrayIcon class="size-4" /> Backup erstellen & herunterladen
             </VButton>
         </template>
 
@@ -25,6 +26,19 @@
             <div v-if="busy" class="flex items-center gap-3 rounded-2xl bg-(--app-accent-soft) px-4 py-3 text-sm text-(--app-accent-ink)" role="status">
                 <span class="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
                 Ein Backup-Vorgang läuft im Hintergrund – die Seite aktualisiert sich automatisch.
+                <template v-if="pendingDownload"> Der Download startet, sobald das Backup fertig ist.</template>
+            </div>
+
+            <div v-if="readyDownload" class="flex flex-wrap items-center gap-3 rounded-2xl bg-(--app-success-soft) px-4 py-3 text-sm" role="status">
+                <CheckCircleIcon class="size-5 shrink-0 text-(--app-success)" />
+                <span class="min-w-0 flex-1">
+                    <strong>Backup fertig.</strong> Der Download sollte automatisch gestartet sein – sonst hier klicken.
+                    Zum Öffnen brauchst du das Verschlüsselungspasswort (BACKUP_ENCRYPTION_PASSWORD).
+                </span>
+                <a :href="route('admin.development.backups.download', readyDownload)"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-(--app-success) px-4 py-2 text-xs font-semibold text-white">
+                    <ArrowDownTrayIcon class="size-4" /> {{ readyDownload }}
+                </a>
             </div>
 
             <!-- Lokale Backups -->
@@ -69,12 +83,16 @@
                                 <span v-if="backup.sha256" class="font-log" :title="backup.sha256"> · SHA-256 {{ backup.sha256.slice(0, 12) }}…</span>
                             </p>
                             <div class="mt-2 flex flex-wrap gap-1.5">
-                                <span class="ui-badge" :class="backup.transferred ? 'ui-badge-success' : (config.remote ? 'ui-badge-float' : '')">
+                                <span v-if="!backup.download_only" class="ui-badge" :class="backup.transferred ? 'ui-badge-success' : (config.remote ? 'ui-badge-float' : '')">
                                     {{ backup.transferred ? 'Auf Zweitserver' : 'Nur lokal' }}
                                 </span>
                                 <span v-if="!backup.sha256" class="ui-badge ui-badge-float">Wird geprüft</span>
                                 <span v-if="backup.verified_at" class="ui-badge ui-badge-success">Geprüft {{ relativeTime(backup.verified_at) }}</span>
                                 <span v-if="backup.restore_tested_at" class="ui-badge ui-badge-success">Wiederherstellung getestet</span>
+                                <span v-if="backup.download_only" class="ui-badge"
+                                    title="Über „Backup erstellen &amp; herunterladen“ erstellt. Liegt nur vorübergehend hier und wird beim nächsten nächtlichen Backup automatisch gelöscht.">
+                                    Download-Kopie · wird heute Nacht gelöscht
+                                </span>
                             </div>
                         </div>
                         <div class="flex flex-wrap gap-2">
@@ -389,6 +407,26 @@ function submitRestore() {
         onSuccess: closeRestore,
     })
 }
+
+/* Download-Backup: sobald der eigene Lauf fertig ist, automatisch herunterladen */
+const myDownloadRun = computed(() => props.runs.find(run => run.action === 'create' && run.download_only && run.mine))
+const pendingDownload = computed(() => ['queued', 'running'].includes(myDownloadRun.value?.status))
+const readyDownload = ref(null)
+let awaitingDownload = null
+
+watch(myDownloadRun, (run, previous) => {
+    if (!run) return
+    if (['queued', 'running'].includes(run.status)) {
+        awaitingDownload = run.id
+        readyDownload.value = null
+    } else if (awaitingDownload === run.id && ['success', 'warning'].includes(run.status) && run.file) {
+        awaitingDownload = null
+        readyDownload.value = run.file
+        window.location.href = route('admin.development.backups.download', run.file)
+    } else if (awaitingDownload === run.id) {
+        awaitingDownload = null
+    }
+}, { immediate: true })
 
 // Während ein Vorgang läuft, regelmäßig den Status nachladen
 let timer = null

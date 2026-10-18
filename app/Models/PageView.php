@@ -15,7 +15,8 @@ class PageView extends Model
 
     public const UPDATED_AT = null;
 
-    public const RETENTION_DAYS = 365;
+    // 3 Jahre, damit sich Jahre im Admin-Dashboard vergleichen lassen
+    public const RETENTION_DAYS = 365 * 3;
 
     protected $guarded = [];
 

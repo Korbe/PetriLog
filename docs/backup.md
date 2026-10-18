@@ -296,7 +296,9 @@ Das ZIP lässt sich mit 7-Zip oder `7z x` (AES-256) und dem Verschlüsselungspas
 
 Admin → **Development** → **Datenbank-Backups**. Der ganze Bereich verlangt eine erneute Passwort-Eingabe.
 
-- **Backup jetzt erstellen**: läuft im Hintergrund über die Queue und nutzt denselben Ablauf wie Cron. Ein Queue-Worker muss laufen.
+- **Backup erstellen & herunterladen**: läuft im Hintergrund über die Queue (ein Queue-Worker muss laufen) und lädt das fertige, verschlüsselte ZIP automatisch herunter.
+  - Diese Backups werden **nicht** auf den Backup-Server übertragen (`backup:run --no-transfer`) und verdrängen das aufbewahrte nächtliche Backup nicht.
+  - Die Kopie auf dem Server löscht der nächste nächtliche Lauf (sofern sie mindestens eine Stunde alt ist).
 - **Prüfen** und **Wiederherstellung testen** (immer isoliert): ebenfalls im Hintergrund, mit Status im Verlauf.
 - **Download**: Die Datei bleibt verschlüsselt, jeder Download wird protokolliert.
 - **Backup hochladen**: z. B. eine Datei von Server B oder ein zuvor heruntergeladenes Backup.

@@ -15,6 +15,10 @@ use Throwable;
  */
 class BackupRunner
 {
+    // Download-Kopien aus der Weboberfläche löscht der nächste nächtliche Lauf – sofern sie mindestens so alt sind
+    // (damit ein gerade laufender Download nicht abbricht)
+    public const DOWNLOAD_TTL_HOURS = 1;
+
     public function __construct(
         private BackupCreator $creator,
         private RemoteBackupStore $remote,
@@ -53,6 +57,8 @@ class BackupRunner
                     'rows' => array_sum($backup['manifest']['database']['tables']),
                     'files' => $backup['manifest']['files']['count'],
                     'encrypted' => $backup['manifest']['encrypted'],
+                    // Ohne Übertragung (Knopf in der Weboberfläche): reine Download-Kopie
+                    'download_only' => ! $transfer,
                 ],
             ]);
             $say("✔ {$file} (" . number_format($backup['size'] / 1048576, 1) . ' MB, SHA-256 ' . substr($backup['sha256'], 0, 12) . '…)');
@@ -83,8 +89,9 @@ class BackupRunner
                 $say('✔ Wiederherstellungstest erfolgreich');
             }
 
-            // 4. Aufräumen
-            $pruned = $this->pruneLocal();
+            // 4. Aufräumen – nur bei echten Backup-Läufen. Eine Download-Kopie soll das aufbewahrte
+            //    nächtliche Backup nicht verdrängen.
+            $pruned = $transfer ? $this->pruneLocal() : [];
             if ($pruned) {
                 $say((RemoteBackupStore::enabled() ? 'Lokal gelöscht (sicher auf dem Zweitserver): ' : 'Lokal gelöscht (Aufbewahrung): ') . implode(', ', $pruned));
             }
@@ -141,8 +148,18 @@ class BackupRunner
     {
         $keep = max(RemoteBackupStore::enabled() ? 0 : 1, (int) config('backup.retention.local.keep_latest'));
         $deleted = [];
+        $downloads = self::downloadOnlyFiles()->flip();
+        [$downloadCopies, $backups] = BackupFiles::list()->partition(fn(array $backup) => isset($downloads[$backup['name']]));
 
-        foreach (BackupFiles::list()->slice($keep) as $backup) {
+        // Download-Kopien aus der Weboberfläche: beim nächsten Lauf weg, zählen nicht zur Aufbewahrung
+        foreach ($downloadCopies as $backup) {
+            if ($backup['created_at'] && $backup['created_at']->lt(now()->subHours(self::DOWNLOAD_TTL_HOURS))) {
+                BackupFiles::delete($backup['path']);
+                $deleted[] = $backup['name'];
+            }
+        }
+
+        foreach ($backups->values()->slice($keep) as $backup) {
             if (RemoteBackupStore::enabled() && ! $this->confirmedRemote($backup['name'])) {
                 continue;
             }
@@ -156,6 +173,23 @@ class BackupRunner
         }
 
         return $deleted;
+    }
+
+    /**
+     * Dateinamen der Backups, die über die Weboberfläche nur zum Herunterladen erstellt wurden.
+     *
+     * @return \Illuminate\Support\Collection<int, string>
+     */
+    public static function downloadOnlyFiles(): \Illuminate\Support\Collection
+    {
+        try {
+            return BackupRun::where('action', 'create')->whereNotNull('file')->get(['file', 'details'])
+                ->filter(fn(BackupRun $run) => (bool) ($run->details['download_only'] ?? false))
+                ->pluck('file')
+                ->values();
+        } catch (Throwable) {
+            return collect();
+        }
     }
 
     private function confirmedRemote(string $name): bool

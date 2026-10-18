@@ -113,6 +113,25 @@ class AdminStatisticsTest extends TestCase
                 ->where('stats.devices.rows.2.visitors', 1));
     }
 
+    public function test_three_year_view_is_grouped_by_month_and_page_views_are_kept_three_years(): void
+    {
+        $today = now('Europe/Vienna');
+        PageView::create(['date' => $today->copy()->subYears(2)->toDateString(), 'path' => '/', 'visitor' => 'aaaaaaaaaaaaaaaa']);
+        PageView::create(['date' => $today->copy()->subYears(3)->subDays(2)->toDateString(), 'path' => '/', 'visitor' => 'bbbbbbbbbbbbbbbb']);
+
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->get(route('admin.index', ['period' => 1095]))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page
+                ->where('stats.series.grouping', 'month')
+                ->where('stats.series.labels', fn($labels) => count($labels) >= 36 && count($labels) <= 37
+                    && collect($labels)->last() === $today->copy()->startOfMonth()->toDateString())
+                ->where('stats.kpis.views.value', 1));
+
+        $this->artisan('model:prune', ['--model' => [PageView::class]]);
+        $this->assertSame(1, PageView::count(), 'nur der Aufruf älter als 3 Jahre wird gelöscht');
+    }
+
     public function test_invalid_period_is_rejected(): void
     {
         $this->actingAs(User::factory()->create(['role' => 'admin']))

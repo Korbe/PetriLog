@@ -192,7 +192,9 @@ class DevelopmentTest extends TestCase
         $this->assertSame('queued', $run->status);
         $this->assertSame('web', $run->trigger);
         $this->assertSame($this->admin->id, $run->user_id);
-        Queue::assertPushed(RunBackupCommand::class, fn($job) => $job->command === 'backup:run' && $job->runId === $run->id);
+        // Knopf in der Weboberfläche = nur zum Herunterladen, keine Übertragung zum Backup-Server
+        Queue::assertPushed(RunBackupCommand::class, fn($job) => $job->command === 'backup:run' && $job->runId === $run->id
+            && ($job->options['--no-transfer'] ?? false) === true);
 
         // Kein zweiter Auftrag, solange einer läuft
         $this->confirmed()->post(route('admin.development.backups.store'))->assertSessionHas('error');

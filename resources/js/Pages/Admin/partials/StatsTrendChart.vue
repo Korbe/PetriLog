@@ -2,7 +2,7 @@
     <div class="flex h-full flex-col">
         <header class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <p class="ui-kicker">Verlauf · {{ series.byWeek ? 'pro Woche' : 'pro Tag' }}</p>
+                <p class="ui-kicker">Verlauf · {{ { day: 'pro Tag', week: 'pro Woche', month: 'pro Monat' }[series.grouping] }}</p>
                 <h2 class="mt-1 text-base font-semibold">{{ current.title }}</h2>
             </div>
             <div class="flex gap-1 overflow-x-auto rounded-full bg-(--app-surface-2) p-1" role="tablist" aria-label="Kennzahl">
@@ -49,8 +49,9 @@ const darkMode = useAppDark()
 
 const formatLabel = (date) => {
     const d = new Date(`${date}T12:00:00`)
+    if (props.series.grouping === 'month') return d.toLocaleDateString('de-AT', { month: 'short', year: 'numeric' })
     const label = d.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit' })
-    return props.series.byWeek ? `KW ab ${label}` : label
+    return props.series.grouping === 'week' ? `KW ab ${label}` : label
 }
 
 function datasets(theme) {

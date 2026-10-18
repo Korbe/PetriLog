@@ -237,6 +237,7 @@ const periods = [
     { days: 30, label: '30 T' },
     { days: 90, label: '90 T' },
     { days: 365, label: '1 J' },
+    { days: 1095, label: '3 J' },
 ];
 const loading = ref(false);
 

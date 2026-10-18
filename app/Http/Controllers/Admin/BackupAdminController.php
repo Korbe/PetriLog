@@ -7,6 +7,7 @@ use App\Jobs\RunBackupCommand;
 use App\Models\BackupRun;
 use App\Services\Backup\BackupException;
 use App\Services\Backup\BackupFiles;
+use App\Services\Backup\BackupRunner;
 use App\Services\Backup\RemoteBackupStore;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ class BackupAdminController extends Controller
         $transferred = BackupRun::where('action', 'transfer')->where('status', 'success')->pluck('file')->flip();
         $verified = BackupRun::where('action', 'verify')->where('status', 'success')->pluck('finished_at', 'file');
         $restored = BackupRun::where('action', 'restore-test')->whereIn('status', ['success', 'warning'])->pluck('finished_at', 'file');
+        $downloads = BackupRunner::downloadOnlyFiles()->flip();
 
         $backups = BackupFiles::list()->map(fn(array $backup) => [
             'name' => $backup['name'],
@@ -40,6 +42,7 @@ class BackupAdminController extends Controller
             'transferred' => isset($transferred[$backup['name']]),
             'verified_at' => $verified[$backup['name']] ?? null,
             'restore_tested_at' => $restored[$backup['name']] ?? null,
+            'download_only' => isset($downloads[$backup['name']]),
         ]);
 
         return Inertia::render('Admin/Development/Backups', [
@@ -53,6 +56,8 @@ class BackupAdminController extends Controller
                 'file' => $run->file,
                 'size' => $run->size,
                 'message' => $run->message,
+                'download_only' => (bool) ($run->details['download_only'] ?? false),
+                'mine' => $run->user_id === Auth::id(),
                 'started_at' => $run->started_at,
                 'finished_at' => $run->finished_at,
                 'created_at' => $run->created_at,
@@ -78,7 +83,10 @@ class BackupAdminController extends Controller
 
     public function store()
     {
-        return $this->queue('create', 'backup:run', null, 'Backup wurde eingeplant und läuft im Hintergrund.');
+        // Backup aus der Weboberfläche: nur zum Herunterladen – nicht auf den Zweitserver übertragen.
+        // Die Kopie auf diesem Server löscht der nächste nächtliche Lauf (BackupRunner::pruneLocal).
+        return $this->queue('create', 'backup:run', null,
+            'Backup wird erstellt – der Download startet automatisch, sobald es fertig ist.', ['--no-transfer' => true]);
     }
 
     /**
