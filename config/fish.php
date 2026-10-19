@@ -4,7 +4,7 @@ return [
 
 	"Aal" => [
 		"name" => "Aal",
-		"link" => "/images/fish/Aal.png",
+		"link" => "/images/fish/aal.png",
 		"desc" => "Der Aal ist ein Fisch mit einem charakteristischen, schlangenartigen, langgestreckten Körper, der keine Bauchflossen, sondern einen durchgehenden Flossensaum aus Rücken-, Schwanz- und Afterflosse besitzt. Seine Haut ist dick, schleimig und enthält winzige, eingebettete Schuppen. Aale haben einen gut entwickelten Geruchssinn und eine nachtaktive Lebensweise als Raubfische, die sich von verschiedenen Beutetieren ernähren.
 			</br></br><b>Körperbau:</b> Der Körper ist schlangenförmig und walzenförmig im Querschnitt, das Ende ist seitlich abgeflacht. 
 			</br></br><b>Flossen:</b> Bauchflossen sind nicht vorhanden, während Rücken-, Schwanz- und Afterflosse einen durchgehenden Saum bilden. Brustflossen sind gut entwickelt. 
@@ -23,7 +23,7 @@ return [
 
 	"Bachforelle" => [
 		"name" => "Bachforelle",
-		"link" => "/images/fish/Bachforelle.png",
+		"link" => "/images/fish/bachforelle.png",
 		"desc" => "Die Bachforelle (Salmo trutta f. fario) ist ein Raubfisch mit spindelförmigem Körper und typischen roten Punkten mit hellem Hof. 
 			</br></br><b>Körperbau:</b> Langgestreckt, torpedoförmig; kleine, fest sitzende Schuppen. 
 			</br></br><b>Flossen:</b> Zwei Rückenflossen, davon die hintere als <i>Fettflosse</i> (salmonidentypisch); abgerundete Brust- und Bauchflossen. 
@@ -42,7 +42,7 @@ return [
 
 	"Seeforelle" => [
 		"name" => "Seeforelle",
-		"link" => "/images/fish/Seeforelle.png",
+		"link" => "/images/fish/seeforelle.png",
 		"desc" => "Die Seeforelle (Salmo trutta f. lacustris) ist die seebewohnende Großform der Forelle mit silbrigem Kleid und schwarzen Flecken. 
 			</br></br><b>Körperbau:</b> Langgestreckt, kräftig, seitlich leicht abgeflacht. 
 			</br></br><b>Flossen:</b> Mit <i>Fettflosse</i>; kräftige Schwanzflosse für weite Wanderungen. 
@@ -61,7 +61,7 @@ return [
 
 	"Barsch" => [
 		"name" => "Barsch",
-		"link" => "/images/fish/Barsch.png",
+		"link" => "/images/fish/barsch.png",
 		"desc" => "Der Flussbarsch (Perca fluviatilis) ist an dunklen Querbändern und zwei Rückenflossen erkennbar. 
 			</br></br><b>Körperbau:</b> Hochrückig, seitlich abgeflacht; kräftiger Stachelapparat. 
 			</br></br><b>Flossen:</b> Zwei Rückenflossen (vorn stachlig, hinten weich); Afterflosse mit Stacheln; oft rötliche Brust-/Bauchflossen. 
@@ -80,7 +80,7 @@ return [
 
 	"Zander" => [
 		"name" => "Zander",
-		"link" => "/images/fish/Zander.png",
+		"link" => "/images/fish/zander.png",
 		"desc" => "Der Zander (Sander lucioperca) ist ein langgestreckter Raubfisch mit großen Glasaugen und markanten Fangzähnen („Hundszähne“). 
 			</br></br><b>Körperbau:</b> Spindelförmig, muskulös; für schnelle Sprints optimiert. 
 			</br></br><b>Flossen:</b> Zwei getrennte Rückenflossen (vorn stachelig, hinten weich); kräftige Schwanzflosse. 
@@ -99,7 +99,7 @@ return [
 
 	"Hecht" => [
 		"name" => "Hecht",
-		"link" => "/images/fish/Hecht.png",
+		"link" => "/images/fish/hecht.png",
 		"desc" => "Der Hecht (Esox lucius) ist ein pfeilförmiger Lauerjäger mit entenschnabelförmigem Maul und vielen spitzen Zähnen. 
 			</br></br><b>Körperbau:</b> Langgestreckt, walzenförmig; großer Kopf mit breitem Maul. 
 			</br></br><b>Flossen:</b> Rücken- und Afterflosse weit hinten, ermöglicht explosive Beschleunigung. 
@@ -118,7 +118,7 @@ return [
 
 	"Schuppenkarpfen" => [
 		"name" => "Schuppenkarpfen",
-		"link" => "/images/fish/Schuppenkarpfen.png",
+		"link" => "/images/fish/schuppenkarpfen.png",
 		"desc" => "Der Schuppenkarpfen (Cyprinus carpio) ist vollständig beschuppt und hochrückig – eine klassische Zuchtform des Karpfens. 
 			</br></br><b>Körperbau:</b> Hochrückig, seitlich abgeflacht; kräftiger Schwanzstiel. 
 			</br></br><b>Flossen:</b> Lange Rückenflosse; erster Strahl oft verknöchert und gezähnt. 
@@ -137,7 +137,7 @@ return [
 
 	"Spiegelkarpfen" => [
 		"name" => "Spiegelkarpfen",
-		"link" => "/images/fish/Spiegelkarpfen.png",
+		"link" => "/images/fish/spiegelkarpfen.png",
 		"desc" => "Der Spiegelkarpfen ist durch wenige, sehr große Schuppen („Spiegelschuppen“) gekennzeichnet. 
 			</br></br><b>Körperbau:</b> Sehr hochrückig, gedrungen; starker Körper. 
 			</br></br><b>Flossen:</b> Lange Rückenflosse mit hartem, gezahntem Strahl. 
@@ -156,7 +156,7 @@ return [
 
 	"Wels" => [
 		"name" => "Wels",
-		"link" => "/images/fish/Wels.png",
+		"link" => "/images/fish/wels.png",
 		"desc" => "Der Wels (Silurus glanis) ist Europas größter Süßwasserfisch: schuppenlos, mit breitem Kopf und Barteln. 
 			</br></br><b>Körperbau:</b> Langgestreckt; abgeflachter, breiter Kopf; sehr großes Maul. 
 			</br></br><b>Flossen:</b> Sehr lange Afterflosse bis zur Schwanzflosse; kleine Rückenflosse. 
@@ -194,7 +194,7 @@ return [
 
 	"Reinanke" => [
 		"name" => "Reinanke",
-		"link" => "/images/fish/Renke.png",
+		"link" => "/images/fish/renke.png",
 		"desc" => "Die Reinanke (Coregonus lavaretus agg.; Renke/Maräne) ist ein schlanker Coregonide mit silbrigen Flanken und Fettflosse. 
 			</br></br><b>Körperbau:</b> Langgestreckt, seitlich zusammengedrückt; kleiner Kopf, kleines endständiges Maul. 
 			</br></br><b>Flossen:</b> <i>Fettflosse</i> vorhanden; zarte Flossen. 
@@ -213,7 +213,7 @@ return [
 
 	"Felchen" => [
 		"name" => "Felchen",
-		"link" => "/images/fish/Felchen.png",
+		"link" => "/images/fish/felchen.png",
 		"desc" => "Felchen (Coregonus spp.) sind silberglänzende Salmoniden mit kleiner Maulspalte und Fettflosse. 
 			</br></br><b>Körperbau:</b> Schlank, seitlich abgeflacht; langer Schwanzstiel. 
 			</br></br><b>Flossen:</b> <i>Fettflosse</i> vorhanden. 
@@ -232,7 +232,7 @@ return [
 
 	"Äsche" => [
 		"name" => "Äsche",
-		"link" => "/images/fish/Äsche.png",
+		"link" => "/images/fish/äsche.png",
 		"desc" => "Die Äsche (Thymallus thymallus) hat eine auffällige, große, fahnenartige Rückenflosse und einen typischen Thymianduft. 
 			</br></br><b>Körperbau:</b> Schlank, seitlich etwas abgeflacht; spitze Schnauze. 
 			</br></br><b>Flossen:</b> Große, bunt gemusterte Rückenflosse (v. a. Männchen); kleine <i>Fettflosse</i>. 
@@ -251,7 +251,7 @@ return [
 
 	"Barbe" => [
 		"name" => "Barbe",
-		"link" => "/images/fish/Barbe.png",
+		"link" => "/images/fish/barbe.png",
 		"desc" => "Die Barbe (Barbus barbus) ist ein strömungsliebender Grundfisch mit vier Barteln und unterständigem, rüsselartigem Maul. 
 			</br></br><b>Körperbau:</b> Langgestreckt, kräftig; runder Querschnitt. 
 			</br></br><b>Flossen:</b> Hohe Rückenflosse mit hartem, gesägtem Strahl; kräftige Brust-/Bauchflossen. 
@@ -270,7 +270,7 @@ return [
 
 	"Nase" => [
 		"name" => "Nase",
-		"link" => "/images/fish/Nase.png",
+		"link" => "/images/fish/nase.png",
 		"desc" => "Die Nase (Chondrostoma nasus) ist ein karpfenartiger Strömungsfisch mit unterständigem, hornbepanzertem Schabemaul. 
 			</br></br><b>Körperbau:</b> Schlank, seitlich wenig abgeflacht; kleiner Kopf, gerade Stirnlinie. 
 			</br></br><b>Flossen:</b> Relativ hohe Rückenflosse; kräftige Brust-/Bauchflossen zur Positionshaltung in Strömung. 
@@ -289,7 +289,7 @@ return [
 
 	"Huchen" => [
 		"name" => "Huchen",
-		"link" => "/images/fish/Huchen.png",
+		"link" => "/images/fish/huchen.png",
 		"desc" => "Der Huchen (Hucho hucho) – auch Donaulachs – ist ein großer, spindelförmiger Salmonide und Spitzenprädator strömungsreicher Alpenflüsse. 
 			</br></br><b>Körperbau:</b> Sehr langgestreckt, kräftig; großer Kopf, weit gespaltenes Maul. 
 			</br></br><b>Flossen:</b> <i>Fettflosse</i> vorhanden; alle Flossen ohne Zeichnung. 
@@ -308,7 +308,7 @@ return [
 
 	"Schleie" => [
 		"name" => "Schleie",
-		"link" => "/images/fish/Schleie.png",
+		"link" => "/images/fish/schleie.png",
 		"desc" => "Die Schleie (Tinca tinca) ist ein karpfenartiger Fisch mit kleiner Schuppe, dicker Schleimschicht und roten Augen. 
 			</br></br><b>Körperbau:</b> Kräftig, hochrückig; kurzer, hoher Schwanzstiel. 
 			</br></br><b>Flossen:</b> Alle Flossen abgerundet; Rückenflosse relativ kurz. 
@@ -327,7 +327,7 @@ return [
 
 	"Regenbogenorelle" => [
 		"name" => "Regenbogenforelle",
-		"link" => "/images/fish/Regenbogenforelle.png",
+		"link" => "/images/fish/regenbogenforelle.png",
 		"desc" => "Die Regenbogenforelle (Oncorhynchus mykiss) ist ein torpedoförmiger Salmonide mit rosa bis purpurnem Längsband und vielen schwarzen Punkten. 
 			</br></br><b>Körperbau:</b> Spindelförmig, strömungsgünstig; kräftige Schwanzwurzel. 
 			</br></br><b>Flossen:</b> <i>Fettflosse</i> vorhanden; gepunktete Rücken-/Schwanzflosse. 
@@ -346,7 +346,7 @@ return [
 
 	"Zeilkarpfen" => [
 		"name" => "Zeilkarpfen",
-		"link" => "/images/fish/Zeilkarpfen.png",
+		"link" => "/images/fish/zeilkarpfen.png",
 		"desc" => "Der Zeilkarpfen (Cyprinus carpio forma domestica) ist eine Zuchtform des Karpfens, die durch eine einzige Reihe großer Schuppen entlang der Seitenlinie charakterisiert ist. 
 			</br></br><b>Körperbau:</b> Hochrückig, gedrungen, kräftig gebaut. 
 			</br></br><b>Flossen:</b> Lange Rückenflosse mit hartem, gezähntem Strahl; Afterflosse kurz und breit. 
@@ -365,7 +365,7 @@ return [
 
 	"Rapfen" => [
 		"name" => "Rapfen",
-		"link" => "/images/fish/Rapfen.png",
+		"link" => "/images/fish/rapfen.png",
 		"desc" => "Der Rapfen (Aspius aspius) ist ein schnell schwimmender Raubfisch aus der Familie der Karpfenfische und bekannt für seine spektakulären Jagdsprünge. 
 			</br></br><b>Körperbau:</b> Spindelförmig, seitlich leicht abgeflacht, stromlinienförmig. 
 			</br></br><b>Flossen:</b> Lange, sichelförmige Schwanzflosse; Rückenflosse weit hinten angesetzt. 
@@ -384,7 +384,7 @@ return [
 
 	"Döbel" => [
 		"name" => "Döbel",
-		"link" => "/images/fish/Döbel-Aitel.png",
+		"link" => "/images/fish/döbel-aitel.png",
 		"desc" => "Der Döbel (Squalius cephalus) ist ein anpassungsfähiger, karpfenartiger Fisch mit dickem Kopf und silbrig glänzenden Schuppen. 
 			</br></br><b>Körperbau:</b> Zylindrisch, kräftig, mit breitem Kopf und endständigem Maul. 
 			</br></br><b>Flossen:</b> Rückenflosse mittig angesetzt; Brust- und Afterflossen oft rötlich getönt. 
@@ -403,7 +403,7 @@ return [
 
 	"Forellenbarsch" => [
 		"name" => "Forellenbarsch",
-		"link" => "/images/fish/Forellenbarsch.png",
+		"link" => "/images/fish/forellenbarsch.png",
 		"desc" => "Der Forellenbarsch (Micropterus salmoides), auch Schwarzbarsch genannt, ist ein Raubfisch aus Nordamerika und beliebter Angelfisch. 
 			</br></br><b>Körperbau:</b> Hochrückig, muskulös, großer Kopf mit großem endständigem Maul. 
 			</br></br><b>Flossen:</b> Rückenflosse zweigeteilt (vorn stachlig, hinten weich); Schwanzflosse leicht eingekerbt. 

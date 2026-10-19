@@ -7,9 +7,9 @@ return [
         "name"  => "Bregenzer Ach",
         "desc"  => "Hauptfluss des Bregenzerwalds; klare, kalte Gebirgsache mit Schotterbänken und tiefen Gumpen.",
         "fish"  => [
-            "Bachforelle"       => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"             => ["link" => "/images/fish/Äsche.png"],
-            "Regenbogenforelle" => ["link" => "/images/fish/Regenbogenforelle.png"],
+            "Bachforelle"       => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"             => ["link" => "/images/fish/äsche.png"],
+            "Regenbogenforelle" => ["link" => "/images/fish/regenbogenforelle.png"],
         ],
         "tips"  => "Sommer: Trockenfliegen an Rieselstrecken; Frühjahr/Herbst: Streamer und kleine Wobbler in tiefen Rinnen."
     ],
@@ -20,9 +20,9 @@ return [
         "name"  => "Ill",
         "desc"  => "Großer Alpenfluss im Walgau; wechselnde Staustrecken und freie Rauschen.",
         "fish"  => [
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Huchen"      => ["link" => "/images/fish/Huchen.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Huchen"      => ["link" => "/images/fish/huchen.png"],
         ],
         "tips"  => "Niedrigwasser: Nymphen tief präsentieren; kalte Monate: Huchen großvolumig, langsam führen."
     ],
@@ -33,8 +33,8 @@ return [
         "name"  => "Dornbirner Ach",
         "desc"  => "Kurz, aber abwechslungsreich – von Schluchten bis zum Bodensee-Delta.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Kleine Spinner/Streamer in Taschenwasser; vorsichtige Pirsch an klaren Tagen."
     ],
@@ -45,8 +45,8 @@ return [
         "name"  => "Leiblach",
         "desc"  => "Grenzbach zu Deutschland; kiesig, strukturreich.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Feines Gerät; natürliche Muster bei klarem Wasser."
     ],
@@ -57,10 +57,10 @@ return [
         "name"  => "Inn",
         "desc"  => "Alpen-Hauptfluss; breite Rieselstrecken, Staubereiche und urbane Abschnitte.",
         "fish"  => [
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Huchen"      => ["link" => "/images/fish/Huchen.png"],
-            "Barbe"       => ["link" => "/images/fish/Barbe.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Huchen"      => ["link" => "/images/fish/huchen.png"],
+            "Barbe"       => ["link" => "/images/fish/barbe.png"],
         ],
         "tips"  => "Sommer: Nymphe & Trockenfliege; Winter: Huchen langsam führen."
     ],
@@ -71,8 +71,8 @@ return [
         "name"  => "Lech",
         "desc"  => "Naturnaher Wildfluss mit Schotterinseln; Natura-2000-Gebiet.",
         "fish"  => [
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
         ],
         "tips"  => "Große Läufe systematisch abfischen; Waten nur wo erlaubt."
     ],
@@ -83,8 +83,8 @@ return [
         "name"  => "Ötztaler Ache",
         "desc"  => "Gletscherfluss mit kräftiger Strömung und tiefen Gumpen.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Schwere Nymphen; Vorsicht bei Schmelzwasser."
     ],
@@ -95,8 +95,8 @@ return [
         "name"  => "Ziller",
         "desc"  => "Seitenfluss des Inn im Zillertal.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Nymphen tief; kleine Wobbler an Übergängen."
     ],
@@ -107,8 +107,8 @@ return [
         "name"  => "Isel",
         "desc"  => "Letzter frei fließender Gletscherfluss der Ostalpen.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Frühe und späte Tageszeiten nutzen."
     ],
@@ -119,10 +119,10 @@ return [
         "name"  => "Salzach",
         "desc"  => "Großer Alpenfluss mit urbanen und natürlichen Abschnitten.",
         "fish"  => [
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Huchen"      => ["link" => "/images/fish/Huchen.png"],
-            "Barbe"       => ["link" => "/images/fish/Barbe.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Huchen"      => ["link" => "/images/fish/huchen.png"],
+            "Barbe"       => ["link" => "/images/fish/barbe.png"],
         ],
         "tips"  => "Wechsel zwischen Nymphe und Streamer."
     ],
@@ -133,8 +133,8 @@ return [
         "name"  => "Saalach",
         "desc"  => "Klarer Gebirgsfluss aus Tirol.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Trockenfliege an ruhigen Läufen."
     ],
@@ -145,8 +145,8 @@ return [
         "name"  => "Lammer",
         "desc"  => "Glasklarer Gebirgsfluss mit Schluchten.",
         "fish"  => [
-            "Bachforelle" => ["link" => "/images/fish/Bachforelle.png"],
-            "Äsche"       => ["link" => "/images/fish/Äsche.png"],
+            "Bachforelle" => ["link" => "/images/fish/bachforelle.png"],
+            "Äsche"       => ["link" => "/images/fish/äsche.png"],
         ],
         "tips"  => "Kleine, natürliche Muster."
     ],

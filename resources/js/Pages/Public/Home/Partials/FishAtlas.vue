@@ -1,13 +1,13 @@
 <script setup>
 const fish = [
   // brightness lifts the JPEG noise in the off-white background to pure white
-  { name: 'Hecht', latin: 'Esox lucius', src: '/images/fish/Hecht.png', cls: 'max-h-full w-full brightness-[1.05]' },
-  { name: 'Huchen', latin: 'Hucho hucho', src: '/images/fish/Huchen.png' },
-  { name: 'Bachsaibling', latin: 'Salvelinus fontinalis', src: '/images/fish/Bachsaibling.png' },
-  { name: 'Schleie', latin: 'Tinca tinca', src: '/images/fish/Schleie.png' },
-  { name: 'Barbe', latin: 'Barbus barbus', src: '/images/fish/Barbe.png' },
+  { name: 'Hecht', latin: 'Esox lucius', src: '/images/fish/hecht.png', cls: 'max-h-full w-full brightness-[1.05]' },
+  { name: 'Huchen', latin: 'Hucho hucho', src: '/images/fish/huchen.png' },
+  { name: 'Bachsaibling', latin: 'Salvelinus fontinalis', src: '/images/fish/bachsaibling.png' },
+  { name: 'Schleie', latin: 'Tinca tinca', src: '/images/fish/schleie.png' },
+  { name: 'Barbe', latin: 'Barbus barbus', src: '/images/fish/barbe.png' },
   // the source image has a lot of empty margin
-  { name: 'Nase', latin: 'Chondrostoma nasus', src: '/images/fish/Nase.png' },
+  { name: 'Nase', latin: 'Chondrostoma nasus', src: '/images/fish/nase.png' },
 ];
 </script>
 
