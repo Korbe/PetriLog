@@ -12,8 +12,9 @@
         <ReportCorrectionDialog :show="reporting" type="fish" :id="fish.id" :name="fish.name" @close="reporting = false" />
 
         <div class="grid gap-5 md:gap-6 lg:grid-cols-12">
-            <!-- illustrations have a white background: keep the frame white in both themes -->
-            <div class="ui-card flex items-center justify-center overflow-hidden bg-white! p-6 md:p-10 lg:col-span-7">
+            <!-- illustrations have a white background: keep the frame white in both themes.
+                 Desktop: nicht auf die Texthöhe strecken, sondern oben andocken und beim Scrollen mitfahren -->
+            <div class="ui-card flex items-center justify-center overflow-hidden bg-white! p-6 md:p-10 lg:sticky lg:top-24 lg:col-span-7 lg:self-start">
                 <img :src="fish.media[0]?.url || '/images/fish-default.png'" :alt="fish.name"
                     class="max-h-80 w-full object-contain" />
             </div>
