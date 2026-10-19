@@ -27,8 +27,9 @@ const ledger = [
   ['Standort', 'Faaker See · GPS'],
 ];
 
-// Real catch photos cropped out of the app screenshot (offsets in % of crop width).
-const shot = '/images/icons/screenshots/Screenshot_5.png';
+// Real catch photos cropped out of a screenshot of the trout catch (offsets in % of crop width).
+// Bewusst ein eigenes Bild – nicht die PWA-Screenshots, die sich mit jedem Redesign ändern.
+const shot = '/images/home/fangbuch-regenbogenforelle-fotos.png';
 const photos = [
   { ratio: '884 / 375', width: 114.03, left: -7.01, top: -39.48, cls: 'col-span-2' },
   { ratio: '425 / 270', width: 237.18, left: -14.59, top: -178.82, cls: '' },
@@ -64,7 +65,7 @@ const photos = [
 
           <div class="relative mt-6 md:mt-10 md:pt-16 lg:my-auto">
             <div class="relative" style="aspect-ratio: 800 / 289; width: 89.44%; margin-left: -0.34%">
-              <img src="/images/fish/Regenbogenforelle.jpeg" alt="Regenbogenforelle auf dem Messbrett"
+              <img src="/images/fish/Regenbogenforelle.png" alt="Regenbogenforelle auf dem Messbrett"
                 class="absolute inset-0 h-full w-full mix-blend-multiply" loading="lazy" />
 
               <div v-for="c in callouts" :key="c.label" class="absolute hidden md:block"

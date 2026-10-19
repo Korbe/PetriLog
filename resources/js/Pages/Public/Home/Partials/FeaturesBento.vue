@@ -7,10 +7,10 @@ const catches = [2, 3, 6, 11, 16, 13, 9, 10, 15, 12, 5, 2];
 const peak = Math.max(...catches);
 
 const wikiFish = [
-  { src: '/images/fish/Hecht.jpg', alt: 'Hecht', pos: '92% 45%' },
-  { src: '/images/fish/Barbe.jpeg', alt: 'Barbe', pos: '6% 55%' },
-  { src: '/images/fish/Schleie.jpg', alt: 'Schleie', pos: '10% 55%' },
-  { src: '/images/fish/Bachsaibling.jpeg', alt: 'Bachsaibling', pos: '5% 55%' },
+  { src: '/images/fish/Hecht.png', alt: 'Hecht', pos: '92% 45%' },
+  { src: '/images/fish/Barbe.png', alt: 'Barbe', pos: '6% 55%' },
+  { src: '/images/fish/Schleie.png', alt: 'Schleie', pos: '10% 55%' },
+  { src: '/images/fish/Bachsaibling.png', alt: 'Bachsaibling', pos: '5% 55%' },
 ];
 </script>
 

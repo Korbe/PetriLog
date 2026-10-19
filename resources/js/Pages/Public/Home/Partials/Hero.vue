@@ -66,27 +66,27 @@ const facts = ['Bis zu 3 Fotos pro Fang', 'GPS-Spot', 'Als App installierbar'];
             <!-- back phone -->
             <div
               class="absolute -left-24 top-14 hidden w-[13rem] -rotate-[9deg] overflow-hidden rounded-[2.2rem] border-[7px] border-black/70 bg-black opacity-70 shadow-2xl sm:block">
-              <img src="/images/icons/screenshots/Screenshot_1.png" alt="" class="block w-full" loading="lazy" />
+              <img src="/images/icons/screenshots/Screenshot_1.png?v=2" alt="" class="block w-full" loading="lazy" />
             </div>
             <!-- front phone -->
             <div
               class="relative rotate-[4deg] overflow-hidden rounded-[2.6rem] border-[9px] border-black bg-black shadow-[0_40px_80px_-20px_rgba(0,0,0,0.75)] ring-1 ring-white/10">
-              <img src="/images/icons/screenshots/Screenshot_5.png"
-                alt="PetriLog Fangeintrag einer Regenbogenforelle mit Fotos, Länge, Gewicht und Tiefe"
+              <img src="/images/icons/screenshots/Screenshot_5.png?v=2"
+                alt="PetriLog Fangeintrag eines Hechts mit Foto, Länge, Gewicht und Tiefe"
                 class="block w-full" />
             </div>
 
             <!-- Logbook chips -->
             <div
               class="absolute -left-10 top-[38%] rounded-2xl border border-white/15 bg-(--lake-950)/70 px-4 py-3 shadow-xl backdrop-blur-md sm:-left-20">
-              <p class="font-display text-xl leading-none">Regenbogenforelle</p>
-              <p class="font-log mt-1.5 text-[11px] text-primary-200">45 cm · 989 g</p>
+              <p class="font-display text-xl leading-none">Hecht</p>
+              <p class="font-log mt-1.5 text-[11px] text-primary-200">78 cm · 3650 g</p>
             </div>
             <div
               class="absolute -right-4 bottom-[14%] rounded-2xl border border-white/15 bg-(--lake-950)/70 px-4 py-3 shadow-xl backdrop-blur-md sm:-right-12">
-              <p class="font-log text-[10px] uppercase tracking-[0.2em] text-(--paper)/55">Faaker See</p>
-              <p class="font-log mt-1 text-[11px] text-(--paper)">46.58° N · 13.92° E</p>
-              <p class="font-log mt-0.5 text-[11px] text-primary-200">Tiefe 4,0 m</p>
+              <p class="font-log text-[10px] uppercase tracking-[0.2em] text-(--paper)/55">Wörthersee</p>
+              <p class="font-log mt-1 text-[11px] text-(--paper)">46.63° N · 14.14° E</p>
+              <p class="font-log mt-0.5 text-[11px] text-primary-200">Tiefe 4,5 m</p>
             </div>
           </div>
         </div>
