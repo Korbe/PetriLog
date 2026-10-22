@@ -40,7 +40,7 @@ task('assets:upload', function () {
 });
 
 task('fpm:restart', function () {
-    run('sudo systemctl restart php8.4-fpm');
+    run('sudo systemctl reload php8.4-fpm');
 });
 
 task('nginx:reload', function () {
