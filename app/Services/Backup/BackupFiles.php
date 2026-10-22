@@ -13,11 +13,21 @@ class BackupFiles
 {
     public const NAME_PATTERN = '/^(?<prefix>[a-z0-9-]+)-(?<date>\d{4}-\d{2}-\d{2})_(?<time>\d{6})\.zip$/';
 
+    /**
+     * Rechte für den Backup-Ordner und die fertigen (verschlüsselten) Backups: Besitzer und Gruppe bzw. die per ACL
+     * freigegebenen Benutzer, niemand sonst. Nicht 0700/0600 – auf dem Server erstellt `deployer` die nächtlichen
+     * Backups, `www-data` zeigt sie in der Weboberfläche an und erstellt Download-Kopien. Ein chmod 0700 würde die
+     * ACL-Maske leeren und `www-data` aussperren („Permission denied“).
+     */
+    public const DIRECTORY_MODE = 0770;
+
+    public const FILE_MODE = 0660;
+
     public static function directory(): string
     {
         $dir = rtrim(config('backup.local_path'), '/\\');
-        File::ensureDirectoryExists($dir, 0700);
-        @chmod($dir, 0700);
+        File::ensureDirectoryExists($dir, self::DIRECTORY_MODE);
+        @chmod($dir, self::DIRECTORY_MODE);
 
         return $dir;
     }
@@ -111,7 +121,7 @@ class BackupFiles
     {
         $file = self::checksumFile($archive);
         file_put_contents($file, "{$sha256}  " . basename($archive) . "\n");
-        @chmod($file, 0600);
+        @chmod($file, self::FILE_MODE);
     }
 
     public static function readChecksumFile(string $archive): ?string

@@ -141,7 +141,7 @@ class BackupAdminController extends Controller
             $this->removeStaleUploads();
             $meta = ['name' => $name, 'next' => 0, 'user_id' => Auth::id()];
             file_put_contents($partial, '');
-            @chmod($partial, 0600);
+            @chmod($partial, BackupFiles::FILE_MODE);
         } else {
             $meta = is_file($metaFile) ? json_decode((string) file_get_contents($metaFile), true) : null;
             if (! $meta || $meta['name'] !== $name || $meta['user_id'] !== Auth::id() || $meta['next'] !== (int) $data['index']) {
@@ -172,7 +172,7 @@ class BackupAdminController extends Controller
         // Letzter Teil: an den endgültigen Namen und vollständig prüfen lassen
         @unlink($metaFile);
         rename($partial, BackupFiles::path($name));
-        @chmod(BackupFiles::path($name), 0600);
+        @chmod(BackupFiles::path($name), BackupFiles::FILE_MODE);
 
         Log::channel(config('backup.log_channel'))->notice('Backup hochgeladen', ['file' => $name, 'user_id' => Auth::id()]);
 

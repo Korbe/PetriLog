@@ -47,6 +47,7 @@ class BackupCreator
         $partial = "{$final}.part";
         $work = BackupFiles::directory() . DIRECTORY_SEPARATOR . '.work-' . pathinfo($name, PATHINFO_FILENAME);
 
+        // Enthält während des Laufs den unverschlüsselten Dump – nur für diesen Prozess
         File::ensureDirectoryExists($work, 0700);
         $this->log('info', "Backup {$name} gestartet");
 
@@ -86,7 +87,7 @@ class BackupCreator
             if (! @rename($partial, $final)) {
                 throw new BackupException("Backup konnte nicht nach {$final} verschoben werden.", BackupException::ARCHIVE);
             }
-            @chmod($final, 0600);
+            @chmod($final, BackupFiles::FILE_MODE);
             BackupFiles::writeChecksumFile($final, $sha256);
 
             $size = filesize($final);

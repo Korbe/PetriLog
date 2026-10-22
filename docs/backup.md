@@ -9,7 +9,7 @@ nach einer Wiederherstellung IDs, Fremdschlüssel und Fotos wieder zusammen. Der
 | Befehle | `php artisan backup:*` |
 | Weboberfläche | Admin → Development → Datenbank-Backups |
 | Konfiguration | `config/backup.php`, Werte aus `.env` |
-| Lokale Backups | `storage/backups/` (Rechte 0700, nicht öffentlich erreichbar) |
+| Lokale Backups | `storage/backups/` (Rechte 0770/0660: App-Benutzer und Webserver per ACL, sonst niemand; nicht öffentlich erreichbar) |
 | Protokoll | `storage/logs/backup-YYYY-MM-DD.log`, Tabelle `backup_runs`, auf dem Zweitserver `petrilog-backup.log` |
 
 ---
